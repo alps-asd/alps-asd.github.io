@@ -1,8 +1,10 @@
-## manual-skeleton
+# alps-asd manual
 
-A manual website template based on [http://bearsunday.github.io/](http://bearsunday.github.io/).
+### Hosting and Rendering
 
-### Install Jekyll for GitHub page
+The documentations are rendered with  [Jekyll](http://jekyllrb.com) and hosted at [http://alps-asd.github.io/](https://alps-asd.github.io/).
+
+### Install
 
 ```
 docker pull jekyll/jekyll:pages
@@ -13,6 +15,3 @@ docker pull jekyll/jekyll:pages
 ```
 ./bin/serve.sh
 ```
-### Demo
-
-https://manual-skeleton-demo.github.io/
