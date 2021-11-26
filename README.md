@@ -13,5 +13,7 @@ docker pull jekyll/jekyll:pages
 ### Start local testing server
 
 ```
+git clone git@github.com:alps-asd/alps-asd.github.io.git
+cd alps-asd.github.io
 ./bin/serve.sh
 ```
