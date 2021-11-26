@@ -1,9 +1,9 @@
-name: manual-skeleton
+name: alps-asd
 safe: true
 lsi: false
 
 url: http://koriym.github.io/manual-skeleton
-title: manual-skeleton
+title: alps-asd
 
 markdown: kramdown
 redcarpet:
