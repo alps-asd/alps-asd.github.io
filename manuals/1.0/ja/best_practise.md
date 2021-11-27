@@ -36,7 +36,7 @@ permalink: /manuals/1.0/ja/best_practice.html
 ]
 ```
 
-safe以外のメソッドには、`do`の接頭辞をつけます。
+safe以外のセマンティックディスクリプターには、`do`の接頭辞をつけます。
 
 ```json
 [
