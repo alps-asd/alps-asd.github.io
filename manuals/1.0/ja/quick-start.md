@@ -22,7 +22,7 @@ curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x 
 
 ## デモの実行
 
-以下の操作で`watch`モードで開発サーバーが起動します。
+以下の操作で開発サーバーが起動します。
 
 ```
 mkdir work
