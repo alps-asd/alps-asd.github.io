@@ -8,7 +8,7 @@ permalink: /manuals/1.0/ja/quick-start.html
 
 ## インストール
 
-dockerイメージを取得します。
+[docker](https://www.docker.com/products/docker-desktop)イメージを取得します。
 
 ```
 docker pull ghcr.io/alps-asd/app-state-diagram:latest
@@ -31,7 +31,7 @@ asd --watch ./work/profile.json
 ```
 
 ブラウザで[http://localhost:3000/](http://localhost:3000/)を開きます。
-**Application State Diagram**をクリックしたらダイアグラムが見えましたか？
+Application State Diagramのリンクでダイアグラムが確認できますか？
 
 
 ## アプリケーション状態遷移図
