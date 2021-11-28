@@ -15,3 +15,5 @@ docker pull jekyll/jekyll:pages
 ```
 ./bin/serve.sh
 ```
+
+Open http://localhost:4000/
