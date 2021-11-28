@@ -25,7 +25,7 @@ permalink: /manuals/1.0/ja/best_practice.html
 
 ## 安全な状態遷移
 
-`safe`リクエストは、次の遷移先の記述子に`go`のプレフィックスを付加します。
+typeが`safe`のセマンティックディスクリプターは、次の遷移先の記述子に`go`のプレフィックスを付加します。
 ([RFC8288](ttps://datatracker.ietf.org/doc/html/rfc8288#section-3.3))
 
 ```json
