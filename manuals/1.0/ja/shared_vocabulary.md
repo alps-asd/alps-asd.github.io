@@ -40,5 +40,5 @@ IANAの[Link Relations](https://www.iana.org/assignments/link-relations/link-rel
 
 例）
 ```xml
-<descriptor id="bankAccountId" href="https://schema.org/accountId" />
+<descriptor id="bankAccountId" href="https://alps-io.github.io/imports/schema.org/properties/accountId.json" />
 ```
