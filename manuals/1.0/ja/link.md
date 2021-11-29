@@ -9,12 +9,6 @@ permalink: /manuals/1.0/ja/link.html
 
 * [RFC](https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07)
 * [ALPS 公式](http://alps.io/)
-* Vocabulary
-  * [IANA](https://www.iana.org/assignments/link-relations/link-relations.xhtml)
-  * [Schema.org](https://schema.org)
-* Imports
-  * [IANA](https://raw.githubusercontent.com/alps-io/imports/master/iana/relations.xml)
-  * [Schema.org](https://alps-io.github.io/imports/schema.org/)
 * Examples
   * [Person Service API](https://rwmbook.github.io/alps-documents/other/person-api/index.html)
   * [todomvc](https://alps-asd.github.io/app-state-diagram/todomvc/)
