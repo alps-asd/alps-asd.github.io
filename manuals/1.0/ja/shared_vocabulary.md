@@ -15,8 +15,9 @@ IANAの[Link Relations](https://www.iana.org/assignments/link-relations/link-rel
 
 例) IANAに登録されている`author`
 ```xml
-<descriptor id="goBookAuthor" rt="BookAuthor" rel="author">
+<descriptor id="goBookAuthor" type="safe" rt="#BookAuthor" rel="author">
 ```
+
 ## Schema.org
 
 [Schema.org](https://schema.org)のセマンティックをインポートしたALPSファイルが利用できます。
@@ -32,4 +33,12 @@ IANAの[Link Relations](https://www.iana.org/assignments/link-relations/link-rel
     <descriptor href="https://alps-io.github.io/imports/schema.org/properties/givenName.json" />
     <descriptor href="https://alps-io.github.io/imports/schema.org/properties/familyName.json" />
 </decriptor>
+```
+## 狭くする
+
+共有ボキャブラリからセマンティックを狭くしたディスクリプタを作成できます。
+
+例）
+```xml
+<descriptor id="bankAccountId" href="https://schema.org/accountId" />
 ```
