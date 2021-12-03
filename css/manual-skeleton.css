@@ -309,6 +309,7 @@ footer li {
 
 .language-list {
     display: inline-flex;
+    flex-direction: row;
 }
 
 .language-list li {
