@@ -217,7 +217,7 @@ Link to meta information.
 </descriptor>.
 ```
 
-## Link.
+## Link
 
 You can also use `href` to link to other ALPS documents.
 
