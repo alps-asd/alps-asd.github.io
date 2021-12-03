@@ -10,12 +10,14 @@ permalink: /manuals/1.0/en/reference.html
 
 The set of **semantic descriptors** described below is the ALPS document, written in XML or JSON.
 
-It can be written in XML or JSON. ```xml
+It can be written in XML or JSON. 
+
+```xml
 <alps>.
 <descriptor ... >
 <descriptor ... >
 </alps>
-````
+```
 
 ### ALPS meta-information
 
