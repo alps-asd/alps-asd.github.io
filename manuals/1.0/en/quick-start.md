@@ -1,16 +1,41 @@
 ---
 layout: docs-en
-title: QuickStart
+title: Quick Start
 category: Manual
 permalink: /manuals/1.0/en/quick-start.html
 ---
-# QuickStart
+# Quick Start
+
+## Install
+
+Get the [docker](https://www.docker.com/products/docker-desktop) image.
 
 ```
-git clone git@github.com:koriym/manual-skeleton.git your-manual
-cd your-manual
-rm -rf .git
-git init
-docker pull jekyll/jekyll:pages
-./bin/serve.sh
+docker pull ghcr.io/alps-asd/app-state-diagram:latest
 ```
+
+Install the asd command.
+
+```
+curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > . /asd && chmod +x . /asd && sudo mv . . /asd /usr/local/bin
+```
+
+## Run the demo
+
+The following will start the development server.
+
+```
+mkdir work
+curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > work/profile.json
+asd --watch . /work/profile.json
+```
+
+Open [http://localhost:3000/](http://localhost:3000/) in your browser.
+Can you see the diagram in the Application State Diagram link?
+
+
+## Application State Diagram
+
+Each rectangle connected by an arrow is called **application state**. **The resource state** and **affordance** (next action) are shown as links, and the application state transitions by following the links. Imagine a website where each page is linked with `<a>` tags and `<form>` tags.
+
+The transition diagram is in SVG format and is linked to the detailed pages of the application states and links.

@@ -9,7 +9,7 @@
                     <a class="{% if page.layout == 'docs-ja' %}active{% endif %}" href="{{ page.permalink | replace: '/en/', '/ja/' }}">Ja</a>
                 </li>
             </ul>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="ナビゲーションの切替">
+./            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="ナビゲーションの切替">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
@@ -17,10 +17,28 @@
     <div class="collapse navbar-collapse" id="Navber">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link {% if page.permalink == '/manuals/1.0/en/' %}active{% endif %}" href="/manuals/1.0/en/">Introduction</a>
+                <a class="nav-link {% if page.permalink == '/manuals/1.0/ja/' %}active{% endif %}" href="/manuals/1.0/en/index.html">Introduction</a>
             </li>
-            <li>
-                <a class="nav-link {% if page.permalink == '/manuals/1.0/en/quick-start.html' %}active{% endif %}" href="/manuals/1.0/en/quick-start.html">Quick Start</a>
+            <li class="nav-item">
+                <a class="nav-link {% if page.permalink == '/manuals/1.0/ja/quick-start.html' %}active{% endif %}" href="/manuals/1.0/en/quick-start.html">Quick Start</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if page.permalink == '/manuals/1.0/ja/tutorial.html' %}active{% endif %}" href="/manuals/1.0/en/tutorial.html">Tutorial</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if page.permalink == '/manuals/1.0/ja/reference.html' %}active{% endif %}" href="/manuals/1.0/en/reference.html">Reference</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if page.permalink == '/manuals/1.0/ja/best_practice.html' %}active{% endif %}" href="/manuals/1.0/en/best_practice.html">Best Practise</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if page.permalink == '/manuals/1.0/ja/shared_vocabulary.html' %}active{% endif %}" href="/manuals/1.0/en/shared_vocabulary.html">Shared Vocabulary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if page.permalink == '/manuals/1.0/ja/example.html' %}active{% endif %}" href="/manuals/1.0/en/example.html">Example</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if page.permalink == '/manuals/1.0/ja/link.html' %}active{% endif %}" href="/manuals/1.0/en/link.html">Link</a>
             </li>
         </ul>
     </div>
