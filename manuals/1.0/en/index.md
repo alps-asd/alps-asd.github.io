@@ -45,7 +45,7 @@ A. Based on IA (Information Architecture), it defines the information (meta-info
 
 <strong>Q. Is it used for design clarification</strong>?
 
-A. No, it is not. A. No. It can be used as a modeling tool from the very early stage of site design to organize information and formulate what kind of site it will be.
+A. No, it is not. It can be used as a modeling tool from the very early stage of site design to organize information and formulate what kind of site it will be.
 
 <strong>Q. What do I need to write ALPS</strong>?
 
@@ -61,7 +61,7 @@ A. There is no difference in functionality. There is also no need to unify them 
 
 <strong>Q. Can it be used for APIs without links</strong>?
 
-A. No, it cannot represent a transition diagram, but it can generate a vocabulary and documentation of the nature of the information.
+A. Yes. It cannot represent a transition diagram, but it can generate a vocabulary and documentation of the nature of the information.
 
 <strong>Q. Are there any other technologies that are similar to ALPS?</strong>
 
