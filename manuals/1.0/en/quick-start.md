@@ -17,7 +17,7 @@ docker pull ghcr.io/alps-asd/app-state-diagram:latest
 Install the asd command.
 
 ```
-curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > . /asd && chmod +x . /asd && sudo mv . . /asd /usr/local/bin
+curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x ./asd && sudo mv ./asd /usr/local/bin
 ```
 
 ## Run the demo
@@ -27,7 +27,7 @@ The following will start the development server.
 ```
 mkdir work
 curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > work/profile.json
-asd --watch . /work/profile.json
+asd --watch ./work/profile.json
 ```
 
 Open [http://localhost:3000/](http://localhost:3000/) in your browser.
