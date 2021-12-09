@@ -14,14 +14,11 @@ Application-Level Profile Semantics (ALPS)は、アプリケーションレベ�
 
 ## ASDとは
 
-ASD(Application State Diagram)とはALPSドキュメントから生成されるアプリケーション状態遷移図、およびその遷移図を含む[ドキュメンテーション生成ツール](https://github.com/koriym/app-state-diagram)の名前です。RESTアプリケーションを純粋な情報設計の視点で俯瞰する事ができ、状態の詳細ドキュメントが遷移図からリンクされます。
-
+ASD(Application State Diagram)とはALPSドキュメントから生成されるアプリケーション状態遷移図、およびその遷移図を含む[ドキュメンテーション生成ツール](https://github.com/alps-asd/app-state-diagram)の名前です。
 
 ## 用途
 
-RESTアプリケーション(APIやWebサイト）からUI/UXを排した純粋な情報設計の視点で設計を書式化する事ができます。整理された情報でサイト設計を行う事や、開発やメンテナンスの時に情報定義の[SSOT](https://ja.wikipedia.org/wiki/%E4%BF%A1%E9%A0%BC%E3%81%A7%E3%81%8D%E3%82%8B%E5%94%AF%E4%B8%80%E3%81%AE%E6%83%85%E5%A0%B1%E6%BA%90)として用いる事ができます。
-
-ALPSドキュメントは相互にリンク可能なハイパーメディアです。複数の部分設計をリンクする事で全体の設計を構成する等、設計の再利用が可能です。
+UI/UXを除いた純粋な情報設計の視点でRESTアプリケーションを設計し、その全体像を俯瞰する事ができます。 また、定義されたボキャブラリやリンクは理解共有のための [SSOT](https://ja.wikipedia.org/wiki/%E4%BF%A1%E9%A0%BC%E3%81%A7%E3%81%8D%E3%82%8B%E5%94%AF%E4%B8%80%E3%81%AE%E6%83%85%E5%A0%B1%E6%BA%90)として用いる事ができます。
 
 ## FAQ
 

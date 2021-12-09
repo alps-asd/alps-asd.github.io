@@ -16,14 +16,12 @@ Application-Level Profile Semantics (ALPS) is a format for expressing applicatio
 
 ## What is ASD?
 
-ASD (Application State Diagram) is the name of the application state transition diagram generated from ALPS documents and the [documentation generation tool](https://github.com/koriym/app-state-) that contains the transition diagram. It allows you to have a bird's eye view of your REST application from a pure information design perspective, with detailed state documentation linked from the transition diagram.
+ASD (Application State Diagram) is the name of the application state transition diagram generated from ALPS documents and the [documentation generation tool](https://github.com/alps-asd/app-state-diagram).
 
 
 ## Uses
 
-You can format the design of REST applications (APIs and websites) from a pure information design perspective without UI/UX. You can design your site with organized information, and use the information definition [SSOT](https://en.wikipedia.org/wiki/%E4%BF%A1%E9%A0%BC%E3%81%A7%E3%81%8D%E3%82%8B%E5%94%AF%E4 %B8%80%E3%81%AE%E6%83%85%E5%A0%B1%E6%BA%90).
-
-ALPS documents are hypermedia that can be linked to each other. The ALPS documents are hyper-media that can be linked to each other, allowing for reuse of designs, such as linking multiple partial designs to form an overall design.
+You can design a REST application from a pure information design perspective, excluding UI/UX, and get a bird's eye view of the whole system. Also, the defined vocabularies and links can be used as SSOT(Single source of truth) for shared understanding.
 
 ## FAQ
 
