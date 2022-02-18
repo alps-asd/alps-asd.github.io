@@ -1,6 +1,6 @@
 ---
 layout: docs-en
-title: リファレンス
+title: Reference
 category: Manual
 permalink: /manuals/1.0/en/reference.html
 ---
