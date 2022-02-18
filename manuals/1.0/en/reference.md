@@ -6,11 +6,10 @@ permalink: /manuals/1.0/en/reference.html
 ---
 # ALPS Reference
 
-## ALPS documentation
+# alps
 
 The set of **semantic descriptors** described below is the ALPS document, written in XML or JSON.
-
-It can be written in XML or JSON. 
+Enclose the whole thing in <alps> tags. It can be written in XML or JSON. 
 
 ```xml
 <alps>.
@@ -19,7 +18,16 @@ It can be written in XML or JSON.
 </alps>
 ```
 
-### ALPS meta-information
+Semantic descriptors define **special words** used by the application.
+
+```xml
+<descriptor id="dateCreated" title="date created"/>
+<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View blog post">
+    <descriptor href="#id"/>
+</descriptor>
+````
+
+## title, doc, link
 
 You can add meta-information to ALPS documents, such as title, doc, link, and so on.
 
@@ -33,25 +41,7 @@ You can add meta-information to ALPS documents, such as title, doc, link, and so
 </alps>
 ````
 
-
-
-## Semantic descriptors
-
-Semantic descriptors define **special words** used by the application.
-
-
-```xml
-<descriptor id="dateCreated" title="date created"/>
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View blog post">
-    <descriptor href="#id"/>
-</descriptor>
-````
-
-
-
-## element
-
-## descriptor element
+# descriptor
 
 descriptor is an element for semantic descriptors (semantic identifiers), describing words that are special to the application, such as API item names or link names.
 
@@ -59,8 +49,6 @@ descriptor is an element for semantic descriptors (semantic identifiers), descri
 | element | meaning | example |
 | ---- | ---- | ---- |
 | [descriptor](#descriptor) | semantic identifier | <descriptor id="dateCreated" /> |
-
-### Elements for description
 
 A doc or link element can be included to describe the descriptor.
 
@@ -79,22 +67,21 @@ doc to explain the meaning in text
 </descriptor>
 The ``.
 The doc can be formatted (text|markdown|html|asciidoc) with format. If not specified, text is used.
+```
 
 ### <a name="link">link</a>
 
 A link that links to a description of another resource.
 
-The ``xml
+```xml
 <descriptor id="dateCreated">
     <link rel="author" href="https://github.com/koriym">
 </descriptor>
 ```
 
-The rel is selected from IANA's [Link Relation] rel from IANA's [registered rel](https://www.iana.org/assignments/link-relations/link-relations.xhtml), and the href links to the URL. The URL is linked by href.
+The rel is selected from IANA's [Link Relation](https://www.iana.org/assignments/link-relations/link-relations.xhtml) rel from IANA's [registered rel](https://www.iana.org/assignments/link-relations/link-relations.xhtml), and the href links to the URL. The URL is linked by href.
 
-
-
-## <a name="descriptor">descriptor</a>
+# <a name="descriptor">Descriptor attributes</a>
 
 A descriptor has attributes such as ID, type, and tag.
 

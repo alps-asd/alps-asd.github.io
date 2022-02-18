@@ -103,7 +103,7 @@ docはformatでフォーマット（text|markdown|html|asciidoc）を指定で�
 
 relはIANAの[Link Relation]relをIANAの[登録されたrel](https://www.iana.org/assignments/link-relations/link-relations.xhtml)から選び、hrefでURLにリンクします。
 
-# <a name="descriptor">descriptor</a>要素
+# <a name="descriptor">Descriptor</a>要素
 
 descriptorにIDや、タイプ、タグと行った属性を付与できます。
 
