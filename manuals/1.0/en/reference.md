@@ -155,6 +155,11 @@ Example: Creating a resource without a URL or adding a target resource.
 
 There are four types in total.
 
+> What is idempotent?
+>
+> It means that the result of an operation is the same whether it is performed once or multiple times. For example, adding a resource is not idempotent, but changing or deleting a resource is idempotent.
+
+
 ## Structure
 
 A descriptor can be included to represent the nested structure of information or the information needed for a transition.
