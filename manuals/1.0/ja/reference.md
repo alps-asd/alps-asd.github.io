@@ -7,9 +7,9 @@ permalink: /manuals/1.0/ja/reference.html
 
 # ALPSリファレンス
 
-## ALPSドキュメント
+# alps
 
-後述の**セマンティックディスクリプタ**の集合がALPSドキュメントです。XMLまたはJSONで記述します。
+後述の**セマンティックディスクリプタ**の集合がALPSドキュメントです。XMLまたはJSONで記述し\<alps\>タグで全体を囲みます。
 
 ```xml
 <alps>
@@ -18,7 +18,18 @@ permalink: /manuals/1.0/ja/reference.html
 </alps>
 ```
 
-### ALPSメタ情報
+セマンティックディスクリプタはアプリケーションで使われる**特別な語句**を定義します。
+
+
+```xml
+<descriptor id="dateCreated" title="作成日付"/>
+<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
+    <descriptor href="#id"/>
+</descriptor>
+```
+
+
+## title, doc, link
 
 ALPSドキュンメントにはtitle、doc、linkなどのメタ情報を付加できます。
 
@@ -32,25 +43,7 @@ ALPSドキュンメントにはtitle、doc、linkなどのメタ情報を付加�
 </alps>
 ```
 
-
-
-## セマンティックディスクリプタ
-
-セマンティックディスクリプタはアプリケーションで使われる**特別な語句**を定義します。
-
-
-```xml
-<descriptor id="dateCreated" title="作成日付"/>
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
-    <descriptor href="#id"/>
-</descriptor>
-```
-
-
-
-## 要素
-
-### descriptor要素
+# descriptor
 
 descriptorはセマンティックディスクリプタ(意味的識別子)のための要素です。APIの項目名やリンクの名前など、アプリケーションのとって特別な語句を説明します。
 
@@ -59,7 +52,6 @@ descriptorはセマンティックディスクリプタ(意味的識別子)の�
 | ---- | ---- | ---- |
 |  [descriptor](#descriptor) |  意味的識別子  | <descriptor id="dateCreated" />  |
 
-### 説明のための要素
 
 descriptorの説明のために、docやlink要素を含むことができます。
 
@@ -67,6 +59,26 @@ descriptorの説明のために、docやlink要素を含むことができます
 | ---- | ---- | ---- |
 |  [doc](#doc) |  説明テキスト  | <doc format="markdown">記事の作成日付</doc>  |
 |  [link](#link)  |  リンク  |   <link href="https://example.com/issues" rel="issue"/>  |
+
+また、情報の入れ子構造や、遷移に必要な情報を表すためにdescriptorを含むことができます。
+
+例） ブログ記事は本文や日付の情報を含んでいる
+
+```xml
+<descriptor id="BlogPosting" title="ブログ記事" >
+    <descriptor href="#dateCreated"/>
+    <descriptor href="#articleBody"/>
+</descriptor>
+```
+
+例) ブログ記事を参照するには記事IDが必要
+
+```xml
+<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting">
+    <descriptor href="#id"/>
+</descriptor>
+```
+
 
 ### <a name="doc">doc</a>
 
@@ -91,11 +103,9 @@ docはformatでフォーマット（text|markdown|html|asciidoc）を指定で�
 
 relはIANAの[Link Relation]relをIANAの[登録されたrel](https://www.iana.org/assignments/link-relations/link-relations.xhtml)から選び、hrefでURLにリンクします。
 
+# <a name="descriptor">descriptor</a>要素
 
-
-## <a name="descriptor">descriptor</a>
-
-descriptorはIDや、タイプ、タグと行った属性を持ちます。
+descriptorにIDや、タイプ、タグと行った属性を付与できます。
 
 
 |  属性  |  意味  | 例 |
@@ -167,26 +177,6 @@ descriptorはtype属性を持ちます。無指定の場合はsemanticです。
 
 以上、計４つのタイプがあります。
 
-## 構造
-
-情報の入れ子構造や、遷移に必要な情報を表すためにdescriptorを含むことができます。
-
-例） ブログ記事は本文や日付の情報を含んでいる
-
-```xml
-<descriptor id="BlogPosting" title="ブログ記事" >
-    <descriptor href="#dateCreated"/>
-    <descriptor href="#articleBody"/>
-</descriptor>
-```
-
-例) ブログ記事を参照するには記事IDが必要
-
-```xml
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting">
-    <descriptor href="#id"/>
-</descriptor>
-```
 
 ## <a name="href">href</a>
 
