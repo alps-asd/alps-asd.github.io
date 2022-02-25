@@ -111,7 +111,7 @@ descriptorにIDや、タイプ、タグと行った属性を付与できます�
 |  属性  |  意味  | 例 |
 | ---- | ---- | ---- |
 |  [id](#id)  |  識別子  | createdDate  |
-|  [type](#type)  |  型  |　semantic\|safe\|unsafe\|idemptent |
+| [type](#type) | 型 | [semantic](#semantic) \| [safe](#safe) \| [unsafe](#unsafe) \| [idempotent](#idempotent) |
 |  [href](#href)   |  参照  |　#id |
 |  [rt](#rt)   |  遷移先  | #User |
 |  [rel](#rel)  |  関係  | edit |

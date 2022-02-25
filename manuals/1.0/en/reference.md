@@ -89,12 +89,12 @@ A descriptor has attributes such as ID, type, and tag.
 | attribute | meaning | example |
 | ---- | ---- | ---- |
 | [id](#id) | identifier | createdDate |
-| [type](#type) | type | semantic\|safe\|unsafe\|idemptent |
+| [type](#type) | type | [semantic](#semantic) \| [safe](#safe) \| [unsafe](#unsafe) \| [idempotent](#idempotent) |
 | [href](#href) | reference | #id |
 | [rt](#rt) | transition destination | #User |
-| [rel](#rel) | relationship | edit | [title](#title)
-| [title](#title) | title | creation time | [tag](#tag)
-| [tag](#tag) | tag | ontology | [title](#title)
+| [rel](#rel) | relationship | edit |
+| [title](#title) | title | creation time |
+| [tag](#tag) | tag | ontology |
 
 ## <a name="id">id</a>
 
