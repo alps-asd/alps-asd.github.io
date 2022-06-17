@@ -8,8 +8,6 @@ permalink: /manuals/1.0/en/
 
 ![ASD](https://alps-asd.github.io/app-state-diagram/blog/profile.svg)
 
-*This manual has been machine translated by [DeepL](www.DeepL.com/Translator).*
-
 ## What is ALPS?
 
 Application-Level Profile Semantics (ALPS) is a format for expressing application-level semantics (the meaning and structure of words and phrases). It is useful for explaining information and understanding operations.
@@ -63,7 +61,7 @@ A. Yes. It cannot represent a transition diagram, but it can generate a vocabula
 
 <strong>Q. Are there any other technologies that are similar to ALPS?</strong>
 
-A. There are no direct competitors. A. No, there is no direct competitor. A similar technology is [Microformat](http://www.asahi-net.or.jp/~ax2s-kmtn/internet/rec-owl-features-20040210.html).
+A. There are no direct competitors. A similar technology is [Microformat](http://www.asahi-net.or.jp/~ax2s-kmtn/internet/rec-owl-features-20040210.html).
 
 <strong>Q. What is the difference from IDL such as OpenAPI</strong>?
 
@@ -71,4 +69,9 @@ A. ALPS deals with REST abstractions that are higher than HTTP. Therefore, it ca
 
 <strong>Q. Do I need it</strong>?
 
-A. If you are motivated to design an information-centric site to improve the quality of user experience, if you want a reference (SSOT) to unify the perceptions of production members, if you want to have a bird's eye view of your design and reuse it, or if you want to preserve your information design as a standardized document, it may be useful.
+A. If you want to model information to improve the quality of user experience, or if you want a reference (SSOT) to unify the understanding among production members, or if you want to overview and reuse your design, or if you want to keep your information design as a standardized document, ALPS+ASD will be useful as your information design modeling tool or as a format to express it.
+
+---
+
+*[This manual]((https://github.com/alps-asd/alps-asd.github.io)) has been machine translated by [DeepL](www.DeepL.com/Translator)*. *Help us improve the quality of our translations!*
+
