@@ -13,8 +13,8 @@ permalink: /manuals/1.0/ja/reference.html
 
 ```xml
 <alps>
-  <descriptor ...>
-  <descriptor ...>
+  <descriptor ... />
+  <descriptor ... />
 </alps>
 ```
 

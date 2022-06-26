@@ -12,9 +12,9 @@ The set of **semantic descriptors** described below is the ALPS document, writte
 Enclose the whole thing in <alps> tags. It can be written in XML or JSON. 
 
 ```xml
-<alps>.
-<descriptor ... >
-<descriptor ... >
+<alps>
+  <descriptor ... />
+  <descriptor ... />
 </alps>
 ```
 
