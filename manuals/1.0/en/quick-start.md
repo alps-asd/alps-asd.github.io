@@ -6,13 +6,11 @@ permalink: /manuals/1.0/en/quick-start.html
 ---
 # Quick Start
 
+## Requirement
+
+ASD requires [Docker](https://www.docker.com/products/docker-desktop).
+
 ## Install
-
-Get the [docker](https://www.docker.com/products/docker-desktop) image.
-
-```
-docker pull ghcr.io/alps-asd/app-state-diagram:latest
-```
 
 Install the asd command.
 
@@ -32,6 +30,15 @@ asd --watch ./work/profile.json
 
 Open [http://localhost:3000/](http://localhost:3000/) in your browser.
 Can you see the diagram in the Application State Diagram link?
+
+## Mac Application
+
+A Mac GUI application that does not require console operation is also available.
+
+How to run:.
+* Download [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/refs/tags/v1.zip) and open the `asd` script.
+* Click the Run button on the toolbar or press `Command-R` to run the script.
+* Select the ALPS file to start the ASD server.
 
 
 ## Application State Diagram

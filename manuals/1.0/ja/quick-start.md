@@ -6,15 +6,13 @@ permalink: /manuals/1.0/ja/quick-start.html
 ---
 # クイックスタート
 
+## 環境
+
+ASDの実行には[Docker](https://www.docker.com/products/docker-desktop)が必要です。
+
 ## インストール
 
-[docker](https://www.docker.com/products/docker-desktop)イメージを取得します。
-
-```
-docker pull ghcr.io/alps-asd/app-state-diagram:latest
-```
-
-asdコマンドをインストールします。
+次のコマンドでasdコマンドをインストールします。
 
 ```
 curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x ./asd && sudo mv ./asd /usr/local/bin
@@ -22,7 +20,7 @@ curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x 
 
 ## デモの実行
 
-以下の操作で開発サーバーが起動します。
+以下の操作でASDサーバーが起動します。
 
 ```
 mkdir work
@@ -33,6 +31,14 @@ asd --watch ./work/profile.json
 ブラウザで[http://localhost:3000/](http://localhost:3000/)を開きます。
 Application State Diagramのリンクでダイアグラムが確認できますか？
 
+## Macアプリケーション
+
+コンソールの操作が不要なMacのGUIアプリケーションも用意されています。
+
+実行方法：
+* [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/refs/tags/v1.zip)をダウンロードして`asd`スクリプトを開きます。
+* ツールバーの実行ボタンをクリックするか、`Command-R`キーを押して、スクリプトを実行します。
+* ALPSファイルを選択するとASDサーバーが起動されます。
 
 ## アプリケーション状態遷移図
 
