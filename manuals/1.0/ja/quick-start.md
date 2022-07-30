@@ -35,9 +35,14 @@ Application State Diagramのリンクでダイアグラムが確認できます�
 
 コンソールの操作が不要なMacのGUIアプリケーションも用意されています。
 
+インストール方法：
+
+* [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip)をダウンロードして`asd`スクリプトを開きます。
+* スクリプトエディタで、`ファイル` > `書き出す..` を選択し、場所を`アプリケーション`、ファイルフォーマットも`アプリケーション`にして保存します。
+
 実行方法：
-* [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/refs/tags/v1.zip)をダウンロードして`asd`スクリプトを開きます。
-* ツールバーの実行ボタンをクリックするか、`Command-R`キーを押して、スクリプトを実行します。
+
+* アプリケーションフォルダにあるasdを開くか、ALPSファイルをasdアプリケーションにドラッグ＆ドロップしてください。
 * ALPSファイルを選択するとASDサーバーが起動されます。
 
 ## アプリケーション状態遷移図
