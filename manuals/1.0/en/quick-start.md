@@ -35,13 +35,10 @@ Can you see the diagram in the Application State Diagram link?
 
 A Mac GUI application that does not require console operation is also available.
 
-Install:
+Install and Run:
 * Download [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip) and open the `asd` script.
 * In the script editor, select `File` > `Export...` and save the file to the `Application` folder with the file format as application.
-
-Run:
-* Open `asd` appliction  or drag and drop an ALPS file into the `asd` application.
-* Selecting the ALPS file will start the asd server.
+* * Run and select an ALPS file to start the ASD server. Drag & Drop is also supported.
 
 ## Application State Diagram
 
