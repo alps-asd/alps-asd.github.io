@@ -7,8 +7,7 @@ permalink: /manuals/1.0/ja/tutorial.html
 # ALPS チュートリアル
 
 ## 始める
-
-スケルトンファイル`profile.xml`を作成します。
+最初に空のALPSファイル`profile.xml`を作成します。[^webstorm]
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -19,17 +18,12 @@ permalink: /manuals/1.0/ja/tutorial.html
 ```
 
 
-スキーマをサポートするエディターが便利です。補完が効き、バリデーションも行われます。フリーの[WebStorm](https://www.jetbrains.com/ja-jp/webstorm/nextversion/)があります。
+[^webstorm]: スキーマをサポートするエディターが便利です。補完が効き、バリデーションも行われます。[WebStormでの例](https://hackmd.io/@koriym/webstorm-for-alps#%E3%82%B9%E3%82%B1%E3%83%AB%E3%83%88%E3%83%B3%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E4%BD%9C%E6%88%90)もご覧ください。
 
 
-まずは、WebStormで[スケルトンファイルを作成](https://hackmd.io/@koriym/webstorm-for-alps#%E3%82%B9%E3%82%B1%E3%83%AB%E3%83%88%E3%83%B3%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E4%BD%9C%E6%88%90)してみましょう。
+## 意味をIDとして登録する
 
-
-## オントロジー
-
-ALPSでは意味をIDとして定義します。
-
-`dateCreated`（作成日付）を追記してみましょう。
+ALPSではアプリケーションが扱う特定の語句をIDとして定義します。最初に`dateCreated`（作成日付）という語句を定義してみましょう。
 
 ```diff
 <?xml version="1.0" encoding="UTF-8"?>
@@ -40,27 +34,17 @@ ALPSでは意味をIDとして定義します。
 </alps>
 ```
 
-### 初めてのASD
+## 初めてのASD
 
-では早速ALPSファイルをASDで表示してみましょう。
-
-以下のコマンドでASDを実行してASDドキュメントを作成しましょう。
+早速ALPSファイルをASDで表示してみましょう。 以下のコマンドで実行するか、MacのASDアプリケーションで`profile.xml`を開きます。
 
 ```
 asd --watch ./profile.xml 
 ```
 
-[http://localhost:3000](http://localhost:3000)を開いて確認してください。１つ単語が登録されたのが確認できます。
+[http://localhost:3000](http://localhost:3000)を開いて確認してください。`dateCreated`という語が登録されたのが確認できます。
 
-
-以後はファイルを保存するとASDドキュメントが再描画され、ASDツールの操作の必要はありません。
-
-
-![](https://i.imgur.com/TxHvBpy.png)
-
-
-### 語句を説明する
-
+## 語句を説明する
 
 `title`や`doc`で説明を加えることができます。
 
@@ -74,34 +58,19 @@ asd --watch ./profile.xml
 </descriptor>
 ```
 
-ALPSドキュメントはアプリケーションで使う用語の辞書になります。このALPSアプリケーションでは作成日付を表す時は`created_date`でも、`created`でもなく`dateCreated`と表します。
+titleは見出しのような簡潔な表現、docはより長いテキストでの説明です。
 
-この意味に紐づけられたIDを**セマンティックディスクリプタ**（意味的記述子）といいます。ALPSドキュメントはその集合です。
+この意味に紐づけられたIDを**セマンティックディスクリプタ**（意味的記述子）といいます。`dateCreated`は「作成日付」という意味/概念を紐づけたセマンティックディスクリプタです。またALPSドキュメントはセマンティックディスクリプタの集まったものです。このような概念の定義を**オントロジー**といいます。
 
-### 語句の定義にリンクする
+## ボキャブラリ
 
+ALPSの重要な役割の１つはアプリケーションのボキャブラリ辞書になることです。利用者が同じ意味を指し示すときは同じ語句を使い、表現の揺れやを防いだり、利用者が違った認識を持つことを防止します。
 
-言葉による説明よりもっと良い方法は`def`でスタンダードな語句定義へリンクすることです。車輪の再発明を防ぎます。
-
-
-```xml
-<descriptor id="dateCreated" def="https://schema.org/dateCreated" />
-```
-
-有名なボキャブラリサイトには以下のものがあります。
-
-* [schema.org](https://schema.org/docs/schemas.html)
-* [IANA](https://www.iana.org/assignments/link-relations/link-relations.xml)
-
-### ボキャブラリ
-
-ALPSの重要な役割の１つはアプリケーションのボキャブラリ辞書になることです。利用者が同じID、同じ意味を使います。
-
-## タクソノミー
+## 情報は情報を含む
 
 セマンティクディスクリプタはセマンティックディスクリプタを含むことがあります。
 
-例えば、`BlogPosting`（ブログ記事）は`articleBody`（本文）と`dateCreated`を含みます。 情報は情報を含み、その含んだ情報も他の情報に含まれます。このような情報のアレンジがタクソノミーです。<descriptor>の中に<descriptor>を記述することで階層を表します。
+例えば、`BlogPosting`（ブログ記事）は`articleBody`（本文）と`dateCreated`を含みます。 `Person`は`name`と`birthDate`を含み、`name`は`givenName`と`familyName`を含みます、語句で表される情報はは他の情報を含み、その含んだ情報も他の情報に含まれます。descriptorの中にdescriptorを記述することで階層を表します。このような情報のアレンジが**タクソノミー**です。
 
 
 ```xml
@@ -115,128 +84,113 @@ ALPSの重要な役割の１つはアプリケーションのボキャブラリ�
     <descriptor id="dateCreated" title="作成日付"/>
 
     <!-- Taxonomy -->
-    <descriptor id="BlogPosting" title="ブログ記事" >
+    <descriptor id="BlogPosting" title="記事" >
         <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
-    <descriptor id="Blog" title="ブログ記事リスト">
+    <descriptor id="Blog" title="記事リスト">
         <descriptor href="#BlogPosting"/>
     </descriptor>
 </alps>
 ```
-
-* 上記は、記事の本文(`articleBody`)を含んだブログ記事(`BlogPosting`)、その記事を含んだブログ記事リスト(`Blog`)を表しています。
-
-* ALPSファイルの`<!-- Taxonomy -->`ブロックでは他のセマンティックディスクリプタを`href`でインラインリンクして利用しています。
-
-* 他にローカルやWeb上の他のファイルをリンクすることもできます。
-
-
-```xml
-<descriptor href="definition.xml#dateCreated"/>
-```
-
-```xml
-<descriptor href="http://example.com/dateCreated.xml#dateCreated"/>
-```
-
 ファイルを保存してASDドキュメントを確認してみましょう。
+`articleBody`など登録した語句がページに現れましたか？ `BlogPosting`をクリックしてブログ記事に何が含まれていると定義されているか確認してみましょう。
 
+## 情報の閲覧と操作
 
-## コレオグラフィー
-
-Webページは情報だけでなく他のページへのリンクやアクションのフォームを含むことができますが、このような情報の相互作用をコレオグラフィーと呼びます。
-
+Webのページは情報だけでなく他のページへのリンクやアクションのフォームを含み、関連する他の情報の閲覧や操作ができます。
 以下の３つのタイプがあります。
 
-### タイプ
+### safe
 
-#### safe
+`safe`はHTMLで言うとAタグ、HTTPではGETです。リソースの状態を変更しない安全な遷移で、サーバー側のリソース状態は変化しません。ユーザーが何を見ているかという**アプリケーション状態**が変化します。
 
-`safe`はHTMLで言うとAタグ、HTTPではGETです。安全な遷移で、サーバー側のリソース状態は変化しません。
+### idempotent
 
-#### idempotent
+`idempotent`（アイデムポテント）はリソース状態を変更します。冪等性（べきとうせい）[^idempotent] があり、何度繰り返しても同じ結果になります。ファイルの上書きをイメージしてください。何度実行しても結果は変わりません。
 
-`idempotent`（アイデムポテント）はリソース状態は変更されますが冪等性があり、何度繰り返しても同じ結果になります。
+[^idempotent]: [https://ja.wikipedia.org/wiki/冪等](https://ja.wikipedia.org/wiki/冪等)
 
-#### unsafe
+### unsafe
 
-`unsafe`も同じようにリソース状態は変更されますが冪等性がありません。繰り返し実行には注意が必要です。
+`unsafe`も同じようにリソース状態は変更しますが冪等性がありません。ファイルの追記をイメージしてください。繰り返し実行しただけ結果が異なってきます。
 
-safeは`GET`、idempotentidempotentは`PUT`または`DELETE`、unsafeは`POST`とそれぞれのHTTPのメソッドに対応します。
+### HTTPメソッドとの対応
+
+safeは`GET`、idempotentは`PUT`または`DELETE`、unsafeは`POST`とそれぞれのHTTPのメソッドに対応します。
 
 
 ### リンク
 
-下記のように他の`descriptor`に含めます。
+`type`と`rt`で遷移先を指定してリンクを作成します。
+この例は`Blog`に移動する遷移です。
 
 ```xml
-<descriptor id="BlogPosting" " title="ブログ記事">
+<descriptor type="safe" id="goBlog" rt="#Blog" title="ブログ記事リストを見る" />
+```
+
+他のセマンティックディスクリプタに追加して、情報に操作を含みます。
+この例はブログ記事からブログ記事リストに戻る操作を追加しています。
+
+```diff
+<descriptor id="BlogPosting" " title="記事">
     <descriptor href="#id"/>
     <descriptor href="#dateCreated"/>
     <descriptor href="#articleBody"/>
-    <descriptor id="goBlog" type="safe" rt="#Blog" title="ブログ記事リストを見る"/>
++    <descriptor id="goBlog" type="safe" rt="#Blog" title="記事リストを見る"/>
 </descriptor>
 ```
 
-### 引数
-
-遷移に必要なdescriptorは含めます。
+遷移や操作に必要なdescriptorはdescriptorに含めます。
 
 ```xml
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
+<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="記事を見る">
+    <!-- 記事を見るにはIDが必要 -->
     <descriptor href="#id"/>
 </descriptor>
 ```
 
+ブログ記事リストとブログ記事双方のリンクを追加してみましょう。
 
-## アトリビュート
+```diff
+<alps
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+     
+    <!-- Ontology -->
+    <descriptor id="id" title="id"/>
+    <descriptor id="articleBody" title="本文"/>
+    <descriptor id="dateCreated" title="作成日付"/>
 
-以下のアトリビュートはタイプに関わらず利用することができます。
+    <!-- Taxonomy -->
+    <descriptor id="Blog" title="記事リスト">
+        <descriptor href="#BlogPosting"/>
++        <descriptor href="#goBlogPosting" />
+    </descriptor>
 
-### tag
+    <descriptor id="BlogPosting" title="記事" >
+        <descriptor href="#id"/>
+        <descriptor href="#dateCreated"/>
+        <descriptor href="#articleBody"/>
++        <descriptor href="#goBlog" />
+    </descriptor>
 
-属性を加えます。
-
-
-```xml
-<descriptor id="ticketList" tag="ontology collection" />
-```
-
-属性をフィルターしてASDを描画することができます。やってみましょう。
-
-[スクリーンショット]
-
-### link
-
-メタ情報とリンクします。
-
-```xml
-<descriptor id="dateCreated">
-  <link href="https://github.com/koriym/app-state-diagram/issues" rel="issue" title="Issue list"/>
-</descriptor>
-```
-
-## リンク
-
-`href`を使って、他のALPSドキュメントへリンクすることもできます。
-
-```xml
-<descriptor href="definition.xml#dateCreated"/>
-<descriptor href="http://example.com/dateCreated.xml#dateCreated"/>
-```
-
-## ALPSのメタ情報
-
-アルプスのファイルにメタ情報を付け加えるにはこのようにします。
-
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<alps>
-    <title>ALPS Blog</title>
-    <doc>An ALPS profile example for ASD</doc>
-    <link rel="issue" href="https://github.com/koriym/app-state-diagram/issues"/>
++    <!-- Taxonomy -->
++    <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="ブログ記事を見る">
++        <descriptor href="#id"/>
++    </descriptor>
++    <descriptor type="safe" id="goBlog" rt="#Blog" title="ブログ記事一覧を見る" />
 </alps>
 ```
+
+## アプリケーション状態遷移図
+
+Application State Diagramをクリックすると、 記事リスト、記事、双方からリンクされた状態遷移図が描画されているはずです。
+四角で表されているボックスのはユーザーがどこを見ているかという**アプリケーション状態**、つまり閲覧中のWebページです。
+矢印は情報の閲覧や変更などの操作を著します。HTMLではAタグやFORMタグでの遷移を表しています。
+ボックスも矢印もどちらもクリック可能で、詳しい情報を見ることができます。確認してみましょう。
+
+Webサイトの情報が相互にリンクされているように、ASDドキュメントページも相互にリンクされています。アプリケーション状態遷移図はサイトの情報設計を俯瞰することができ、情報の意味や構造、接続といった情報設計の詳細にリンクしています。
+
+---
