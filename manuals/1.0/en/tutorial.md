@@ -80,16 +80,16 @@ For example, `BlogPosting` contains `articleBody` and `dateCreated`. A descripto
      
     <!-- Ontology -->
     <descriptor id="id" title="id"/>
-    <descriptor id="articleBody" title="body"/>
-    <descriptor id="dateCreated" title="Creation date"/>
+    <descriptor id="articleBody" title="The body of the article"/>
+    <descriptor id="dateCreated" title="The date created"/>
 
     <!-- Taxonomy -->
-    <descriptor id="BlogPosting" title="Article" >
+    <descriptor id="BlogPosting" title="A blog post" >
         <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
-    <descriptor id="Blog" title="Article List">
+        <descriptor id="Blog" title="A blog">
         <descriptor href="#BlogPosting"/>
     </descriptor>
 </alps>
@@ -131,24 +131,24 @@ Create a link by specifying the type of operation with `type` and the destinatio
 This example is a link to browse `Blog`.
 
 ```xml
-<descriptor type="safe" id="goBlog" rt="#Blog" title="View list of blog posts" />
+<descriptor type="safe" id="goBlog" rt="#Blog" title="View the blog" />
 ```
 
 This example adds an operation from a blog post back to the blog post list.
 
 ```diff
- <descriptor id="BlogPosting" title="Articles">
+ <descriptor id="BlogPosting" title="A blog post">
      <descriptor href="#id"/>
      <descriptor href="#dateCreated"/>
      <descriptor href="#articleBody"/>
-+ <descriptor id="goBlog" type="safe" rt="#Blog" title="View article list"/>
++ <descriptor id="goBlog" type="safe" rt="#Blog" title="View the blog"/>
  </descriptor>
 ```
 
 Include in the descriptor any descriptors needed for transitions and operations.
 
 ```xml
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View posts">
+<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View the blog post">
     <!-- ID required to browse posts -->
     <descriptor href="#id"/>
 </descriptor>
@@ -163,25 +163,25 @@ Let's add links to both the blog post list and the blog post.
      
      <! -- Ontology -->.
      <descriptor id="id" title="id"/>
-     <descriptor id="articleBody" title="body"/>
+     <descriptor id="articleBody" title="The body of the article"/>
      <descriptor id="dateCreated" title="Creation date"/>
 
      <! -- Taxonomy -->.
-     <descriptor id="BlogPosting" title="Blog post" >
+     <descriptor id="BlogPosting" title="A blog post" >
          <descriptor href="#id"/>
          <descriptor href="#dateCreated"/>
          <descriptor href="#articleBody"/>
 +        <descriptor href="#goBlog" />
      </descriptor>
 
-     <descriptor id="Blog" title="the list of blog posts">
+     <descriptor id="Blog" title="A blog">
          <descriptor href="#BlogPosting"/>
 +        <descriptor href="#goBlogPosting" />
      </descriptor>
 
 + <! -- Choreography -->
-+ <descriptor type="safe" id="goBlog" rt="#Blog" title="View the list of blog posts" />
-+ <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="View blog post">
++ <descriptor type="safe" id="goBlog" rt="#Blog" title="View the blog" />
++ <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="View the blog post">
 +     <descriptor href="#id"/>
 + </descriptor>
  </alps>
