@@ -179,7 +179,7 @@ safeは`GET`、idempotentは`PUT`または`DELETE`、unsafeは`POST`とそれぞ
 +        <descriptor href="#goBlog" />
      </descriptor>
 
-+    <!-- Taxonomy -->
++    <!-- Choreography -->
 +    <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="ブログ記事を見る">
 +        <descriptor href="#id"/>
 +    </descriptor>
