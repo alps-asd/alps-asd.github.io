@@ -7,10 +7,10 @@ permalink: /manuals/1.0/en/tutorial.html
 # ALPS Tutorial
 
 ## Getting Started
-First create an empty ALPS file `profile.xml`. [^webstorm]
+Create an skeleton ALPS file `profile.xml` first. [^webstorm]
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"? >
+<?xml version="1.0" encoding="UTF-8"?>
 <alps
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
@@ -23,10 +23,10 @@ First create an empty ALPS file `profile.xml`. [^webstorm]
 
 ## Register meaning as ID
 
-ALPS defines specific words and phrases handled by the application as IDs. Let's start by adding the phrase ``dateCreated``.
+ALPS defines specific words and phrases used by the application as IDs. Let's start by adding the phrase `dateCreated`.
 
-``diff
- <?xml version="1.0" encoding="UTF-8"? >
+```diff
+ <?xml version="1.0" encoding="UTF-8"?>
  <alps
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
@@ -34,21 +34,21 @@ ALPS defines specific words and phrases handled by the application as IDs. Let's
  </alps>
 ```
 
-## First ASD
+# Your first ASD
 
-Let's quickly display an ALPS file in ASD. Run the following command or open `profile.xml` in the ASD application on your Mac.
+Let's try to display an ALPS file in ASD. Run the following command or open `profile.xml` in the ASD application on your Mac.
 
 ```
 asd --watch . /profile.xml 
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and check it. You will see that the word ``dateCreated`` has been registered.
+Open [http://localhost:3000](http://localhost:3000) and check it. You will see that the word `dateCreated` has been registered.
 
 ## Describe the word
 
 You can add a description with ``title`` or ``doc``.
 
-``xml
+```xml
 <descriptor id="dateCreated" title="Creation date"/>
 ```
 
@@ -58,19 +58,19 @@ You can add a description with ``title`` or ``doc``.
 </descriptor>
 ```
 
-title is a brief expression, like a headline, and doc is a longer textual description.
+`title` is a brief expression, like a headline, and `doc` is a longer textual description.
 
-The ID tied to this meaning is called a **semantic descriptor** (semantic descriptor). `dateCreated` is a semantic descriptor associated with the meaning "date created". Such definitions of meanings and concepts are called **ontologies**.
+The ID associated with this meaning is called a **semantic descriptor** . `dateCreated` is a semantic descriptor associated with the meaning "date created". Such definitions of meanings and concepts are called **ontologies**.
 
 ### Vocabulary
 
-One of the important roles of ALPS is to be a dictionary of words in the application. Users use the same words when they refer to the same meaning, preventing shaky expressions and preventing users from having different perceptions.
+One of the important roles of ALPS is to be a dictionary of words in the application. Users use the same words when they refer to the same meaning, preventing inconsistent wording, and preventing users from having different understandings of a word.
 
 ## Information contains information
 
 Semantic descriptors may contain semantic descriptors.
 
-For example, `BlogPosting` (blog post) contains `articleBody` (body) and `dateCreated` (creation date). A descriptor within a descriptor represents a hierarchy of information. This organization and arrangement of information is the **taxonomy**.
+For example, `BlogPosting` contains `articleBody` and `dateCreated`. A descriptor within a descriptor represents a hierarchy of information. This organization and arrangement of information is the **taxonomy**.
 
 
 ```xml
@@ -78,12 +78,12 @@ For example, `BlogPosting` (blog post) contains `articleBody` (body) and `dateCr
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
      
-    <! -- Ontology -->.
+    <!-- Ontology -->
     <descriptor id="id" title="id"/>
     <descriptor id="articleBody" title="body"/>
     <descriptor id="dateCreated" title="Creation date"/>
 
-    <! -- Taxonomy -->.
+    <!-- Taxonomy -->
     <descriptor id="BlogPosting" title="Article" >
         <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
@@ -93,32 +93,32 @@ For example, `BlogPosting` (blog post) contains `articleBody` (body) and `dateCr
         <descriptor href="#BlogPosting"/>
     </descriptor>
 </alps>
-``
+```
 
-You can use ``#`` to refer to other descriptors. This is called **inline linking** and allows you to reference one descriptor from multiple locations.
+You can use `#` to refer to other descriptors. This is called **inline linking** and allows you to reference one descriptor from multiple locations.
 
 Save the file and check the ASD document.
 Do you see the `articleBody` and other registered words and phrases on the page? Click on `BlogPosting` to see what information is contained in the blog post.
 
-## Viewing and manipulating information
+## Browsing and manipulating information
 
-Web pages contain not only information but also links to other pages and forms of action, allowing you to view and manipulate related information. You can perform the following three types of operations.
+Web pages contain not only information but also links to other pages and forms of action, allowing you to browse and manipulate related information. You can perform the following three types of operations.
 
 ### safe
 
-Viewing related information, in HTML it is the A tag, in HTTP it is GET. A **safe transition** that does not change the state of the resource [^resource_state]. The **application state** of what the user is viewing changes. That is, the URL being viewed changes.
+Viewing related information, in HTML it is the A tag, in HTTP it is GET. A **safe transition** that does not change the state of the resource [^resource_state]. The **application state** that is what the user is viewing changes. In other words, the URL the user is viewing changes.
 
-[^resource_state]: Information held by the server side as indicated by the URL.
+[^resource_state]: Information held by the server side as identified by the URL.
 
 ### idempotent
 
-Changes the resource state. It has power [^idempotent] and the result will be the same no matter how many times it is repeated. Imagine overwriting a file. No matter how many times it is executed, the result remains the same.
+Changes the resource state. It is idempotent [^idempotent], and the result will be the same no matter how many times it is repeated. Think of it as overwriting a file. No matter how many times it is repeated, the result will be the same.
 
-[^idempotent]: [https://ja.wikipedia.org/wiki/冪等](https://ja.wikipedia.org/wiki/冪等)
+[^idempotent]: [https://en.wiktionary.org/wiki/idempotent](https://en.wiktionary.org/wiki/idempotent)
 
 ### unsafe
 
-Like idempotent, this changes the resource status, but there is no power equality. Imagine appending a file. The result will be different after repeated execution.
+Like idempotent, this changes the resource status, but there is not idempotent. Think of it as a file append. The result will be different after repeated execution.
 
 ### Correspondence with HTTP methods
 
@@ -130,7 +130,7 @@ safe corresponds to `GET`, idempotent corresponds to `PUT` or `DELETE`, and unsa
 Create a link by specifying the type of operation with `type` and the destination with `rt`.
 This example is a link to browse `Blog`.
 
-``xml
+```xml
 <descriptor type="safe" id="goBlog" rt="#Blog" title="View list of blog posts" />
 ```
 
@@ -149,7 +149,7 @@ Include in the descriptor any descriptors needed for transitions and operations.
 
 ```xml
 <descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View posts">
-    <! -- ID required to view the post -->.
+    <!-- ID required to browse posts -->
     <descriptor href="#id"/>
 </descriptor>
 ````
