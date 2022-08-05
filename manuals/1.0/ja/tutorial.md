@@ -167,23 +167,22 @@ safeは`GET`、idempotentは`PUT`または`DELETE`、unsafeは`POST`とそれぞ
      <descriptor id="dateCreated" title="作成日付"/>
 
      <!-- Taxonomy -->
-     <descriptor id="Blog" title="記事リスト">
-         <descriptor href="#BlogPosting"/>
-+        <descriptor href="#goBlogPosting" />
-     </descriptor>
-
      <descriptor id="BlogPosting" title="記事" >
          <descriptor href="#id"/>
          <descriptor href="#dateCreated"/>
          <descriptor href="#articleBody"/>
 +        <descriptor href="#goBlog" />
      </descriptor>
+     <descriptor id="Blog" title="記事リスト">
+         <descriptor href="#BlogPosting"/>
++        <descriptor href="#goBlogPosting" />
+     </descriptor>
 
 +    <!-- Choreography -->
-+    <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="ブログ記事を見る">
++    <descriptor type="safe" id="goBlog" rt="#Blog" title="記事リストを見る" />
++    <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="記事を見る">
 +        <descriptor href="#id"/>
 +    </descriptor>
-+    <descriptor type="safe" id="goBlog" rt="#Blog" title="ブログ記事一覧を見る" />
  </alps>
 ```
 

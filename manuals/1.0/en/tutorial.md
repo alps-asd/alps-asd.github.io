@@ -167,23 +167,23 @@ Let's add links to both the blog post list and the blog post.
      <descriptor id="dateCreated" title="Creation date"/>
 
      <! -- Taxonomy -->.
-     <descriptor id="Blog" title="Article List">
-         <descriptor href="#BlogPosting"/>
-+ <descriptor href="#goBlogPosting" />
-     </descriptor>
-
-     <descriptor id="BlogPosting" title="Posting" >
+     <descriptor id="BlogPosting" title="Blog post" >
          <descriptor href="#id"/>
          <descriptor href="#dateCreated"/>
          <descriptor href="#articleBody"/>
-+ <descriptor href="#goBlog" />
++        <descriptor href="#goBlog" />
+     </descriptor>
+
+     <descriptor id="Blog" title="the list of blog posts">
+         <descriptor href="#BlogPosting"/>
++        <descriptor href="#goBlogPosting" />
      </descriptor>
 
 + <! -- Choreography -->
-+ <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="View Blog Posts">
-+ <descriptor href="#id"/>
++ <descriptor type="safe" id="goBlog" rt="#Blog" title="View the list of blog posts" />
++ <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="View blog post">
++     <descriptor href="#id"/>
 + </descriptor>
-+ <descriptor type="safe" id="goBlog" rt="#Blog" title="View a list of blog posts" />
  </alps>
 ```
 
