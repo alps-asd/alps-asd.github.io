@@ -7,7 +7,7 @@ permalink: /manuals/1.0/en/tutorial.html
 # ALPS Tutorial
 
 ## Getting Started
-Create an skeleton ALPS file `profile.xml` first. [^webstorm]
+First of all, let's create an ALPS skeleton file, `profile.xml`. [^webstorm]
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
