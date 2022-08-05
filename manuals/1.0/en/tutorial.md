@@ -195,3 +195,5 @@ The arrows represent operations such as viewing or changing information, which c
 Click on a box or arrow to see more information. Check it out.
 
 Just as information on a website is interlinked, ASD document pages are also interlinked. The application state transition diagram provides a bird's eye view of the site's information design and links to information design details such as information meaning, structure, and connections.
+
+---
