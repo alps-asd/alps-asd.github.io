@@ -85,7 +85,7 @@ asd [options] [alpsFile]
 
 リポジトリが非公開でアカウントがGHEやGHE Cloudのアカウントでない場合、GitHub Pqgesを非公開にすることができません。そのような場合は、Markdownで出力し、ドキュメントを非公開にすることができます。
 
-残念ながらリンクされたSVGの図をMarkdownでホストする方法はありません、Markdownにするとダイアログはリンクを失います。 markdownはは公開されたHTMLが不可能な場合のオプションです。
+残念ながらリンクされたSVGのダイアグラムをMarkdownでホストする方法はありません。Markdownにするとダイアログはリンクを失います。 MarkdownはHTMLを公開できない場合のオプションです。
 
 ```xml
 <asd>
