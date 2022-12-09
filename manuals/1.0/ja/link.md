@@ -5,7 +5,7 @@ category: Manual
 permalink: /manuals/1.0/ja/link.html
 ---
 
-# リンク
+# リソース
 
 * [ALPS 公式](http://alps.io/)
 * [RFC](https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07)
