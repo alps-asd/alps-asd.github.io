@@ -28,4 +28,4 @@ ALPS and ASD are important tools for designing and understanding REST applicatio
 
 Building a **basis of shared understanding** that resolves conflicts among diverse developers is essential to increase development efficiency, provide a superior user experience, and ensure project sustainability. ALPS and ASD can be very effective tools to achieve this goal.
 
-[If you find this text difficult, click here](index4b.html)
+[Click here for easier instructions.](index4b.html)
