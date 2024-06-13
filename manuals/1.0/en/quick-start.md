@@ -8,21 +8,36 @@ permalink: /manuals/1.0/en/quick-start.html
 
 ## Requirement
 
-ASD requires [Docker](https://www.docker.com/products/docker-desktop).
+You need [Homebrew](https://brew.sh/ja/) or [Docker](https://www.docker.com/products/docker-desktop) to run ASD.
 
-## Install
+## Homebrew
 
-Install the asd command.
+Recommended. Do the following
+
+```shell
+brew install alps-asd/asd/asd
+````
+
+To uninstall, do the following: 
+
+```shell
+brew uninstall asd
+brew untap alps-asd/asd
+````
+
+## Docker
+
+Install the asd command with the following command.
 
 ```
-curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x ./asd && sudo mv ./asd /usr/local/bin
+curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > . /asd && chmod +x . /asd && sudo mv . /asd /usr/local/bin
 ```
 
-## Run the demo
+## Demo
 
-The following will start the development server.
+After installing either Homebrew or Docker, let's run the demo.
 
-```
+```shell
 mkdir work
 curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > work/profile.json
 asd --watch ./work/profile.json

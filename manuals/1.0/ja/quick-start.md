@@ -8,9 +8,24 @@ permalink: /manuals/1.0/ja/quick-start.html
 
 ## 環境
 
-ASDの実行には[Docker](https://www.docker.com/products/docker-desktop)が必要です。
+ASDの実行には[Homebrew](https://brew.sh/ja/)または[Docker](https://www.docker.com/products/docker-desktop)が必要です。
 
-## インストール
+## Homebrew
+
+お勧めの方法です。以下のようにします。
+
+```shell
+brew install alps-asd/asd/asd
+```
+
+アンインストールするには以下のようにします。
+
+```shell
+brew uninstall asd
+brew untap alps-asd/asd
+```
+
+## Docker
 
 次のコマンドでasdコマンドをインストールします。
 
@@ -18,9 +33,9 @@ ASDの実行には[Docker](https://www.docker.com/products/docker-desktop)が必
 curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x ./asd && sudo mv ./asd /usr/local/bin
 ```
 
-## デモの実行
+## デモ
 
-以下の操作でASDサーバーが起動します。
+HomebrewまたはDockerいずれかの方法でインストールを行った後は早速デモを実行してみましょう。
 
 ```
 mkdir work
