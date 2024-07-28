@@ -26,7 +26,7 @@ permalink: /manuals/1.0/ja/best_practice.html
 ## 安全な状態遷移
 
 typeが`safe`のセマンティックディスクリプタは、次の遷移先のディスクリプタに`go`のプレフィックスを付加します。
-([RFC8288](ttps://datatracker.ietf.org/doc/html/rfc8288#section-3.3))
+([RFC8288](https://datatracker.ietf.org/doc/html/rfc8288#section-3.3))
 
 ```json
 [
