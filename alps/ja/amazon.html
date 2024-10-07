@@ -1,0 +1,4390 @@
+
+<html lang="en">
+<head>
+    <title>ALPS大規模マルチベンダーEコマースプラットフォーム</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css">
+    <style>
+        body {
+            background-color: white;
+        }
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 25px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+        }
+        #svg-container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .asd-view-selector {
+            display: flex;
+            align-items: center;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+        .asd-view-selector label {
+            margin-right: 10px;
+        }
+        .asd-view-selector input[type="radio"] {
+            margin-right: 5px;
+        }
+        .selector-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .selector-label {
+            min-width: 40px;
+            margin-right: 10px;
+        }
+        .selector-options {
+            display: flex;
+        }
+        .selector-option {
+            margin-right: 15px;
+        }
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 2px;
+            vertical-align: middle;
+        }
+
+        /* Sematic Descriptor List */
+        .descriptor-list {
+            max-width: 100%;
+            margin: 0;
+            padding: 20px;
+        }
+        .descriptor-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+        .descriptor-list li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .descriptor-list .indicator {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 8px;
+            border: 1px solid #000;
+        }
+        .descriptor-list .semantic {
+            background-color: #FFFFFF;
+        }
+        .descriptor-list .safe {
+            background-color: #00A86B;
+            background-image: linear-gradient(45deg, #008000 25%, transparent 25%, transparent 75%, #008000 75%, #008000),
+            linear-gradient(45deg, #008000 25%, transparent 25%, transparent 75%, #008000 75%, #008000);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+        }
+        .descriptor-list .unsafe {
+            background-color: #FF4136;
+            background-image: repeating-linear-gradient(45deg, #FF4136, #FF4136 4px, #FF725C 4px, #FF725C 8px);
+        }
+
+        .descriptor-list .idempotent {
+            background-color: #FFDC00;
+            background-image: radial-gradient(#FFB700 20%, transparent 20%),
+            radial-gradient(#FFB700 20%, transparent 20%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+        }
+        .descriptor-list .item-name {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .legend {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 10px;
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+        }
+        .legend-icon {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #000;
+            margin-right: 8px;
+        }
+        .legend .semantic { background-color: #FFFFFF; }
+        .legend .safe {
+            background-color: #00A86B;
+            background-image: linear-gradient(45deg, #008000 25%, transparent 25%, transparent 75%, #008000 75%, #008000),
+            linear-gradient(45deg, #008000 25%, transparent 25%, transparent 75%, #008000 75%, #008000);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+        }
+        .legend .unsafe {
+            background-color: #FF4136;
+            background-image: repeating-linear-gradient(45deg, #FF4136, #FF4136 4px, #FF725C 4px, #FF725C 8px);
+        }
+        .legend .idempotent {
+            background-color: #FFDC00;
+            background-image: radial-gradient(#FFB700 20%, transparent 20%),
+            radial-gradient(#FFB700 20%, transparent 20%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/viz.js@1.8.1/viz.js" type="javascript/worker"></script>
+    <script src="https://unpkg.com/d3-graphviz@2.1.0/build/d3-graphviz.min.js"></script>
+    <script src="https://alps-asd.github.io/app-state-diagram/assets/js/table.js"></script>
+    <script>// Applies smooth scroll to links
+    const ease = (t, b, c, d) => {
+        t /= d / 2;
+        if (t < 1) return (c / 2) * t * t + b;
+        t--;
+        return (-c / 2) * (t * (t - 2) - 1) + b;
+    };
+
+    // Smoothly scrolls to the target element
+    const smoothScrollTo = (targetElement) => {
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 1000;
+        let startTime = null;
+
+        const animate = (currentTime) => {
+            if (!startTime) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animate);
+        };
+
+        requestAnimationFrame(animate);
+        history.pushState(null, null, '#' + targetElement.getAttribute('name'));
+    };
+
+    const applySmoothScrollToLinks = (links) => {
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetName = link.getAttribute('href').slice(1);
+                const targetElement = document.querySelector(`[id="${targetName}"]`);
+                if (!targetElement) {
+                    console.error("Target element not found for link:", link.getAttribute('href'));
+                    return;
+                }
+                smoothScrollTo(targetElement);
+            });
+        });
+    };
+
+
+    // Renders the graph and applies smooth scroll to links
+    const renderGraph = (graphId, dotString) => {
+        d3.select(graphId).graphviz()
+            .zoom(false)
+            .renderDot(dotString).on('end', () => {
+            applySmoothScrollToLinks(document.querySelectorAll('svg a[*|href^="#"]'));
+        });
+    };
+
+    // Sets up event listeners for tags
+    const setupTagEventListener = (eventName, titles, color, defaultColor = 'lightgrey', defaultEdgeColor = 'black') => {
+        const changeColor = (useDefault) => {
+            titles.forEach(title => {
+                changeColorByTitle(title, useDefault ? defaultColor : color, useDefault ? defaultEdgeColor : color);
+            });
+        };
+
+        document.addEventListener(`tagon-${eventName}`, () => changeColor(false));
+        document.addEventListener(`tagoff-${eventName}`, () => changeColor(true));
+    };
+
+    // Sets up triggers for tags
+    const setupTagTrigger = () => {
+        const checkboxes = document.querySelectorAll('.tag-trigger-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                this.checked ?
+                    document.dispatchEvent(new CustomEvent('tagon-' + this.getAttribute('data-tag'))) :
+                    document.dispatchEvent(new CustomEvent('tagoff-' + this.getAttribute('data-tag')));
+            });
+        });
+    };
+
+    // Changes color of elements by title or class
+    const changeColorByTitle = (titleOrClass, newNodeColor, newEdgeColor) => {
+        const elements = Array.from(document.getElementsByTagName('g'));
+
+        elements.forEach(element => {
+            const titleElement = element.getElementsByTagName('title')[0];
+            const title = titleElement ? titleElement.textContent : '';
+
+            if (title === titleOrClass || element.classList.contains(titleOrClass)) {
+                const polygons = Array.from(element.getElementsByTagName('polygon'));
+                const paths = Array.from(element.getElementsByTagName('path'));
+
+                polygons.forEach(polygon => {
+                    polygon.setAttribute('fill', newNodeColor);
+                });
+
+                paths.forEach(path => {
+                    path.setAttribute('stroke', newEdgeColor);
+                });
+            }
+        });
+    };
+
+    // Sets up mode switch for graph display
+    const setupModeSwitch = (switchId, graphId, otherGraphId) => {
+        document.getElementById(switchId).addEventListener('change', (e) => {
+            document.getElementById(graphId).style.display = e.target.checked ? 'block' : 'none';
+            document.getElementById(otherGraphId).style.display = e.target.checked ? 'none' : 'block';
+        });
+    };
+    </script></head>
+<body>
+<div class="markdown-body">
+    <h1>ALPS大規模マルチベンダーEコマースプラットフォーム</h1>
+
+    <p>このALPS定義は、AmazonのようなマルチベンダーEコマースプラットフォームに必要な主要コンポーネントをカバーしています。ユーザー管理、製品カタログ、注文処理、在庫管理、マーケットプレイス機能、フルフィルメント、アフィリエイトプログラム、サブスクリプションサービスなど、現代の複雑なEコマースシステムの主要機能を網羅しています。（遷移図はユーザーサイドのみ）</p>
+
+    <!-- Container for the ASDs -->
+
+    <div id="svg-container">
+        <div id="asd-graph-id" style="text-align: center; "></div>
+        <div id="asd-graph-name" style="text-align: center; display: none;"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                await Promise.all([
+                    renderGraph("#asd-graph-id", 'digraph application_state_diagram {  graph [    labelloc="t";    fontname="Helvetica"    label="ALPS大規模マルチベンダーEコマースプラットフォーム";    URL="index.html" target="_parent"  ];  node [shape = box, style = "bold,filled" fillcolor="lightgray"];    Login -> Register [label = <goToRegister (safe)> URL="#goToRegister" target="_parent" fontsize=13 class="goToRegister" penwidth=1.5];    Login -> UserHome [label = <doLogin (idempotent)> URL="#doLogin" target="_parent" fontsize=13 class="doLogin" penwidth=1.5];    Register -> Login [label = <goToLogin (safe)> URL="#goToLogin" target="_parent" fontsize=13 class="goToLogin" penwidth=1.5];    Register -> UserHome [label = <doRegister (idempotent)> URL="#doRegister" target="_parent" fontsize=13 class="doRegister" penwidth=1.5];    UserCart -> UserCart [label=<<table border="0"><tr><td align="left" href="#doRemoveCartItem" tooltip="doRemoveCartItem (idempotent)" >doRemoveCartItem (idempotent)</td></tr><tr><td align="left" href="#doUpdateCartItem" tooltip="doUpdateCartItem (idempotent)" >doUpdateCartItem (idempotent)</td></tr></table>> fontsize=13];    UserCart -> UserCheckout [label = <goToUserCheckout (safe)> URL="#goToUserCheckout" target="_parent" fontsize=13 class="goToUserCheckout" penwidth=1.5];    UserCart -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserCart [label = <goToUserCart (safe)> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserCheckout -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserOrderDetail [label = <doPlaceOrder (idempotent)> URL="#doPlaceOrder" target="_parent" fontsize=13 class="doPlaceOrder" penwidth=1.5];    UserHome -> Login [label = <doLogout (idempotent)> URL="#doLogout" target="_parent" fontsize=13 class="doLogout" penwidth=1.5];    UserHome -> UserCart [label = <goToUserCart (safe)> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserHome -> UserOrderHistory [label = <goToUserOrderHistory (safe)> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserHome -> UserProductList [label = <goToUserProductList (safe)> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserHome -> UserProfile [label = <goToUserProfile (safe)> URL="#goToUserProfile" target="_parent" fontsize=13 class="goToUserProfile" penwidth=1.5];    UserOrderDetail -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderDetail -> UserOrderHistory [label = <goToUserOrderHistory (safe)> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserOrderDetail -> UserReturnRefund [label = <goToUserReturnRefund (safe)> URL="#goToUserReturnRefund" target="_parent" fontsize=13 class="goToUserReturnRefund" penwidth=1.5];    UserOrderHistory -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderHistory -> UserOrderDetail [label = <goToUserOrderDetail (safe)> URL="#goToUserOrderDetail" target="_parent" fontsize=13 class="goToUserOrderDetail" penwidth=1.5];    UserOrderHistory -> UserOrderHistory [label = <goPaginateOrders (safe)> URL="#goPaginateOrders" target="_parent" fontsize=13 class="goPaginateOrders" penwidth=1.5];    UserProductDetail -> UserCart [label=<<table border="0"><tr><td align="left" href="#doAddToCart" tooltip="doAddToCart (unsafe)" >doAddToCart (unsafe)</td></tr><tr><td align="left" href="#goToUserCart" tooltip="goToUserCart (safe)" >goToUserCart (safe)</td></tr></table>> fontsize=13];    UserProductDetail -> UserProductList [label = <goToUserProductList (safe)> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserProductDetail -> UserReview [label = <goToUserReview (safe)> URL="#goToUserReview" target="_parent" fontsize=13 class="goToUserReview" penwidth=1.5];    UserProductList -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProductList -> UserProductDetail [label = <goToUserProductDetail (safe)> URL="#goToUserProductDetail" target="_parent" fontsize=13 class="goToUserProductDetail" penwidth=1.5];    UserProductList -> UserProductList [label=<<table border="0"><tr><td align="left" href="#goPaginateProducts" tooltip="goPaginateProducts (safe)" >goPaginateProducts (safe)</td></tr><tr><td align="left" href="#goSearchProducts" tooltip="goSearchProducts (safe)" >goSearchProducts (safe)</td></tr></table>> fontsize=13];    UserProfile -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProfile -> UserProfile [label = <doUpdateUserProfile (idempotent)> URL="#doUpdateUserProfile" target="_parent" fontsize=13 class="doUpdateUserProfile" penwidth=1.5];    UserReturnRefund -> UserOrderDetail [label=<<table border="0"><tr><td align="left" href="#doRequestRefund" tooltip="doRequestRefund (idempotent)" >doRequestRefund (idempotent)</td></tr><tr><td align="left" href="#doRequestReturn" tooltip="doRequestReturn (idempotent)" >doRequestReturn (idempotent)</td></tr><tr><td align="left" href="#goToUserOrderDetail" tooltip="goToUserOrderDetail (safe)" >goToUserOrderDetail (safe)</td></tr></table>> fontsize=13];    UserReview -> UserProductDetail [label=<<table border="0"><tr><td align="left" href="#doAddReview" tooltip="doAddReview (idempotent)" >doAddReview (idempotent)</td></tr><tr><td align="left" href="#doDeleteReview" tooltip="doDeleteReview (idempotent)" >doDeleteReview (idempotent)</td></tr><tr><td align="left" href="#doUpdateReview" tooltip="doUpdateReview (idempotent)" >doUpdateReview (idempotent)</td></tr><tr><td align="left" href="#goToUserProductDetail" tooltip="goToUserProductDetail (safe)" >goToUserProductDetail (safe)</td></tr></table>> fontsize=13];    Login [label = <Login> URL="#Login" target="_parent"]    Register [label = <Register> URL="#Register" target="_parent"]    UserHome [label = <UserHome> URL="#UserHome" target="_parent"]    UserCart [label = <UserCart> URL="#UserCart" target="_parent"]    UserCheckout [label = <UserCheckout> URL="#UserCheckout" target="_parent"]    UserOrderDetail [label = <UserOrderDetail> URL="#UserOrderDetail" target="_parent"]    UserOrderHistory [label = <UserOrderHistory> URL="#UserOrderHistory" target="_parent"]    UserProductList [label = <UserProductList> URL="#UserProductList" target="_parent"]    UserProfile [label = <UserProfile> URL="#UserProfile" target="_parent"]    UserReturnRefund [label = <UserReturnRefund> URL="#UserReturnRefund" target="_parent"]    UserProductDetail [label = <UserProductDetail> URL="#UserProductDetail" target="_parent"]    UserReview [label = <UserReview> URL="#UserReview" target="_parent"]}'),
+                    renderGraph("#asd-graph-name", 'digraph application_state_diagram {  graph [    labelloc="t";    fontname="Helvetica"    label="ALPS大規模マルチベンダーEコマースプラットフォーム";    URL="index.html" target="_parent"  ];  node [shape = box, style = "bold,filled" fillcolor="lightgray"];    Login -> Register [label = <登録ページへ移動> URL="#goToRegister" target="_parent" fontsize=13 class="goToRegister" penwidth=1.5];    Login -> UserHome [label = <<u>ログイン</u>> URL="#doLogin" target="_parent" fontsize=13 class="doLogin" penwidth=1.5];    Register -> Login [label = <ログインページへ移動> URL="#goToLogin" target="_parent" fontsize=13 class="goToLogin" penwidth=1.5];    Register -> UserHome [label = <<u>ユーザー登録</u>> URL="#doRegister" target="_parent" fontsize=13 class="doRegister" penwidth=1.5];    UserCart -> UserCart [label=<<table border="0"><tr><td align="left" href="#doRemoveCartItem" tooltip="doRemoveCartItem (idempotent)" ><u>カート内アイテム削除</u></td></tr><tr><td align="left" href="#doUpdateCartItem" tooltip="doUpdateCartItem (idempotent)" ><u>カート内アイテム更新</u></td></tr></table>> fontsize=13];    UserCart -> UserCheckout [label = <ユーザーチェックアウトへ移動> URL="#goToUserCheckout" target="_parent" fontsize=13 class="goToUserCheckout" penwidth=1.5];    UserCart -> UserHome [label = <ユーザーホームへ移動> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserCart [label = <ユーザーカートへ移動> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserCheckout -> UserHome [label = <ユーザーホームへ移動> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserOrderDetail [label = <<u>注文確定</u>> URL="#doPlaceOrder" target="_parent" fontsize=13 class="doPlaceOrder" penwidth=1.5];    UserHome -> Login [label = <<u>ログアウト</u>> URL="#doLogout" target="_parent" fontsize=13 class="doLogout" penwidth=1.5];    UserHome -> UserCart [label = <ユーザーカートへ移動> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserHome -> UserOrderHistory [label = <ユーザー注文履歴へ移動> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserHome -> UserProductList [label = <ユーザー製品リストへ移動> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserHome -> UserProfile [label = <ユーザープロフィールへ移動> URL="#goToUserProfile" target="_parent" fontsize=13 class="goToUserProfile" penwidth=1.5];    UserOrderDetail -> UserHome [label = <ユーザーホームへ移動> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderDetail -> UserOrderHistory [label = <ユーザー注文履歴へ移動> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserOrderDetail -> UserReturnRefund [label = <返品/払い戻しページへ移動> URL="#goToUserReturnRefund" target="_parent" fontsize=13 class="goToUserReturnRefund" penwidth=1.5];    UserOrderHistory -> UserHome [label = <ユーザーホームへ移動> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderHistory -> UserOrderDetail [label = <ユーザー注文詳細へ移動> URL="#goToUserOrderDetail" target="_parent" fontsize=13 class="goToUserOrderDetail" penwidth=1.5];    UserOrderHistory -> UserOrderHistory [label = <注文リストのページネーション> URL="#goPaginateOrders" target="_parent" fontsize=13 class="goPaginateOrders" penwidth=1.5];    UserProductDetail -> UserCart [label=<<table border="0"><tr><td align="left" href="#doAddToCart" tooltip="doAddToCart (unsafe)" ><b><u>カートに追加</u></b></td></tr><tr><td align="left" href="#goToUserCart" tooltip="goToUserCart (safe)" >ユーザーカートへ移動</td></tr></table>> fontsize=13];    UserProductDetail -> UserProductList [label = <ユーザー製品リストへ移動> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserProductDetail -> UserReview [label = <ユーザーレビューページへ移動> URL="#goToUserReview" target="_parent" fontsize=13 class="goToUserReview" penwidth=1.5];    UserProductList -> UserHome [label = <ユーザーホームへ移動> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProductList -> UserProductDetail [label = <ユーザー製品詳細へ移動> URL="#goToUserProductDetail" target="_parent" fontsize=13 class="goToUserProductDetail" penwidth=1.5];    UserProductList -> UserProductList [label=<<table border="0"><tr><td align="left" href="#goPaginateProducts" tooltip="goPaginateProducts (safe)" >製品リストのページネーション</td></tr><tr><td align="left" href="#goSearchProducts" tooltip="goSearchProducts (safe)" >製品検索</td></tr></table>> fontsize=13];    UserProfile -> UserHome [label = <ユーザーホームへ移動> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProfile -> UserProfile [label = <<u>ユーザープロフィール更新</u>> URL="#doUpdateUserProfile" target="_parent" fontsize=13 class="doUpdateUserProfile" penwidth=1.5];    UserReturnRefund -> UserOrderDetail [label=<<table border="0"><tr><td align="left" href="#doRequestRefund" tooltip="doRequestRefund (idempotent)" ><u>払い戻しリクエスト</u></td></tr><tr><td align="left" href="#doRequestReturn" tooltip="doRequestReturn (idempotent)" ><u>返品リクエスト</u></td></tr><tr><td align="left" href="#goToUserOrderDetail" tooltip="goToUserOrderDetail (safe)" >ユーザー注文詳細へ移動</td></tr></table>> fontsize=13];    UserReview -> UserProductDetail [label=<<table border="0"><tr><td align="left" href="#doAddReview" tooltip="doAddReview (idempotent)" ><u>レビュー追加</u></td></tr><tr><td align="left" href="#doDeleteReview" tooltip="doDeleteReview (idempotent)" ><u>レビュー削除</u></td></tr><tr><td align="left" href="#doUpdateReview" tooltip="doUpdateReview (idempotent)" ><u>レビュー更新</u></td></tr><tr><td align="left" href="#goToUserProductDetail" tooltip="goToUserProductDetail (safe)" >ユーザー製品詳細へ移動</td></tr></table>> fontsize=13];    Login [label = <ログイン> URL="#Login" target="_parent"]    Register [label = <ユーザー登録> URL="#Register" target="_parent"]    UserHome [label = <ユーザーホーム> URL="#UserHome" target="_parent"]    UserCart [label = <ユーザーカート> URL="#UserCart" target="_parent"]    UserCheckout [label = <ユーザーチェックアウト> URL="#UserCheckout" target="_parent"]    UserOrderDetail [label = <ユーザー注文詳細> URL="#UserOrderDetail" target="_parent"]    UserOrderHistory [label = <ユーザー注文履歴> URL="#UserOrderHistory" target="_parent"]    UserProductList [label = <ユーザー製品リスト> URL="#UserProductList" target="_parent"]    UserProfile [label = <ユーザープロフィール> URL="#UserProfile" target="_parent"]    UserReturnRefund [label = <返品/払い戻し> URL="#UserReturnRefund" target="_parent"]    UserProductDetail [label = <ユーザー製品詳細> URL="#UserProductDetail" target="_parent"]    UserReview [label = <ユーザーレビュー> URL="#UserReview" target="_parent"]}')
+                ]);
+                setupTagTrigger();
+                setupModeSwitch('asd-show-id', 'asd-graph-id', 'asd-graph-name');
+                setupModeSwitch('asd-show-name', 'asd-graph-name', 'asd-graph-id');
+                applySmoothScrollToLinks(document.querySelectorAll('a[href^="#"]'));
+                setupTagEventListener('account', ['Register', 'UserHome'], 'LightGreen'); setupTagEventListener('auth', ['Login', 'Register'], 'SkyBlue'); setupTagEventListener('cart', ['UserCart'], 'LightCoral'); setupTagEventListener('catalog', ['UserHome', 'UserProductDetail', 'UserProductList'], 'LightSalmon'); setupTagEventListener('checkout', ['UserCheckout'], 'Khaki'); setupTagEventListener('order', ['UserOrderDetail', 'UserOrderHistory', 'UserReturnRefund'], 'Plum'); setupTagEventListener('review', ['UserReview'], 'Wheat'); setupTagEventListener('shop', ['UserCart', 'UserCheckout', 'UserProductDetail', 'UserProductList', 'UserReview'], 'LightGreen'); setupTagEventListener('support', ['UserReturnRefund'], 'SkyBlue');
+            } catch (error) {
+                console.error("Error in main process:", error);
+            }});
+    </script>
+
+    <div class="asd-view-selector">
+        <span class="selector-label">View:</span>
+        <input type="radio" id="asd-show-id" checked name="asd-view-selector">
+        <label for="asd-show-id">id</label>
+        <input type="radio" id="asd-show-name" name="asd-view-selector">
+        <label for="asd-show-name">title</label>
+    </div>
+
+    <div class="selector-container"><span class="selector-label">Tags:</span>
+        <span class="selector-option"><input type="checkbox" id="tag-account" class="tag-trigger-checkbox" data-tag="account" name="tag-account"><label for="tag-account"> account</label></span>
+        <span class="selector-option"><input type="checkbox" id="tag-auth" class="tag-trigger-checkbox" data-tag="auth" name="tag-auth"><label for="tag-auth"> auth</label></span>
+        <span class="selector-option"><input type="checkbox" id="tag-cart" class="tag-trigger-checkbox" data-tag="cart" name="tag-cart"><label for="tag-cart"> cart</label></span>
+        <span class="selector-option"><input type="checkbox" id="tag-catalog" class="tag-trigger-checkbox" data-tag="catalog" name="tag-catalog"><label for="tag-catalog"> catalog</label></span>
+        <span class="selector-option"><input type="checkbox" id="tag-checkout" class="tag-trigger-checkbox" data-tag="checkout" name="tag-checkout"><label for="tag-checkout"> checkout</label></span>
+        <span class="selector-option"><input type="checkbox" id="tag-order" class="tag-trigger-checkbox" data-tag="order" name="tag-order"><label for="tag-order"> order</label></span>
+        <span class="selector-option"><input type="checkbox" id="tag-review" class="tag-trigger-checkbox" data-tag="review" name="tag-review"><label for="tag-review"> review</label></span>
+        <span class="selector-option"><input type="checkbox" id="tag-shop" class="tag-trigger-checkbox" data-tag="shop" name="tag-shop"><label for="tag-shop"> shop</label></span>
+        <span class="selector-option"><input type="checkbox" id="tag-support" class="tag-trigger-checkbox" data-tag="support" name="tag-support"><label for="tag-support"> support</label></span></div>
+
+    <h2>Semantic Descriptors</h2>
+
+    <div class="descriptor-list">
+
+        <ul>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Address">Address</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#address">address</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Affiliate">Affiliate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#affiliateId">affiliateId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#altText">altText</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#amount">amount</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#autoRenew">autoRenew</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#availableQuantity">availableQuantity</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#baseCost">baseCost</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#billingAddress">billingAddress</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#businessAddress">businessAddress</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#capacity">capacity</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Cart">Cart</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#CartItem">CartItem</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Category">Category</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#category">category</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#city">city</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#clickCount">clickCount</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#comment">comment</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#commissionRate">commissionRate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#confirmNewPassword">confirmNewPassword</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#contactInfo">contactInfo</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#conversionRate">conversionRate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#country">country</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#couponCode">couponCode</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#createdAt">createdAt</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#currency">currency</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#currentPassword">currentPassword</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#description">description</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#dimensions">dimensions</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Discount">Discount</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#discountAmount">discountAmount</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#discountId">discountId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#discountType">discountType</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doAddReview">doAddReview</a></li>
+            <li><span class="indicator unsafe" data-tooltip="unsafe"> </span> <a href="#doAddToCart">doAddToCart</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doDeleteReview">doDeleteReview</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doLogin">doLogin</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doLogout">doLogout</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doPlaceOrder">doPlaceOrder</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doRegister">doRegister</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doRemoveCartItem">doRemoveCartItem</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doRequestRefund">doRequestRefund</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doRequestReturn">doRequestReturn</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doUpdateCartItem">doUpdateCartItem</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doUpdateReview">doUpdateReview</a></li>
+            <li><span class="indicator idempotent" data-tooltip="idempotent"> </span> <a href="#doUpdateUserProfile">doUpdateUserProfile</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#earnings">earnings</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#email">email</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#endDate">endDate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#estimatedDeliveryDate">estimatedDeliveryDate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#expiryDate">expiryDate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#format">format</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#freeShippingThreshold">freeShippingThreshold</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#FulfillmentCenter">FulfillmentCenter</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#fullName">fullName</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goPaginateOrders">goPaginateOrders</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goPaginateProducts">goPaginateProducts</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goSearchProducts">goSearchProducts</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToLogin">goToLogin</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToRegister">goToRegister</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserCart">goToUserCart</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserCheckout">goToUserCheckout</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserHome">goToUserHome</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserOrderDetail">goToUserOrderDetail</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserOrderHistory">goToUserOrderHistory</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserProductDetail">goToUserProductDetail</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserProductList">goToUserProductList</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserProfile">goToUserProfile</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserReturnRefund">goToUserReturnRefund</a></li>
+            <li><span class="indicator safe" data-tooltip="safe"> </span> <a href="#goToUserReview">goToUserReview</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#height">height</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#helpfulVotes">helpfulVotes</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Image">Image</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#imageId">imageId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Inventory">Inventory</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#inventory">inventory</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#isActive">isActive</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#isCustomizable">isCustomizable</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#isDefault">isDefault</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#isInStock">isInStock</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#isRead">isRead</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#leadTime">leadTime</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Login">Login</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#lowStockThreshold">lowStockThreshold</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Marketplace">Marketplace</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#marketplaceId">marketplaceId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#message">message</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#minimumOrderQuantity">minimumOrderQuantity</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Money">Money</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#name">name</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#newPassword">newPassword</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Notification">Notification</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#notificationId">notificationId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#operatingHours">operatingHours</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Order">Order</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#orderId">orderId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#OrderItem">OrderItem</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#pageNumber">pageNumber</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#pageSize">pageSize</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#parentCategory">parentCategory</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#PaymentMethod">PaymentMethod</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#paymentMethod">paymentMethod</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#paymentTerms">paymentTerms</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#performanceMetrics">performanceMetrics</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#phoneNumber">phoneNumber</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#plan">plan</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#postalCode">postalCode</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#price">price</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Product">Product</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#productId">productId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#profileImage">profileImage</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Promotion">Promotion</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#quantity">quantity</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Rating">Rating</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#rating">rating</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#reason">reason</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Register">Register</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#registrationDate">registrationDate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#reservedQuantity">reservedQuantity</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Review">Review</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#reviewCount">reviewCount</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#reviewDate">reviewDate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#reviewId">reviewId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#role">role</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#searchKeyword">searchKeyword</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Seller">Seller</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#sellerId">sellerId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#shippingAddress">shippingAddress</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#ShippingMethod">ShippingMethod</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#size">size</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#startDate">startDate</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#state">state</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#status">status</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#street">street</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#subcategory">subcategory</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Subscription">Subscription</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#subscriptionId">subscriptionId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Supplier">Supplier</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#supplierId">supplierId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#taxInformation">taxInformation</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#totalAmount">totalAmount</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#trackingNumber">trackingNumber</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#updatedAt">updatedAt</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#url">url</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#User">User</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserCart">UserCart</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserCheckout">UserCheckout</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserHome">UserHome</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#userId">userId</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#username">username</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserOrderDetail">UserOrderDetail</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserOrderHistory">UserOrderHistory</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserProductDetail">UserProductDetail</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserProductList">UserProductList</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserProfile">UserProfile</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserReturnRefund">UserReturnRefund</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#UserReview">UserReview</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#validFrom">validFrom</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#validTo">validTo</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#verifiedPurchase">verifiedPurchase</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#website">website</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#weight">weight</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#width">width</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#Wishlist">Wishlist</a></li>
+            <li><span class="indicator semantic" data-tooltip="semantic"> </span> <a href="#WishlistItem">WishlistItem</a></li>
+        </ul>
+
+    </div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <span class="legend-icon semantic"></span>
+            Semantic
+        </div>
+        <div class="legend-item">
+            <span class="legend-icon safe"></span>
+            Safe
+        </div>
+        <div class="legend-item">
+            <span class="legend-icon unsafe"></span>
+            Unsafe
+        </div>
+        <div class="legend-item">
+            <span class="legend-icon idempotent"></span>
+            Idempotent
+        </div>
+    </div>
+
+    <h3><a id="Address">Address</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 住所情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#street">street</a></td>
+            <td>semantic</td>
+            <td>通り名と番号</td>
+        </tr>
+        <tr>
+            <td><a href="#city">city</a></td>
+            <td>semantic</td>
+            <td>都市名</td>
+        </tr>
+        <tr>
+            <td><a href="#state">state</a></td>
+            <td>semantic</td>
+            <td>州または県名</td>
+        </tr>
+        <tr>
+            <td><a href="#postalCode">postalCode</a></td>
+            <td>semantic</td>
+            <td>郵便番号</td>
+        </tr>
+        <tr>
+            <td><a href="#country">country</a></td>
+            <td>semantic</td>
+            <td>国名</td>
+        </tr>
+        <tr>
+            <td><a href="#phoneNumber">phoneNumber</a></td>
+            <td>semantic</td>
+            <td>電話番号</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="address">address</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 一般住所</li>
+    </ul>
+
+    <h3><a id="Affiliate">Affiliate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: アフィリエイト情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#affiliateId">affiliateId</a></td>
+            <td>semantic</td>
+            <td>アフィリエイトの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#email">email</a></td>
+            <td>semantic</td>
+            <td>ユーザーのメールアドレス</td>
+        </tr>
+        <tr>
+            <td><a href="#website">website</a></td>
+            <td>semantic</td>
+            <td>ウェブサイト</td>
+        </tr>
+        <tr>
+            <td><a href="#earnings">earnings</a></td>
+            <td>semantic</td>
+            <td>収益</td>
+        </tr>
+        <tr>
+            <td><a href="#clickCount">clickCount</a></td>
+            <td>semantic</td>
+            <td>クリック数</td>
+        </tr>
+        <tr>
+            <td><a href="#conversionRate">conversionRate</a></td>
+            <td>semantic</td>
+            <td>コンバージョン率</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="affiliateId">affiliateId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: アフィリエイトの一意の識別子</li>
+    </ul>
+
+    <h3><a id="altText">altText</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 代替テキスト</li>
+    </ul>
+
+    <h3><a id="amount">amount</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 金額</li>
+    </ul>
+
+    <h3><a id="autoRenew">autoRenew</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 自動更新</li>
+    </ul>
+
+    <h3><a id="availableQuantity">availableQuantity</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 利用可能な数量</li>
+    </ul>
+
+    <h3><a id="baseCost">baseCost</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 基本コスト</li>
+    </ul>
+
+    <h3><a id="billingAddress">billingAddress</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 請求先住所</li>
+    </ul>
+
+    <h3><a id="businessAddress">businessAddress</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 事業所住所</li>
+    </ul>
+
+    <h3><a id="capacity">capacity</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 容量</li>
+    </ul>
+
+    <h3><a id="Cart">Cart</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ショッピングカート</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#userId">userId</a></td>
+            <td>semantic</td>
+            <td>ユーザーの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#CartItem">CartItem</a></td>
+            <td>semantic</td>
+            <td>カート項目</td>
+        </tr>
+        <tr>
+            <td><a href="#totalAmount">totalAmount</a></td>
+            <td>semantic</td>
+            <td>合計金額</td>
+        </tr>
+        <tr>
+            <td><a href="#updatedAt">updatedAt</a></td>
+            <td>semantic</td>
+            <td>更新日時</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="CartItem">CartItem</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: カート項目</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#quantity">quantity</a></td>
+            <td>semantic</td>
+            <td>数量</td>
+        </tr>
+        <tr>
+            <td><a href="#price">price</a></td>
+            <td>semantic</td>
+            <td>価格</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="Category">Category</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: カテゴリー</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#description">description</a></td>
+            <td>semantic</td>
+            <td>説明</td>
+        </tr>
+        <tr>
+            <td><a href="#parentCategory">parentCategory</a></td>
+            <td>semantic</td>
+            <td>親カテゴリー</td>
+        </tr>
+        <tr>
+            <td><a href="#isActive">isActive</a></td>
+            <td>semantic</td>
+            <td>アクティブかどうか</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="category">category</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: カテゴリー</li>
+    </ul>
+
+    <h3><a id="city">city</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 都市名</li>
+    </ul>
+
+    <h3><a id="clickCount">clickCount</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: クリック数</li>
+    </ul>
+
+    <h3><a id="comment">comment</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: コメント</li>
+    </ul>
+
+    <h3><a id="commissionRate">commissionRate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 手数料率</li>
+    </ul>
+
+    <h3><a id="confirmNewPassword">confirmNewPassword</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 新しいパスワードの確認</li>
+    </ul>
+
+    <h3><a id="contactInfo">contactInfo</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 連絡先情報</li>
+    </ul>
+
+    <h3><a id="conversionRate">conversionRate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: コンバージョン率</li>
+    </ul>
+
+    <h3><a id="country">country</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 国名</li>
+    </ul>
+
+    <h3><a id="couponCode">couponCode</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: クーポンコード</li>
+    </ul>
+
+    <h3><a id="createdAt">createdAt</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 作成日時</li>
+    </ul>
+
+    <h3><a id="currency">currency</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 通貨</li>
+    </ul>
+
+    <h3><a id="currentPassword">currentPassword</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 現在のパスワード</li>
+    </ul>
+
+    <h3><a id="description">description</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 説明</li>
+    </ul>
+
+    <h3><a id="dimensions">dimensions</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 寸法</li>
+    </ul>
+
+    <h3><a id="Discount">Discount</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 割引情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#discountId">discountId</a></td>
+            <td>semantic</td>
+            <td>割引の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#description">description</a></td>
+            <td>semantic</td>
+            <td>説明</td>
+        </tr>
+        <tr>
+            <td><a href="#discountType">discountType</a></td>
+            <td>semantic</td>
+            <td>割引の種類</td>
+        </tr>
+        <tr>
+            <td><a href="#discountAmount">discountAmount</a></td>
+            <td>semantic</td>
+            <td>割引額</td>
+        </tr>
+        <tr>
+            <td><a href="#validFrom">validFrom</a></td>
+            <td>semantic</td>
+            <td>有効開始日</td>
+        </tr>
+        <tr>
+            <td><a href="#validTo">validTo</a></td>
+            <td>semantic</td>
+            <td>有効終了日</td>
+        </tr>
+        <tr>
+            <td><a href="#couponCode">couponCode</a></td>
+            <td>semantic</td>
+            <td>クーポンコード</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="discountAmount">discountAmount</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 割引額</li>
+    </ul>
+
+    <h3><a id="discountId">discountId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 割引の一意の識別子</li>
+    </ul>
+
+    <h3><a id="discountType">discountType</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 割引の種類</li>
+    </ul>
+
+    <h3><a id="doAddReview">doAddReview</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: レビュー追加</li>
+        <li>rt: <a href="#UserProductDetail">UserProductDetail</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#rating">rating</a></td>
+            <td>semantic</td>
+            <td>評価</td>
+        </tr>
+        <tr>
+            <td><a href="#comment">comment</a></td>
+            <td>semantic</td>
+            <td>コメント</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doAddToCart">doAddToCart</a></h3>
+
+    <ul>
+        <li>type: unsafe</li>
+        <li>title: カートに追加</li>
+        <li>doc: 指定された製品を指定された数量だけユーザーのショッピングカートに追加します。この操作は、Eコマースプラットフォームの中核的な機能の一つであり、ユーザーの購買意図を捕捉する重要なポイントです。実行時には、リアルタイムの在庫確認、価格の再計算、関連商品の推奨などの処理が行われます。また、ユーザーの過去の行動に基づいて、クロスセリングやアップセリングの機会を識別します。カートの状態変化は、在庫管理システムに即時に反映され、他の顧客の購買体験に影響を与えないようにします。パフォーマンスとユーザーエクスペリエンスの観点から、この操作は高速で信頼性が高く、ユーザーに明確なフィードバックを提供する必要があります。</li>
+        <li>rt: <a href="#UserCart">UserCart</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#quantity">quantity</a></td>
+            <td>semantic</td>
+            <td>数量</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doDeleteReview">doDeleteReview</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: レビュー削除</li>
+        <li>rt: <a href="#UserProductDetail">UserProductDetail</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#reviewId">reviewId</a></td>
+            <td>semantic</td>
+            <td>レビューの一意の識別子</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doLogin">doLogin</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: ログイン</li>
+        <li>rt: <a href="#UserHome">UserHome</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#email">email</a></td>
+            <td>semantic</td>
+            <td>ユーザーのメールアドレス</td>
+        </tr>
+        <tr>
+            <td><a href="#currentPassword">currentPassword</a></td>
+            <td>semantic</td>
+            <td>現在のパスワード</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doLogout">doLogout</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: ログアウト</li>
+        <li>rt: <a href="#Login">Login</a></li>
+    </ul>
+
+    <h3><a id="doPlaceOrder">doPlaceOrder</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: 注文確定</li>
+        <li>rt: <a href="#UserOrderDetail">UserOrderDetail</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#shippingAddress">shippingAddress</a></td>
+            <td>semantic</td>
+            <td>配送先住所</td>
+        </tr>
+        <tr>
+            <td><a href="#paymentMethod">paymentMethod</a></td>
+            <td>semantic</td>
+            <td>支払い方法</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doRegister">doRegister</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: ユーザー登録</li>
+        <li>rt: <a href="#UserHome">UserHome</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#email">email</a></td>
+            <td>semantic</td>
+            <td>ユーザーのメールアドレス</td>
+        </tr>
+        <tr>
+            <td><a href="#currentPassword">currentPassword</a></td>
+            <td>semantic</td>
+            <td>現在のパスワード</td>
+        </tr>
+        <tr>
+            <td><a href="#confirmNewPassword">confirmNewPassword</a></td>
+            <td>semantic</td>
+            <td>新しいパスワードの確認</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doRemoveCartItem">doRemoveCartItem</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: カート内アイテム削除</li>
+        <li>rt: <a href="#UserCart">UserCart</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doRequestRefund">doRequestRefund</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: 払い戻しリクエスト</li>
+        <li>rt: <a href="#UserOrderDetail">UserOrderDetail</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#orderId">orderId</a></td>
+            <td>semantic</td>
+            <td>注文の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#reason">reason</a></td>
+            <td>semantic</td>
+            <td>理由</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doRequestReturn">doRequestReturn</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: 返品リクエスト</li>
+        <li>rt: <a href="#UserOrderDetail">UserOrderDetail</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#orderId">orderId</a></td>
+            <td>semantic</td>
+            <td>注文の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#reason">reason</a></td>
+            <td>semantic</td>
+            <td>理由</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doUpdateCartItem">doUpdateCartItem</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: カート内アイテム更新</li>
+        <li>rt: <a href="#UserCart">UserCart</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#quantity">quantity</a></td>
+            <td>semantic</td>
+            <td>数量</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doUpdateReview">doUpdateReview</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: レビュー更新</li>
+        <li>rt: <a href="#UserProductDetail">UserProductDetail</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#reviewId">reviewId</a></td>
+            <td>semantic</td>
+            <td>レビューの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#rating">rating</a></td>
+            <td>semantic</td>
+            <td>評価</td>
+        </tr>
+        <tr>
+            <td><a href="#comment">comment</a></td>
+            <td>semantic</td>
+            <td>コメント</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="doUpdateUserProfile">doUpdateUserProfile</a></h3>
+
+    <ul>
+        <li>type: idempotent</li>
+        <li>title: ユーザープロフィール更新</li>
+        <li>rt: <a href="#UserProfile">UserProfile</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#email">email</a></td>
+            <td>semantic</td>
+            <td>ユーザーのメールアドレス</td>
+        </tr>
+        <tr>
+            <td><a href="#phoneNumber">phoneNumber</a></td>
+            <td>semantic</td>
+            <td>電話番号</td>
+        </tr>
+        <tr>
+            <td><a href="#address">address</a></td>
+            <td>semantic</td>
+            <td>一般住所</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="earnings">earnings</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 収益</li>
+    </ul>
+
+    <h3><a id="email">email</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーのメールアドレス</li>
+        <li>doc: ユーザーの主要な連絡手段。アカウント認証と重要な通知に使用されます。一意である必要があり、適切な形式検証が必要です。マーケティングコミュニケーションやトランザクション通知の送信先としても機能し、ユーザーエンゲージメントの重要な要素です。</li>
+    </ul>
+
+    <h3><a id="endDate">endDate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 終了日</li>
+    </ul>
+
+    <h3><a id="estimatedDeliveryDate">estimatedDeliveryDate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 予想配達日</li>
+    </ul>
+
+    <h3><a id="expiryDate">expiryDate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 有効期限</li>
+    </ul>
+
+    <h3><a id="format">format</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: フォーマット</li>
+    </ul>
+
+    <h3><a id="freeShippingThreshold">freeShippingThreshold</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 送料無料の閾値</li>
+    </ul>
+
+    <h3><a id="FulfillmentCenter">FulfillmentCenter</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: フルフィルメントセンター</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#address">address</a></td>
+            <td>semantic</td>
+            <td>一般住所</td>
+        </tr>
+        <tr>
+            <td><a href="#capacity">capacity</a></td>
+            <td>semantic</td>
+            <td>容量</td>
+        </tr>
+        <tr>
+            <td><a href="#operatingHours">operatingHours</a></td>
+            <td>semantic</td>
+            <td>営業時間</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="fullName">fullName</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーのフルネーム</li>
+    </ul>
+
+    <h3><a id="goPaginateOrders">goPaginateOrders</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: 注文リストのページネーション</li>
+        <li>rt: <a href="#UserOrderHistory">UserOrderHistory</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#pageNumber">pageNumber</a></td>
+            <td>semantic</td>
+            <td>ページ番号</td>
+        </tr>
+        <tr>
+            <td><a href="#pageSize">pageSize</a></td>
+            <td>semantic</td>
+            <td>ページ番号</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="goPaginateProducts">goPaginateProducts</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: 製品リストのページネーション</li>
+        <li>rt: <a href="#UserProductList">UserProductList</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#pageNumber">pageNumber</a></td>
+            <td>semantic</td>
+            <td>ページ番号</td>
+        </tr>
+        <tr>
+            <td><a href="#pageSize">pageSize</a></td>
+            <td>semantic</td>
+            <td>ページ番号</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="goSearchProducts">goSearchProducts</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: 製品検索</li>
+        <li>rt: <a href="#UserProductList">UserProductList</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#searchKeyword">searchKeyword</a></td>
+            <td>semantic</td>
+            <td>検索キーワード</td>
+        </tr>
+        <tr>
+            <td><a href="#category">category</a></td>
+            <td>semantic</td>
+            <td>カテゴリー</td>
+        </tr>
+        <tr>
+            <td><a href="#subcategory">subcategory</a></td>
+            <td>semantic</td>
+            <td>サブカテゴリー</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="goToLogin">goToLogin</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ログインページへ移動</li>
+        <li>rt: <a href="#Login">Login</a></li>
+    </ul>
+
+    <h3><a id="goToRegister">goToRegister</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: 登録ページへ移動</li>
+        <li>doc: ユーザーを新規アカウント作成ページにナビゲートします。このトランジションは、新規ユーザー獲得プロセスの開始点であり、コンバージョンファネルの重要なステップです。ユーザーエクスペリエンスを最適化し、登録の完了率を高めるために、このページへの遷移はスムーズで直感的である必要があります。また、ユーザーの現在のコンテキスト（例：閲覧していた製品ページ）を保持し、登録後にシームレスに元のコンテキストに戻れるようにすることが重要です。</li>
+        <li>rt: <a href="#Register">Register</a></li>
+    </ul>
+
+    <h3><a id="goToUserCart">goToUserCart</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザーカートへ移動</li>
+        <li>rt: <a href="#UserCart">UserCart</a></li>
+    </ul>
+
+    <h3><a id="goToUserCheckout">goToUserCheckout</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザーチェックアウトへ移動</li>
+        <li>rt: <a href="#UserCheckout">UserCheckout</a></li>
+    </ul>
+
+    <h3><a id="goToUserHome">goToUserHome</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザーホームへ移動</li>
+        <li>rt: <a href="#UserHome">UserHome</a></li>
+    </ul>
+
+    <h3><a id="goToUserOrderDetail">goToUserOrderDetail</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザー注文詳細へ移動</li>
+        <li>rt: <a href="#UserOrderDetail">UserOrderDetail</a></li>
+    </ul>
+
+    <h3><a id="goToUserOrderHistory">goToUserOrderHistory</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザー注文履歴へ移動</li>
+        <li>rt: <a href="#UserOrderHistory">UserOrderHistory</a></li>
+    </ul>
+
+    <h3><a id="goToUserProductDetail">goToUserProductDetail</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザー製品詳細へ移動</li>
+        <li>rt: <a href="#UserProductDetail">UserProductDetail</a></li>
+    </ul>
+
+    <h3><a id="goToUserProductList">goToUserProductList</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザー製品リストへ移動</li>
+        <li>rt: <a href="#UserProductList">UserProductList</a></li>
+    </ul>
+
+    <h3><a id="goToUserProfile">goToUserProfile</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザープロフィールへ移動</li>
+        <li>rt: <a href="#UserProfile">UserProfile</a></li>
+    </ul>
+
+    <h3><a id="goToUserReturnRefund">goToUserReturnRefund</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: 返品/払い戻しページへ移動</li>
+        <li>rt: <a href="#UserReturnRefund">UserReturnRefund</a></li>
+    </ul>
+
+    <h3><a id="goToUserReview">goToUserReview</a></h3>
+
+    <ul>
+        <li>type: safe</li>
+        <li>title: ユーザーレビューページへ移動</li>
+        <li>rt: <a href="#UserReview">UserReview</a></li>
+    </ul>
+
+    <h3><a id="height">height</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 高さ</li>
+    </ul>
+
+    <h3><a id="helpfulVotes">helpfulVotes</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 役立つ投票数</li>
+    </ul>
+
+    <h3><a id="Image">Image</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 画像情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#imageId">imageId</a></td>
+            <td>semantic</td>
+            <td>画像の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#url">url</a></td>
+            <td>semantic</td>
+            <td>URL</td>
+        </tr>
+        <tr>
+            <td><a href="#altText">altText</a></td>
+            <td>semantic</td>
+            <td>代替テキスト</td>
+        </tr>
+        <tr>
+            <td><a href="#width">width</a></td>
+            <td>semantic</td>
+            <td>幅</td>
+        </tr>
+        <tr>
+            <td><a href="#height">height</a></td>
+            <td>semantic</td>
+            <td>高さ</td>
+        </tr>
+        <tr>
+            <td><a href="#size">size</a></td>
+            <td>semantic</td>
+            <td>サイズ</td>
+        </tr>
+        <tr>
+            <td><a href="#format">format</a></td>
+            <td>semantic</td>
+            <td>フォーマット</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="imageId">imageId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 画像の一意の識別子</li>
+    </ul>
+
+    <h3><a id="Inventory">Inventory</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 在庫</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#quantity">quantity</a></td>
+            <td>semantic</td>
+            <td>数量</td>
+        </tr>
+        <tr>
+            <td><a href="#isInStock">isInStock</a></td>
+            <td>semantic</td>
+            <td>在庫があるかどうか</td>
+        </tr>
+        <tr>
+            <td><a href="#lowStockThreshold">lowStockThreshold</a></td>
+            <td>semantic</td>
+            <td>在庫低下警告のしきい値</td>
+        </tr>
+        <tr>
+            <td><a href="#reservedQuantity">reservedQuantity</a></td>
+            <td>semantic</td>
+            <td>予約済みの数量</td>
+        </tr>
+        <tr>
+            <td><a href="#availableQuantity">availableQuantity</a></td>
+            <td>semantic</td>
+            <td>利用可能な数量</td>
+        </tr>
+        <tr>
+            <td><a href="#updatedAt">updatedAt</a></td>
+            <td>semantic</td>
+            <td>更新日時</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="inventory">inventory</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 在庫数</li>
+    </ul>
+
+    <h3><a id="isActive">isActive</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: アクティブかどうか</li>
+    </ul>
+
+    <h3><a id="isCustomizable">isCustomizable</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: カスタマイズ可能かどうか</li>
+    </ul>
+
+    <h3><a id="isDefault">isDefault</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: デフォルトかどうか</li>
+    </ul>
+
+    <h3><a id="isInStock">isInStock</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 在庫があるかどうか</li>
+    </ul>
+
+    <h3><a id="isRead">isRead</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 既読かどうか</li>
+    </ul>
+
+    <h3><a id="leadTime">leadTime</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: リードタイム</li>
+    </ul>
+
+    <h3><a id="Login">Login</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ログイン</li>
+        <li>tag: <a href="#tag-auth">auth</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToRegister">goToRegister</a></td>
+            <td>safe</td>
+            <td>登録ページへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doLogin">doLogin</a></td>
+            <td>idempotent</td>
+            <td>ログイン</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="lowStockThreshold">lowStockThreshold</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 在庫低下警告のしきい値</li>
+    </ul>
+
+    <h3><a id="Marketplace">Marketplace</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: マーケットプレイス情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#marketplaceId">marketplaceId</a></td>
+            <td>semantic</td>
+            <td>マーケットプレイスの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#description">description</a></td>
+            <td>semantic</td>
+            <td>説明</td>
+        </tr>
+        <tr>
+            <td><a href="#commissionRate">commissionRate</a></td>
+            <td>semantic</td>
+            <td>手数料率</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="marketplaceId">marketplaceId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: マーケットプレイスの一意の識別子</li>
+    </ul>
+
+    <h3><a id="message">message</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: メッセージ</li>
+    </ul>
+
+    <h3><a id="minimumOrderQuantity">minimumOrderQuantity</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 最小注文数量</li>
+    </ul>
+
+    <h3><a id="Money">Money</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 金額</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#amount">amount</a></td>
+            <td>semantic</td>
+            <td>金額</td>
+        </tr>
+        <tr>
+            <td><a href="#currency">currency</a></td>
+            <td>semantic</td>
+            <td>通貨</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="name">name</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 名前（製品名、カテゴリー名など）</li>
+        <li>doc: 製品の表示名。SEO最適化と製品検索のために重要。多言語サポートを考慮する必要があります。顧客が製品を識別し、理解するための主要な要素であり、検索結果や製品リストでの表示に使用されます。わかりやすく、魅力的で、かつ正確である必要があります。</li>
+    </ul>
+
+    <h3><a id="newPassword">newPassword</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 新しいパスワード</li>
+    </ul>
+
+    <h3><a id="Notification">Notification</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 通知情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#notificationId">notificationId</a></td>
+            <td>semantic</td>
+            <td>通知の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#userId">userId</a></td>
+            <td>semantic</td>
+            <td>ユーザーの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#message">message</a></td>
+            <td>semantic</td>
+            <td>メッセージ</td>
+        </tr>
+        <tr>
+            <td><a href="#isRead">isRead</a></td>
+            <td>semantic</td>
+            <td>既読かどうか</td>
+        </tr>
+        <tr>
+            <td><a href="#createdAt">createdAt</a></td>
+            <td>semantic</td>
+            <td>作成日時</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="notificationId">notificationId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 通知の一意の識別子</li>
+    </ul>
+
+    <h3><a id="operatingHours">operatingHours</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 営業時間</li>
+    </ul>
+
+    <h3><a id="Order">Order</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 注文</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#orderId">orderId</a></td>
+            <td>semantic</td>
+            <td>注文の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#userId">userId</a></td>
+            <td>semantic</td>
+            <td>ユーザーの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#OrderItem">OrderItem</a></td>
+            <td>semantic</td>
+            <td>注文項目</td>
+        </tr>
+        <tr>
+            <td><a href="#totalAmount">totalAmount</a></td>
+            <td>semantic</td>
+            <td>合計金額</td>
+        </tr>
+        <tr>
+            <td><a href="#status">status</a></td>
+            <td>semantic</td>
+            <td>状態（注文状態など）</td>
+        </tr>
+        <tr>
+            <td><a href="#shippingAddress">shippingAddress</a></td>
+            <td>semantic</td>
+            <td>配送先住所</td>
+        </tr>
+        <tr>
+            <td><a href="#billingAddress">billingAddress</a></td>
+            <td>semantic</td>
+            <td>請求先住所</td>
+        </tr>
+        <tr>
+            <td><a href="#paymentMethod">paymentMethod</a></td>
+            <td>semantic</td>
+            <td>支払い方法</td>
+        </tr>
+        <tr>
+            <td><a href="#ShippingMethod">ShippingMethod</a></td>
+            <td>semantic</td>
+            <td>配送方法</td>
+        </tr>
+        <tr>
+            <td><a href="#trackingNumber">trackingNumber</a></td>
+            <td>semantic</td>
+            <td>追跡番号</td>
+        </tr>
+        <tr>
+            <td><a href="#createdAt">createdAt</a></td>
+            <td>semantic</td>
+            <td>作成日時</td>
+        </tr>
+        <tr>
+            <td><a href="#updatedAt">updatedAt</a></td>
+            <td>semantic</td>
+            <td>更新日時</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="orderId">orderId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 注文の一意の識別子</li>
+    </ul>
+
+    <h3><a id="OrderItem">OrderItem</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 注文項目</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#quantity">quantity</a></td>
+            <td>semantic</td>
+            <td>数量</td>
+        </tr>
+        <tr>
+            <td><a href="#price">price</a></td>
+            <td>semantic</td>
+            <td>価格</td>
+        </tr>
+        <tr>
+            <td><a href="#discountId">discountId</a></td>
+            <td>semantic</td>
+            <td>割引の一意の識別子</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="pageNumber">pageNumber</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ページ番号</li>
+    </ul>
+
+    <h3><a id="pageSize">pageSize</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ページ番号</li>
+    </ul>
+
+    <h3><a id="parentCategory">parentCategory</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 親カテゴリー</li>
+    </ul>
+
+    <h3><a id="PaymentMethod">PaymentMethod</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 支払い方法</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#paymentMethod">paymentMethod</a></td>
+            <td>semantic</td>
+            <td>支払い方法</td>
+        </tr>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#description">description</a></td>
+            <td>semantic</td>
+            <td>説明</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="paymentMethod">paymentMethod</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 支払い方法</li>
+    </ul>
+
+    <h3><a id="paymentTerms">paymentTerms</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 支払い条件</li>
+    </ul>
+
+    <h3><a id="performanceMetrics">performanceMetrics</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: パフォーマンス指標</li>
+    </ul>
+
+    <h3><a id="phoneNumber">phoneNumber</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 電話番号</li>
+    </ul>
+
+    <h3><a id="plan">plan</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: プラン</li>
+    </ul>
+
+    <h3><a id="postalCode">postalCode</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 郵便番号</li>
+    </ul>
+
+    <h3><a id="price">price</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 価格</li>
+        <li>doc: 製品の現在の価格。動的価格設定アルゴリズム、プロモーション、税金計算と連携します。異なる通貨と価格帯をサポートする必要があります。顧客の購買決定に直接影響を与え、競争力と収益性のバランスを取るための重要な要素です。価格履歴の追跡や、マーケットプレイス全体の価格動向分析にも使用されます。</li>
+    </ul>
+
+    <h3><a id="Product">Product</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 製品情報</li>
+        <li>doc: プラットフォーム上で販売される個々の商品やサービスを表します。物理的な商品、デジタル製品、サービスなど、多様な製品タイプをサポートします。製品情報の正確性と完全性は、顧客の購買決定とプラットフォームの信頼性に直接影響します。検索エンジン、推奨システム、在庫管理システムなど、多くのコンポーネントと相互作用する中心的なエンティティです。</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#description">description</a></td>
+            <td>semantic</td>
+            <td>説明</td>
+        </tr>
+        <tr>
+            <td><a href="#price">price</a></td>
+            <td>semantic</td>
+            <td>価格</td>
+        </tr>
+        <tr>
+            <td><a href="#category">category</a></td>
+            <td>semantic</td>
+            <td>カテゴリー</td>
+        </tr>
+        <tr>
+            <td><a href="#subcategory">subcategory</a></td>
+            <td>semantic</td>
+            <td>サブカテゴリー</td>
+        </tr>
+        <tr>
+            <td><a href="#inventory">inventory</a></td>
+            <td>semantic</td>
+            <td>在庫数</td>
+        </tr>
+        <tr>
+            <td><a href="#weight">weight</a></td>
+            <td>semantic</td>
+            <td>重量</td>
+        </tr>
+        <tr>
+            <td><a href="#dimensions">dimensions</a></td>
+            <td>semantic</td>
+            <td>寸法</td>
+        </tr>
+        <tr>
+            <td><a href="#isCustomizable">isCustomizable</a></td>
+            <td>semantic</td>
+            <td>カスタマイズ可能かどうか</td>
+        </tr>
+        <tr>
+            <td><a href="#createdAt">createdAt</a></td>
+            <td>semantic</td>
+            <td>作成日時</td>
+        </tr>
+        <tr>
+            <td><a href="#updatedAt">updatedAt</a></td>
+            <td>semantic</td>
+            <td>更新日時</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="productId">productId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 製品の一意の識別子</li>
+        <li>doc: 製品の一意の識別子。SKU（Stock Keeping Unit）と連携し、在庫管理システムとの整合性を保ちます。注文処理、在庫追跡、製品検索など、多くのシステム機能で使用される重要な参照ポイントです。グローバルユニークである必要があり、マルチベンダー環境での製品の一意性を保証します。</li>
+    </ul>
+
+    <h3><a id="profileImage">profileImage</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーのプロファイル画像URL</li>
+    </ul>
+
+    <h3><a id="Promotion">Promotion</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: プロモーション</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#description">description</a></td>
+            <td>semantic</td>
+            <td>説明</td>
+        </tr>
+        <tr>
+            <td><a href="#discountType">discountType</a></td>
+            <td>semantic</td>
+            <td>割引の種類</td>
+        </tr>
+        <tr>
+            <td><a href="#discountAmount">discountAmount</a></td>
+            <td>semantic</td>
+            <td>割引額</td>
+        </tr>
+        <tr>
+            <td><a href="#validFrom">validFrom</a></td>
+            <td>semantic</td>
+            <td>有効開始日</td>
+        </tr>
+        <tr>
+            <td><a href="#validTo">validTo</a></td>
+            <td>semantic</td>
+            <td>有効終了日</td>
+        </tr>
+        <tr>
+            <td><a href="#couponCode">couponCode</a></td>
+            <td>semantic</td>
+            <td>クーポンコード</td>
+        </tr>
+        <tr>
+            <td><a href="#isActive">isActive</a></td>
+            <td>semantic</td>
+            <td>アクティブかどうか</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="quantity">quantity</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 数量</li>
+        <li>doc: カートに追加する製品の数量。この値は、在庫の可用性チェックや価格計算に使用されます。また、バルク購入や数量割引の適用条件としても機能します。</li>
+    </ul>
+
+    <h3><a id="Rating">Rating</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 評価</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#rating">rating</a></td>
+            <td>semantic</td>
+            <td>評価</td>
+        </tr>
+        <tr>
+            <td><a href="#reviewCount">reviewCount</a></td>
+            <td>semantic</td>
+            <td>レビューカウント</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="rating">rating</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 評価</li>
+    </ul>
+
+    <h3><a id="reason">reason</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 理由</li>
+    </ul>
+
+    <h3><a id="Register">Register</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザー登録</li>
+        <li>tag: <a href="#tag-auth">auth</a>, <a href="#tag-account">account</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToLogin">goToLogin</a></td>
+            <td>safe</td>
+            <td>ログインページへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doRegister">doRegister</a></td>
+            <td>idempotent</td>
+            <td>ユーザー登録</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="registrationDate">registrationDate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 登録日時</li>
+    </ul>
+
+    <h3><a id="reservedQuantity">reservedQuantity</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 予約済みの数量</li>
+    </ul>
+
+    <h3><a id="Review">Review</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: レビュー情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#reviewId">reviewId</a></td>
+            <td>semantic</td>
+            <td>レビューの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#userId">userId</a></td>
+            <td>semantic</td>
+            <td>ユーザーの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#rating">rating</a></td>
+            <td>semantic</td>
+            <td>評価</td>
+        </tr>
+        <tr>
+            <td><a href="#comment">comment</a></td>
+            <td>semantic</td>
+            <td>コメント</td>
+        </tr>
+        <tr>
+            <td><a href="#reviewDate">reviewDate</a></td>
+            <td>semantic</td>
+            <td>レビュー日</td>
+        </tr>
+        <tr>
+            <td><a href="#helpfulVotes">helpfulVotes</a></td>
+            <td>semantic</td>
+            <td>役立つ投票数</td>
+        </tr>
+        <tr>
+            <td><a href="#verifiedPurchase">verifiedPurchase</a></td>
+            <td>semantic</td>
+            <td>確認済み購入</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="reviewCount">reviewCount</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: レビューカウント</li>
+    </ul>
+
+    <h3><a id="reviewDate">reviewDate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: レビュー日</li>
+    </ul>
+
+    <h3><a id="reviewId">reviewId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: レビューの一意の識別子</li>
+    </ul>
+
+    <h3><a id="role">role</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: システムにおけるユーザーの役割</li>
+        <li>doc: システム内でのユーザーの権限レベルを定義します。例：CUSTOMER, SELLER, AFFILIATE, ADMIN。役割ベースのアクセス制御（RBAC）システムと連携し、ユーザーが実行できる操作と表示できる情報を決定します。プラットフォームのセキュリティとユーザー体験のカスタマイズに不可欠です。</li>
+    </ul>
+
+    <h3><a id="searchKeyword">searchKeyword</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 検索キーワード</li>
+    </ul>
+
+    <h3><a id="Seller">Seller</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 販売者情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#sellerId">sellerId</a></td>
+            <td>semantic</td>
+            <td>販売者の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#email">email</a></td>
+            <td>semantic</td>
+            <td>ユーザーのメールアドレス</td>
+        </tr>
+        <tr>
+            <td><a href="#phoneNumber">phoneNumber</a></td>
+            <td>semantic</td>
+            <td>電話番号</td>
+        </tr>
+        <tr>
+            <td><a href="#businessAddress">businessAddress</a></td>
+            <td>semantic</td>
+            <td>事業所住所</td>
+        </tr>
+        <tr>
+            <td><a href="#taxInformation">taxInformation</a></td>
+            <td>semantic</td>
+            <td>税務情報</td>
+        </tr>
+        <tr>
+            <td><a href="#performanceMetrics">performanceMetrics</a></td>
+            <td>semantic</td>
+            <td>パフォーマンス指標</td>
+        </tr>
+        <tr>
+            <td><a href="#createdAt">createdAt</a></td>
+            <td>semantic</td>
+            <td>作成日時</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="sellerId">sellerId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 販売者の一意の識別子</li>
+    </ul>
+
+    <h3><a id="shippingAddress">shippingAddress</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 配送先住所</li>
+    </ul>
+
+    <h3><a id="ShippingMethod">ShippingMethod</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 配送方法</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#description">description</a></td>
+            <td>semantic</td>
+            <td>説明</td>
+        </tr>
+        <tr>
+            <td><a href="#baseCost">baseCost</a></td>
+            <td>semantic</td>
+            <td>基本コスト</td>
+        </tr>
+        <tr>
+            <td><a href="#estimatedDeliveryDate">estimatedDeliveryDate</a></td>
+            <td>semantic</td>
+            <td>予想配達日</td>
+        </tr>
+        <tr>
+            <td><a href="#freeShippingThreshold">freeShippingThreshold</a></td>
+            <td>semantic</td>
+            <td>送料無料の閾値</td>
+        </tr>
+        <tr>
+            <td><a href="#isActive">isActive</a></td>
+            <td>semantic</td>
+            <td>アクティブかどうか</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="size">size</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: サイズ</li>
+    </ul>
+
+    <h3><a id="startDate">startDate</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 開始日</li>
+    </ul>
+
+    <h3><a id="state">state</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 州または県名</li>
+    </ul>
+
+    <h3><a id="status">status</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 状態（注文状態など）</li>
+    </ul>
+
+    <h3><a id="street">street</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 通り名と番号</li>
+    </ul>
+
+    <h3><a id="subcategory">subcategory</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: サブカテゴリー</li>
+    </ul>
+
+    <h3><a id="Subscription">Subscription</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: サブスクリプション情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#subscriptionId">subscriptionId</a></td>
+            <td>semantic</td>
+            <td>サブスクリプションの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#userId">userId</a></td>
+            <td>semantic</td>
+            <td>ユーザーの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#plan">plan</a></td>
+            <td>semantic</td>
+            <td>プラン</td>
+        </tr>
+        <tr>
+            <td><a href="#startDate">startDate</a></td>
+            <td>semantic</td>
+            <td>開始日</td>
+        </tr>
+        <tr>
+            <td><a href="#endDate">endDate</a></td>
+            <td>semantic</td>
+            <td>終了日</td>
+        </tr>
+        <tr>
+            <td><a href="#status">status</a></td>
+            <td>semantic</td>
+            <td>状態（注文状態など）</td>
+        </tr>
+        <tr>
+            <td><a href="#autoRenew">autoRenew</a></td>
+            <td>semantic</td>
+            <td>自動更新</td>
+        </tr>
+        <tr>
+            <td><a href="#price">price</a></td>
+            <td>semantic</td>
+            <td>価格</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="subscriptionId">subscriptionId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: サブスクリプションの一意の識別子</li>
+    </ul>
+
+    <h3><a id="Supplier">Supplier</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 供給者情報</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#supplierId">supplierId</a></td>
+            <td>semantic</td>
+            <td>供給者の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#name">name</a></td>
+            <td>semantic</td>
+            <td>名前（製品名、カテゴリー名など）</td>
+        </tr>
+        <tr>
+            <td><a href="#contactInfo">contactInfo</a></td>
+            <td>semantic</td>
+            <td>連絡先情報</td>
+        </tr>
+        <tr>
+            <td><a href="#rating">rating</a></td>
+            <td>semantic</td>
+            <td>評価</td>
+        </tr>
+        <tr>
+            <td><a href="#paymentTerms">paymentTerms</a></td>
+            <td>semantic</td>
+            <td>支払い条件</td>
+        </tr>
+        <tr>
+            <td><a href="#leadTime">leadTime</a></td>
+            <td>semantic</td>
+            <td>リードタイム</td>
+        </tr>
+        <tr>
+            <td><a href="#minimumOrderQuantity">minimumOrderQuantity</a></td>
+            <td>semantic</td>
+            <td>最小注文数量</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="supplierId">supplierId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 供給者の一意の識別子</li>
+    </ul>
+
+    <h3><a id="taxInformation">taxInformation</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 税務情報</li>
+    </ul>
+
+    <h3><a id="totalAmount">totalAmount</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 合計金額</li>
+    </ul>
+
+    <h3><a id="trackingNumber">trackingNumber</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 追跡番号</li>
+    </ul>
+
+    <h3><a id="updatedAt">updatedAt</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 更新日時</li>
+    </ul>
+
+    <h3><a id="url">url</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: URL</li>
+    </ul>
+
+    <h3><a id="User">User</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザー情報</li>
+        <li>doc: プラットフォーム上の個々のアカウントを表します。顧客、販売者、アフィリエイト、管理者など、様々な役割を持つユーザーを含みます。ユーザーの行動追跡、認証、パーソナライゼーション、権限管理の基盤となる重要なエンティティです。</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#userId">userId</a></td>
+            <td>semantic</td>
+            <td>ユーザーの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#username">username</a></td>
+            <td>semantic</td>
+            <td>ユーザーのユーザー名</td>
+        </tr>
+        <tr>
+            <td><a href="#email">email</a></td>
+            <td>semantic</td>
+            <td>ユーザーのメールアドレス</td>
+        </tr>
+        <tr>
+            <td><a href="#fullName">fullName</a></td>
+            <td>semantic</td>
+            <td>ユーザーのフルネーム</td>
+        </tr>
+        <tr>
+            <td><a href="#profileImage">profileImage</a></td>
+            <td>semantic</td>
+            <td>ユーザーのプロファイル画像URL</td>
+        </tr>
+        <tr>
+            <td><a href="#role">role</a></td>
+            <td>semantic</td>
+            <td>システムにおけるユーザーの役割</td>
+        </tr>
+        <tr>
+            <td><a href="#createdAt">createdAt</a></td>
+            <td>semantic</td>
+            <td>作成日時</td>
+        </tr>
+        <tr>
+            <td><a href="#updatedAt">updatedAt</a></td>
+            <td>semantic</td>
+            <td>更新日時</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserCart">UserCart</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーカート</li>
+        <li>tag: <a href="#tag-cart">cart</a>, <a href="#tag-shop">shop</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserCheckout">goToUserCheckout</a></td>
+            <td>safe</td>
+            <td>ユーザーチェックアウトへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserHome">goToUserHome</a></td>
+            <td>safe</td>
+            <td>ユーザーホームへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doUpdateCartItem">doUpdateCartItem</a></td>
+            <td>idempotent</td>
+            <td>カート内アイテム更新</td>
+        </tr>
+        <tr>
+            <td><a href="#doRemoveCartItem">doRemoveCartItem</a></td>
+            <td>idempotent</td>
+            <td>カート内アイテム削除</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserCheckout">UserCheckout</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーチェックアウト</li>
+        <li>tag: <a href="#tag-checkout">checkout</a>, <a href="#tag-shop">shop</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserCart">goToUserCart</a></td>
+            <td>safe</td>
+            <td>ユーザーカートへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserHome">goToUserHome</a></td>
+            <td>safe</td>
+            <td>ユーザーホームへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doPlaceOrder">doPlaceOrder</a></td>
+            <td>idempotent</td>
+            <td>注文確定</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserHome">UserHome</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーホーム</li>
+        <li>tag: <a href="#tag-account">account</a>, <a href="#tag-catalog">catalog</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserProductList">goToUserProductList</a></td>
+            <td>safe</td>
+            <td>ユーザー製品リストへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserCart">goToUserCart</a></td>
+            <td>safe</td>
+            <td>ユーザーカートへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserOrderHistory">goToUserOrderHistory</a></td>
+            <td>safe</td>
+            <td>ユーザー注文履歴へ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserProfile">goToUserProfile</a></td>
+            <td>safe</td>
+            <td>ユーザープロフィールへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doLogout">doLogout</a></td>
+            <td>idempotent</td>
+            <td>ログアウト</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="userId">userId</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーの一意の識別子</li>
+        <li>doc: ユーザーの一意の識別子。UUIDを使用し、予測不可能で安全な値を保証します。システム全体でユーザーを一意に識別するために使用され、セキュリティとデータ整合性の基盤となります。</li>
+    </ul>
+
+    <h3><a id="username">username</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーのユーザー名</li>
+    </ul>
+
+    <h3><a id="UserOrderDetail">UserOrderDetail</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザー注文詳細</li>
+        <li>tag: <a href="#tag-order">order</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserOrderHistory">goToUserOrderHistory</a></td>
+            <td>safe</td>
+            <td>ユーザー注文履歴へ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserHome">goToUserHome</a></td>
+            <td>safe</td>
+            <td>ユーザーホームへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserReturnRefund">goToUserReturnRefund</a></td>
+            <td>safe</td>
+            <td>返品/払い戻しページへ移動</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserOrderHistory">UserOrderHistory</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザー注文履歴</li>
+        <li>tag: <a href="#tag-order">order</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserOrderDetail">goToUserOrderDetail</a></td>
+            <td>safe</td>
+            <td>ユーザー注文詳細へ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserHome">goToUserHome</a></td>
+            <td>safe</td>
+            <td>ユーザーホームへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goPaginateOrders">goPaginateOrders</a></td>
+            <td>safe</td>
+            <td>注文リストのページネーション</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserProductDetail">UserProductDetail</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザー製品詳細</li>
+        <li>tag: <a href="#tag-catalog">catalog</a>, <a href="#tag-shop">shop</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserProductList">goToUserProductList</a></td>
+            <td>safe</td>
+            <td>ユーザー製品リストへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserCart">goToUserCart</a></td>
+            <td>safe</td>
+            <td>ユーザーカートへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserReview">goToUserReview</a></td>
+            <td>safe</td>
+            <td>ユーザーレビューページへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doAddToCart">doAddToCart</a></td>
+            <td>unsafe</td>
+            <td>カートに追加</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserProductList">UserProductList</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザー製品リスト</li>
+        <li>tag: <a href="#tag-catalog">catalog</a>, <a href="#tag-shop">shop</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserProductDetail">goToUserProductDetail</a></td>
+            <td>safe</td>
+            <td>ユーザー製品詳細へ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goToUserHome">goToUserHome</a></td>
+            <td>safe</td>
+            <td>ユーザーホームへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#goSearchProducts">goSearchProducts</a></td>
+            <td>safe</td>
+            <td>製品検索</td>
+        </tr>
+        <tr>
+            <td><a href="#goPaginateProducts">goPaginateProducts</a></td>
+            <td>safe</td>
+            <td>製品リストのページネーション</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserProfile">UserProfile</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザープロフィール</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserHome">goToUserHome</a></td>
+            <td>safe</td>
+            <td>ユーザーホームへ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doUpdateUserProfile">doUpdateUserProfile</a></td>
+            <td>idempotent</td>
+            <td>ユーザープロフィール更新</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserReturnRefund">UserReturnRefund</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 返品/払い戻し</li>
+        <li>tag: <a href="#tag-support">support</a>, <a href="#tag-order">order</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserOrderDetail">goToUserOrderDetail</a></td>
+            <td>safe</td>
+            <td>ユーザー注文詳細へ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doRequestReturn">doRequestReturn</a></td>
+            <td>idempotent</td>
+            <td>返品リクエスト</td>
+        </tr>
+        <tr>
+            <td><a href="#doRequestRefund">doRequestRefund</a></td>
+            <td>idempotent</td>
+            <td>払い戻しリクエスト</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="UserReview">UserReview</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ユーザーレビュー</li>
+        <li>tag: <a href="#tag-review">review</a>, <a href="#tag-shop">shop</a></li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#goToUserProductDetail">goToUserProductDetail</a></td>
+            <td>safe</td>
+            <td>ユーザー製品詳細へ移動</td>
+        </tr>
+        <tr>
+            <td><a href="#doAddReview">doAddReview</a></td>
+            <td>idempotent</td>
+            <td>レビュー追加</td>
+        </tr>
+        <tr>
+            <td><a href="#doUpdateReview">doUpdateReview</a></td>
+            <td>idempotent</td>
+            <td>レビュー更新</td>
+        </tr>
+        <tr>
+            <td><a href="#doDeleteReview">doDeleteReview</a></td>
+            <td>idempotent</td>
+            <td>レビュー削除</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="validFrom">validFrom</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 有効開始日</li>
+    </ul>
+
+    <h3><a id="validTo">validTo</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 有効終了日</li>
+    </ul>
+
+    <h3><a id="verifiedPurchase">verifiedPurchase</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 確認済み購入</li>
+    </ul>
+
+    <h3><a id="website">website</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ウェブサイト</li>
+    </ul>
+
+    <h3><a id="weight">weight</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 重量</li>
+    </ul>
+
+    <h3><a id="width">width</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: 幅</li>
+    </ul>
+
+    <h3><a id="Wishlist">Wishlist</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ウィッシュリスト</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#userId">userId</a></td>
+            <td>semantic</td>
+            <td>ユーザーの一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#WishlistItem">WishlistItem</a></td>
+            <td>semantic</td>
+            <td>ウィッシュリスト項目</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3><a id="WishlistItem">WishlistItem</a></h3>
+
+    <ul>
+        <li>type: semantic</li>
+        <li>title: ウィッシュリスト項目</li>
+        <li>descriptor</li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="#productId">productId</a></td>
+            <td>semantic</td>
+            <td>製品の一意の識別子</td>
+        </tr>
+        <tr>
+            <td><a href="#updatedAt">updatedAt</a></td>
+            <td>semantic</td>
+            <td>更新日時</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr />
+
+    <h2>Profile</h2>
+
+    <pre><code>{
+    &quot;$schema&quot;: &quot;https://alps-io.github.io/schemas/alps.json&quot;,
+    &quot;alps&quot;: {
+        &quot;title&quot;: &quot;ALPS大規模マルチベンダーEコマースプラットフォーム&quot;,
+        &quot;version&quot;: &quot;1.0&quot;,
+        &quot;doc&quot;: {
+            &quot;value&quot;: &quot;このALPS定義は、AmazonのようなマルチベンダーEコマースプラットフォームに必要な主要コンポーネントをカバーしています。ユーザー管理、製品カタログ、注文処理、在庫管理、マーケットプレイス機能、フルフィルメント、アフィリエイトプログラム、サブスクリプションサービスなど、現代の複雑なEコマースシステムの主要機能を網羅しています。（遷移図はユーザーサイドのみ）&quot;
+        },
+        &quot;descriptor&quot;: [
+            {&quot;id&quot;: &quot;userId&quot;, &quot;title&quot;: &quot;ユーザーの一意の識別子&quot;, &quot;doc&quot;: {
+                &quot;value&quot;: &quot;ユーザーの一意の識別子。UUIDを使用し、予測不可能で安全な値を保証します。システム全体でユーザーを一意に識別するために使用され、セキュリティとデータ整合性の基盤となります。&quot;
+            }},
+            {&quot;id&quot;: &quot;username&quot;, &quot;title&quot;: &quot;ユーザーのユーザー名&quot;},
+            {&quot;id&quot;: &quot;email&quot;, &quot;title&quot;: &quot;ユーザーのメールアドレス&quot;, &quot;doc&quot;: {
+                &quot;value&quot;: &quot;ユーザーの主要な連絡手段。アカウント認証と重要な通知に使用されます。一意である必要があり、適切な形式検証が必要です。マーケティングコミュニケーションやトランザクション通知の送信先としても機能し、ユーザーエンゲージメントの重要な要素です。&quot;
+            }},
+            {&quot;id&quot;: &quot;fullName&quot;, &quot;title&quot;: &quot;ユーザーのフルネーム&quot;},
+            {&quot;id&quot;: &quot;profileImage&quot;, &quot;title&quot;: &quot;ユーザーのプロファイル画像URL&quot;},
+            {&quot;id&quot;: &quot;role&quot;, &quot;title&quot;: &quot;システムにおけるユーザーの役割&quot;, &quot;doc&quot;: {
+                &quot;value&quot;: &quot;システム内でのユーザーの権限レベルを定義します。例：CUSTOMER, SELLER, AFFILIATE, ADMIN。役割ベースのアクセス制御（RBAC）システムと連携し、ユーザーが実行できる操作と表示できる情報を決定します。プラットフォームのセキュリティとユーザー体験のカスタマイズに不可欠です。&quot;,
+                &quot;link&quot;: [
+                    {
+                        &quot;rel&quot;: &quot;describedby&quot;,
+                        &quot;href&quot;: &quot;role.md&quot;
+                    }
+                ]
+            }},
+            {&quot;id&quot;: &quot;productId&quot;, &quot;title&quot;: &quot;製品の一意の識別子&quot;,
+                &quot;doc&quot;: {
+                    &quot;value&quot;: &quot;製品の一意の識別子。SKU（Stock Keeping Unit）と連携し、在庫管理システムとの整合性を保ちます。注文処理、在庫追跡、製品検索など、多くのシステム機能で使用される重要な参照ポイントです。グローバルユニークである必要があり、マルチベンダー環境での製品の一意性を保証します。&quot;
+                }
+            },
+            {&quot;id&quot;: &quot;name&quot;, &quot;title&quot;: &quot;名前（製品名、カテゴリー名など）&quot;,
+                &quot;doc&quot;: {
+                    &quot;value&quot;: &quot;製品の表示名。SEO最適化と製品検索のために重要。多言語サポートを考慮する必要があります。顧客が製品を識別し、理解するための主要な要素であり、検索結果や製品リストでの表示に使用されます。わかりやすく、魅力的で、かつ正確である必要があります。&quot;
+                }},
+            {&quot;id&quot;: &quot;description&quot;, &quot;title&quot;: &quot;説明&quot;},
+            {&quot;id&quot;: &quot;price&quot;, &quot;title&quot;: &quot;価格&quot;, &quot;doc&quot;: {
+                &quot;value&quot;: &quot;製品の現在の価格。動的価格設定アルゴリズム、プロモーション、税金計算と連携します。異なる通貨と価格帯をサポートする必要があります。顧客の購買決定に直接影響を与え、競争力と収益性のバランスを取るための重要な要素です。価格履歴の追跡や、マーケットプレイス全体の価格動向分析にも使用されます。&quot;
+            }},
+            {&quot;id&quot;: &quot;category&quot;, &quot;title&quot;: &quot;カテゴリー&quot;},
+            {&quot;id&quot;: &quot;subcategory&quot;, &quot;title&quot;: &quot;サブカテゴリー&quot;},
+            {&quot;id&quot;: &quot;inventory&quot;, &quot;title&quot;: &quot;在庫数&quot;},
+            {&quot;id&quot;: &quot;weight&quot;, &quot;title&quot;: &quot;重量&quot;},
+            {&quot;id&quot;: &quot;dimensions&quot;, &quot;title&quot;: &quot;寸法&quot;},
+            {&quot;id&quot;: &quot;isCustomizable&quot;, &quot;title&quot;: &quot;カスタマイズ可能かどうか&quot;},
+            {&quot;id&quot;: &quot;createdAt&quot;, &quot;title&quot;: &quot;作成日時&quot;},
+            {&quot;id&quot;: &quot;updatedAt&quot;, &quot;title&quot;: &quot;更新日時&quot;},
+            {&quot;id&quot;: &quot;orderId&quot;, &quot;title&quot;: &quot;注文の一意の識別子&quot;},
+            {&quot;id&quot;: &quot;totalAmount&quot;, &quot;title&quot;: &quot;合計金額&quot;},
+            {&quot;id&quot;: &quot;status&quot;, &quot;title&quot;: &quot;状態（注文状態など）&quot;},
+            {&quot;id&quot;: &quot;address&quot;, &quot;title&quot;: &quot;一般住所&quot;},
+            {&quot;id&quot;: &quot;shippingAddress&quot;, &quot;title&quot;: &quot;配送先住所&quot;},
+            {&quot;id&quot;: &quot;billingAddress&quot;, &quot;title&quot;: &quot;請求先住所&quot;},
+            {&quot;id&quot;: &quot;paymentMethod&quot;, &quot;title&quot;: &quot;支払い方法&quot;},
+            {&quot;id&quot;: &quot;street&quot;, &quot;title&quot;: &quot;通り名と番号&quot;},
+            {&quot;id&quot;: &quot;city&quot;, &quot;title&quot;: &quot;都市名&quot;},
+            {&quot;id&quot;: &quot;state&quot;, &quot;title&quot;: &quot;州または県名&quot;},
+            {&quot;id&quot;: &quot;postalCode&quot;, &quot;title&quot;: &quot;郵便番号&quot;},
+            {&quot;id&quot;: &quot;country&quot;, &quot;title&quot;: &quot;国名&quot;},
+            {&quot;id&quot;: &quot;phoneNumber&quot;, &quot;title&quot;: &quot;電話番号&quot;},
+            {&quot;id&quot;: &quot;amount&quot;, &quot;title&quot;: &quot;金額&quot;},
+            {&quot;id&quot;: &quot;currency&quot;, &quot;title&quot;: &quot;通貨&quot;},
+            {&quot;id&quot;: &quot;supplierId&quot;, &quot;title&quot;: &quot;供給者の一意の識別子&quot;},
+            {&quot;id&quot;: &quot;contactInfo&quot;, &quot;title&quot;: &quot;連絡先情報&quot;},
+            {&quot;id&quot;: &quot;rating&quot;, &quot;title&quot;: &quot;評価&quot;},
+            {&quot;id&quot;: &quot;paymentTerms&quot;, &quot;title&quot;: &quot;支払い条件&quot;},
+            {&quot;id&quot;: &quot;leadTime&quot;, &quot;title&quot;: &quot;リードタイム&quot;},
+            {&quot;id&quot;: &quot;minimumOrderQuantity&quot;, &quot;title&quot;: &quot;最小注文数量&quot;},
+            {&quot;id&quot;: &quot;discountId&quot;, &quot;title&quot;: &quot;割引の一意の識別子&quot;},
+            {&quot;id&quot;: &quot;discountType&quot;, &quot;title&quot;: &quot;割引の種類&quot;},
+            {&quot;id&quot;: &quot;discountAmount&quot;, &quot;title&quot;: &quot;割引額&quot;},
+            {&quot;id&quot;: &quot;validFrom&quot;, &quot;title&quot;: &quot;有効開始日&quot;},
+            {&quot;id&quot;: &quot;validTo&quot;, &quot;title&quot;: &quot;有効終了日&quot;},
+            {&quot;id&quot;: &quot;couponCode&quot;, &quot;title&quot;: &quot;クーポンコード&quot;},
+            {&quot;id&quot;: &quot;imageId&quot;, &quot;title&quot;: &quot;画像の一意の識別子&quot;},
+            {&quot;id&quot;: &quot;url&quot;, &quot;title&quot;: &quot;URL&quot;},
+            {&quot;id&quot;: &quot;altText&quot;, &quot;title&quot;: &quot;代替テキスト&quot;},
+            {&quot;id&quot;: &quot;width&quot;, &quot;title&quot;: &quot;幅&quot;},
+            {&quot;id&quot;: &quot;height&quot;, &quot;title&quot;: &quot;高さ&quot;},
+            {&quot;id&quot;: &quot;size&quot;, &quot;title&quot;: &quot;サイズ&quot;},
+            {&quot;id&quot;: &quot;format&quot;, &quot;title&quot;: &quot;フォーマット&quot;},
+            {&quot;id&quot;: &quot;reviewId&quot;, &quot;title&quot;: &quot;レビューの一意の識別子&quot;},
+            {&quot;id&quot;: &quot;comment&quot;, &quot;title&quot;: &quot;コメント&quot;},
+            {&quot;id&quot;: &quot;reviewDate&quot;, &quot;title&quot;: &quot;レビュー日&quot;},
+            {&quot;id&quot;: &quot;helpfulVotes&quot;, &quot;title&quot;: &quot;役立つ投票数&quot;},
+            {&quot;id&quot;: &quot;verifiedPurchase&quot;, &quot;title&quot;: &quot;確認済み購入&quot;},
+            {&quot;id&quot;: &quot;notificationId&quot;, &quot;title&quot;: &quot;通知の一意の識別子&quot;},
+            {&quot;id&quot;: &quot;message&quot;, &quot;title&quot;: &quot;メッセージ&quot;},
+            {&quot;id&quot;: &quot;isRead&quot;, &quot;title&quot;: &quot;既読かどうか&quot;},
+            {&quot;id&quot;: &quot;marketplaceId&quot;, &quot;title&quot;: &quot;マーケットプレイスの一意の識別子&quot;},
+            {&quot;id&quot;: &quot;commissionRate&quot;, &quot;title&quot;: &quot;手数料率&quot;},
+            {&quot;id&quot;: &quot;sellerId&quot;, &quot;title&quot;: &quot;販売者の一意の識別子&quot;},
+            {&quot;id&quot;: &quot;businessAddress&quot;, &quot;title&quot;: &quot;事業所住所&quot;},
+            {&quot;id&quot;: &quot;taxInformation&quot;, &quot;title&quot;: &quot;税務情報&quot;},
+            {&quot;id&quot;: &quot;performanceMetrics&quot;, &quot;title&quot;: &quot;パフォーマンス指標&quot;},
+            {&quot;id&quot;: &quot;affiliateId&quot;, &quot;title&quot;: &quot;アフィリエイトの一意の識別子&quot;},
+            {&quot;id&quot;: &quot;website&quot;, &quot;title&quot;: &quot;ウェブサイト&quot;},
+            {&quot;id&quot;: &quot;earnings&quot;, &quot;title&quot;: &quot;収益&quot;},
+            {&quot;id&quot;: &quot;clickCount&quot;, &quot;title&quot;: &quot;クリック数&quot;},
+            {&quot;id&quot;: &quot;conversionRate&quot;, &quot;title&quot;: &quot;コンバージョン率&quot;},
+            {&quot;id&quot;: &quot;subscriptionId&quot;, &quot;title&quot;: &quot;サブスクリプションの一意の識別子&quot;},
+            {&quot;id&quot;: &quot;plan&quot;, &quot;title&quot;: &quot;プラン&quot;},
+            {&quot;id&quot;: &quot;startDate&quot;, &quot;title&quot;: &quot;開始日&quot;},
+            {&quot;id&quot;: &quot;endDate&quot;, &quot;title&quot;: &quot;終了日&quot;},
+            {&quot;id&quot;: &quot;autoRenew&quot;, &quot;title&quot;: &quot;自動更新&quot;},
+            {&quot;id&quot;: &quot;quantity&quot;, &quot;title&quot;: &quot;数量&quot;, &quot;doc&quot;: {
+                &quot;value&quot;: &quot;カートに追加する製品の数量。この値は、在庫の可用性チェックや価格計算に使用されます。また、バルク購入や数量割引の適用条件としても機能します。&quot;
+            }},
+            {&quot;id&quot;: &quot;isDefault&quot;, &quot;title&quot;: &quot;デフォルトかどうか&quot;},
+            {&quot;id&quot;: &quot;isActive&quot;, &quot;title&quot;: &quot;アクティブかどうか&quot;},
+            {&quot;id&quot;: &quot;expiryDate&quot;, &quot;title&quot;: &quot;有効期限&quot;},
+            {&quot;id&quot;: &quot;trackingNumber&quot;, &quot;title&quot;: &quot;追跡番号&quot;},
+            {&quot;id&quot;: &quot;estimatedDeliveryDate&quot;, &quot;title&quot;: &quot;予想配達日&quot;},
+            {&quot;id&quot;: &quot;isInStock&quot;, &quot;title&quot;: &quot;在庫があるかどうか&quot;},
+            {&quot;id&quot;: &quot;lowStockThreshold&quot;, &quot;title&quot;: &quot;在庫低下警告のしきい値&quot;},
+            {&quot;id&quot;: &quot;reservedQuantity&quot;, &quot;title&quot;: &quot;予約済みの数量&quot;},
+            {&quot;id&quot;: &quot;availableQuantity&quot;, &quot;title&quot;: &quot;利用可能な数量&quot;},
+            {&quot;id&quot;: &quot;baseCost&quot;, &quot;title&quot;: &quot;基本コスト&quot;},
+            {&quot;id&quot;: &quot;freeShippingThreshold&quot;, &quot;title&quot;: &quot;送料無料の閾値&quot;},
+            {&quot;id&quot;: &quot;parentCategory&quot;, &quot;title&quot;: &quot;親カテゴリー&quot;},
+            {&quot;id&quot;: &quot;capacity&quot;, &quot;title&quot;: &quot;容量&quot;},
+            {&quot;id&quot;: &quot;operatingHours&quot;, &quot;title&quot;: &quot;営業時間&quot;},
+            {&quot;id&quot;: &quot;reviewCount&quot;, &quot;title&quot;: &quot;レビューカウント&quot;},
+            {&quot;id&quot;: &quot;currentPassword&quot;, &quot;title&quot;: &quot;現在のパスワード&quot;},
+            {&quot;id&quot;: &quot;newPassword&quot;,&quot;title&quot;: &quot;新しいパスワード&quot;},
+            {&quot;id&quot;: &quot;confirmNewPassword&quot;, &quot;title&quot;: &quot;新しいパスワードの確認&quot;},
+            {&quot;id&quot;: &quot;registrationDate&quot;, &quot;title&quot;: &quot;登録日時&quot;},
+            {&quot;id&quot;: &quot;reason&quot;, &quot;title&quot;: &quot;理由&quot;},
+            {&quot;id&quot;: &quot;searchKeyword&quot;, &quot;title&quot;: &quot;検索キーワード&quot;},
+            {&quot;id&quot;: &quot;pageNumber&quot;, &quot;title&quot;: &quot;ページ番号&quot;},
+            {&quot;id&quot;: &quot;pageSize&quot;, &quot;title&quot;: &quot;ページ番号&quot;},
+            {
+                &quot;id&quot;: &quot;User&quot;,
+                &quot;title&quot;: &quot;ユーザー情報&quot;,
+                &quot;doc&quot;: {
+                    &quot;value&quot;: &quot;プラットフォーム上の個々のアカウントを表します。顧客、販売者、アフィリエイト、管理者など、様々な役割を持つユーザーを含みます。ユーザーの行動追跡、認証、パーソナライゼーション、権限管理の基盤となる重要なエンティティです。&quot;
+                },
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#userId&quot;},
+                    {&quot;href&quot;: &quot;#username&quot;},
+                    {&quot;href&quot;: &quot;#email&quot;},
+                    {&quot;href&quot;: &quot;#fullName&quot;},
+                    {&quot;href&quot;: &quot;#profileImage&quot;},
+                    {&quot;href&quot;: &quot;#role&quot;},
+                    {&quot;href&quot;: &quot;#createdAt&quot;},
+                    {&quot;href&quot;: &quot;#updatedAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Product&quot;,
+                &quot;title&quot;: &quot;製品情報&quot;,
+                &quot;doc&quot;: {
+                    &quot;value&quot;: &quot;プラットフォーム上で販売される個々の商品やサービスを表します。物理的な商品、デジタル製品、サービスなど、多様な製品タイプをサポートします。製品情報の正確性と完全性は、顧客の購買決定とプラットフォームの信頼性に直接影響します。検索エンジン、推奨システム、在庫管理システムなど、多くのコンポーネントと相互作用する中心的なエンティティです。&quot;
+                },
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#description&quot;},
+                    {&quot;href&quot;: &quot;#price&quot;},
+                    {&quot;href&quot;: &quot;#category&quot;},
+                    {&quot;href&quot;: &quot;#subcategory&quot;},
+                    {&quot;href&quot;: &quot;#inventory&quot;},
+                    {&quot;href&quot;: &quot;#weight&quot;},
+                    {&quot;href&quot;: &quot;#dimensions&quot;},
+                    {&quot;href&quot;: &quot;#isCustomizable&quot;},
+                    {&quot;href&quot;: &quot;#createdAt&quot;},
+                    {&quot;href&quot;: &quot;#updatedAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Order&quot;,
+                &quot;title&quot;: &quot;注文情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#orderId&quot;},
+                    {&quot;href&quot;: &quot;#userId&quot;},
+                    {&quot;href&quot;: &quot;#totalAmount&quot;},
+                    {&quot;href&quot;: &quot;#status&quot;},
+                    {&quot;href&quot;: &quot;#shippingAddress&quot;},
+                    {&quot;href&quot;: &quot;#billingAddress&quot;},
+                    {&quot;href&quot;: &quot;#paymentMethod&quot;},
+                    {&quot;href&quot;: &quot;#createdAt&quot;},
+                    {&quot;href&quot;: &quot;#updatedAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Address&quot;,
+                &quot;title&quot;: &quot;住所情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#street&quot;},
+                    {&quot;href&quot;: &quot;#city&quot;},
+                    {&quot;href&quot;: &quot;#state&quot;},
+                    {&quot;href&quot;: &quot;#postalCode&quot;},
+                    {&quot;href&quot;: &quot;#country&quot;},
+                    {&quot;href&quot;: &quot;#phoneNumber&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;PaymentMethod&quot;,
+                &quot;title&quot;: &quot;支払い方法&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#paymentMethod&quot;},
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#description&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Supplier&quot;,
+                &quot;title&quot;: &quot;供給者情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#supplierId&quot;},
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#contactInfo&quot;},
+                    {&quot;href&quot;: &quot;#rating&quot;},
+                    {&quot;href&quot;: &quot;#paymentTerms&quot;},
+                    {&quot;href&quot;: &quot;#leadTime&quot;},
+                    {&quot;href&quot;: &quot;#minimumOrderQuantity&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Discount&quot;,
+                &quot;title&quot;: &quot;割引情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#discountId&quot;},
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#description&quot;},
+                    {&quot;href&quot;: &quot;#discountType&quot;},
+                    {&quot;href&quot;: &quot;#discountAmount&quot;},
+                    {&quot;href&quot;: &quot;#validFrom&quot;},
+                    {&quot;href&quot;: &quot;#validTo&quot;},
+                    {&quot;href&quot;: &quot;#couponCode&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Image&quot;,
+                &quot;title&quot;: &quot;画像情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#imageId&quot;},
+                    {&quot;href&quot;: &quot;#url&quot;},
+                    {&quot;href&quot;: &quot;#altText&quot;},
+                    {&quot;href&quot;: &quot;#width&quot;},
+                    {&quot;href&quot;: &quot;#height&quot;},
+                    {&quot;href&quot;: &quot;#size&quot;},
+                    {&quot;href&quot;: &quot;#format&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Review&quot;,
+                &quot;title&quot;: &quot;レビュー情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#reviewId&quot;},
+                    {&quot;href&quot;: &quot;#userId&quot;},
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#rating&quot;},
+                    {&quot;href&quot;: &quot;#comment&quot;},
+                    {&quot;href&quot;: &quot;#reviewDate&quot;},
+                    {&quot;href&quot;: &quot;#helpfulVotes&quot;},
+                    {&quot;href&quot;: &quot;#verifiedPurchase&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Notification&quot;,
+                &quot;title&quot;: &quot;通知情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#notificationId&quot;},
+                    {&quot;href&quot;: &quot;#userId&quot;},
+                    {&quot;href&quot;: &quot;#message&quot;},
+                    {&quot;href&quot;: &quot;#isRead&quot;},
+                    {&quot;href&quot;: &quot;#createdAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Marketplace&quot;,
+                &quot;title&quot;: &quot;マーケットプレイス情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#marketplaceId&quot;},
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#description&quot;},
+                    {&quot;href&quot;: &quot;#commissionRate&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Seller&quot;,
+                &quot;title&quot;: &quot;販売者情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#sellerId&quot;},
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#email&quot;},
+                    {&quot;href&quot;: &quot;#phoneNumber&quot;},
+                    {&quot;href&quot;: &quot;#businessAddress&quot;},
+                    {&quot;href&quot;: &quot;#taxInformation&quot;},
+                    {&quot;href&quot;: &quot;#performanceMetrics&quot;},
+                    {&quot;href&quot;: &quot;#createdAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Affiliate&quot;,
+                &quot;title&quot;: &quot;アフィリエイト情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#affiliateId&quot;},
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#email&quot;},
+                    {&quot;href&quot;: &quot;#website&quot;},
+                    {&quot;href&quot;: &quot;#earnings&quot;},
+                    {&quot;href&quot;: &quot;#clickCount&quot;},
+                    {&quot;href&quot;: &quot;#conversionRate&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Subscription&quot;,
+                &quot;title&quot;: &quot;サブスクリプション情報&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#subscriptionId&quot;},
+                    {&quot;href&quot;: &quot;#userId&quot;},
+                    {&quot;href&quot;: &quot;#plan&quot;},
+                    {&quot;href&quot;: &quot;#startDate&quot;},
+                    {&quot;href&quot;: &quot;#endDate&quot;},
+                    {&quot;href&quot;: &quot;#status&quot;},
+                    {&quot;href&quot;: &quot;#autoRenew&quot;},
+                    {&quot;href&quot;: &quot;#price&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;CartItem&quot;,
+                &quot;title&quot;: &quot;カート項目&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#quantity&quot;},
+                    {&quot;href&quot;: &quot;#price&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Cart&quot;,
+                &quot;title&quot;: &quot;ショッピングカート&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#userId&quot;},
+                    {&quot;href&quot;: &quot;#CartItem&quot;},
+                    {&quot;href&quot;: &quot;#totalAmount&quot;},
+                    {&quot;href&quot;: &quot;#updatedAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;WishlistItem&quot;,
+                &quot;title&quot;: &quot;ウィッシュリスト項目&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#updatedAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Wishlist&quot;,
+                &quot;title&quot;: &quot;ウィッシュリスト&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#userId&quot;},
+                    {&quot;href&quot;: &quot;#WishlistItem&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Promotion&quot;,
+                &quot;title&quot;: &quot;プロモーション&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#description&quot;},
+                    {&quot;href&quot;: &quot;#discountType&quot;},
+                    {&quot;href&quot;: &quot;#discountAmount&quot;},
+                    {&quot;href&quot;: &quot;#validFrom&quot;},
+                    {&quot;href&quot;: &quot;#validTo&quot;},
+                    {&quot;href&quot;: &quot;#couponCode&quot;},
+                    {&quot;href&quot;: &quot;#isActive&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Inventory&quot;,
+                &quot;title&quot;: &quot;在庫&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#quantity&quot;},
+                    {&quot;href&quot;: &quot;#isInStock&quot;},
+                    {&quot;href&quot;: &quot;#lowStockThreshold&quot;},
+                    {&quot;href&quot;: &quot;#reservedQuantity&quot;},
+                    {&quot;href&quot;: &quot;#availableQuantity&quot;},
+                    {&quot;href&quot;: &quot;#updatedAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;ShippingMethod&quot;,
+                &quot;title&quot;: &quot;配送方法&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#description&quot;},
+                    {&quot;href&quot;: &quot;#baseCost&quot;},
+                    {&quot;href&quot;: &quot;#estimatedDeliveryDate&quot;},
+                    {&quot;href&quot;: &quot;#freeShippingThreshold&quot;},
+                    {&quot;href&quot;: &quot;#isActive&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Category&quot;,
+                &quot;title&quot;: &quot;カテゴリー&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#description&quot;},
+                    {&quot;href&quot;: &quot;#parentCategory&quot;},
+                    {&quot;href&quot;: &quot;#isActive&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;FulfillmentCenter&quot;,
+                &quot;title&quot;: &quot;フルフィルメントセンター&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#address&quot;},
+                    {&quot;href&quot;: &quot;#capacity&quot;},
+                    {&quot;href&quot;: &quot;#operatingHours&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Money&quot;,
+                &quot;title&quot;: &quot;金額&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#amount&quot;},
+                    {&quot;href&quot;: &quot;#currency&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Rating&quot;,
+                &quot;title&quot;: &quot;評価&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#rating&quot;},
+                    {&quot;href&quot;: &quot;#reviewCount&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;OrderItem&quot;,
+                &quot;title&quot;: &quot;注文項目&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#quantity&quot;},
+                    {&quot;href&quot;: &quot;#price&quot;},
+                    {&quot;href&quot;: &quot;#discountId&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Order&quot;,
+                &quot;title&quot;: &quot;注文&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#orderId&quot;},
+                    {&quot;href&quot;: &quot;#userId&quot;},
+                    {&quot;href&quot;: &quot;#OrderItem&quot;},
+                    {&quot;href&quot;: &quot;#totalAmount&quot;},
+                    {&quot;href&quot;: &quot;#status&quot;},
+                    {&quot;href&quot;: &quot;#shippingAddress&quot;},
+                    {&quot;href&quot;: &quot;#billingAddress&quot;},
+                    {&quot;href&quot;: &quot;#paymentMethod&quot;},
+                    {&quot;href&quot;: &quot;#ShippingMethod&quot;},
+                    {&quot;href&quot;: &quot;#trackingNumber&quot;},
+                    {&quot;href&quot;: &quot;#createdAt&quot;},
+                    {&quot;href&quot;: &quot;#updatedAt&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Login&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ログイン&quot;,
+                &quot;tag&quot;: &quot;auth&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doLogin&quot;},
+                    {&quot;href&quot;: &quot;#goToRegister&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;Register&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザー登録&quot;,
+                &quot;tag&quot;: &quot;auth account&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doRegister&quot;},
+                    {&quot;href&quot;: &quot;#goToLogin&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserHome&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザーホーム&quot;,
+                &quot;tag&quot;: &quot;account catalog&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#goToUserProductList&quot;},
+                    {&quot;href&quot;: &quot;#goToUserCart&quot;},
+                    {&quot;href&quot;: &quot;#goToUserOrderHistory&quot;},
+                    {&quot;href&quot;: &quot;#goToUserProfile&quot;},
+                    {&quot;href&quot;: &quot;#doLogout&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserProfile&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザープロフィール&quot;,
+                &quot;tag&quot;: &quot;account&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doUpdateUserProfile&quot;},
+                    {&quot;href&quot;: &quot;#goToUserHome&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserProductList&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザー製品リスト&quot;,
+                &quot;tag&quot;: &quot;catalog shop&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#goToUserProductDetail&quot;},
+                    {&quot;href&quot;: &quot;#goToUserHome&quot;},
+                    {&quot;href&quot;: &quot;#goSearchProducts&quot;},
+                    {&quot;href&quot;: &quot;#goPaginateProducts&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserProductDetail&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザー製品詳細&quot;,
+                &quot;tag&quot;: &quot;catalog shop&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doAddToCart&quot;},
+                    {&quot;href&quot;: &quot;#goToUserProductList&quot;},
+                    {&quot;href&quot;: &quot;#goToUserCart&quot;},
+                    {&quot;href&quot;: &quot;#goToUserReview&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserCart&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザーカート&quot;,
+                &quot;tag&quot;: &quot;cart shop&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doUpdateCartItem&quot;},
+                    {&quot;href&quot;: &quot;#doRemoveCartItem&quot;},
+                    {&quot;href&quot;: &quot;#goToUserCheckout&quot;},
+                    {&quot;href&quot;: &quot;#goToUserHome&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserCheckout&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザーチェックアウト&quot;,
+                &quot;tag&quot;: &quot;checkout shop&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doPlaceOrder&quot;},
+                    {&quot;href&quot;: &quot;#goToUserCart&quot;},
+                    {&quot;href&quot;: &quot;#goToUserHome&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserOrderHistory&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザー注文履歴&quot;,
+                &quot;tag&quot;: &quot;order&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#goToUserOrderDetail&quot;},
+                    {&quot;href&quot;: &quot;#goToUserHome&quot;},
+                    {&quot;href&quot;: &quot;#goPaginateOrders&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserOrderDetail&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザー注文詳細&quot;,
+                &quot;tag&quot;: &quot;order&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#goToUserOrderHistory&quot;},
+                    {&quot;href&quot;: &quot;#goToUserHome&quot;},
+                    {&quot;href&quot;: &quot;#goToUserReturnRefund&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserProfile&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザープロフィール&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doUpdateUserProfile&quot;},
+                    {&quot;href&quot;: &quot;#goToUserHome&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserReview&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;ユーザーレビュー&quot;,
+                &quot;tag&quot;: &quot;review shop&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doAddReview&quot;},
+                    {&quot;href&quot;: &quot;#doUpdateReview&quot;},
+                    {&quot;href&quot;: &quot;#doDeleteReview&quot;},
+                    {&quot;href&quot;: &quot;#goToUserProductDetail&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;UserReturnRefund&quot;,
+                &quot;type&quot;: &quot;semantic&quot;,
+                &quot;title&quot;: &quot;返品/払い戻し&quot;,
+                &quot;tag&quot;: &quot;support order&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#doRequestReturn&quot;},
+                    {&quot;href&quot;: &quot;#doRequestRefund&quot;},
+                    {&quot;href&quot;: &quot;#goToUserOrderDetail&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;goToRegister&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;登録ページへ移動&quot;,
+                &quot;doc&quot;: {
+                    &quot;value&quot;: &quot;ユーザーを新規アカウント作成ページにナビゲートします。このトランジションは、新規ユーザー獲得プロセスの開始点であり、コンバージョンファネルの重要なステップです。ユーザーエクスペリエンスを最適化し、登録の完了率を高めるために、このページへの遷移はスムーズで直感的である必要があります。また、ユーザーの現在のコンテキスト（例：閲覧していた製品ページ）を保持し、登録後にシームレスに元のコンテキストに戻れるようにすることが重要です。&quot;
+                },
+                &quot;rt&quot;: &quot;#Register&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToLogin&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ログインページへ移動&quot;,
+                &quot;rt&quot;: &quot;#Login&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserHome&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザーホームへ移動&quot;,
+                &quot;rt&quot;: &quot;#UserHome&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserProductList&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザー製品リストへ移動&quot;,
+                &quot;rt&quot;: &quot;#UserProductList&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserProductDetail&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザー製品詳細へ移動&quot;,
+                &quot;rt&quot;: &quot;#UserProductDetail&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserCart&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザーカートへ移動&quot;,
+                &quot;rt&quot;: &quot;#UserCart&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserCheckout&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザーチェックアウトへ移動&quot;,
+                &quot;rt&quot;: &quot;#UserCheckout&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserOrderHistory&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザー注文履歴へ移動&quot;,
+                &quot;rt&quot;: &quot;#UserOrderHistory&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserOrderDetail&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザー注文詳細へ移動&quot;,
+                &quot;rt&quot;: &quot;#UserOrderDetail&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserProfile&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザープロフィールへ移動&quot;,
+                &quot;rt&quot;: &quot;#UserProfile&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserReview&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;ユーザーレビューページへ移動&quot;,
+                &quot;rt&quot;: &quot;#UserReview&quot;
+            },
+            {
+                &quot;id&quot;: &quot;goToUserReturnRefund&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;返品/払い戻しページへ移動&quot;,
+                &quot;rt&quot;: &quot;#UserReturnRefund&quot;
+            },
+            {
+                &quot;id&quot;: &quot;doLogin&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;ログイン&quot;,
+                &quot;rt&quot;: &quot;#UserHome&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#email&quot;},
+                    {&quot;href&quot;: &quot;#currentPassword&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doLogout&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;ログアウト&quot;,
+                &quot;rt&quot;: &quot;#Login&quot;
+            },
+            {
+                &quot;id&quot;: &quot;doRegister&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;ユーザー登録&quot;,
+                &quot;rt&quot;: &quot;#UserHome&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#email&quot;},
+                    {&quot;href&quot;: &quot;#currentPassword&quot;},
+                    {&quot;href&quot;: &quot;#confirmNewPassword&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doAddToCart&quot;,
+                &quot;type&quot;: &quot;unsafe&quot;,
+                &quot;title&quot;: &quot;カートに追加&quot;,
+                &quot;doc&quot;: {
+                    &quot;value&quot;: &quot;指定された製品を指定された数量だけユーザーのショッピングカートに追加します。この操作は、Eコマースプラットフォームの中核的な機能の一つであり、ユーザーの購買意図を捕捉する重要なポイントです。実行時には、リアルタイムの在庫確認、価格の再計算、関連商品の推奨などの処理が行われます。また、ユーザーの過去の行動に基づいて、クロスセリングやアップセリングの機会を識別します。カートの状態変化は、在庫管理システムに即時に反映され、他の顧客の購買体験に影響を与えないようにします。パフォーマンスとユーザーエクスペリエンスの観点から、この操作は高速で信頼性が高く、ユーザーに明確なフィードバックを提供する必要があります。&quot;
+                },
+                &quot;rt&quot;: &quot;#UserCart&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#quantity&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doUpdateCartItem&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;カート内アイテム更新&quot;,
+                &quot;rt&quot;: &quot;#UserCart&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#quantity&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doRemoveCartItem&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;カート内アイテム削除&quot;,
+                &quot;rt&quot;: &quot;#UserCart&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doPlaceOrder&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;注文確定&quot;,
+                &quot;rt&quot;: &quot;#UserOrderDetail&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#shippingAddress&quot;},
+                    {&quot;href&quot;: &quot;#paymentMethod&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doUpdateUserProfile&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;ユーザープロフィール更新&quot;,
+                &quot;rt&quot;: &quot;#UserProfile&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#name&quot;},
+                    {&quot;href&quot;: &quot;#email&quot;},
+                    {&quot;href&quot;: &quot;#phoneNumber&quot;},
+                    {&quot;href&quot;: &quot;#address&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doAddReview&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;レビュー追加&quot;,
+                &quot;rt&quot;: &quot;#UserProductDetail&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#productId&quot;},
+                    {&quot;href&quot;: &quot;#rating&quot;},
+                    {&quot;href&quot;: &quot;#comment&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doUpdateReview&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;レビュー更新&quot;,
+                &quot;rt&quot;: &quot;#UserProductDetail&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#reviewId&quot;},
+                    {&quot;href&quot;: &quot;#rating&quot;},
+                    {&quot;href&quot;: &quot;#comment&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doDeleteReview&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;レビュー削除&quot;,
+                &quot;rt&quot;: &quot;#UserProductDetail&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#reviewId&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doRequestReturn&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;返品リクエスト&quot;,
+                &quot;rt&quot;: &quot;#UserOrderDetail&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#orderId&quot;},
+                    {&quot;href&quot;: &quot;#reason&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;doRequestRefund&quot;,
+                &quot;type&quot;: &quot;idempotent&quot;,
+                &quot;title&quot;: &quot;払い戻しリクエスト&quot;,
+                &quot;rt&quot;: &quot;#UserOrderDetail&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#orderId&quot;},
+                    {&quot;href&quot;: &quot;#reason&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;goSearchProducts&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;製品検索&quot;,
+                &quot;rt&quot;: &quot;#UserProductList&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#searchKeyword&quot;},
+                    {&quot;href&quot;: &quot;#category&quot;},
+                    {&quot;href&quot;: &quot;#subcategory&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;goPaginateProducts&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;製品リストのページネーション&quot;,
+                &quot;rt&quot;: &quot;#UserProductList&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#pageNumber&quot;},
+                    {&quot;href&quot;: &quot;#pageSize&quot;}
+                ]
+            },
+            {
+                &quot;id&quot;: &quot;goPaginateOrders&quot;,
+                &quot;type&quot;: &quot;safe&quot;,
+                &quot;title&quot;: &quot;注文リストのページネーション&quot;,
+                &quot;rt&quot;: &quot;#UserOrderHistory&quot;,
+                &quot;descriptor&quot;: [
+                    {&quot;href&quot;: &quot;#pageNumber&quot;},
+                    {&quot;href&quot;: &quot;#pageSize&quot;}
+                ]
+            }
+        ]
+    }
+}</code></pre>
+
+</div>
+</body>
+</html>
