@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     <title>ALPS Large-scale Multi-vendor E-commerce Platform</title>
@@ -25,8 +24,6 @@
             width: 100%;
             height: auto;
             display: flex;
-            justify-content: center;
-            align-items: center;
         }
         .asd-view-selector {
             display: flex;
@@ -283,7 +280,7 @@
             try {
                 await Promise.all([
                     renderGraph("#asd-graph-id", 'digraph application_state_diagram {  graph [    labelloc="t";    fontname="Helvetica"    label="ALPS Large-scale Multi-vendor E-commerce Platform";    URL="index.html" target="_parent"  ];  node [shape = box, style = "bold,filled" fillcolor="lightgray"];    Login -> Register [label = <goToRegister (safe)> URL="#goToRegister" target="_parent" fontsize=13 class="goToRegister" penwidth=1.5];    Login -> UserHome [label = <doLogin (idempotent)> URL="#doLogin" target="_parent" fontsize=13 class="doLogin" penwidth=1.5];    Register -> Login [label = <goToLogin (safe)> URL="#goToLogin" target="_parent" fontsize=13 class="goToLogin" penwidth=1.5];    Register -> UserHome [label = <doRegister (idempotent)> URL="#doRegister" target="_parent" fontsize=13 class="doRegister" penwidth=1.5];    UserCart -> UserCart [label=<<table border="0"><tr><td align="left" href="#doRemoveCartItem" tooltip="doRemoveCartItem (idempotent)" >doRemoveCartItem (idempotent)</td></tr><tr><td align="left" href="#doUpdateCartItem" tooltip="doUpdateCartItem (idempotent)" >doUpdateCartItem (idempotent)</td></tr></table>> fontsize=13];    UserCart -> UserCheckout [label = <goToUserCheckout (safe)> URL="#goToUserCheckout" target="_parent" fontsize=13 class="goToUserCheckout" penwidth=1.5];    UserCart -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserCart [label = <goToUserCart (safe)> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserCheckout -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserOrderDetail [label = <doPlaceOrder (idempotent)> URL="#doPlaceOrder" target="_parent" fontsize=13 class="doPlaceOrder" penwidth=1.5];    UserHome -> Login [label = <doLogout (idempotent)> URL="#doLogout" target="_parent" fontsize=13 class="doLogout" penwidth=1.5];    UserHome -> UserCart [label = <goToUserCart (safe)> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserHome -> UserOrderHistory [label = <goToUserOrderHistory (safe)> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserHome -> UserProductList [label = <goToUserProductList (safe)> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserHome -> UserProfile [label = <goToUserProfile (safe)> URL="#goToUserProfile" target="_parent" fontsize=13 class="goToUserProfile" penwidth=1.5];    UserOrderDetail -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderDetail -> UserOrderHistory [label = <goToUserOrderHistory (safe)> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserOrderDetail -> UserReturnRefund [label = <goToUserReturnRefund (safe)> URL="#goToUserReturnRefund" target="_parent" fontsize=13 class="goToUserReturnRefund" penwidth=1.5];    UserOrderHistory -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderHistory -> UserOrderDetail [label = <goToUserOrderDetail (safe)> URL="#goToUserOrderDetail" target="_parent" fontsize=13 class="goToUserOrderDetail" penwidth=1.5];    UserOrderHistory -> UserOrderHistory [label = <goPaginateOrders (safe)> URL="#goPaginateOrders" target="_parent" fontsize=13 class="goPaginateOrders" penwidth=1.5];    UserProductDetail -> UserCart [label=<<table border="0"><tr><td align="left" href="#doAddToCart" tooltip="doAddToCart (unsafe)" >doAddToCart (unsafe)</td></tr><tr><td align="left" href="#goToUserCart" tooltip="goToUserCart (safe)" >goToUserCart (safe)</td></tr></table>> fontsize=13];    UserProductDetail -> UserProductList [label = <goToUserProductList (safe)> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserProductDetail -> UserReview [label = <goToUserReview (safe)> URL="#goToUserReview" target="_parent" fontsize=13 class="goToUserReview" penwidth=1.5];    UserProductList -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProductList -> UserProductDetail [label = <goToUserProductDetail (safe)> URL="#goToUserProductDetail" target="_parent" fontsize=13 class="goToUserProductDetail" penwidth=1.5];    UserProductList -> UserProductList [label=<<table border="0"><tr><td align="left" href="#goPaginateProducts" tooltip="goPaginateProducts (safe)" >goPaginateProducts (safe)</td></tr><tr><td align="left" href="#goSearchProducts" tooltip="goSearchProducts (safe)" >goSearchProducts (safe)</td></tr></table>> fontsize=13];    UserProfile -> UserHome [label = <goToUserHome (safe)> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProfile -> UserProfile [label = <doUpdateUserProfile (idempotent)> URL="#doUpdateUserProfile" target="_parent" fontsize=13 class="doUpdateUserProfile" penwidth=1.5];    UserReturnRefund -> UserOrderDetail [label=<<table border="0"><tr><td align="left" href="#doRequestRefund" tooltip="doRequestRefund (idempotent)" >doRequestRefund (idempotent)</td></tr><tr><td align="left" href="#doRequestReturn" tooltip="doRequestReturn (idempotent)" >doRequestReturn (idempotent)</td></tr><tr><td align="left" href="#goToUserOrderDetail" tooltip="goToUserOrderDetail (safe)" >goToUserOrderDetail (safe)</td></tr></table>> fontsize=13];    UserReview -> UserProductDetail [label=<<table border="0"><tr><td align="left" href="#doAddReview" tooltip="doAddReview (idempotent)" >doAddReview (idempotent)</td></tr><tr><td align="left" href="#doDeleteReview" tooltip="doDeleteReview (idempotent)" >doDeleteReview (idempotent)</td></tr><tr><td align="left" href="#doUpdateReview" tooltip="doUpdateReview (idempotent)" >doUpdateReview (idempotent)</td></tr><tr><td align="left" href="#goToUserProductDetail" tooltip="goToUserProductDetail (safe)" >goToUserProductDetail (safe)</td></tr></table>> fontsize=13];    Login [label = <Login> URL="#Login" target="_parent"]    Register [label = <Register> URL="#Register" target="_parent"]    UserHome [label = <UserHome> URL="#UserHome" target="_parent"]    UserCart [label = <UserCart> URL="#UserCart" target="_parent"]    UserCheckout [label = <UserCheckout> URL="#UserCheckout" target="_parent"]    UserOrderDetail [label = <UserOrderDetail> URL="#UserOrderDetail" target="_parent"]    UserOrderHistory [label = <UserOrderHistory> URL="#UserOrderHistory" target="_parent"]    UserProductList [label = <UserProductList> URL="#UserProductList" target="_parent"]    UserProfile [label = <UserProfile> URL="#UserProfile" target="_parent"]    UserReturnRefund [label = <UserReturnRefund> URL="#UserReturnRefund" target="_parent"]    UserProductDetail [label = <UserProductDetail> URL="#UserProductDetail" target="_parent"]    UserReview [label = <UserReview> URL="#UserReview" target="_parent"]}'),
-                    renderGraph("#asd-graph-name", 'digraph application_state_diagram {  graph [    labelloc="t";    fontname="Helvetica"    label="ALPS Large-scale Multi-vendor E-commerce Platform";    URL="index.html" target="_parent"  ];  node [shape = box, style = "bold,filled" fillcolor="lightgray"];    Login -> Register [label = <Go to registration page> URL="#goToRegister" target="_parent" fontsize=13 class="goToRegister" penwidth=1.5];    Login -> UserHome [label = <<u>Login</u>> URL="#doLogin" target="_parent" fontsize=13 class="doLogin" penwidth=1.5];    Register -> Login [label = <Go to login page> URL="#goToLogin" target="_parent" fontsize=13 class="goToLogin" penwidth=1.5];    Register -> UserHome [label = <<u>User registration</u>> URL="#doRegister" target="_parent" fontsize=13 class="doRegister" penwidth=1.5];    UserCart -> UserCart [label=<<table border="0"><tr><td align="left" href="#doRemoveCartItem" tooltip="doRemoveCartItem (idempotent)" ><u>Remove cart item</u></td></tr><tr><td align="left" href="#doUpdateCartItem" tooltip="doUpdateCartItem (idempotent)" ><u>Update cart item</u></td></tr></table>> fontsize=13];    UserCart -> UserCheckout [label = <Go to user checkout> URL="#goToUserCheckout" target="_parent" fontsize=13 class="goToUserCheckout" penwidth=1.5];    UserCart -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserCart [label = <Go to user cart> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserCheckout -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserOrderDetail [label = <<u>Place order</u>> URL="#doPlaceOrder" target="_parent" fontsize=13 class="doPlaceOrder" penwidth=1.5];    UserHome -> Login [label = <<u>Logout</u>> URL="#doLogout" target="_parent" fontsize=13 class="doLogout" penwidth=1.5];    UserHome -> UserCart [label = <Go to user cart> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserHome -> UserOrderHistory [label = <Go to user order history> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserHome -> UserProductList [label = <Go to user product list> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserHome -> UserProfile [label = <Go to user profile> URL="#goToUserProfile" target="_parent" fontsize=13 class="goToUserProfile" penwidth=1.5];    UserOrderDetail -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderDetail -> UserOrderHistory [label = <Go to user order history> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserOrderDetail -> UserReturnRefund [label = <Go to return/refund page> URL="#goToUserReturnRefund" target="_parent" fontsize=13 class="goToUserReturnRefund" penwidth=1.5];    UserOrderHistory -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderHistory -> UserOrderDetail [label = <Go to user order detail> URL="#goToUserOrderDetail" target="_parent" fontsize=13 class="goToUserOrderDetail" penwidth=1.5];    UserOrderHistory -> UserOrderHistory [label = <Paginate order list> URL="#goPaginateOrders" target="_parent" fontsize=13 class="goPaginateOrders" penwidth=1.5];    UserProductDetail -> UserCart [label=<<table border="0"><tr><td align="left" href="#doAddToCart" tooltip="doAddToCart (unsafe)" ><b><u>Add to cart</u></b></td></tr><tr><td align="left" href="#goToUserCart" tooltip="goToUserCart (safe)" >Go to user cart</td></tr></table>> fontsize=13];    UserProductDetail -> UserProductList [label = <Go to user product list> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserProductDetail -> UserReview [label = <Go to user review page> URL="#goToUserReview" target="_parent" fontsize=13 class="goToUserReview" penwidth=1.5];    UserProductList -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProductList -> UserProductDetail [label = <Go to user product detail> URL="#goToUserProductDetail" target="_parent" fontsize=13 class="goToUserProductDetail" penwidth=1.5];    UserProductList -> UserProductList [label=<<table border="0"><tr><td align="left" href="#goPaginateProducts" tooltip="goPaginateProducts (safe)" >Paginate product list</td></tr><tr><td align="left" href="#goSearchProducts" tooltip="goSearchProducts (safe)" >Search products</td></tr></table>> fontsize=13];    UserProfile -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProfile -> UserProfile [label = <<u>Update user profile</u>> URL="#doUpdateUserProfile" target="_parent" fontsize=13 class="doUpdateUserProfile" penwidth=1.5];    UserReturnRefund -> UserOrderDetail [label=<<table border="0"><tr><td align="left" href="#doRequestRefund" tooltip="doRequestRefund (idempotent)" ><u>Request refund</u></td></tr><tr><td align="left" href="#doRequestReturn" tooltip="doRequestReturn (idempotent)" ><u>Request return</u></td></tr><tr><td align="left" href="#goToUserOrderDetail" tooltip="goToUserOrderDetail (safe)" >Go to user order detail</td></tr></table>> fontsize=13];    UserReview -> UserProductDetail [label=<<table border="0"><tr><td align="left" href="#doAddReview" tooltip="doAddReview (idempotent)" ><u>Add review</u></td></tr><tr><td align="left" href="#doDeleteReview" tooltip="doDeleteReview (idempotent)" ><u>Delete review</u></td></tr><tr><td align="left" href="#doUpdateReview" tooltip="doUpdateReview (idempotent)" ><u>Update review</u></td></tr><tr><td align="left" href="#goToUserProductDetail" tooltip="goToUserProductDetail (safe)" >Go to user product detail</td></tr></table>> fontsize=13];    Login [label = <Login> URL="#Login" target="_parent"]    Register [label = <User Registration> URL="#Register" target="_parent"]    UserHome [label = <User Home> URL="#UserHome" target="_parent"]    UserCart [label = <User Cart> URL="#UserCart" target="_parent"]    UserCheckout [label = <User Checkout> URL="#UserCheckout" target="_parent"]    UserOrderDetail [label = <User Order Detail> URL="#UserOrderDetail" target="_parent"]    UserOrderHistory [label = <User Order History> URL="#UserOrderHistory" target="_parent"]    UserProductList [label = <User Product List> URL="#UserProductList" target="_parent"]    UserProfile [label = <User Profile> URL="#UserProfile" target="_parent"]    UserReturnRefund [label = <Return/Refund> URL="#UserReturnRefund" target="_parent"]    UserProductDetail [label = <User Product Detail> URL="#UserProductDetail" target="_parent"]    UserReview [label = <User Review> URL="#UserReview" target="_parent"]}')
+                    renderGraph("#asd-graph-name", 'digraph application_state_diagram {  graph [    labelloc="t";    fontname="Helvetica"    label="ALPS Large-scale Multi-vendor E-commerce Platform";    URL="index.html" target="_parent"  ];  node [shape = box, style = "bold,filled" fillcolor="lightgray"];    Login -> Register [label = <Go to registration page> URL="#goToRegister" target="_parent" fontsize=13 class="goToRegister" penwidth=1.5];    Login -> UserHome [label = <<u>Login</u>> URL="#doLogin" target="_parent" fontsize=13 class="doLogin" penwidth=1.5];    Register -> Login [label = <Go to login page> URL="#goToLogin" target="_parent" fontsize=13 class="goToLogin" penwidth=1.5];    Register -> UserHome [label = <<u>User registration</u>> URL="#doRegister" target="_parent" fontsize=13 class="doRegister" penwidth=1.5];    UserCart -> UserCart [label=<<table border="0"><tr><td align="left" href="#doRemoveCartItem" tooltip="doRemoveCartItem (idempotent)" ><u>Remove cart item</u></td></tr><tr><td align="left" href="#doUpdateCartItem" tooltip="doUpdateCartItem (idempotent)" ><u>Update cart item</u></td></tr></table>> fontsize=13];    UserCart -> UserCheckout [label = <Go to user checkout> URL="#goToUserCheckout" target="_parent" fontsize=13 class="goToUserCheckout" penwidth=1.5];    UserCart -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserCart [label = <Go to user cart> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserCheckout -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserCheckout -> UserOrderDetail [label = <<u>Place order</u>> URL="#doPlaceOrder" target="_parent" fontsize=13 class="doPlaceOrder" penwidth=1.5];    UserHome -> Login [label = <<u>Logout</u>> URL="#doLogout" target="_parent" fontsize=13 class="doLogout" penwidth=1.5];    UserHome -> UserCart [label = <Go to user cart> URL="#goToUserCart" target="_parent" fontsize=13 class="goToUserCart" penwidth=1.5];    UserHome -> UserOrderHistory [label = <Go to user order history> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserHome -> UserProductList [label = <Go to user product list> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserHome -> UserProfile [label = <Go to user profile> URL="#goToUserProfile" target="_parent" fontsize=13 class="goToUserProfile" penwidth=1.5];    UserOrderDetail -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderDetail -> UserOrderHistory [label = <Go to user order history> URL="#goToUserOrderHistory" target="_parent" fontsize=13 class="goToUserOrderHistory" penwidth=1.5];    UserOrderDetail -> UserReturnRefund [label = <Go to return/refund page> URL="#goToUserReturnRefund" target="_parent" fontsize=13 class="goToUserReturnRefund" penwidth=1.5];    UserOrderHistory -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserOrderHistory -> UserOrderDetail [label = <Go to user order detail> URL="#goToUserOrderDetail" target="_parent" fontsize=13 class="goToUserOrderDetail" penwidth=1.5];    UserOrderHistory -> UserOrderHistory [label = <Paginate order list> URL="#goPaginateOrders" target="_parent" fontsize=13 class="goPaginateOrders" penwidth=1.5];    UserProductDetail -> UserCart [label=<<table border="0"><tr><td align="left" href="#doAddToCart" tooltip="doAddToCart (unsafe)" ><b><u>Add to cart</u></b></td></tr><tr><td align="left" href="#goToUserCart" tooltip="goToUserCart (safe)" >Go to user cart</td></tr></table>> fontsize=13];    UserProductDetail -> UserProductList [label = <Go to user product list> URL="#goToUserProductList" target="_parent" fontsize=13 class="goToUserProductList" penwidth=1.5];    UserProductDetail -> UserReview [label = <Go to user review page> URL="#goToUserReview" target="_parent" fontsize=13 class="goToUserReview" penwidth=1.5];    UserProductList -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProductList -> UserProductDetail [label = <Go to user product detail> URL="#goToUserProductDetail" target="_parent" fontsize=13 class="goToUserProductDetail" penwidth=1.5];    UserProductList -> UserProductList [label=<<table border="0"><tr><td align="left" href="#goPaginateProducts" tooltip="goPaginateProducts (safe)" >Paginate product list</td></tr><tr><td align="left" href="#goSearchProducts" tooltip="goSearchProducts (safe)" >Search products</td></tr></table>> fontsize=13];    UserProfile -> UserHome [label = <Go to user home> URL="#goToUserHome" target="_parent" fontsize=13 class="goToUserHome" penwidth=1.5];    UserProfile -> UserProfile [label = <<u>Update user profile</u>> URL="#doUpdateUserProfile" target="_parent" fontsize=13 class="doUpdateUserProfile" penwidth=1.5];    UserReturnRefund -> UserOrderDetail [label=<<table border="0"><tr><td align="left" href="#doRequestRefund" tooltip="doRequestRefund (idempotent)" ><u>Request refund</u></td></tr><tr><td align="left" href="#doRequestReturn" tooltip="doRequestReturn (idempotent)" ><u>Request return</u></td></tr><tr><td align="left" href="#goToUserOrderDetail" tooltip="goToUserOrderDetail (safe)" >Go to user order detail</td></tr></table>> fontsize=13];    UserReview -> UserProductDetail [label=<<table border="0"><tr><td align="left" href="#doAddReview" tooltip="doAddReview (idempotent)" ><u>Add review</u></td></tr><tr><td align="left" href="#doDeleteReview" tooltip="doDeleteReview (idempotent)" ><u>Delete review</u></td></tr><tr><td align="left" href="#doUpdateReview" tooltip="doUpdateReview (idempotent)" ><u>Update review</u></td></tr><tr><td align="left" href="#goToUserProductDetail" tooltip="goToUserProductDetail (safe)" >Go to user product detail</td></tr></table>> fontsize=13];    Login [label = <Login> URL="#Login" target="_parent"]    Register [label = <User Registration> URL="#Register" target="_parent"]    UserHome [label = <User Home> URL="#UserHome" target="_parent"]    UserCart [label = <Cart> URL="#UserCart" target="_parent"]    UserCheckout [label = <Checkout> URL="#UserCheckout" target="_parent"]    UserOrderDetail [label = <Order Detail> URL="#UserOrderDetail" target="_parent"]    UserOrderHistory [label = <Order History> URL="#UserOrderHistory" target="_parent"]    UserProductList [label = <Product List> URL="#UserProductList" target="_parent"]    UserProfile [label = <User Profile> URL="#UserProfile" target="_parent"]    UserReturnRefund [label = <Return/Refund> URL="#UserReturnRefund" target="_parent"]    UserProductDetail [label = <Product Detail> URL="#UserProductDetail" target="_parent"]    UserReview [label = <User Review> URL="#UserReview" target="_parent"]}')
                 ]);
                 setupTagTrigger();
                 setupModeSwitch('asd-show-id', 'asd-graph-id', 'asd-graph-name');
@@ -3037,7 +3034,7 @@
 
     <ul>
         <li>type: semantic</li>
-        <li>title: User Cart</li>
+        <li>title: Cart</li>
         <li>tag: <a href="#tag-cart">cart</a>, <a href="#tag-shop">shop</a></li>
         <li>descriptor</li>
     </ul>
@@ -3078,7 +3075,7 @@
 
     <ul>
         <li>type: semantic</li>
-        <li>title: User Checkout</li>
+        <li>title: Checkout</li>
         <li>tag: <a href="#tag-checkout">checkout</a>, <a href="#tag-shop">shop</a></li>
         <li>descriptor</li>
     </ul>
@@ -3175,7 +3172,7 @@
 
     <ul>
         <li>type: semantic</li>
-        <li>title: User Order Detail</li>
+        <li>title: Order Detail</li>
         <li>tag: <a href="#tag-order">order</a></li>
         <li>descriptor</li>
     </ul>
@@ -3211,7 +3208,7 @@
 
     <ul>
         <li>type: semantic</li>
-        <li>title: User Order History</li>
+        <li>title: Order History</li>
         <li>tag: <a href="#tag-order">order</a></li>
         <li>descriptor</li>
     </ul>
@@ -3247,7 +3244,7 @@
 
     <ul>
         <li>type: semantic</li>
-        <li>title: User Product Detail</li>
+        <li>title: Product Detail</li>
         <li>tag: <a href="#tag-catalog">catalog</a>, <a href="#tag-shop">shop</a></li>
         <li>descriptor</li>
     </ul>
@@ -3288,7 +3285,7 @@
 
     <ul>
         <li>type: semantic</li>
-        <li>title: User Product List</li>
+        <li>title: Product List</li>
         <li>tag: <a href="#tag-catalog">catalog</a>, <a href="#tag-shop">shop</a></li>
         <li>descriptor</li>
     </ul>
@@ -4044,7 +4041,7 @@
             {
                 &quot;id&quot;: &quot;UserProductList&quot;,
                 &quot;type&quot;: &quot;semantic&quot;,
-                &quot;title&quot;: &quot;User Product List&quot;,
+                &quot;title&quot;: &quot;Product List&quot;,
                 &quot;tag&quot;: &quot;catalog shop&quot;,
                 &quot;descriptor&quot;: [
                     {&quot;href&quot;: &quot;#goToUserProductDetail&quot;},
@@ -4056,7 +4053,7 @@
             {
                 &quot;id&quot;: &quot;UserProductDetail&quot;,
                 &quot;type&quot;: &quot;semantic&quot;,
-                &quot;title&quot;: &quot;User Product Detail&quot;,
+                &quot;title&quot;: &quot;Product Detail&quot;,
                 &quot;tag&quot;: &quot;catalog shop&quot;,
                 &quot;descriptor&quot;: [
                     {&quot;href&quot;: &quot;#doAddToCart&quot;},
@@ -4068,7 +4065,7 @@
             {
                 &quot;id&quot;: &quot;UserCart&quot;,
                 &quot;type&quot;: &quot;semantic&quot;,
-                &quot;title&quot;: &quot;User Cart&quot;,
+                &quot;title&quot;: &quot;Cart&quot;,
                 &quot;tag&quot;: &quot;cart shop&quot;,
                 &quot;descriptor&quot;: [
                     {&quot;href&quot;: &quot;#doUpdateCartItem&quot;},
@@ -4080,7 +4077,7 @@
             {
                 &quot;id&quot;: &quot;UserCheckout&quot;,
                 &quot;type&quot;: &quot;semantic&quot;,
-                &quot;title&quot;: &quot;User Checkout&quot;,
+                &quot;title&quot;: &quot;Checkout&quot;,
                 &quot;tag&quot;: &quot;checkout shop&quot;,
                 &quot;descriptor&quot;: [
                     {&quot;href&quot;: &quot;#doPlaceOrder&quot;},
@@ -4091,7 +4088,7 @@
             {
                 &quot;id&quot;: &quot;UserOrderHistory&quot;,
                 &quot;type&quot;: &quot;semantic&quot;,
-                &quot;title&quot;: &quot;User Order History&quot;,
+                &quot;title&quot;: &quot;Order History&quot;,
                 &quot;tag&quot;: &quot;order&quot;,
                 &quot;descriptor&quot;: [
                     {&quot;href&quot;: &quot;#goToUserOrderDetail&quot;},
@@ -4102,7 +4099,7 @@
             {
                 &quot;id&quot;: &quot;UserOrderDetail&quot;,
                 &quot;type&quot;: &quot;semantic&quot;,
-                &quot;title&quot;: &quot;User Order Detail&quot;,
+                &quot;title&quot;: &quot;Order Detail&quot;,
                 &quot;tag&quot;: &quot;order&quot;,
                 &quot;descriptor&quot;: [
                     {&quot;href&quot;: &quot;#goToUserOrderHistory&quot;},
@@ -4383,7 +4380,8 @@
             }
         ]
     }
-}</code></pre>
+}
+</code></pre>
 
 </div>
 </body>
