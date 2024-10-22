@@ -18,16 +18,26 @@ permalink: /manuals/1.0/ja/reference.html
 </alps>
 ```
 
-セマンティックディスクリプタはアプリケーションで使われる**特別な語句**を定義します。
+```json
+{
+    "alps": {
+        "descriptor": [
+            {},
+            {}
+        ]
+    }
+}
+```
 
+セマンティックディスクリプタはアプリケーションで使われる**特別な語句**を定義します。
 
 ```xml
 <descriptor id="dateCreated" title="作成日付"/>
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
-    <descriptor href="#id"/>
-</descriptor>
 ```
 
+```json
+{"id": "dateCreated", "title": "作成日付"}
+```
 
 ## title, doc, link
 
@@ -43,26 +53,23 @@ ALPSドキュンメントにはtitle、doc、linkなどのメタ情報を付加�
 </alps>
 ```
 
+```json
+{
+  "alps": {
+     "title": "ALPS Blog",
+     "doc": {"value": "An ALPS profile example for ASD"},
+     "link": {"rel": "issue", "href": "https://github.com/koriym/app-state-diagram/issues"}, "descriptor": [
+    {},
+    {}
+  ]}
+}
+```
+
 # descriptor
 
 descriptorはセマンティックディスクリプタ(意味的識別子)のための要素です。APIの項目名やリンクの名前など、アプリケーションのとって特別な語句を説明します。
 
-
-|  要素  |  意味  | 例 |
-| ---- | ---- | ---- |
-|  [descriptor](#descriptor) |  意味的識別子  | <descriptor id="dateCreated" />  |
-
-
-descriptorの説明のために、docやlink要素を含むことができます。
-
-|  要素  |  意味  | 例 |
-| ---- | ---- | ---- |
-|  [doc](#doc) |  説明テキスト  | <doc format="markdown">記事の作成日付</doc>  |
-|  [link](#link)  |  リンク  |   <link href="https://example.com/issues" rel="issue"/>  |
-
-また、情報の入れ子構造や、遷移に必要な情報を表すためにdescriptorを含むことができます。
-
-例） ブログ記事は本文や日付の情報を含んでいる
+例）ブログ記事は本文や日付の情報を含んでいる
 
 ```xml
 <descriptor id="BlogPosting" title="ブログ記事" >
@@ -71,7 +78,16 @@ descriptorの説明のために、docやlink要素を含むことができます
 </descriptor>
 ```
 
-例) ブログ記事を参照するには記事IDが必要
+```json
+{
+  "id": "BlogPosting", "title": "ブログ記事", "descriptor": [
+    {"href": "#dateCreated"},
+    {"href": "#articleBody"}
+  ]
+}
+```
+
+例）ブログ記事を参照するには記事IDが必要
 
 ```xml
 <descriptor id="goBlogPosting" type="safe" rt="#BlogPosting">
@@ -79,8 +95,15 @@ descriptorの説明のために、docやlink要素を含むことができます
 </descriptor>
 ```
 
+```json
+{
+  "id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "descriptor": [
+    {"href": "#id"}
+  ]
+}
+```
 
-### <a name="doc">doc</a>
+### doc
 
 文章で意味を説明するdoc
 
@@ -89,9 +112,14 @@ descriptorの説明のために、docやlink要素を含むことができます
     <doc format="markdown">ISO8601フォーマットで表された記事の作成日付</doc>
 </descriptor>
 ```
-docはformatでフォーマット（text|markdown|html|asciidoc）を指定できます。無指定の時はtextです。
 
-### <a name="link">link</a>
+```json
+{
+  "id": "dateCreated", "doc": {"format": "markdown", "value": "ISO8601フォーマットで表された記事の作成日付"}
+}
+```
+
+### link
 
 他のリソースの説明をリンクするlink
 
@@ -101,42 +129,31 @@ docはformatでフォーマット（text|markdown|html|asciidoc）を指定で�
 </descriptor>
 ```
 
-relはIANAの[Link Relation]relをIANAの[登録されたrel](https://www.iana.org/assignments/link-relations/link-relations.xhtml)から選び、hrefでURLにリンクします。
+```json
+{
+  "id": "dateCreated", "link": {"rel": "author", "href": "https://github.com/koriym"}
+}
+```
 
-# <a name="descriptor">Descriptor</a>要素
+# Descriptor要素
 
 descriptorにIDや、タイプ、タグと行った属性を付与できます。
 
-
 |  属性  |  意味  | 例 |
 | ---- | ---- | ---- |
-|  [id](#id)  |  識別子  | createdDate  |
-| [type](#type) | 型 | [semantic](#semantic) \| [safe](#safe) \| [unsafe](#unsafe) \| [idempotent](#idempotent) |
-|  [href](#href)   |  参照  |　#id |
-|  [rt](#rt)   |  遷移先  | #User |
-|  [rel](#rel)  |  関係  | edit |
-|  [title](#title)   |  タイトル  | 作成時刻  |
-|  [tag](#tag)   |  タグ  | ontology |
+|  id  |  識別子  | createdDate  |
+|  type | 型 | semantic \| safe \| unsafe \| idempotent |
+|  href   |  参照  |　#id |
+|  rt   |  遷移先  | #User |
+|  rel  |  関係  | edit |
+|  title   |  タイトル  | 作成時刻  |
+|  tag   |  タグ  | ontology |
 
-## <a name="id">id</a>
+## type
 
-ALPSでは全ての情報、全ての遷移（リンク）に対してユニークなIDを割り当てます。ID語句に仕様制約はありませんが、安全な遷移の時は`go`、安全ではない時の遷移は`do`を付けるベストプラクティスがあります。
+typeはdescriptorの性質を表します。
 
-## <a name="type">type</a>
-
-descriptorはtype属性を持ちます。無指定の場合はsemanticです。
-
-|  タイプ  |  意味  |
-| ---- | ---- | 
-|  [semantic](#semantic)  |  意味  | 
-|  [safe](#safe)   |  安全で冪等な遷移  | 
-|  [idempotent](#idempotent)   | 安全でなく冪等な遷移  | 
-|  [unsafe](#unsafe)   |  安全でなく冪等でない遷移  | 
-
-
-意味を表す１つのタイプと、遷移を表す３つのタイプがあります。
-
-### <a name="semantic">semantic</a>
+### semantic
 
 アプリケーションで使う語句をリストアップし、ボキャブラリを作成します。
 
@@ -144,47 +161,49 @@ descriptorはtype属性を持ちます。無指定の場合はsemanticです。
 <descriptor id="dateCreated" type="semantic"/>
 ```
 
+```json
+{"id": "dateCreated", "type": "semantic"}
+```
 
-### <a name="safe">safe</a>
+### safe
 
-リソースの状態が変化しない、読み取りのための遷移です。
-
-例） URLを指定してリソース状態を取得
+状態が変化しない、読み取りのための遷移です。
 
 ```xml
 <descriptor id="goBlog" type="safe" rt="#Blog" />
 ```
 
-### <a name="idempotent">idempotent</a>
+```json
+{"id": "goBlog", "type": "safe", "rt": "#Blog"}
+```
 
-リソースの状態が冪等で変化する遷移です。
+### idempotent
 
-例） URLを指定したリソース作成、対象リソースの変更や削除
+状態が冪等で変化する遷移です。
 
 ```xml
 <descriptor id="doDeleteMenu" type="idempotent" rt="#Menu">
 ```
 
-### <a name="unsafe">unsafe</a>
+```json
+{"id": "doDeleteMenu", "type": "idempotent", "rt": "#Menu"}
+```
 
-リソースの状態変化が冪等ではない遷移です。
+### unsafe
 
-例） URLを指定しないリソース作成や対象リソースの追記
+状態変化が冪等ではない遷移です。
 
 ```xml
 <descriptor id="doAppendRecord" type="unsafe" rt="#Record">
 ```
 
-以上、計４つのタイプがあります。
+```json
+{"id": "doAppendRecord", "type": "unsafe", "rt": "#Record"}
+```
 
-> 冪等とは
->
-> ある操作を1回行っても複数回行っても結果が同じであることです。たとえばリソースの追加は冪等性がありませんが、リソースの変更や消去には冪等性があります。
-
-## <a name="href">href</a>
+## href
 
 １つのdescriptorを再利用するためにhrefでリンクをする事ができます。リンクには同じドキュメントからリンクするインラインリンクと、他のファイルのdescriptorにリンクするアウトバウンドリンクの２つがあります。
-
 
 ```xml
 <!-- インラインリンク -->
@@ -192,27 +211,39 @@ descriptorはtype属性を持ちます。無指定の場合はsemanticです。
 
 <!-- アウトバウンドリンク -->
 <descriptor href="Blog.xml#articleBody">
-
 ```
 
-## <a name="rt">rt</a>
+```json
+{"href": "#articleBody"}
 
-遷移先IDを指定します。
-
-```xml
-<descriptor id="goBlog" type="safe" rt="#Blog">
+{"href": "Blog.xml#articleBody"}
 ```
 
-## <a name="rel">rel</a>
+## rel
 
-typeが`safe`, `idempotent`, `unsafe`の遷移の時に関係性を指定します。
+状態遷移の関係性を表します。値として以下のいずれかを指定できます：
+
+1. IANAで定義されているLink Relationsの値（[推奨リレーション一覧](recommended_iana_rels.html)を参照）
+    - 例：`edit`, `create`, `next`, `prev` など
+
+2. カスタムの関係性を表すURL
+    - 例：`https://example.com/rels/custom-relation`
 
 ```xml
+<!-- IANAで定義された関係性を使用 -->
 <descriptor id="editBlogPosting" type="idempotent" rel="edit" rt="#Blog">
-```
-relはIANAの[Link Relation](https://www.iana.org/assignments/link-relations/link-relations.xhtml)から選びます。
 
-## <a name="title">title</a>
+<!-- カスタムの関係性を使用 -->
+<descriptor id="customAction" type="safe" rel="https://example.com/rels/custom-relation" rt="#Blog">
+```
+
+```json
+{"id": "editBlogPosting", "type": "idempotent", "rel": "edit", "rt": "#Blog"}
+
+{"id": "customAction", "type": "safe", "rel": "https://example.com/rels/custom-relation", "rt": "#Blog"}
+```
+
+## title
 
 内容を一行で表すコメントです。
 
@@ -220,10 +251,18 @@ relはIANAの[Link Relation](https://www.iana.org/assignments/link-relations/lin
 <descriptor id="editBlogPosting" type="idempotent" rt="#Blog" title="記事の編集" />
 ```
 
-## <a name="tag">tag</a>
+```json
+{"id": "editBlogPosting", "type": "idempotent", "rt": "#Blog", "title": "記事の編集"}
+```
+
+## tag
+
+タグでグループを作ります。描画ツールはタグ単位で描画の有無や色を指定できます。
 
 ```xml
 <descriptor id="editBlogPosting" type="idempotent" rt="#Blog" tag="choreography" />
 ```
 
-タグでグループを作ります。ASDはタグ単位で描画の有無や色を指定できます。
+```json
+{"id": "editBlogPosting", "type": "idempotent", "rt": "#Blog", "tag": "choreography"}
+```
