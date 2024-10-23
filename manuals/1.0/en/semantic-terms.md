@@ -20,7 +20,7 @@ This document provides a complete list of terms from [Schema.org](https://schema
 5. Regarding domain-specific terms:
 - Define industry or business-specific terms as custom semantic descriptors
 - Naming convention: domainName + PropertyName (e.g., orderShippingStatus, medicalDiagnosisCode)
-- Recommended to build on Schema.org terms while making necessary extensions
+- It is recommended to build on Schema.org terms while making necessary extensions
 - When defining domain-specific terms, it's important to clearly document their meaning and usage
 
 ### Category Index
