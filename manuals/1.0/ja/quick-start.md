@@ -4,49 +4,51 @@ title: クイックスタート
 category: Manual
 permalink: /manuals/1.0/ja/quick-start.html
 ---
+
 # クイックスタート
 
-## 環境
+asd(app-state-diagram)でALPSドキュメントを状態遷移図やボキャブラリリストのあるASDドキュメントにするにはasdツールを使います。
+asdツールはオンライン版、homebrew版、docker版、Macランチャーアプリケーション版、GHアクション版が用意されています。
 
-ASDの実行には[Homebrew](https://brew.sh/ja/)または[Docker](https://www.docker.com/products/docker-desktop)が必要です。
+## オンライン版
 
-## Homebrew
+オンラインツールを使うのが最も簡単な方法です。
 
-お勧めの方法です。以下のようにします。
+[https://app-state-diagram.free.nf/](https://app-state-diagram.free.nf/)
+
+現在単一のファイルしか編集できないという制限があります。
+
+## homebrew版
+
+インストール:
 
 ```shell
 brew install alps-asd/asd/asd
 ```
 
-アンインストールするには以下のようにします。
+デモドキュメントをダウンロードして実行
 
-```shell
-brew uninstall asd
-brew untap alps-asd/asd
+```
+curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
+asd -w ./alps.json
 ```
 
-## Docker
+## Docker版
 
-次のコマンドでasdコマンドをインストールします。
+インストール:
 
 ```
 curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x ./asd && sudo mv ./asd /usr/local/bin
 ```
 
-## デモ
-
-HomebrewまたはDockerいずれかの方法でインストールを行った後は早速デモを実行してみましょう。
+デモドキュメントをダウンロードして実行
 
 ```
-mkdir work
-curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > work/profile.json
-asd --watch ./work/profile.json
+curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > profile.json
+asd --watch ./profile.json
 ```
 
-ブラウザで[http://localhost:3000/](http://localhost:3000/)を開きます。
-Application State Diagramのリンクでダイアグラムが確認できますか？
-
-## Macアプリケーション
+## Macランチャーアプリケーション
 
 コンソールの操作が不要なMacのGUIアプリケーションも用意されています。
 
@@ -56,8 +58,6 @@ Application State Diagramのリンクでダイアグラムが確認できます�
 * スクリプトエディタで、`ファイル` > `書き出す..` を選択し、場所を`アプリケーション`、ファイルフォーマットも`アプリケーション`にして保存します。
 * 実行してALPSファイルを選択するとASDサーバーが起動します。ドラッグ&ドロップにも対応しています。
 
-## アプリケーション状態遷移図
+## GHアクション版
 
-矢印で結ばれたそれぞれの四角形を**アプリケーション状態**といいます。**リソースの状態**と **アフォーダンス**（次のアクション）がリンクとして示されていて、リンクを辿ることでアプリケーション状態が遷移します。 `<a>`タグや`<form>`タグで各ページがリンクされたWebサイトをイメージしてください。
-
-遷移図はSVGフォーマットで、アプリケーション状態やリンクの詳細ページにリンクされています。
+CIでASD作成を行います。詳細は[https://github.com/marketplace/actions/app-state-diagram](https://github.com/marketplace/actions/app-state-diagram)をご覧ください。
