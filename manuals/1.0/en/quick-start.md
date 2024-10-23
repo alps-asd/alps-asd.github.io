@@ -4,59 +4,81 @@ title: Quick Start
 category: Manual
 permalink: /manuals/1.0/en/quick-start.html
 ---
+
 # Quick Start
 
-## Requirement
+To convert ALPS documents into ASD (App State Diagram) documents with state transition diagrams and vocabulary lists using asd (app-state-diagram), you can use the asd tool.
+The asd tool is available in several versions: online version, homebrew version, docker version, Mac launcher application version, and GitHub Actions version.
 
-You need [Homebrew](https://brew.sh/ja/) or [Docker](https://www.docker.com/products/docker-desktop) to run ASD.
+## Online Version
 
-## Homebrew
+Using the online tool is the easiest method.
 
-Recommended. Do the following
+[https://app-state-diagram.free.nf/](https://app-state-diagram.free.nf/)
+
+Currently, there is a limitation that only single files can be edited.
+
+## Homebrew Version
+
+Installation:
 
 ```shell
 brew install alps-asd/asd/asd
-````
+```
 
-To uninstall, do the following: 
+Download and run the demo document:
 
 ```shell
-brew uninstall asd
-brew untap alps-asd/asd
-````
-
-## Docker
-
-Install the asd command with the following command.
-
-```
-curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > . /asd && chmod +x . /asd && sudo mv . /asd /usr/local/bin
+curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
+asd -w ./alps.json
 ```
 
-## Demo
+## Docker Version
 
-After installing either Homebrew or Docker, let's run the demo.
+Installation:
 
 ```shell
-mkdir work
-curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > work/profile.json
-asd --watch ./work/profile.json
+curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x ./asd && sudo mv ./asd /usr/local/bin
 ```
 
-Open [http://localhost:3000/](http://localhost:3000/) in your browser.
-Can you see the diagram in the Application State Diagram link?
+Download and run the demo document:
 
-## Mac Application
+```shell
+curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > profile.json
+asd --watch ./profile.json
+```
 
-A Mac GUI application that does not require console operation is also available.
+## Mac Launcher Application
 
-Install and Run:
+A Mac GUI application that doesn't require console operations is also available.
+
+Installation and execution:
+
 * Download [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip) and open the `asd` script.
-* In the script editor, select `File` > `Export...` and save the file to the `Application` folder with the file format as application.
-* * Run and select an ALPS file to start the ASD server. Drag & Drop is also supported.
+* In Script Editor, select `File` > `Export...`, choose `Applications` as the location and set file format to `Application`.
+* Run it and select an ALPS file to start the ASD server. Drag & drop is also supported.
 
-## Application State Diagram
+## GitHub Actions Version
 
-Each rectangle connected by an arrow is called **application state**. **The resource state** and **affordance** (next action) are shown as links, and the application state transitions by following the links. Imagine a website where each page is linked with `<a>` tags and `<form>` tags.
+Create ASD in CI. For details, please see [https://github.com/marketplace/actions/app-state-diagram](https://github.com/marketplace/actions/app-state-diagram).
 
-The transition diagram is in SVG format and is linked to the detailed pages of the application states and links.
+## Execution Options
+
+```
+asd [options] [alpsFile]
+
+    -w, --watch
+        Watch mode
+
+    -m, --mode
+        Drawing mode
+
+     --port
+        Port to use (default 3000)
+```
+
+### Mode
+
+If your repository is private and your account is not a GHE or GHE Cloud account, you cannot make GitHub Pages private. In such cases, you can output in Markdown and keep the documentation private.
+
+Unfortunately, there is no way to host linked SVG diagrams in Markdown. When converting to Markdown, the diagrams lose their links. Markdown is an option when you cannot publish HTML.
