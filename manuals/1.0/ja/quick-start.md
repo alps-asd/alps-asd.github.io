@@ -1,84 +1,125 @@
 ---
 layout: docs-ja
-title: クイックスタート
+title: ASDインストールと利用ガイド
 category: Manual
 permalink: /manuals/1.0/ja/quick-start.html
 ---
 
-# クイックスタート
+# ASDのインストールと利用ガイド
 
-asd(app-state-diagram)でALPSドキュメントを状態遷移図やボキャブラリリストのあるASDドキュメントにするにはasdツールを使います。
-asdツールはオンライン版、homebrew版、docker版、Macランチャーアプリケーション版、GHアクション版が用意されています。
+ASD（app-state-diagram）は、アプリケーションの状態遷移図やボキャブラリリストを含んだALPSの包括的なドキュメントを作成するためのツールです。以下の方法で利用できます。
 
-## オンライン版
+## 利用方法の選択
 
-オンラインツールを使うのが最も簡単な方法です。
+### 1. オンライン版
 
-[https://app-state-diagram.free.nf/](https://app-state-diagram.free.nf/)
+ローカルインストール不要で、すぐに利用できます：
 
-現在単一のファイルしか編集できないという制限があります。
+- [https://alps-asd.github.io/app-state-diagram/](https://alps-asd.github.io/app-state-diagram/)
 
-## homebrew版
+特徴：
+- インストール不要
+- ブラウザですぐに利用可能
+- JSON/XML/HTMLファイルをドラッグ＆ドロップで読み込み可能
+- スニペットや高度なコード補完機能
+- ローカル環境へのインストールが不要な場合の推奨オプション
+- 注意）現在複数ファイルを一度に編集することができません
+
+### 2. Homebrew版
+
+[homebrew](https://brew.sh/ja/)がインストールされている環境では最も簡単に利用できます。
 
 インストール:
 
-```shell
+```bash
 brew install alps-asd/asd/asd
 ```
 
-デモドキュメントをダウンロードして実行
+### 3. Docker版
 
+Dockerで実行するためのスクリプトをダウンロードして実行します。シェルスクリプトのダウンロードと実行を伴うために以下のセキュリティ確認手順に従ってください。
+
+#### セキュリティ確認手順
+
+1. スクリプトの内容確認（推奨）：
+
+```bash
+curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh | less
 ```
+
+2. チェックサム検証：
+
+```bash
+curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh | sha256sum
+```
+
+期待値：
+```
+0f05034400b2e7fbfee6cddfa9dceb922e51d93fc6dcda62e42803fb8ef05f66
+```
+
+3. インストール実行：
+
+```bash
+sudo curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh -o /usr/local/bin/asd
+sudo chmod +x /usr/local/bin/asd
+```
+
+#### 前提条件
+- Dockerがインストールされていること
+- curlコマンドが利用可能であること
+
+### 4. Macランチャーアプリケーション（GUI版）
+
+コマンドライン操作が不要なMac用GUIアプリケーションです。
+
+インストール手順：
+1. [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip)をダウンロード
+2. ダウンロードしたスクリプトをスクリプトエディタで開く
+3. 「ファイル」>「書き出す...」を選択
+4. 保存先：「アプリケーション」
+5. フォーマット：「アプリケーション」として保存
+
+### 5. GitHub Actions版
+
+CIでASD作成を行います。詳細は[マーケットプレイス](https://github.com/marketplace/actions/app-state-diagram)をご覧ください。
+
+## 使用方法
+
+### デモ実行
+```bash
+# デモファイルのダウンロードと実行
 curl -L https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
 asd -w ./alps.json
 ```
 
-## Docker版
-
-インストール:
-
-```
-curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x ./asd && sudo mv ./asd /usr/local/bin
-```
-
-デモドキュメントをダウンロードして実行
-
-```
-curl -L https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
-asd --watch ./alps.json
-```
-
-## Macランチャーアプリケーション
-
-コンソールの操作が不要なMacのGUIアプリケーションも用意されています。
-
-インストールと実行：
-
-* [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip)をダウンロードして`asd`スクリプトを開きます。
-* スクリプトエディタで、`ファイル` > `書き出す..` を選択し、場所を`アプリケーション`、ファイルフォーマットも`アプリケーション`にして保存します。
-* 実行してALPSファイルを選択するとASDサーバーが起動します。ドラッグ&ドロップにも対応しています。
-
-## GHアクション版
-
-CIでASD作成を行います。詳細は[https://github.com/marketplace/actions/app-state-diagram](https://github.com/marketplace/actions/app-state-diagram)をご覧ください。
-
-## 実行オプション
-
+### コマンドラインオプション
 ```
 asd [options] [alpsFile]
 
-    -w, --watch
-    　　 ウオッチモード
-
-    -m, --mode
-    　　 描画モード
-
-     --port
-        利用ポート（デフォルト3000)
+オプション：
+    -w, --watch     ウォッチモード
+    -m, --mode      描画モード
+    --port          利用ポート（デフォルト3000）
 ```
 
-### mode
+### モード設定
+- 非公開リポジトリでの利用時はMarkdownモードを使用可能
+- ただし、Markdownモードではダイアグラムのリンクは機能しません
+- HTMLを公開できない場合の代替オプションとして利用
 
-リポジトリが非公開でアカウントがGHEやGHE Cloudのアカウントでない場合、GitHub Pagesを非公開にすることができません。そのような場合は、Markdownで出力し、ドキュメントを非公開にすることができます。
+## インストール確認
 
-残念ながらリンクされたSVGのダイアグラムをMarkdownでホストする方法はありません。Markdownにするとダイアログはリンクを失います。 MarkdownはHTMLを公開できない場合のオプションです。
+```bash
+asd
+usage: asd [options] alps_file
+@see https://github.com/alps-asd/app-state-diagram#usage
+```
+
+## 選択の目安
+
+- すぐに試したい、一時的な利用 → オンライン版
+- Mac環境でのローカル利用 → Homebrew版
+- クロスプラットフォームでの利用 → Docker版
+- Macローカル環境でGUI → ランチャーアプリケーション
+- CI/CD環境での利用 → GitHub Actions版
