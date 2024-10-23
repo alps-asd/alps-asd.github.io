@@ -29,7 +29,7 @@ brew install alps-asd/asd/asd
 デモドキュメントをダウンロードして実行
 
 ```
-curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
+curl -L https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
 asd -w ./alps.json
 ```
 
