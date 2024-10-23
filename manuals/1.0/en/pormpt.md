@@ -14,7 +14,7 @@ This abstract representation makes it possible to communicate efficiently with A
 ## List of conversion prompts
 
 - [OpenAPI](#openapi)
-- [JSON Schema](#jsonスキーマ)
+[JSON Schema](#json-schema)
 - [GraphQL](#graphql)
 - [SQL](#sql)
 - [TypeScript type definitions](#typescript-type-definitions)
