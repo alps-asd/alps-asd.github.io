@@ -701,19 +701,20 @@ This document is continuously updated and new terms and usage patterns may be ad
 All terms are classified into three levels based on importance and frequency of use:
 
 - 🔵 **Core Terms**: Essential key terms for basic APIs (about 10-15% of total)
-    - Fundamental vocabulary used in most applications
-    - First choice when creating simple APIs
-    - Terms necessary for common CRUD operations
+🔵 **Core Terms**: Essential key terms for basic APIs (about 10-15% of total)
+  - Fundamental vocabulary used in most applications
+  - First choice when creating simple APIs
+  - Terms necessary for common CRUD operations
 
-- 🟡 **Extended Terms**: Commonly used extended terms (about 30-35% of total)
-    - Vocabulary needed for specific domains and more detailed expressions
-    - Terms commonly used in general business applications
-    - Options when richer expressiveness is needed
+🟡 **Extended Terms**: Commonly used extended terms (about 30-35% of total)
+  - Vocabulary needed for specific domains and more detailed expressions
+  - Terms commonly used in general business applications
+  - Options when richer expressiveness is needed
 
-- ⚪ **Full Terms**: Special purpose terms (about 50-55% of total)
-    - Vocabulary needed for specific industries and special use cases
-    - Options when complete compatibility is needed
-    - Terms for very specialized expressions
+⚪ **Full Terms**: Special purpose terms (about 50-55% of total)
+  - Vocabulary needed for specific industries and special use cases
+  - Options when complete compatibility is needed
+  - Terms for very specialized expressions
 
 ### Usage Notes
 
