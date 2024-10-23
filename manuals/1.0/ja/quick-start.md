@@ -61,3 +61,24 @@ asd --watch ./profile.json
 ## GHアクション版
 
 CIでASD作成を行います。詳細は[https://github.com/marketplace/actions/app-state-diagram](https://github.com/marketplace/actions/app-state-diagram)をご覧ください。
+
+## 実行オプション
+
+```
+asd [options] [alpsFile]
+
+    -w, --watch
+    　　 ウオッチモード
+
+    -m, --mode
+    　　 描画モード
+
+     --port
+        利用ポート（デフォルト3000)
+```
+
+### mode
+
+リポジトリが非公開でアカウントがGHEやGHE Cloudのアカウントでない場合、GitHub Pqgesを非公開にすることができません。そのような場合は、Markdownで出力し、ドキュメントを非公開にすることができます。
+
+残念ながらリンクされたSVGのダイアグラムをMarkdownでホストする方法はありません。Markdownにするとダイアログはリンクを失います。 MarkdownはHTMLを公開できない場合のオプションです。
