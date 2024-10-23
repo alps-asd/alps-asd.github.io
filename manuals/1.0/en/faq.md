@@ -54,7 +54,3 @@ A. ALPS deals with REST abstractions that are higher than HTTP. Therefore, it ca
 
 A. If you want to model information to improve the quality of user experience, or if you want a reference (SSOT) to unify the understanding among production members, or if you want to overview and reuse your design, or if you want to keep your information design as a standardized document, ALPS+ASD will be useful as your information design modeling tool or as a format to express it.
 
----
-
-*[This manual]((https://github.com/alps-asd/alps-asd.github.io)) has been machine translated by [DeepL](www.DeepL.com/Translator)*. *Help us improve the quality of our translations!*
-
