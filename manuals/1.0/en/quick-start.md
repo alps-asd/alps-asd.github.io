@@ -29,7 +29,7 @@ brew install alps-asd/asd/asd
 Download and run the demo document:
 
 ```shell
-curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
+curl -L https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
 asd -w ./alps.json
 ```
 
@@ -44,7 +44,7 @@ curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x 
 Download and run the demo document:
 
 ```shell
-curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > profile.json
+curl -L https://alps-asd.github.io/app-state-diagram/blog/profile.json > profile.json
 asd --watch ./profile.json
 ```
 
