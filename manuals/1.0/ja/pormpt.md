@@ -569,7 +569,7 @@ mutation CreateOrder($input: CreateOrderInput!) {
 2. **Security:**
     - Authentication patterns
     - Authorization directives
-    - Rate limiting strategies
+    - Rate-limiting strategies
     - Input sanitization
 
 3. **Developer Experience:**
