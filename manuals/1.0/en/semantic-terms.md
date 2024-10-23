@@ -243,7 +243,7 @@ This document provides a complete list of terms from [Schema.org](https://schema
 | additionalName | 🟡 | Additional name |
 | honorificPrefix | 🟡 | Honorific prefix |
 | honorificSuffix | 🟡 | Honorific suffix |
-| birthPlace | 🟡 | Birth place |
+| birthPlace | 🟡 | Birthplace |
 | deathDate | 🟡 | Death date |
 | deathPlace | 🟡 | Death place |
 | height | 🟡 | Height |
@@ -349,7 +349,7 @@ This document provides a complete list of terms from [Schema.org](https://schema
 | additionalProperty | ⚪ | Additional property |
 | hasMerchantReturnPolicy | ⚪ | Has merchant return policy |
 | hasWarranty | ⚪ | Has warranty |
-| isFamilyFriendly | ⚪ | Is family friendly |
+| isFamilyFriendly | ⚪ | Is family-friendly |
 | isAccessoryOrSparePartFor | ⚪ | Is accessory or spare part for |
 | isConsumableFor | ⚪ | Is consumable for |
 
