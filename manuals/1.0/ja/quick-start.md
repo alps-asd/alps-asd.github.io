@@ -44,8 +44,8 @@ curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > ./asd && chmod +x 
 デモドキュメントをダウンロードして実行
 
 ```
-curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > profile.json
-asd --watch ./profile.json
+curl -L https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
+asd --watch ./alps.json
 ```
 
 ## Macランチャーアプリケーション
