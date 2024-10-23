@@ -34,4 +34,3 @@ By applying IA concepts to domain modeling, technical implementation and busines
 ### Summary
 
 By applying information architecture concepts to domain modeling, ALPS functions beyond an API design tool as a framework that structures business domain knowledge and bridges it to technical implementation. It provides a sustainable domain model that is relatively immune to technological changes.
-```
