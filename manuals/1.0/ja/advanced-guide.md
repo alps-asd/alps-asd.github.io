@@ -2,7 +2,7 @@
 layout: docs-ja
 title: 高度な実装ガイド
 category: Manual
-permalink: /manuals/1.0/ja/adavanced_guide.html
+permalink: /manuals/1.0/ja/advanced-guide.html
 ---
 
 # 高度な実装ガイド
