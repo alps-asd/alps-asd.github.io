@@ -14,14 +14,15 @@ This abstract representation makes it possible to communicate efficiently with A
 ## List of conversion prompts
 
 - [OpenAPI](#openapi)
-[JSON Schema](#json-schema)
+- [JSON Schema](#json-schema)
 - [GraphQL](#graphql)
 - [SQL](#sql)
 - [TypeScript type definitions](#typescript-type-definitions)
 
+
 ## OpenAPI
 
-```markdown
+<pre>
 **Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into an OpenAPI 3.0 definition file in YAML format.
 
 **Key Points to Consider:**
@@ -77,11 +78,11 @@ This abstract representation makes it possible to communicate efficiently with A
 
 
 _YOUR_ALPS_HERE_
-```
+</pre>
 
-## JSONスキーマ
+## JSON Schema
 
-```markdown
+<pre>
 **Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into a JSON Schema definition.
 
 **Key Points to Consider:**
@@ -154,11 +155,11 @@ _YOUR_ALPS_HERE_
 - Add comments for complex validations or business rules
 
 _YOUR_ALPS_HERE_
-```
+</pre>
 
 ## SQL
 
-```markdown
+<pre>
 **Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into SQL DDL (Data Definition Language) and DML (Data Manipulation Language) statements.
 
 **Part 1: DDL Statements**
@@ -286,310 +287,275 @@ _YOUR_ALPS_HERE_
     - Constraint violation handling
 
 _YOUR_ALPS_HERE_
-```
+</pre>
 
 ## GraphQL
 
-```markdown
+<pre>
+
 **Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into a complete GraphQL implementation including schema definitions and operation examples.
 
-**Part 1: Schema Definitions**
-[前回のType Definitions等の内容...]
+**Key Points to Consider:**
 
-**Part 2: GraphQL Operations**
+1. **Schema Definition:**
+   - **Type Definitions:**
+     - Map ALPS semantic descriptors to GraphQL types
+     - Use appropriate scalar types (ID, String, Int, Float, Boolean)
+     - Define custom scalar types if needed (DateTime, JSON, etc.)
+     ```graphql
+     scalar DateTime
+     scalar JSON
 
-1. **Query Operations:**
-    - **Basic Queries:**
-        - Single record retrieval
-        - List retrieval with filtering
-        - Pagination patterns
-        ```graphql
-        # Example Query Structure
-        type Query {
-          user(id: ID!): User
-          users(
-            filter: UserFilter
-            orderBy: UserOrderBy
-            first: Int
-            after: String
-          ): UserConnection!
-        }
-        ```
+     type User {
+       id: ID!
+       name: String!
+       email: String!
+       createdAt: DateTime!
+       metadata: JSON
+     }
+     ```
 
-    - **Complex Queries:**
-        - Nested relationship queries
-        - Aggregate queries
-        - Search operations
-        ```graphql
-        # Example Complex Query
-        query GetUserWithDetails($userId: ID!) {
-          user(id: $userId) {
-            id
-            name
-            orders(first: 5) {
-              edges {
-                node {
-                  id
-                  total
-                  items {
-                    product {
-                      name
-                      price
-                    }
-                    quantity
-                  }
-                }
-              }
-            }
-            activities(last: 10) {
-              timestamp
-              action
-            }
-          }
-        }
-        ```
+   - **Relationships:**
+     - Handle one-to-one, one-to-many, and many-to-many relationships
+     - Consider nullable vs. non-nullable fields
+     ```graphql
+     type Order {
+       id: ID!
+       user: User!
+       items: [OrderItem!]!
+       total: Float!
+     }
+     ```
 
-2. **Mutation Operations:**
-    - **Create Operations:**
-        - Single record creation
-        - Bulk creation
-        - Nested creation
-        ```graphql
-        type Mutation {
-          createUser(input: CreateUserInput!): CreateUserPayload!
-        }
+   - **Input Types:**
+     - Create input types for mutations
+     - Consider validation requirements
+     ```graphql
+     input CreateUserInput {
+       name: String!
+       email: String!
+       password: String!
+     }
+     ```
 
-        input CreateUserInput {
-          name: String!
-          email: String!
-          address: AddressInput
-        }
+   - **Interfaces and Unions:**
+     - Define interfaces for shared fields
+     - Use unions for polymorphic relationships
+     ```graphql
+     interface Node {
+       id: ID!
+     }
 
-        type CreateUserPayload {
-          user: User!
-          errors: [Error!]
-        }
-        ```
+     union SearchResult = User | Order | Product
+     ```
 
-    - **Update Operations:**
-        - Full updates
-        - Partial updates
-        - Conditional updates
-        ```graphql
-        mutation UpdateUserProfile($input: UpdateUserProfileInput!) {
-          updateUserProfile(input: $input) {
-            user {
-              id
-              name
-              email
-              updatedAt
-            }
-            errors {
-              field
-              message
-            }
-          }
-        }
-        ```
+2. **Query Operations:**
+   - **Base Queries:**
+     - Single item retrieval
+     - List retrieval with filtering
+     - Search operations
+     ```graphql
+     type Query {
+       user(id: ID!): User
+       users(filter: UserFilter, limit: Int, offset: Int): [User!]!
+       search(term: String!): [SearchResult!]!
+     }
+     ```
 
-    - **Delete Operations:**
-        - Soft deletes
-        - Hard deletes
-        - Batch deletes
+   - **Filtering System:**
+     - Define filter input types
+     - Support complex filtering operations
+     ```graphql
+     input UserFilter {
+       name: StringFilter
+       age: IntFilter
+       AND: [UserFilter!]
+       OR: [UserFilter!]
+     }
 
-3. **Subscription Operations:**
-    - **Real-time Updates:**
-        - Entity changes
-        - Status updates
-        - Activity streams
-        ```graphql
-        type Subscription {
-          userStatusChanged(userId: ID!): UserStatus!
-          newOrderCreated: Order!
-          activityFeed(topicId: ID!): Activity!
-        }
-        ```
+     input StringFilter {
+       eq: String
+       contains: String
+       startsWith: String
+       in: [String!]
+     }
+     ```
 
-4. **Common Operation Patterns:**
-    - **Filtering:**
-        ```graphql
-        input UserFilter {
-          name: StringFilter
-          age: IntFilter
-          status: UserStatusFilter
-          AND: [UserFilter!]
-          OR: [UserFilter!]
-        }
+   - **Pagination:**
+     - Implement cursor-based pagination
+     - Support limit/offset pagination
+     ```graphql
+     type UserConnection {
+       edges: [UserEdge!]!
+       pageInfo: PageInfo!
+       totalCount: Int!
+     }
 
-        input StringFilter {
-          eq: String
-          contains: String
-          startsWith: String
-          in: [String!]
-        }
-        ```
+     type UserEdge {
+       node: User!
+       cursor: String!
+     }
 
-    - **Pagination:**
-        ```graphql
-        type UserConnection {
-          edges: [UserEdge!]!
-          pageInfo: PageInfo!
-          totalCount: Int!
-        }
+     type PageInfo {
+       hasNextPage: Boolean!
+       hasPreviousPage: Boolean!
+       startCursor: String
+       endCursor: String
+     }
+     ```
 
-        type UserEdge {
-          node: User!
-          cursor: String!
-        }
-        ```
+3. **Mutation Operations:**
+   - **Create Operations:**
+     ```graphql
+     type Mutation {
+       createUser(input: CreateUserInput!): CreateUserPayload!
+       updateUser(id: ID!, input: UpdateUserInput!): UpdateUserPayload!
+       deleteUser(id: ID!): DeleteUserPayload!
+     }
 
-    - **Sorting:**
-        ```graphql
-        enum UserOrderBy {
-          NAME_ASC
-          NAME_DESC
-          CREATED_AT_ASC
-          CREATED_AT_DESC
-        }
-        ```
+     type CreateUserPayload {
+       user: User
+       errors: [Error!]
+     }
+     ```
 
-5. **Error Handling:**
-    ```graphql
-    type Error {
-      field: String
-      message: String!
-      code: ErrorCode!
-    }
+   - **Batch Operations:**
+     ```graphql
+     input BatchCreateUserInput {
+       users: [CreateUserInput!]!
+     }
 
-    enum ErrorCode {
-      INVALID_INPUT
-      NOT_FOUND
-      UNAUTHORIZED
-      FORBIDDEN
-      INTERNAL_ERROR
-    }
-    ```
+     type BatchCreateUserPayload {
+       users: [User!]!
+       errors: [BatchError!]!
+     }
+     ```
 
-**Implementation Examples:**
+   - **Error Handling:**
+     ```graphql
+     type Error {
+       field: String
+       message: String!
+       code: ErrorCode!
+     }
 
-1. **Query Example with Variables:**
-```graphql
-query UserSearch(
-  $searchTerm: String
-  $status: UserStatus
-  $first: Int = 10
-  $after: String
-) {
-  users(
-    filter: { 
-      OR: [
-        { name: { contains: $searchTerm } }
-        { email: { contains: $searchTerm } }
-      ]
-      status: { eq: $status }
-    }
-    first: $first
-    after: $after
-  ) {
-    edges {
-      node {
-        id
-        name
-        email
-        status
-        orders {
-          totalCount
-        }
-      }
-      cursor
-    }
-    pageInfo {
-      hasNextPage
-      endCursor
-    }
-    totalCount
-  }
-}
+     type BatchError {
+       index: Int!
+       errors: [Error!]!
+     }
 
-# Variables
-{
-  "searchTerm": "john",
-  "status": "ACTIVE",
-  "first": 5
-}
-```
+     enum ErrorCode {
+       INVALID_INPUT
+       NOT_FOUND
+       UNAUTHORIZED
+       INTERNAL_ERROR
+     }
+     ```
 
-2. **Mutation Example with Variables:**
-```graphql
-mutation CreateOrder($input: CreateOrderInput!) {
-  createOrder(input: $input) {
-    order {
-      id
-      items {
-        product {
-          name
-          price
-        }
-        quantity
-        subtotal
-      }
-      total
-      status
-    }
-    errors {
-      field
-      message
-      code
-    }
-  }
-}
+4. **Subscription Operations:**
+   ```graphql
+   type Subscription {
+     userUpdated(id: ID): User!
+     newOrder: Order!
+     notifications(userId: ID!): Notification!
+   }
+   ```
 
-# Variables
-{
-  "input": {
-    "userId": "123",
-    "items": [
-      {
-        "productId": "456",
-        "quantity": 2
-      }
-    ]
-  }
-}
-```
+5. **Directives:**
+   ```graphql
+   directive @auth(
+     requires: Role = USER
+   ) on OBJECT | FIELD_DEFINITION
+
+   directive @deprecated(
+     reason: String = "No longer supported"
+   ) on FIELD_DEFINITION | ENUM_VALUE
+
+   enum Role {
+     ADMIN
+     USER
+     GUEST
+   }
+   ```
+
+**Part 2: Implementation Guidelines**
+
+1. **Resolver Structure:**
+   ```typescript
+   // Example resolver structure
+   const resolvers = {
+     Query: {
+       user: (parent, { id }, context) => {},
+       users: (parent, { filter, limit, offset }, context) => {}
+     },
+     Mutation: {
+       createUser: (parent, { input }, context) => {}
+     },
+     User: {
+       orders: (parent, args, context) => {}
+     }
+   }
+   ```
+
+2. **Context and Authentication:**
+   ```typescript
+   interface Context {
+     user: User | null;
+     dataSources: DataSources;
+     authenticate: () => Promise<User>;
+   }
+   ```
+
+3. **Best Practices:**
+    - Use DataLoader for N+1 query prevention
+    - Implement proper error handling
+    - Follow naming conventions
+    - Add field-level documentation
+    - Consider rate limiting
+    - Implement proper authorization
 
 **Additional Considerations:**
 
 1. **Performance:**
-    - Field selection complexity
-    - Pagination strategies
-    - Batching and caching
-    - Dataloader implementation hints
+    - Query complexity analysis
+    - Field-level cost calculation
+    - Caching strategies
+    - Batching optimizations
 
 2. **Security:**
-    - Authentication patterns
-    - Authorization directives
-    - Rate-limiting strategies
-    - Input sanitization
+    - Input validation
+    - Authorization checks
+    - Rate limiting
+    - Query depth limiting
 
-3. **Developer Experience:**
-    - Query complexity calculation
-    - Operation naming conventions
-    - Documentation best practices
-    - Schema evolution guidelines
+3. **Testing:**
+    - Unit tests for resolvers
+    - Integration tests for operations
+    - Schema validation tests
+    - Performance benchmarks
 
-4. **Testing:**
-    - Query test examples
-    - Mutation test examples
-    - Subscription test patterns
-    - Mock data generation
+**Output Format Requirements:**
+
+1. **Schema Organization:**
+    - Separate files for different concerns
+    - Clear module structure
+    - Proper type imports/exports
+
+2. **Documentation:**
+    - Schema documentation
+    - Operation examples
+    - Use cases
+    - Error scenarios
+
+Please provide your ALPS document and I'll help you convert it to a GraphQL implementation following these guidelines.
 
 _YOUR_ALPS_HERE_
-```
+
+</User></pre>
 
 ## TypeScript type definitions
 
-```markdown
+<pre>
 **Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into TypeScript type definitions, interfaces, and related utilities.
 
 **Part 1: Core Type Definitions**
@@ -848,6 +814,7 @@ _YOUR_ALPS_HERE_
       // ...
     };
     ```
-
 _YOUR_ALPS_HERE_
-```
+
+</pre>
+
