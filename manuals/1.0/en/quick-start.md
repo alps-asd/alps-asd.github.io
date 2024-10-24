@@ -75,10 +75,19 @@ A Mac GUI application that doesn't require command line operations.
 
 Installation steps:
 1. Download [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip)
-2. Open downloaded script in Script Editor
-3. Select "File" > "Export..."
-4. Save location: "Applications"
-5. Save as Format: "Application"
+2. Security verification:
+    - View the downloaded files and verify the contents before proceeding
+    - Verify the checksum (SHA-256):
+      ```bash
+      shasum -a 256 [downloaded zip file]
+      ```
+    - Compare with the expected checksum on the official repository: 659ecc3225b95a04f0e2ac4ebed544267ba78a0221db7ed84b6dfd7b08ce423b
+3. Open the verified script in Script Editor:
+    - If you get a security warning, right-click (or Control-click) the script and select "Open"
+    - In System Settings > Privacy & Security, click "Open Anyway" if prompted
+4. Select "File" > "Export..."
+5. Save location: "Applications"
+6. Save as Format: "Application"
 
 ### 5. GitHub Actions Version
 
