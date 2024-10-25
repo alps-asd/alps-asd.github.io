@@ -28,13 +28,20 @@ State transition refers to a change from one state to another within a system. I
 2. They can move "somewhere else" (possible state transition).
 3. "How" to move is defined (transition method).
 
-There are two important types of states in REST applications:
+These three elements are the basics of a state transition system.
+
+### Two States in REST
+
+In addition to the states used in state transitions, REST has two important types of states:
 
 1. **Application State**
-   - Represents the current location on the client (browser) side, expressed through URLs.
+- Represents the client (browser) location, expressed as URLs
 
 2. **Resource State**
-   - Represents the state of the data managed on the server side, which the client accesses.
+- Represents the state of data managed on the server
+
+The client accesses resource states by changing its application state, and
+the server responds with both resource states and network affordances that describe possible state transitions.
 
 ### Basic Flow of State Transitions in REST Applications
 
