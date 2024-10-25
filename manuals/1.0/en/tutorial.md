@@ -147,7 +147,7 @@ Web pages contain not just information but also links to other pages and action 
 
 ### safe
 
-Viewing related information. In HTML, this corresponds to A tags, and in HTTP, to GET. This is a **safe transition** that doesn't change the resource state. What changes is the **application state**, i.e., which URL the user is viewing.
+Viewing related information. In HTML, this corresponds to anchor elements (<a>), and in HTTP, to GET. This is a **safe transition** that doesn't change the resource state. What changes is the **application state**, i.e., which URL the user is viewing.
 
 ### idempotent
 
