@@ -536,9 +536,9 @@ JSONの場合：
  "descriptor": [{"href": "#dateCreated"}]}
 ```
 - 操作の種類を定義します
- - safe：閲覧操作（prefixは`go`）
- - unsafe：作成操作（prefixは`create`）
- - idempotent：更新・削除操作（prefixは`update`/`delete`）
+- safe：閲覧操作（prefixは`go`）
+- unsafe：作成操作（prefixは`create`）
+- idempotent：更新・削除操作（prefixは`update`/`delete`）
 
 ### リンク関係の指定
 
