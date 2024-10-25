@@ -212,8 +212,8 @@ JSONの場合：
             {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
             {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
             {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
-                    {"href": "#dateCreated"},
-                    {"href": "#articleBody"}
+               {"href": "#dateCreated"},
+               {"href": "#articleBody"}
             ]}
         ]
     }
