@@ -73,7 +73,7 @@ The semantic descriptors in ALPS files are divided into three blocks in the foll
 3. State transition semantic descriptor groups (choreography)
 
 ```json
-"descriptor" : [
+{"descriptor" : [
     {"id" : "name", "type" : "semantic", "def": "http://schema.org/identifier"},
     {"id" : "age", "type" : "semantic", "def": "http://schema.org/title"},
 
@@ -91,7 +91,7 @@ The semantic descriptors in ALPS files are divided into three blocks in the foll
 In ALPS, hierarchical meanings can be expressed by position.
 
 ```json
-"descriptor": [
+{"descriptor": [
     {"id": "name", "def": "https://schema.org/name"},
     {"id": "Product", "descriptor":[
       {"href": "#name"}
@@ -146,13 +146,11 @@ Basic element definitions:
 ```
 
 ```json
-{
-    "descriptor": [
-        {"id": "title", "title": "Title", "doc": {"value": "Article title. Maximum 100 characters."}},
-        {"id": "content", "title": "Content", "doc": {"value": "Article body. Supports Markdown format."}},
-        {"id": "publishedAt", "title": "Publication Date", "doc": {"value": "Article publication date and time. ISO 8601 format."}}
-    ]
-}
+{"descriptor": [
+    {"id": "title", "title": "Title", "doc": {"value": "Article title. Maximum 100 characters."}},
+    {"id": "content", "title": "Content", "doc": {"value": "Article body. Supports Markdown format."}},
+    {"id": "publishedAt", "title": "Publication Date", "doc": {"value": "Article publication date and time. ISO 8601 format."}}
+]}
 ```
 
 Reusing basic elements:
@@ -173,19 +171,17 @@ Reusing basic elements:
 ```
 
 ```json
-{
-    "descriptor": [
-        {"id": "blogPost", "doc": {"value": "User-created article. After publication, visible to all users."}, "descriptor": [
-            {"href": "#title"},
-            {"href": "#content"},
-            {"href": "#publishedAt"}         
-        ]},
-        {"id": "pagePost", "doc": {"value": "Static page. Permanent content such as site basic information."}, "descriptor": [
-            {"href": "#title"},
-            {"href": "#content"}
-        ]}
-    ]
-}
+{"descriptor": [
+    {"id": "blogPost", "doc": {"value": "User-created article. After publication, visible to all users."}, "descriptor": [
+        {"href": "#title"},
+        {"href": "#content"},
+        {"href": "#publishedAt"}         
+    ]},
+    {"id": "pagePost", "doc": {"value": "Static page. Permanent content such as site basic information."}, "descriptor": [
+        {"href": "#title"},
+        {"href": "#content"}
+    ]}
+]}
 ```
 
 ### Operation Definitions
@@ -206,16 +202,14 @@ Reusing basic elements:
 ```
 
 ```json
-{
-    "descriptor": [
-        {"id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "Display blog homepage. Shows latest 10 articles."}},
-        {"id": "doCreateBlogPost", "type": "unsafe", "rt": "#BlogPost", "doc": {"value": "Create new article. Saved in draft state."}, "descriptor": [
-            {"href": "#title"},
-            {"href": "#content"}
-        ]},
-        {"id": "doPublishBlogPost", "type": "idempotent", "rt": "#BlogPost", "doc": {"value": "Publish article. Current time is set to publishedAt."}, "descriptor": [
-            {"href": "#id"}
-        ]}
-    ]
-}
+{"descriptor": [
+    {"id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "Display blog homepage. Shows latest 10 articles."}},
+    {"id": "doCreateBlogPost", "type": "unsafe", "rt": "#BlogPost", "doc": {"value": "Create new article. Saved in draft state."}, "descriptor": [
+        {"href": "#title"},
+        {"href": "#content"}
+    ]},
+    {"id": "doPublishBlogPost", "type": "idempotent", "rt": "#BlogPost", "doc": {"value": "Publish article. Current time is set to publishedAt."}, "descriptor": [
+        {"href": "#id"}
+    ]}
+]}
 ```
