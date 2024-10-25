@@ -5,7 +5,7 @@ category: Manual
 permalink: /manuals/1.0/en/quick-start.html
 ---
 
-# ASD Installation and Usage Guide
+# Installation and Usage Guide
 
 ASD (app-state-diagram) is a tool for creating comprehensive ALPS documentation that includes application state transition diagrams and vocabulary lists. It can be used in the following ways:
 
