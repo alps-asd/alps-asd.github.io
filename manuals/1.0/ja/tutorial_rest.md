@@ -518,7 +518,7 @@ JSONの場合：
 ```
 - 操作の種類を定義します
 - safe：閲覧操作（prefixは`go`）
-- unsafe：作成操作（prefixは`create`）
+- unsafe：作成操作（prefixは`doCreate`）
 - idempotent：更新・削除操作（prefixは`update`/`delete`）
 
 ### リンク関係の指定
