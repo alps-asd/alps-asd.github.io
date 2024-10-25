@@ -5,7 +5,7 @@ category: Manual
 permalink: /manuals/1.0/ja/quick-start.html
 ---
 
-# ASDのインストールと利用ガイド
+# インストールと利用ガイド
 
 ASD（app-state-diagram）は、アプリケーションの状態遷移図やボキャブラリリストを含んだALPSの包括的なドキュメントを作成するためのツールです。以下の方法で利用できます。
 
