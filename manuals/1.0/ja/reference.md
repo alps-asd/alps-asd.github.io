@@ -126,7 +126,7 @@ idまたはhrefのいずれかが必要でその他の属性はオプション�
 
 * **rel**: リレーション
   - descriptorの関係性を示す
-  - [IANAで定義されたLink Relationsを](iana_rels.html)使用（item, collection, self, next, prev など）
+  - [IANAで定義されたLink Relations](iana_rels.html)を使用（item, collection, self, next, prev など）
   - カスタムの場合はURIで指定
 
 * **title**: 表示名
