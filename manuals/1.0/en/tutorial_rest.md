@@ -263,20 +263,25 @@ In JSON:
 
 Choreography defines state transitions according to the types of operations. In ALPS, operations are categorized as follows:
 
+|Operation | Type | 	HTTP Method	Description |
+| ---- | ---- | ---- | 
+|safe |	GET	| Changes only application state |
+|unsafe |	POST |	Creates new resource state |
+|idempotent |	PUT/DELETE | Updates/deletes resource state |
+
 1. `safe`
    - Changes only the application state (e.g., GET).
    - Resource state is not altered.
-   - Equivalent to the HTTP GET method.
 
-2. `unsafe`
+3. `unsafe`
    - Creates a new resource state.
    - May have different outcomes each time it is executed.
-   - Equivalent to the HTTP POST method.
 
 3. `idempotent`
    - Updates or deletes the resource state.
    - Produces the same outcome no matter how many times it is executed.
-   - Equivalent to the HTTP PUT or DELETE methods.
+
+ALPS operations distinguish between resource changes that have a different result each time they are performed, i.e., non-idempotent operations, such as add operations, and those that have a different result each time they are performed, i.e., idempotent operations, such as change or delete operations, which do not change the result no matter how many times they are repeated.
 
 ### Defining the Transition to View an Article
 
