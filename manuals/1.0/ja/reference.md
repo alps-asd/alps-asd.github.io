@@ -1,6 +1,6 @@
 ---
 layout: docs-ja
-title: ALPSリファレンス
+title: リファレンス
 category: Manual
 permalink: /manuals/1.0/ja/reference.html
 ---

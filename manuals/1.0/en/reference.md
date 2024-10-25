@@ -1,10 +1,10 @@
 ---
 layout: docs-en
-title: ALPS Reference
+title: Reference
 category: Manual
 permalink: /manuals/1.0/en/reference.html
 ---
-# ALPS Reference
+# Reference
 
 ## Overview
 

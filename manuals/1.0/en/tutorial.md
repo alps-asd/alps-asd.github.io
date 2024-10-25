@@ -4,7 +4,7 @@ title: Tutorial
 category: Manual
 permalink: /manuals/1.0/en/tutorial.html
 ---
-# ALPS Tutorial
+# ALPS Basic Tutorial
 
 The ALPS tutorial consists of two parts:
 
