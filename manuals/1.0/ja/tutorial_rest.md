@@ -345,7 +345,8 @@ JSONの場合：
 
 0. 命名規則のプレフィックス
    - safe遷移では `go` を使用します
-   - unsafe遷移とidempotent遷移では `do` を使用します
+   - unsafe遷移では `doCreate` を使用します
+   - idempotent遷移では `doUpdate`/`doDelete` を使用します
 
 1. `type`属性
    - 操作の種類を指定します
