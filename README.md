@@ -1,8 +1,8 @@
-# alps-asd manual
+# www.app-state-diagram.com
 
 ### Hosting and Rendering
 
-The documentations are rendered with  [Jekyll](http://jekyllrb.com) and hosted at [http://alps-asd.github.io/](https://alps-asd.github.io/).
+The documentations are rendered with  [Jekyll](http://jekyllrb.com) and hosted at [https://www.app-state-diagram.com/](https://www.app-state-diagram.com/).
 
 ### Install
 

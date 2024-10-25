@@ -1,62 +1,134 @@
 ---
 layout: docs-en
-title: Quick Start
+title: ASD Installation and Usage Guide
 category: Manual
 permalink: /manuals/1.0/en/quick-start.html
 ---
-# Quick Start
 
-## Requirement
+# Installation and Usage Guide
 
-You need [Homebrew](https://brew.sh/ja/) or [Docker](https://www.docker.com/products/docker-desktop) to run ASD.
+ASD (app-state-diagram) is a tool for creating comprehensive ALPS documentation that includes application state transition diagrams and vocabulary lists. It can be used in the following ways:
 
-## Homebrew
+## Choosing Usage Method
 
-Recommended. Do the following
+### 1. Online Version
 
-```shell
+Use immediately without local installation:
+
+- [https://app-state-diagram.com/](https://app-state-diagram.com/)
+
+Features:
+- No installation required
+- Immediately available in browser
+- JSON/XML/HTML files can be loaded via drag & drop
+- Snippets and advanced code completion
+- Recommended option when local installation is not needed
+- Note: Currently unable to edit multiple files simultaneously
+
+### 2. Homebrew Version
+
+Easiest to use in environments where [homebrew](https://brew.sh) is installed.
+
+Installation:
+
+```bash
 brew install alps-asd/asd/asd
-````
-
-To uninstall, do the following: 
-
-```shell
-brew uninstall asd
-brew untap alps-asd/asd
-````
-
-## Docker
-
-Install the asd command with the following command.
-
-```
-curl -L https://alps-asd.github.io/app-state-diagram/asd.sh > . /asd && chmod +x . /asd && sudo mv . /asd /usr/local/bin
 ```
 
-## Demo
+### 3. Docker Version
 
-After installing either Homebrew or Docker, let's run the demo.
+Download and run a script to execute in Docker. Follow these security verification steps as this involves downloading and running a shell script.
 
-```shell
-mkdir work
-curl -L curl https://alps-asd.github.io/app-state-diagram/blog/profile.json > work/profile.json
-asd --watch ./work/profile.json
+#### Security Verification Steps
+
+1. Review script content (recommended):
+
+```bash
+curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh | less
 ```
 
-Open [http://localhost:3000/](http://localhost:3000/) in your browser.
-Can you see the diagram in the Application State Diagram link?
+2. Verify checksum:
 
-## Mac Application
+```bash
+curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh | sha256sum
+```
 
-A Mac GUI application that does not require console operation is also available.
+Expected value:
+```
+0f05034400b2e7fbfee6cddfa9dceb922e51d93fc6dcda62e42803fb8ef05f66
+```
 
-Install and Run:
-* Download [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip) and open the `asd` script.
-* In the script editor, select `File` > `Export...` and save the file to the `Application` folder with the file format as application.
-* * Run and select an ALPS file to start the ASD server. Drag & Drop is also supported.
+3. Execute installation:
 
-## Application State Diagram
+```bash
+sudo curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh -o /usr/local/bin/asd
+sudo chmod +x /usr/local/bin/asd
+```
 
-Each rectangle connected by an arrow is called **application state**. **The resource state** and **affordance** (next action) are shown as links, and the application state transitions by following the links. Imagine a website where each page is linked with `<a>` tags and `<form>` tags.
+#### Prerequisites
+- Docker must be installed
+- curl command must be available
 
-The transition diagram is in SVG format and is linked to the detailed pages of the application states and links.
+### 4. Mac Launcher Application (GUI Version)
+
+A Mac GUI application that doesn't require command line operations.
+
+Installation steps:
+1. Download [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip)
+2. Security verification:
+    - View the downloaded files and verify the contents before proceeding
+    - Verify the checksum (SHA-256):
+      ```bash
+      shasum -a 256 [downloaded zip file]
+      ```
+    - Compare with the expected checksum on the official repository: 659ecc3225b95a04f0e2ac4ebed544267ba78a0221db7ed84b6dfd7b08ce423b
+3. Open the verified script in Script Editor:
+    - If you get a security warning, right-click (or Control-click) the script and select "Open"
+    - In System Settings > Privacy & Security, click "Open Anyway" if prompted
+4. Select "File" > "Export..."
+5. Save location: "Applications"
+6. Save as Format: "Application"
+
+### 5. GitHub Actions Version
+
+Create ASD in CI. See [marketplace](https://github.com/marketplace/actions/app-state-diagram) for details.
+
+## Usage
+
+### Running Demo
+```bash
+# Download and run demo file
+curl -L https://alps-asd.github.io/app-state-diagram/blog/profile.json > alps.json
+asd -w ./alps.json
+```
+
+### Command Line Options
+```
+asd [options] [alpsFile]
+
+Options:
+    -w, --watch     Watch mode
+    -m, --mode      Drawing mode
+    --port          Port to use (default 3000)
+```
+
+### Mode Settings
+- Markdown mode available for use with private repositories
+- However, diagram links don't function in Markdown mode
+- Use as alternative option when HTML cannot be published
+
+## Installation Verification
+
+```bash
+asd
+usage: asd [options] alps_file
+@see https://github.com/alps-asd/app-state-diagram#usage
+```
+
+## Selection Guidelines
+
+- Quick trial, temporary use → Online version
+- Local use on Mac → Homebrew version
+- Cross-platform use → Docker version
+- Mac local environment with GUI → Launcher application
+- CI/CD environment use → GitHub Actions version

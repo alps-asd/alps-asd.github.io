@@ -1,9 +1,9 @@
-name: alps-asd
+name: app-state-diagram
 safe: true
 lsi: false
 
-url: http://koriym.github.io/manual-skeleton
-title: alps-asd
+url: http://www.app-state-diagram.com/
+title: app-state-diagram
 
 markdown: kramdown
 redcarpet:

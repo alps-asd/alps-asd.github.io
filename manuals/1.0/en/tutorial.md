@@ -4,196 +4,274 @@ title: Tutorial
 category: Manual
 permalink: /manuals/1.0/en/tutorial.html
 ---
-# ALPS Tutorial
+# ALPS Basic Tutorial
+
+The ALPS tutorial consists of two parts:
+
+1. **Basic Tutorial** (this page)
+   - Learn the basic usage of ALPS through hands-on practice
+   - Start with tool usage and gradually understand ALPS features
+   - Ideal as the first step to getting started with ALPS
+
+2. **[Advanced Tutorial](./tutorial_rest.html)**
+   - Learn about the theoretical foundation and design patterns of ALPS
+   - Understand the essence of REST/HTTP applications as state transition systems
+   - For those who want a deeper understanding or are involved in large-scale application design
+
+We recommend starting with this basic tutorial.
+
+---
 
 ## Getting Started
-First of all, let's create an ALPS skeleton file, `profile.xml`. [^webstorm]
 
+In this tutorial, we'll use the browser-based ALPS editor:
+
+1. Open [ALPS Editor](https://app-state-diagram.com/)
+2. Delete all demo code displayed in the left editor pane
+
+Note: While you can use the ASD application in a local environment, we recommend using the online editor for this tutorial.
+
+## Register Meanings as IDs
+
+In ALPS, specific terms handled by the application are defined as IDs. Let's start by adding the term `dateCreated`.
+
+In XML:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <alps
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    <descriptor id="dateCreated"/>
 </alps>
 ```
 
-
-[^webstorm]: editors with schema support are useful. Completion works and validation is performed. [Example in WebStorm](https://hackmd.io/@koriym/webstorm-for-alps#%E3%82%B9%E3%82%B1%E3%83%AB%E3%83%88%E3%83%B3%E3%83%95%E3%82%A1%E3%82%A4 See also %E3%83%AB%E3%81%AE%E4%BD%9C%E6%88%90).
-
-
-## Register meaning as ID
-
-ALPS defines specific words and phrases used by the application as IDs. Let's start by adding the phrase `dateCreated`.
-
-```diff
- <?xml version="1.0" encoding="UTF-8"?>
- <alps
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
-+ <descriptor id="dateCreated"/>
- </alps>
+In JSON:
+```json
+{
+    "$schema": "https://alps-io.github.io/schemas/alps.json",
+    "alps": {
+        "descriptor": [
+            {"id": "dateCreated"}
+        ]
+    }
+}
 ```
 
-# Your first ASD
+## Describe Terms
 
-Let's try to display an ALPS file in ASD. Run the following command or open `profile.xml` in the ASD application on your Mac.
+You can add descriptions using `title` and `doc`.
 
-```
-asd --watch . /profile.xml 
-```
-
-Open [http://localhost:3000](http://localhost:3000) and check it. You will see that the word `dateCreated` has been registered.
-
-## Describe the word
-
-You can add a description with ``title`` or ``doc``.
-
+In XML:
 ```xml
-<descriptor id="dateCreated" title="Creation date"/>
-```
-
-```xml
-<descriptor id="dateCreated">
-    <doc format="markdown">Date the article was created in ISO8601 format</doc>.
+<descriptor id="dateCreated" title="Creation Date">
+    <doc format="text">Represents the article creation date in ISO8601 format</doc>
 </descriptor>
 ```
 
-`title` is a brief expression, like a headline, and `doc` is a longer textual description.
+In JSON:
+```json
+{
+    "$schema": "https://alps-io.github.io/schemas/alps.json",
+    "alps": {
+        "descriptor": [
+            {"id": "dateCreated", "title": "Creation Date", "doc": {"format": "text", "value": "Represents the article creation date in ISO8601 format"}}
+        ]
+    }
+}
+```
 
-The ID associated with this meaning is called a **semantic descriptor** . `dateCreated` is a semantic descriptor associated with the meaning "date created". Such definitions of meanings and concepts are called **ontologies**.
+The title is a concise expression like a heading, while doc provides a longer text explanation.
+
+This ID bound to a meaning is called a **semantic descriptor**. `dateCreated` is a semantic descriptor tied to the meaning "creation date". Such definition of meanings and concepts is called an **ontology**.
 
 ### Vocabulary
 
-One of the important roles of ALPS is to be a dictionary of words in the application. Users use the same words when they refer to the same meaning, preventing inconsistent wording, and preventing users from having different understandings of a word.
+One of ALPS's important roles is to serve as a dictionary of application terms. It helps users use the same terms when referring to the same meaning, preventing expression variations and misunderstandings among users.
 
-## Information contains information
+## Information Contains Information
 
-Semantic descriptors may contain semantic descriptors.
+Semantic descriptors can contain other semantic descriptors.
 
-For example, `BlogPosting` contains `articleBody` and `dateCreated`. A descriptor within a descriptor represents a hierarchy of information. This organization and arrangement of information is the **taxonomy**.
+For example, `BlogPosting` contains `articleBody` and `dateCreated`. By describing descriptors within descriptors, we represent information hierarchy. Such information structure and arrangement is called **taxonomy**.
 
-
+In XML:
 ```xml
 <alps
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
-     
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    
     <!-- Ontology -->
     <descriptor id="id" title="id"/>
-    <descriptor id="articleBody" title="The body of the article"/>
-    <descriptor id="dateCreated" title="The date created"/>
+    <descriptor id="articleBody" title="Content"/>
+    <descriptor id="dateCreated" title="Creation Date"/>
 
     <!-- Taxonomy -->
-    <descriptor id="BlogPosting" title="A blog post" >
+    <descriptor id="BlogPosting" title="Article" >
         <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
-        <descriptor id="Blog" title="A blog">
+    <descriptor id="Blog" title="Article List">
         <descriptor href="#BlogPosting"/>
     </descriptor>
 </alps>
 ```
 
-You can use `#` to refer to other descriptors. This is called **inline linking** and allows you to reference one descriptor from multiple locations.
+In JSON:
+```json
+{
+    "$schema": "https://alps-io.github.io/schemas/alps.json",
+    "alps": {
+        "descriptor": [
+            {"id": "id", "title": "id"},
+            {"id": "articleBody", "title": "Content"},
+            {"id": "dateCreated", "title": "Creation Date"},
+            {"id": "BlogPosting", "title": "Article", "descriptor": [
+                {"href": "#id"},
+                {"href": "#dateCreated"},
+                {"href": "#articleBody"}
+            ]},
+            {"id": "Blog", "title": "Article List", "descriptor": [
+                {"href": "#BlogPosting"}
+            ]}
+        ]
+    }
+}
+```
 
-Save the file and check the ASD document.
-Do you see the `articleBody` and other registered words and phrases on the page? Click on `BlogPosting` to see what information is contained in the blog post.
+You can use `#` to reference other descriptors. This is called an **inline link** and allows referencing one descriptor from multiple locations.
 
-## Browsing and manipulating information
+## Viewing and Manipulating Information
 
-Web pages contain not only information but also links to other pages and forms of action, allowing you to browse and manipulate related information. You can perform the following three types of operations.
+Web pages contain not just information but also links to other pages and action forms, allowing viewing and manipulation of related information. There are three types of operations:
 
 ### safe
 
-Viewing related information, in HTML it is the A tag, in HTTP it is GET. A **safe transition** that does not change the state of the resource [^resource_state]. The **application state** that is what the user is viewing changes. In other words, the URL the user is viewing changes.
-
-[^resource_state]: Information held by the server side as identified by the URL.
+Viewing related information. In HTML, this corresponds to anchor elements (<a>), and in HTTP, to GET. This is a **safe transition** that doesn't change the resource state. What changes is the **application state**, i.e., which URL the user is viewing.
 
 ### idempotent
 
-Changes the resource state. It is idempotent [^idempotent], and the result will be the same no matter how many times it is repeated. Think of it as overwriting a file. No matter how many times it is repeated, the result will be the same.
-
-[^idempotent]: [https://en.wiktionary.org/wiki/idempotent](https://en.wiktionary.org/wiki/idempotent)
+Changes the resource state. Has idempotency, meaning repeated execution yields the same result. Think of overwriting a file - the result doesn't change no matter how many times you execute it.
 
 ### unsafe
 
-Like idempotent, this changes the resource status, but there is not idempotent. Think of it as a file append. The result will be different after repeated execution.
+Like idempotent, it changes the resource state but lacks idempotency. Think of appending to a file - the result differs with each execution.
 
-### Correspondence with HTTP methods
+### HTTP Method Correspondence
 
-safe corresponds to `GET`, idempotent corresponds to `PUT` or `DELETE`, and unsafe corresponds to `POST`.
+safe corresponds to `GET`, idempotent to `PUT` or `DELETE`, and unsafe to `POST` HTTP methods.
 
+### Links
 
-### Link
+Create links by specifying the operation type with `type` and the destination with `rt`.
+This example is a link to view `Blog`:
 
-Create a link by specifying the type of operation with `type` and the destination with `rt`.
-This example is a link to browse `Blog`.
-
+In XML:
 ```xml
-<descriptor type="safe" id="goBlog" rt="#Blog" title="View the blog" />
+<descriptor type="safe" id="goBlog" rt="#Blog" title="View Blog Post List" />
 ```
 
-This example adds an operation from a blog post back to the blog post list.
-
-```diff
- <descriptor id="BlogPosting" title="A blog post">
-     <descriptor href="#id"/>
-     <descriptor href="#dateCreated"/>
-     <descriptor href="#articleBody"/>
-+ <descriptor id="goBlog" type="safe" rt="#Blog" title="View the blog"/>
- </descriptor>
+In JSON:
+```json
+{"type": "safe", "id": "goBlog", "rt": "#Blog", "title": "View Blog Post List"}
 ```
 
-Include in the descriptor any descriptors needed for transitions and operations.
+This example adds an operation to return to the blog post list from a blog post:
 
+In XML:
 ```xml
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View the blog post">
-    <!-- ID required to browse posts -->
+<descriptor id="BlogPosting" title="Article">
+    <descriptor href="#id"/>
+    <descriptor href="#dateCreated"/>
+    <descriptor href="#articleBody"/>
+    <descriptor href="#goBlog" />
+</descriptor>
+```
+
+In JSON:
+```json
+{"id": "BlogPosting", "title": "Article", "descriptor": [
+    {"href": "#id"},
+    {"href": "#dateCreated"},
+    {"href": "#articleBody"},
+    {"href": "#goBlog"}
+]}
+```
+
+Include descriptors needed for transitions and operations in the descriptor:
+
+In XML:
+```xml
+<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View Article">
+    <!-- ID is needed to view an article -->
     <descriptor href="#id"/>
 </descriptor>
-````
-
-Let's add links to both the blog post list and the blog post.
-
-```diff
- <alps
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
-     
-     <! -- Ontology -->.
-     <descriptor id="id" title="id"/>
-     <descriptor id="articleBody" title="The body of the article"/>
-     <descriptor id="dateCreated" title="Creation date"/>
-
-     <! -- Taxonomy -->.
-     <descriptor id="BlogPosting" title="A blog post" >
-         <descriptor href="#id"/>
-         <descriptor href="#dateCreated"/>
-         <descriptor href="#articleBody"/>
-+        <descriptor href="#goBlog" />
-     </descriptor>
-
-     <descriptor id="Blog" title="A blog">
-         <descriptor href="#BlogPosting"/>
-+        <descriptor href="#goBlogPosting" />
-     </descriptor>
-
-+ <! -- Choreography -->
-+ <descriptor type="safe" id="goBlog" rt="#Blog" title="View the blog" />
-+ <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="View the blog post">
-+     <descriptor href="#id"/>
-+ </descriptor>
- </alps>
 ```
 
-## Application State Transition Diagram
+In JSON:
+```json
+{"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "View Article", "descriptor": [
+   {"href": "#id"}
+]}
+```
 
-Clicking on **Application State Diagram** at [http://localhost:3000](http://localhost:3000) will display a state transition diagram linked from the article list, articles, and both.
-The square box shows the application state, i.e., where the user is looking, i.e., the web page being viewed.
-The arrows represent operations such as viewing or changing information, which correspond to the A tag and FORM tag transitions in HTML.
-Click on a box or arrow to see more information. Check it out.
+Let's add links for both blog post list and blog post:
 
-Just as information on a website is interlinked, ASD document pages are also interlinked. The application state transition diagram provides a bird's eye view of the site's information design and links to information design details such as information meaning, structure, and connections.
+In XML:
+```xml
+<alps
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    
+    <!-- Ontology -->
+    <descriptor id="id" title="id"/>
+    <descriptor id="articleBody" title="Content"/>
+    <descriptor id="dateCreated" title="Creation Date"/>
 
----
+    <!-- Taxonomy -->
+    <descriptor id="BlogPosting" title="Article" >
+        <descriptor href="#id"/>
+        <descriptor href="#dateCreated"/>
+        <descriptor href="#articleBody"/>
+        <descriptor href="#goBlog" />
+    </descriptor>
+    <descriptor id="Blog" title="Article List">
+        <descriptor href="#BlogPosting"/>
+        <descriptor href="#goBlogPosting" />
+    </descriptor>
+
+    <!-- Choreography -->
+    <descriptor type="safe" id="goBlog" rt="#Blog" title="View Article List" />
+    <descriptor type="safe" id="goBlogPosting" rt="#BlogPosting" title="View Article">
+        <descriptor href="#id"/>
+    </descriptor>
+</alps>
+```
+
+In JSON:
+```json
+{
+    "$schema": "https://alps-io.github.io/schemas/alps.json",
+    "alps": {
+        "descriptor": [
+            {"id": "id", "title": "id"},
+            {"id": "articleBody", "title": "Content"},
+            {"id": "dateCreated", "title": "Creation Date"},
+            {"id": "BlogPosting", "title": "Article", "descriptor": [
+                {"href": "#id"},
+                {"href": "#dateCreated"},
+                {"href": "#articleBody"},
+                {"href": "#goBlog"}
+            ]},
+            {"id": "Blog", "title": "Article List", "descriptor": [
+                {"href": "#BlogPosting"},
+                {"href": "#goBlogPosting"}
+            ]},
+            {"type": "safe", "id": "goBlog", "rt": "#Blog", "title": "View Article List"},
+            {"type": "safe", "id": "goBlogPosting", "rt": "#BlogPosting", "title": "View Article", "descriptor": [
+               {"href": "#id"}
+            ]}
+        ]
+    }
+}
+```

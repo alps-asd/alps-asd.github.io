@@ -4,226 +4,191 @@ title: Reference
 category: Manual
 permalink: /manuals/1.0/en/reference.html
 ---
-# ALPS Reference
+# Reference
 
-# alps
+## Overview
 
-The set of **semantic descriptors** described below is the ALPS document, written in XML or JSON.
-Enclose the whole thing in <alps> tags. It can be written in XML or JSON. 
+Application-Level Profile Semantics (ALPS) is a document format for describing application semantics. This document explains the elements and attributes of ALPS.
+
+## Document Structure
+
+ALPS documents have the following hierarchical structure:
+
+1. **Root Element (`alps`)**
+- The document's root element containing version information
+- All definitions are contained within this element
+
+2. **Descriptor Element (`descriptor`)**
+- The central element that defines the meaning of application functions and information
+- There are four types:
+  - semantic: Represents terms and information (default)
+  - safe: Read operations (does not change resource state)
+  - idempotent: Operations that produce the same result when executed multiple times (complete replacement with PUT, deletion with DELETE, etc.)
+  - unsafe: Operations that produce different results when executed multiple times (creation with POST, numerical addition operations, etc.)
+
+3. **Supplementary Elements**
+- `doc`: Detailed explanations and supplementary information
+- `link`: References to related documents
+- `title`: Profile description
+
+## Description Formats
+
+ALPS documents can be written in two formats:
+
+**XML Format**
 
 ```xml
-<alps>.
-<descriptor ... >
-<descriptor ... >
+<?xml version="1.0" encoding="UTF-8"?>
+<alps version="1.0">
+    <title>Blog API Profile</title>
+    <doc>API Profile for Blog System</doc>
+    
+    <descriptor id="title" title="Title" doc="Article title. Maximum 100 characters."/>
+    
+    <descriptor id="blogPost">
+        <doc>Blog post</doc>
+        <descriptor href="#title"/>
+    </descriptor>
 </alps>
 ```
 
-Semantic descriptors define **special words** used by the application.
+**JSON Format**
 
-```xml
-<descriptor id="dateCreated" title="date created"/>
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View blog post">
-    <descriptor href="#id"/>
-</descriptor>
-````
-
-## title, doc, link
-
-You can add meta-information to ALPS documents, such as title, doc, link, and so on.
-
-```xml
-<alps>
-  <title>ALPS Blog</title>.
-  <doc>An ALPS profile example for ASD</doc>.
-  <link href="https://github.com/koriym/app-state-diagram/issues" rel="issue"/>
-  <descriptor ... >
-  <descriptor ... >
-</alps>
-````
-
-# descriptor
-
-descriptor is an element for semantic descriptors (semantic identifiers), describing words that are special to the application, such as API item names or link names.
-
-
-| element | meaning | example |
-| ---- | ---- | ---- |
-| [descriptor](#descriptor) | semantic identifier | <descriptor id="dateCreated" /> |
-
-A doc or link element can be included to describe the descriptor.
-
-| elements | meanings | examples
-| ---- | ---- | ---- |
-| [doc](#doc) | descriptive text | <doc format="markdown">Date the article was created</doc> |
-| [link](#link) | link | <link href="https://example.com/issues" rel="issue"/> |
-
-### <a name="doc">doc</a>
-
-doc to explain the meaning in text
-
-```xml
-<descriptor id="dateCreated">
-    <doc format="markdown">Date of creation of the article expressed in ISO8601 format</doc>.
-</descriptor>
-The ``.
-The doc can be formatted (text|markdown|html|asciidoc) with format. If not specified, text is used.
+```json
+{
+    "alps": {
+        "version": "1.0",
+        "title": "Blog API Profile",
+        "doc": {"value": "API Profile for Blog System"},
+        "descriptor": [
+            {"id": "title", "title": "Title", "doc": {"value": "Article title. Maximum 100 characters."}},
+            {"id": "blogPost", "doc": {"value": "Blog post"}, "descriptor": [
+                {"href": "#title"}
+            ]}
+        ]
+    }
+}
 ```
 
-### <a name="link">link</a>
+## Elements and Attributes in Detail
 
-A link that links to a description of another resource.
+### alps
 
-```xml
-<descriptor id="dateCreated">
-    <link rel="author" href="https://github.com/koriym">
-</descriptor>
-```
+The root element of an ALPS document.
 
-The rel is selected from IANA's [Link Relation](https://www.iana.org/assignments/link-relations/link-relations.xhtml) rel from IANA's [registered rel](https://www.iana.org/assignments/link-relations/link-relations.xhtml), and the href links to the URL. The URL is linked by href.
+Attributes:
+- version: Document version (required)
 
-# <a name="descriptor">Descriptor attributes</a>
+### descriptor
 
-A descriptor has attributes such as ID, type, and tag.
+Defines the meaning (semantics) of application functions and information.
+Either id or href is required; other attributes are optional.
 
+### List of descriptor Attributes
 
-| attribute | meaning | example |
-| ---- | ---- | ---- |
-| [id](#id) | identifier | createdDate |
-| [type](#type) | type | [semantic](#semantic) \| [safe](#safe) \| [unsafe](#unsafe) \| [idempotent](#idempotent) |
-| [href](#href) | reference | #id |
-| [rt](#rt) | transition destination | #User |
-| [rel](#rel) | relationship | edit |
-| [title](#title) | title | creation time |
-| [tag](#tag) | tag | ontology |
+| Attribute | Required | Type | Description | Example |
+|-----------|----------|------|-------------|---------|
+| id | *1 | string | Unique identifier | `"blogPost"` |
+| href | *1 | string | Reference to other elements | `"#title"` |
+| type | optional | enum | Element type | `"safe"` |
+| rt | optional | string | Transition destination resource | `"#BlogPost"` |
+| rel | optional | string | Relation | `"item"` |
+| title | optional | string | Display name | `"Blog Post"` |
+| tag | optional | string | Classification tag | `"blog post"` |
+| doc | optional | object/string | Detailed explanation | `"Detailed description"` |
 
-## <a name="id">id</a>
+*1: Either id or href is required
 
-ALPS assigns a unique ID to all information and all transitions (links); there are no specification constraints on the ID phrase, but there are best practices for adding `go` for safe transitions and `do` for unsafe transitions.
+Details of each attribute:
 
-## <a name="type">type</a>
+* **id**: Unique identifier (mutually exclusive with href)
+  - String that uniquely identifies the descriptor
+  - Cannot be duplicated within the same document
+  - Can only use URL-safe characters (compliant with [RFC1738](https://www.rfc-editor.org/rfc/rfc1738))
 
-The descriptor has a type attribute. If unspecified, it is semantic.
+* **href**: Reference (mutually exclusive with id)
+  - Identifier to reference other descriptors
+  - Fragment identifier starting with "#" (e.g., #user)
+  - Include path for external files (e.g., profile.xml#user)
+  - Must have a resolvable URL and fragment identifier (#)
 
-| type | semantic
-| ---- | ---- | 
-| [semantic](#semantic) | meaning
-| [safe](#safe) | safe and powerfull transition
-| [idempotent](#idempotent) | unsafe and powerfull transitions
-| [unsafe](#unsafe) | unsafe and powerless transitions
+* **type**: Descriptor type
+  - semantic: Represents terms and information (default)
+  - safe: Read operations (does not change resource state)
+  - idempotent: Operations that produce the same result when executed multiple times (complete replacement with PUT, deletion with DELETE, etc.)
+  - unsafe: Operations that produce different results when executed multiple times (creation with POST, numerical addition operations, etc.)
 
+* **rt**: Return Type
+  - Destination resource after state transition
+  - Specified with fragment identifier starting with "#"
+  - Used when type attribute is `safe`/`idempotent`/`unsafe`
 
-There is one type for semantics and three types for transitions.
+* **rel**: Relation
+  - Indicates relationship of descriptor
+  - Uses [Link Relations defined by IANA](iana_rels.html) (item, collection, self, next, prev, etc.)
+  - Specify with URI for custom relations
 
-### <a name="semantic">semantic</a>
+* **title**: Display name
+  - Display name for human reading
+  - Used for UI and documentation display
 
-List the words and phrases used in your application and create a vocabulary.
+* **tag**: Classification tag
+  - Used for grouping descriptors
+  - Space-separated for multiple specifications
+  - Used for category classification and filtering
 
-```xml
-<descriptor id="dateCreated" type="semantic"/>
-```
+* **doc**: Detailed explanation
+  - Detailed explanation of descriptor
+  - Can also be defined as child element
+  - Format can be specified
 
+### doc
 
-### <a name="safe">safe</a>
+Provides detailed explanation of elements.
 
-This is a transition for reading, where the state of the resource does not change.
+#### List of doc Attributes
 
-Example: Get resource state by URL
+| Attribute | Required | Type | Description | Example |
+|-----------|----------|------|-------------|---------|
+| href | optional | string | External document URL | `"http://example.com/doc"` |
+| format | optional | string | Document format | `"markdown"` |
+| contentType | optional | string | Content type | `"text/html"` |
+| tag | optional | string | Classification tag | `"api spec"` |
+| value | optional | string | Explanation text | `"Detailed description"` |
 
-```xml
-<descriptor id="goBlog" type="safe" rt="#Blog" />
-```
+Support levels for format attribute:
 
-### <a name="idempotent">idempotent</a>
+- text: Must support (MUST)
+- html: Should support (SHOULD)
+- asciidoc: May support (MAY)
+- markdown: May support (MAY), compliant with [RFC7763]
 
-This is a transition where the state of the resource changes by power.
+Priority of contentType and format:
 
-Example: Creating a resource with a URL, changing or deleting the target resource.
+- Use contentType if it exists
+- Ignore format if both contentType and format exist
+- Treat as text/plain if neither exists
 
-```xml
-<descriptor id="doDeleteMenu" type="idempotent" rt="#Menu">
-```
+### link
 
-### <a name="unsafe">unsafe</a>
+Defines references to related documents.
 
-This is a transition where the state change of the resource is not powerless.
+Attributes:
+- href: Link destination URL (required)
+- rel: Relation (required)
+  - self: Link to self
+  - profile: Profile document
+  - help: Help document
+  - related: Related document
+  - Other [IANA link relations](iana_rels.html)
 
-Example: Creating a resource without a URL or adding a target resource.
+## Validation
 
-```xml
-<descriptor id="doAppendRecord" type="unsafe" rt="#Record">
-````
-
-There are four types in total.
-
-> What is idempotent?
->
-> It means that the result of an operation is the same whether it is performed once or multiple times. For example, adding a resource is not idempotent, but changing or deleting a resource is idempotent.
-
-
-## Structure
-
-A descriptor can be included to represent the nested structure of information or the information needed for a transition.
-
-Example: A blog post contains body and date information.
-
-```xml
-<descriptor id="BlogPosting" title="Blog Posting" >
-    <descriptor href="#dateCreated"/>
-    <descriptor href="#articleBody"/>
-</descriptor>
-```.
-
-e.g.) To refer to a blog post, the post ID is required
-
-```xml
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting">
-    <descriptor href="#id"/>
-</descriptor>
-```
-
-## <a name="href">href</a>
-
-In order to reuse a single descriptor, you can link to it with a href. There are two types of links: inline links, which link from the same document, and outbound links, which link to a descriptor in another file.
-
-
-```xml
-<! -- inline link -->
-<descriptor href="#articleBody">
-
-<! -- outbound links --> <!
-<descriptor href="Blog.xml#articleBody">
-
-```
-
-## <a name="rt">rt</a>
-
-Specifies the transition destination ID.
-
-```xml
-<descriptor id="goBlog" type="safe" rt="#Blog">
-```
-
-## <a name="rel">rel</a>
-
-Specifies a relation for transitions of type `safe`, `idempotent`, or `unsafe`.
-
-```xml
-<descriptor id="editBlogPosting" type="idempotent" rel="edit" rt="#Blog">
-```
-Rel is chosen from IANA's [Link Relation](https://www.iana.org/assignments/link-relations/link-relations.xhtml).
-
-## <a name="title">title</a>
-
-A one-line comment describing the content.
-
-```xml
-<descriptor id="editBlogPosting" type="idempotent" rt="#Blog" title="Edit Posting" />
-```
-
-## <a name="tag">tag</a>
-
-```xml
-<descriptor id="editBlogPosting" type="idempotent" rt="#Blog" tag="choreography" />
-```
-
-ASD allows you to specify whether to draw or not, and the color of each tag.
+1. Descriptors must have either id or href
+2. href reference destination must be a resolvable URL and must have a fragment identifier
+3. rt transition destination must exist within the document
+4. type attribute must be one of the four defined values (semantic, safe, idempotent, unsafe)
+5. The following prefixes are recommended for operation descriptors:
+- safe: `go` (e.g., `goBlog`)
+- unsafe: `do` (e.g., `doCreateBlog`)
+- idempotent: `do` (e.g., `doUpdateBlog`)

@@ -7,223 +7,190 @@ permalink: /manuals/1.0/ja/reference.html
 
 # ALPSリファレンス
 
-# alps
+## 概要
 
-後述の**セマンティックディスクリプタ**の集合がALPSドキュメントです。XMLまたはJSONで記述し\<alps\>タグで全体を囲みます。
+Application-Level Profile Semantics (ALPS) は、アプリケーションのセマンティクス（意味論）を記述するためのドキュメントフォーマットです。このドキュメントではALPSの要素と属性について説明します。
+
+## 文書構造
+
+ALPSドキュメントは以下のような階層構造を持ちます：
+
+1. **ルート要素 (`alps`)**
+  - バージョン情報を含むドキュメントのルート要素
+  - すべての定義はこの要素の中に含まれます
+
+2. **ディスクリプタ要素 (`descriptor`)**
+  - アプリケーションの機能や情報の意味を定義する中心的な要素
+  - 以下の4つの型があります：
+    - semantic: 語句・情報を表す（デフォルト）
+    - safe: 読み取り操作（リソースの状態を変更しない）
+    - idempotent: 同じ操作を複数回実行しても結果が変わらない操作（PUTによる完全な置き換えやDELETEによる消去など）
+    - unsafe: 同じ操作を複数回実行すると異なる結果になる操作（POSTによる新規作成、数値の加算操作など）
+
+3. **補足要素**
+  - `doc`: 詳細な説明や補足情報
+  - `link`: 関連ドキュメントへの参照
+  - `title`: プロファイルの説明
+
+## 記述形式
+
+ALPSドキュメントは以下の2つの形式で記述できます：
+
+**XML形式**
 
 ```xml
-<alps>
-  <descriptor ...>
-  <descriptor ...>
+<?xml version="1.0" encoding="UTF-8"?>
+<alps version="1.0">
+    <title>ブログAPIプロファイル</title>
+    <doc>ブログシステムのAPIプロファイル</doc>
+    
+    <descriptor id="title" title="タイトル" doc="記事のタイトル。最大100文字。"/>
+    
+    <descriptor id="blogPost">
+        <doc>ブログ記事</doc>
+        <descriptor href="#title"/>
+    </descriptor>
 </alps>
 ```
 
-セマンティックディスクリプタはアプリケーションで使われる**特別な語句**を定義します。
+**JSON形式**
 
-
-```xml
-<descriptor id="dateCreated" title="作成日付"/>
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
-    <descriptor href="#id"/>
-</descriptor>
+```json
+{
+    "alps": {
+        "version": "1.0",
+        "title": "ブログAPIプロファイル",
+        "doc": {"value": "ブログシステムのAPIプロファイル"},
+        "descriptor": [
+            {"id": "title", "title": "タイトル", "doc": {"value": "記事のタイトル。最大100文字。"}},
+            {"id": "blogPost", "doc": {"value": "ブログ記事"}, "descriptor": [
+                {"href": "#title"}
+            ]}
+        ]
+    }
+}
 ```
 
+## 要素と属性の詳細
 
-## title, doc, link
+### alps
 
-ALPSドキュンメントにはtitle、doc、linkなどのメタ情報を付加できます。
+ALPSドキュメントのルート要素です。
 
-```xml
-<alps>
-  <title>ALPS Blog</title>
-  <doc>An ALPS profile example for ASD</doc>
-  <link href="https://github.com/koriym/app-state-diagram/issues" rel="issue"/>
-  <descriptor ...>
-  <descriptor ...>
-</alps>
-```
+属性：
+- version: 文書のバージョン（必須）
 
-# descriptor
+### descriptor
 
-descriptorはセマンティックディスクリプタ(意味的識別子)のための要素です。APIの項目名やリンクの名前など、アプリケーションのとって特別な語句を説明します。
+アプリケーションの機能や情報の意味（セマンティクス）を定義します。
+idまたはhrefのいずれかが必要でその他の属性はオプションです。
 
+### descriptor属性一覧
 
-|  要素  |  意味  | 例 |
-| ---- | ---- | ---- |
-|  [descriptor](#descriptor) |  意味的識別子  | <descriptor id="dateCreated" />  |
+| 属性名 | 必須 | 型 | 説明 | 例 |
+|--------|------|-----|------|-----|
+| id | ※1 | string | 要素の一意識別子 | `"blogPost"` |
+| href | ※1 | string | 他要素への参照 | `"#title"` |
+| type | 任意 | enum | 要素の型 | `"safe"` |
+| rt | 任意 | string | 遷移先リソース | `"#BlogPost"` |
+| rel | 任意 | string | リレーション | `"item"` |
+| title | 任意 | string | 表示名 | `"ブログ投稿"` |
+| tag | 任意 | string | 分類タグ | `"blog post"` |
+| doc | 任意 | object/string | 詳細説明 | `"詳細な説明"` |
 
+※1: idまたはhrefのいずれかが必須
 
-descriptorの説明のために、docやlink要素を含むことができます。
+各属性の詳細：
 
-|  要素  |  意味  | 例 |
-| ---- | ---- | ---- |
-|  [doc](#doc) |  説明テキスト  | <doc format="markdown">記事の作成日付</doc>  |
-|  [link](#link)  |  リンク  |   <link href="https://example.com/issues" rel="issue"/>  |
+* **id**: 一意の識別子（hrefと排他）
+  - descriptorを一意に識別する文字列
+  - 同一文書内で重複不可
+  - URL安全な文字のみ使用可能（[RFC1738](https://www.rfc-editor.org/rfc/rfc1738)に準拠）
 
-また、情報の入れ子構造や、遷移に必要な情報を表すためにdescriptorを含むことができます。
+* **href**: 参照先（idと排他）
+  - 他のdescriptorを参照するための識別子
+  - "#"で始まるフラグメント識別子（例：#user）
+  - 外部ファイルの場合はパスを含む（例：profile.xml#user）
+  - 解決可能なURLとフラグメント識別子(#)必須
 
-例） ブログ記事は本文や日付の情報を含んでいる
+* **type**: ディスクリプターの型
+  - semantic: 語句・情報を表す（デフォルト）
+  - safe: 読み取り操作（リソースの状態を変更しない）
+  - idempotent: 同じ操作を複数回実行しても結果が変わらない操作（PUTによる完全な置き換えやDELETEによる消去など）
+  - unsafe: 同じ操作を複数回実行すると異なる結果になる操作（POSTによる新規作成、数値の加算操作など）
 
-```xml
-<descriptor id="BlogPosting" title="ブログ記事" >
-    <descriptor href="#dateCreated"/>
-    <descriptor href="#articleBody"/>
-</descriptor>
-```
+* **rt**: 遷移先（Return Type）
+  - 状態遷移後の移動先リソース
+  - "#"で始まるフラグメント識別子で指定
+  - type属性が`safe`/`idempotent`/`unsafe`の場合に使用
 
-例) ブログ記事を参照するには記事IDが必要
+* **rel**: リレーション
+  - descriptorの関係性を示す
+  - [IANAで定義されたLink Relations](iana_rels.html)を使用（item, collection, self, next, prev など）
+  - カスタムの場合はURIで指定
 
-```xml
-<descriptor id="goBlogPosting" type="safe" rt="#BlogPosting">
-    <descriptor href="#id"/>
-</descriptor>
-```
+* **title**: 表示名
+  - 人間が読むための表示名
+  - UIやドキュメントでの表示用
 
+* **tag**: 分類タグ
+  - descriptorのグルーピングに使用
+  - 複数指定する場合はスペース区切り
+  - カテゴリ分類やフィルタリング用
 
-### <a name="doc">doc</a>
+* **doc**: 詳細説明
+  - descriptorの詳細な説明
+  - doc要素として子要素にも定義可能
+  - フォーマットの指定が可能
 
-文章で意味を説明するdoc
+### doc
 
-```xml
-<descriptor id="dateCreated">
-    <doc format="markdown">ISO8601フォーマットで表された記事の作成日付</doc>
-</descriptor>
-```
-docはformatでフォーマット（text|markdown|html|asciidoc）を指定できます。無指定の時はtextです。
+要素の詳細な説明を提供します。
 
-### <a name="link">link</a>
+#### doc属性一覧
 
-他のリソースの説明をリンクするlink
+| 属性名 | 必須 | 型 | 説明 | 例 |
+|--------|------|-----|------|-----|
+| href | 任意 | string | 外部ドキュメントURL | `"http://example.com/doc"` |
+| format | 任意 | string | ドキュメントフォーマット | `"markdown"` |
+| contentType | 任意 | string | コンテンツタイプ | `"text/html"` |
+| tag | 任意 | string | 分類タグ | `"api spec"` |
+| value | 任意 | string | 説明文 | `"詳細な説明"` |
 
-```xml
-<descriptor id="dateCreated">
-    <link rel="author" href="https://github.com/koriym">
-</descriptor>
-```
+format属性のサポートレベル:
 
-relはIANAの[Link Relation]relをIANAの[登録されたrel](https://www.iana.org/assignments/link-relations/link-relations.xhtml)から選び、hrefでURLにリンクします。
+- text: サポート必須（MUST）
+- html: サポート推奨（SHOULD）
+- asciidoc: サポート任意（MAY）
+- markdown: サポート任意（MAY）、[RFC7763]に準拠
 
-# <a name="descriptor">Descriptor</a>要素
+contentTypeとformatの優先順位:
 
-descriptorにIDや、タイプ、タグと行った属性を付与できます。
+- contentTypeが存在する場合はそれを使用
+- contentTypeとformatが両方ある場合はformatを無視
+- どちらもない場合はtext/plainと見なす
 
+### link
 
-|  属性  |  意味  | 例 |
-| ---- | ---- | ---- |
-|  [id](#id)  |  識別子  | createdDate  |
-| [type](#type) | 型 | [semantic](#semantic) \| [safe](#safe) \| [unsafe](#unsafe) \| [idempotent](#idempotent) |
-|  [href](#href)   |  参照  |　#id |
-|  [rt](#rt)   |  遷移先  | #User |
-|  [rel](#rel)  |  関係  | edit |
-|  [title](#title)   |  タイトル  | 作成時刻  |
-|  [tag](#tag)   |  タグ  | ontology |
-
-## <a name="id">id</a>
-
-ALPSでは全ての情報、全ての遷移（リンク）に対してユニークなIDを割り当てます。ID語句に仕様制約はありませんが、安全な遷移の時は`go`、安全ではない時の遷移は`do`を付けるベストプラクティスがあります。
-
-## <a name="type">type</a>
-
-descriptorはtype属性を持ちます。無指定の場合はsemanticです。
-
-|  タイプ  |  意味  |
-| ---- | ---- | 
-|  [semantic](#semantic)  |  意味  | 
-|  [safe](#safe)   |  安全で冪等な遷移  | 
-|  [idempotent](#idempotent)   | 安全でなく冪等な遷移  | 
-|  [unsafe](#unsafe)   |  安全でなく冪等でない遷移  | 
-
-
-意味を表す１つのタイプと、遷移を表す３つのタイプがあります。
-
-### <a name="semantic">semantic</a>
-
-アプリケーションで使う語句をリストアップし、ボキャブラリを作成します。
-
-```xml
-<descriptor id="dateCreated" type="semantic"/>
-```
-
-
-### <a name="safe">safe</a>
-
-リソースの状態が変化しない、読み取りのための遷移です。
-
-例） URLを指定してリソース状態を取得
-
-```xml
-<descriptor id="goBlog" type="safe" rt="#Blog" />
-```
-
-### <a name="idempotent">idempotent</a>
-
-リソースの状態が冪等で変化する遷移です。
-
-例） URLを指定したリソース作成、対象リソースの変更や削除
-
-```xml
-<descriptor id="doDeleteMenu" type="idempotent" rt="#Menu">
-```
-
-### <a name="unsafe">unsafe</a>
-
-リソースの状態変化が冪等ではない遷移です。
-
-例） URLを指定しないリソース作成や対象リソースの追記
-
-```xml
-<descriptor id="doAppendRecord" type="unsafe" rt="#Record">
-```
-
-以上、計４つのタイプがあります。
-
-> 冪等とは
->
-> ある操作を1回行っても複数回行っても結果が同じであることです。たとえばリソースの追加は冪等性がありませんが、リソースの変更や消去には冪等性があります。
-
-## <a name="href">href</a>
-
-１つのdescriptorを再利用するためにhrefでリンクをする事ができます。リンクには同じドキュメントからリンクするインラインリンクと、他のファイルのdescriptorにリンクするアウトバウンドリンクの２つがあります。
-
-
-```xml
-<!-- インラインリンク -->
-<descriptor href="#articleBody">
-
-<!-- アウトバウンドリンク -->
-<descriptor href="Blog.xml#articleBody">
-
-```
-
-## <a name="rt">rt</a>
-
-遷移先IDを指定します。
-
-```xml
-<descriptor id="goBlog" type="safe" rt="#Blog">
-```
-
-## <a name="rel">rel</a>
-
-typeが`safe`, `idempotent`, `unsafe`の遷移の時に関係性を指定します。
-
-```xml
-<descriptor id="editBlogPosting" type="idempotent" rel="edit" rt="#Blog">
-```
-relはIANAの[Link Relation](https://www.iana.org/assignments/link-relations/link-relations.xhtml)から選びます。
-
-## <a name="title">title</a>
-
-内容を一行で表すコメントです。
-
-```xml
-<descriptor id="editBlogPosting" type="idempotent" rt="#Blog" title="記事の編集" />
-```
-
-## <a name="tag">tag</a>
-
-```xml
-<descriptor id="editBlogPosting" type="idempotent" rt="#Blog" tag="choreography" />
-```
-
-タグでグループを作ります。ASDはタグ単位で描画の有無や色を指定できます。
+関連ドキュメントへの参照を定義します。
+
+属性：
+- href: リンク先URL（必須）
+- rel: リレーション（必須）
+  - self: 自身へのリンク
+  - profile: プロファイルドキュメント
+  - help: ヘルプドキュメント
+  - related: 関連ドキュメント
+  - その他の[IANAリンクリレーション](iana_rels.html)
+
+
+## バリデーション
+
+1. descriptorにはidまたはhrefのいずれかが必要です
+2. href参照先は解決可能なURLでなければならず、フラグメント識別子が必須です
+3. rt遷移先は文書内に実在する必要があります
+4. type属性は定義された4値（semantic、safe、idempotent、unsafe）のいずれかである必要があります
+5. 操作系descriptorには以下のプレフィックスの使用を推奨します：
+  - safe: `go`（例：`goBlog`）
+  - unsafe: `do`（例：`doCreateBlog`）
+  - idempotent: `do`（例：`doUpdateBlog`）

@@ -6,7 +6,7 @@ permalink: /manuals/1.0/en/
 ---
 # Introduction
 
-![ASD](https://alps-asd.github.io/app-state-diagram/blog/profile.svg)
+[![ALPS document](/images/alps.svg)](/alps/index.html)
 
 ## ALPS: A format for clarifying application-level semantics and structure
 

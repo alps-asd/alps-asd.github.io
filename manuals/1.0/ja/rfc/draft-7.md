@@ -6,13 +6,14 @@ permalink: /manuals/1.0/ja/rfc-draft-7.html
 ---
 
 # アプリケーションレベルプロファイルセマンティクス (ALPS)
-draft-amundsen-richardson-foster-alps-07
+
+このページは[Application-Level Profile Semantics (ALPS)
+draft-amundsen-richardson-foster-alps-07](https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07) を日本語に翻訳したものです。
 
 ## 概要
 
 このドキュメントは、HTMLマイクロフォーマットと同程度の複雑さで、アプリケーションレベルのセマンティクスの簡単な記述を定義するデータフォーマットであるALPSについて説明しています。ALPSドキュメントは、アプリケーションに依存しないメディアタイプ（HTML、HAL、Collection+JSON、Sirenなど）を持つドキュメントのアプリケーションセマンティクスを説明するプロファイルとして使用できます。これにより、プロファイルドキュメントのメディアタイプ間での再利用性が高まります。
 
-このページは[https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07](https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07) を日本語に翻訳したものです。
 
 ## 目次
 # ALPS ドキュメント目次
@@ -342,7 +343,7 @@ ALPSドキュメントのルートを示します。このプロパティは必�
 
 例：
 XML: `<alps>...</alps>`
-JSON: `{ "alps" : ... }`
+JSON: `{"alps" : ... }`
 
 ### 2.2.2. 'contentType'
 
@@ -354,7 +355,7 @@ JSON: `{ "alps" : ... }`
 
 例：
 XML: `<doc contentType="text/html"> <![CDATA[ <h1>Help File</h1> <p>...</p> ]]> </doc>`
-JSON: `{ "doc" : { "contentType" : "text/html", "value" : "<h1>Help File</h1><p>...</p>" } }`
+JSON: `{"doc" : {"contentType" : "text/html", "value" : "<h1>Help File</h1><p>...</p>"} }`
 
 ### 2.2.3. 'def'
 
@@ -362,7 +363,7 @@ JSON: `{ "doc" : { "contentType" : "text/html", "value" : "<h1>Help File</h1><p>
 
 例：
 XML: `<descriptor id="title" def="http://schema.org/title" />`
-JSON: `{ "descriptor" : [ {"id" : "title", "def":"http://schema.org/title" } ]}`
+JSON: `{"descriptor" : [ {"id" : "title", "def":"http://schema.org/title"} ]}`
 
 ### 2.2.4. 'descriptor'
 
@@ -418,17 +419,17 @@ JSON: `{ "descriptor" : [ {"id" : "title", "def":"http://schema.org/title" } ]}`
 注：ALPSドキュメントのXML表現では、'doc'要素の内容は<!CDATA[と]]>で囲むべきです。囲まれていない場合でも、XML 'doc'要素の内容はALPSドキュメントを解析する際に文字列として扱われなければなりません。
 
 XML: `<doc format="html"> <![CDATA[ <h1>Date of Birth</h1> <p>...</p> ]]> </doc>`
-JSON: `{ "doc" : { "format" : "text" , "value" : "Date of Birth ..." } }`
+JSON: `{"doc" : {"format" : "text" , "value" : "Date of Birth ..."} }`
 
 'doc'要素は'descriptor'の子として表示されるべきです。存在する場合、関連する'descriptor'の意味と使用法を説明します。
 
 XML: `<descriptor ... > <doc><![CDATA[...]]></doc> </descriptor>`
-JSON: `{ "descriptor" : [ { "doc" : { "value" : "..." } ...  ] }`
+JSON: `{"descriptor" : [ {"doc" : {"value" : "..."} ...  ] }`
 
 'doc'要素は'alps'の子として表示される場合があります。存在する場合、ALPSドキュメント全体の目的を説明します。
 
 XML: `<alps> <doc><![CDATA[...]]></doc> ... >/alps>`
-JSON: `{ "alps : { "doc" : { "value" : "..." } } ... }`
+JSON: `{"alps : {"doc" : {"value" : "..."} } ... }`
 
 ### 2.2.6. 'ext'
 
@@ -447,7 +448,7 @@ JSON: `{ "alps : { "doc" : { "value" : "..." } } ... }`
 
 例：
 XML: `<ext id="directions" href="http://alps.io/ext/directions" value="north south east west" >`
-JSON: `{ "ext" : { "id" : "directions", "href" : "http://alps.io/ext/directions", value="north south east west" } }`
+JSON: `{"ext" : {"id" : "directions", "href" : "http://alps.io/ext/directions", value="north south east west"} }`
 
 'ext'要素は以下の要素の子として表示される場合があります：
 
@@ -759,9 +760,9 @@ ALPSドキュメントをJSON形式で表現する場合、'descriptor'と'ext'�
     "id" : "value",
     "name" : "search",
     "type" : "semantic",
-    "doc" : { "value" : "検索用の入力" }
+    "doc" : {"value" : "検索用の入力"}
   },
-  { "href" : "#resultType" }
+  {"href" : "#resultType"}
 ]
 ```
 
@@ -797,7 +798,7 @@ ALPS+JSONの説明
       {
         "id" : "search",
         "type" : "safe",
-        "doc" : { "value" :
+        "doc" : {"value" :
           "2つの入力を持つ検索フォーム"
         },
         "descriptor" : [
@@ -805,15 +806,15 @@ ALPS+JSONの説明
             "id" : "value",
             "name" : "search",
             "type" : "semantic",
-            "doc" : { "value" : "検索用の入力" }
+            "doc" : {"value" : "検索用の入力"}
           },
-          { "href" : "#resultType" }
+          {"href" : "#resultType"}
         ]
       },
       {
         "id" : "resultType",
         "type" : "semantic",
-        "doc" : { "value" : "結果フォーマット"},
+        "doc" : {"value" : "結果フォーマット"},
         "ext" : [
           {
             "href" : "http://alps.io/ext/range",
