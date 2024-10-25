@@ -148,9 +148,9 @@ Basic element definitions:
 ```json
 {
     "descriptor": [
-        { "id": "title", "title": "Title", "doc": {"value": "Article title. Maximum 100 characters."}},
-        { "id": "content", "title": "Content", "doc": {"value": "Article body. Supports Markdown format."}},
-        { "id": "publishedAt", "title": "Publication Date", "doc": {"value": "Article publication date and time. ISO 8601 format."}}
+        {"id": "title", "title": "Title", "doc": {"value": "Article title. Maximum 100 characters."}},
+        {"id": "content", "title": "Content", "doc": {"value": "Article body. Supports Markdown format."}},
+        {"id": "publishedAt", "title": "Publication Date", "doc": {"value": "Article publication date and time. ISO 8601 format."}}
     ]
 }
 ```
@@ -216,7 +216,7 @@ Reusing basic elements:
 ```json
 {
     "descriptor": [
-        { "id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "Display blog homepage. Shows latest 10 articles."}},
+        {"id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "Display blog homepage. Shows latest 10 articles."}},
         {
             "id": "doCreateBlogPost",
             "type": "unsafe",

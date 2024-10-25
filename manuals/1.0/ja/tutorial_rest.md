@@ -211,14 +211,10 @@ JSONの場合：
         "descriptor": [
             {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
             {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
-            {
-                "id": "BlogPosting",
-                "title": "ブログ記事",
-                "descriptor": [
+            {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
                     {"href": "#dateCreated"},
                     {"href": "#articleBody"}
-                ]
-            }
+            ]}
         ]
     }
 }
@@ -319,23 +315,13 @@ JSONの場合：
         "descriptor": [
             {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
             {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
-            {
-                "id": "BlogPosting",
-                "title": "ブログ記事",
-                "descriptor": [
-                    {"href": "#dateCreated"},
-                    {"href": "#articleBody"}
-                ]
-            },
-            {
-                "id": "goBlogPosting",
-                "type": "safe",
-                "rt": "#BlogPosting",
-                "title": "ブログ記事を見る",
-                "descriptor": [
-                    {"href": "#dateCreated"}
-                ]
-            }
+            {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
+               {"href": "#dateCreated"},
+               {"href": "#articleBody"}
+            ]},
+            {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", "descriptor": [
+               {"href": "#dateCreated"}
+            ]}
         ]
     }
 }
@@ -377,15 +363,9 @@ XMLの場合：
 
 JSONの場合：
 ```json
-{
-    "id": "doCreateBlogPosting",
-    "type": "unsafe",
-    "rt": "#BlogPosting",
-    "title": "ブログ記事を作成する",
-    "descriptor": [
-        {"href": "#articleBody"}
-    ]
-}
+{"id": "doCreateBlogPosting", "type": "unsafe", "rt": "#BlogPosting", "title": "ブログ記事を作成する", "descriptor": [
+    {"href": "#articleBody"}
+]}
 ```
 
 ここで、閲覧（safe）と作成（unsafe）の違いに注目してください：
@@ -562,8 +542,10 @@ JSONの場合：
     "$schema": "https://alps-io.github.io/schemas/alps.json",
     "alps": {
         "descriptor": [
-            { "id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "rel": "item", "title": "記事を見る", "descriptor": [{ "href": "#id" }] },
-            { "id": "returnToBlog", "type": "safe", "rt": "#Blog", "rel": "collection", "title": "記事リストに戻る" }
+            {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "rel": "item", "title": "記事を見る", "descriptor": [
+               {"href": "#id"}
+            ]},
+            {"id": "returnToBlog", "type": "safe", "rt": "#Blog", "rel": "collection", "title": "記事リストに戻る"}
         ]
     }
 }
@@ -625,10 +607,10 @@ JSONの場合：
     "id": "BlogPosting",
     "title": "ブログ記事",
     "descriptor": [
-        { "href": "#dateCreated", "tag": "metadata" },
-        { "href": "#articleBody", "tag": "content" },
-        { "href": "#goBlogPosting", "tag": "navigation" },
-        { "href": "#doCreateBlogPosting", "tag": "action" }
+        {"href": "#dateCreated", "tag": "metadata"},
+        {"href": "#articleBody", "tag": "content"},
+        {"href": "#goBlogPosting", "tag": "navigation"},
+        {"href": "#doCreateBlogPosting", "tag": "action"}
     ]
 }
 ```

@@ -204,22 +204,18 @@ In XML:
 In JSON:
 ```json
 {
-    "$schema": "https://alps-io.github.io/schemas/alps.json",
-    "alps": {
-        "version": "1.0",
-        "descriptor": [
-            {"id": "dateCreated", "title": "Creation Date", "doc": {"format": "text", "value": "Represents the date the post was created, in ISO8601 format"}},
-            {"id": "articleBody", "title": "Article Body", "doc": {"format": "text", "value": "The body of the blog post"}},
-            {
-                "id": "BlogPosting",
-                "title": "Blog Post",
-                "descriptor": [
-                    {"href": "#dateCreated"},
-                    {"href": "#articleBody"}
-                ]
-            }
-        ]
-    }
+   "$schema": "https://alps-io.github.io/schemas/alps.json",
+   "alps": {
+      "version": "1.0",
+      "descriptor": [
+         {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
+         {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
+         {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
+            {"href": "#dateCreated"},
+            {"href": "#articleBody"}
+         ]}
+      ]
+   }
 }
 ```
 
@@ -318,23 +314,13 @@ In JSON:
         "descriptor": [
             {"id": "dateCreated", "title": "Creation Date", "doc": {"format": "text", "value": "Represents the date the post was created, in ISO8601 format"}},
             {"id": "articleBody", "title": "Article Body", "doc": {"format": "text", "value": "The body of the blog post"}},
-            {
-                "id": "BlogPosting",
-                "title": "Blog Post",
-                "descriptor": [
-                    {"href": "#dateCreated"},
-                    {"href": "#articleBody"}
-                ]
-            },
-            {
-                "id": "goBlogPosting",
-                "type": "safe",
-                "rt": "#BlogPosting",
-                "title": "View Blog Post",
-                "descriptor": [
-                    {"href": "#dateCreated"}
-                ]
-            }
+            {"id": "BlogPosting", "title": "Blog Post", "descriptor": [
+               {"href": "#dateCreated"},
+               {"href": "#articleBody"}
+            ]},
+            {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "View Blog Post", "descriptor": [
+               {"href": "#dateCreated"}
+            ]}
         ]
     }
 }
@@ -377,15 +363,9 @@ In XML:
 
 In JSON:
 ```json
-{
-    "id": "doCreateBlogPosting",
-    "type": "unsafe",
-    "rt": "#BlogPosting",
-    "title": "Create Blog Post",
-    "descriptor": [
-        {"href": "#articleBody"}
-    ]
-}
+{"id": "doCreateBlogPosting", "type": "unsafe", "rt": "#BlogPosting", "title": "Create Blog Post", "descriptor": [
+    {"href": "#articleBody"}
+]}
 ```
 
 Important elements of this definition:
@@ -422,15 +402,9 @@ In XML:
 
 In JSON:
 ```json
-{
-    "id": "doUpdateBlogPosting",
-    "type": "idempotent",
-    "rt": "#BlogPosting",
-    "title": "Update Blog Post",
-    "descriptor": [
-        {"href": "#articleBody"}
-    ]
-}
+{"id": "doUpdateBlogPosting", "type": "idempotent", "rt": "#BlogPosting", "title": "Update Blog Post", "descriptor": [
+   {"href": "#articleBody"}
+]}
 ```
 
 Important elements of this definition:
@@ -471,16 +445,12 @@ In XML:
 
 In JSON:
 ```json
-{
-    "id": "Blog",
-    "title": "Blog",
-    "descriptor": [
-        {"href": "#BlogPosting"},
-        {"href": "#goBlogPosting"},
-        {"href": "#doCreateBlogPosting"},
-        {"href": "#doUpdateBlogPosting"}
-    ]
-}
+{"id": "Blog", "title": "Blog", "descriptor": [
+   {"href": "#BlogPosting"},
+   {"href": "#goBlogPosting"},
+   {"href": "#doCreateBlogPosting"},
+   {"href": "#doUpdateBlogPosting"}
+]}
 ```
 
 This final structure represents the complete blog system, integrating all defined states and transitions.

@@ -150,9 +150,9 @@ ALPSプロファイルを作成する際には、スキーマ参照を追加す�
 ```json
 {
     "descriptor": [
-        { "id": "title", "title": "タイトル", "doc": {"value": "記事のタイトル。最大100文字。"}},
-        { "id": "content", "title": "内容", "doc": {"value": "記事の本文。Markdown形式をサポート。"}},
-        { "id": "publishedAt", "title": "公開日時", "doc": {"value": "記事の公開日時。ISO 8601形式。"}}
+        {"id": "title", "title": "タイトル", "doc": {"value": "記事のタイトル。最大100文字。"}},
+        {"id": "content", "title": "内容", "doc": {"value": "記事の本文。Markdown形式をサポート。"}},
+        {"id": "publishedAt", "title": "公開日時", "doc": {"value": "記事の公開日時。ISO 8601形式。"}}
     ]
 }
 ```
@@ -218,7 +218,7 @@ ALPSプロファイルを作成する際には、スキーマ参照を追加す�
 ```json
 {
     "descriptor": [
-        { "id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "ブログのトップページを表示。最新10件の記事を一覧表示。"}},
+        {"id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "ブログのトップページを表示。最新10件の記事を一覧表示。"}},
         {
             "id": "doCreateBlogPost",
             "type": "unsafe",

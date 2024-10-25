@@ -88,8 +88,8 @@ HALではリンクリレーションとして状態遷移を、プロパティ�
 ```json
 {
   "_links": {
-    "self": { "href": "/posts/1" },
-    "add-comment": { "href": "/posts/1/comments" }
+    "self": {"href": "/posts/1"},
+    "add-comment": {"href": "/posts/1/comments"}
   },
   "title": "記事タイトル",
   "content": "本文...",
@@ -97,7 +97,7 @@ HALではリンクリレーションとして状態遷移を、プロパティ�
     "comments": [
       {
         "_links": {
-          "self": { "href": "/comments/1" }
+          "self": {"href": "/comments/1"}
         },
         "text": "コメント内容..."
       }
