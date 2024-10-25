@@ -175,23 +175,15 @@ Reusing basic elements:
 ```json
 {
     "descriptor": [
-        {
-            "id": "blogPost",
-            "doc": {"value": "User-created article. After publication, visible to all users."},
-            "descriptor": [
-                {"href": "#title"},
-                {"href": "#content"},
-                {"href": "#publishedAt"}
-            ]
-        },
-        {
-            "id": "pagePost",
-            "doc": {"value": "Static page. Permanent content such as site basic information."},
-            "descriptor": [
-                {"href": "#title"},
-                {"href": "#content"}
-            ]
-        }
+        {"id": "blogPost", "doc": {"value": "User-created article. After publication, visible to all users."}, "descriptor": [
+            {"href": "#title"},
+            {"href": "#content"},
+            {"href": "#publishedAt"}         
+        ]},
+        {"id": "pagePost", "doc": {"value": "Static page. Permanent content such as site basic information."}, "descriptor": [
+            {"href": "#title"},
+            {"href": "#content"}
+        ]}
     ]
 }
 ```
