@@ -134,3 +134,110 @@ ALPSプロファイルを作成する際には、スキーマ参照を追加す�
   xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
 </alps>  
 ```
+
+## 実装例
+
+### セマンティック要素
+
+基本要素の定義：
+
+```xml
+<descriptor id="title" title="タイトル" doc="記事のタイトル。最大100文字。"/>
+<descriptor id="content" title="内容" doc="記事の本文。Markdown形式をサポート。"/>
+<descriptor id="publishedAt" title="公開日時" doc="記事の公開日時。ISO 8601形式。"/>
+```
+
+```json
+{
+    "descriptor": [
+        { "id": "title", "title": "タイトル", "doc": {"value": "記事のタイトル。最大100文字。"}},
+        { "id": "content", "title": "内容", "doc": {"value": "記事の本文。Markdown形式をサポート。"}},
+        { "id": "publishedAt", "title": "公開日時", "doc": {"value": "記事の公開日時。ISO 8601形式。"}}
+    ]
+}
+```
+
+基本要素の再利用：
+
+```xml
+<descriptor id="blogPost">
+    <doc>ユーザーが作成した記事。公開後は全てのユーザーが閲覧可能。</doc>
+    <descriptor href="#title"/>
+    <descriptor href="#content"/>
+    <descriptor href="#publishedAt"/>
+</descriptor>
+
+<descriptor id="pagePost">
+    <doc>固定ページ。サイトの基本情報などの永続的なコンテンツ。</doc>
+    <descriptor href="#title"/>
+    <descriptor href="#content"/>
+</descriptor>
+```
+
+```json
+{
+    "descriptor": [
+        {
+            "id": "blogPost",
+            "doc": {"value": "ユーザーが作成した記事。公開後は全てのユーザーが閲覧可能。"},
+            "descriptor": [
+                {"href": "#title"},
+                {"href": "#content"},
+                {"href": "#publishedAt"}
+            ]
+        },
+        {
+            "id": "pagePost",
+            "doc": {"value": "固定ページ。サイトの基本情報などの永続的なコンテンツ。"},
+            "descriptor": [
+                {"href": "#title"},
+                {"href": "#content"}
+            ]
+        }
+    ]
+}
+```
+
+### 操作の定義
+
+```xml
+<descriptor id="goBlog" type="safe" rt="#Blog" doc="ブログのトップページを表示。最新10件の記事を一覧表示。"/>
+
+<descriptor id="doCreateBlogPost" type="unsafe" rt="#BlogPost">
+    <doc>新規記事を作成。下書き状態で保存される。</doc>
+    <descriptor href="#title"/>
+    <descriptor href="#content"/>
+</descriptor>
+
+<descriptor id="doPublishBlogPost" type="idempotent" rt="#BlogPost">
+    <doc>記事を公開。publishedAtに現在時刻が設定される。</doc>
+    <descriptor href="#id"/>
+</descriptor>
+```
+
+```json
+{
+    "descriptor": [
+        { "id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "ブログのトップページを表示。最新10件の記事を一覧表示。"}},
+        {
+            "id": "doCreateBlogPost",
+            "type": "unsafe",
+            "rt": "#BlogPost",
+            "doc": {"value": "新規記事を作成。下書き状態で保存される。"},
+            "descriptor": [
+                {"href": "#title"},
+                {"href": "#content"}
+            ]
+        },
+        {
+            "id": "doPublishBlogPost",
+            "type": "idempotent",
+            "rt": "#BlogPost",
+            "doc": {"value": "記事を公開。publishedAtに現在時刻が設定される。"},
+            "descriptor": [
+                {"href": "#id"}
+            ]
+        }
+    ]
+}
+```

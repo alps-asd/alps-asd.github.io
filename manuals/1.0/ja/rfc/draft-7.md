@@ -6,13 +6,14 @@ permalink: /manuals/1.0/ja/rfc-draft-7.html
 ---
 
 # アプリケーションレベルプロファイルセマンティクス (ALPS)
-draft-amundsen-richardson-foster-alps-07
+
+このページは[Application-Level Profile Semantics (ALPS)
+draft-amundsen-richardson-foster-alps-07](https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07) を日本語に翻訳したものです。
 
 ## 概要
 
 このドキュメントは、HTMLマイクロフォーマットと同程度の複雑さで、アプリケーションレベルのセマンティクスの簡単な記述を定義するデータフォーマットであるALPSについて説明しています。ALPSドキュメントは、アプリケーションに依存しないメディアタイプ（HTML、HAL、Collection+JSON、Sirenなど）を持つドキュメントのアプリケーションセマンティクスを説明するプロファイルとして使用できます。これにより、プロファイルドキュメントのメディアタイプ間での再利用性が高まります。
 
-このページは[https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07](https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07) を日本語に翻訳したものです。
 
 ## 目次
 # ALPS ドキュメント目次

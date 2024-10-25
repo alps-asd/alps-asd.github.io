@@ -4,11 +4,12 @@ title: Best practice
 category: Manual
 permalink: /manuals/1.0/en/best_practice.html
 ---
+
 # Best Practices
 
 ## State
 
-A semantic descriptor that is a web page contains other semantic descriptors, and they are linked to each other. Such a page semantic descriptor is represented by an upper camel case.
+Application state semantic descriptors are represented in UpperCamelCase starting with a capital letter.
 
 ```json
 "descriptor": [
@@ -21,48 +22,55 @@ A semantic descriptor that is a web page contains other semantic descriptors, an
 ]
 ```
 
-## Safe state transition
+## Safe State Transitions
 
-A simple `safe` request is represented by appending a `go` prefix to the descriptor of the next transition destination.
-
-refer to nbest practice from 8288: https://datatracker.ietf.org/doc/html/rfc8288#section-3.3
+Semantic descriptors with type `safe` add the prefix `go` to the destination descriptor.
+([RFC8288](https://datatracker.ietf.org/doc/html/rfc8288#section-3.3))
 
 ```json
+[
   {"id": "goHome", "type": "safe", "rt": "#Home"},
   {"id": "goFirst", "type": "safe", "rt": "#TodoList"},
-  {"id": "goPrevious", "type": "safe", "rt": "#TodoList"},
+  {"id": "goPrevious", "type": "safe", "rt": "#TodoList"}
+]
 ```
 
-All methods except `safe` add the `do`prefix.
+Semantic descriptors that are not safe should use the prefix `do`.
 
 ```json
+[
   {"id": "doEditUser", "type": "idempotent", "rt": "#UserList"},
-  {"id": "doDeleteUser", "type": "idempotent", "rt": "#UserList"},
+  {"id": "doDeleteUser", "type": "idempotent", "rt": "#UserList"}
+]
 ```
 
-Transition ID should be {go|do} prefix + application state ID.
+The rt (transition destination) ID is formed by adding the destination descriptor ID to the prefix `go` or `do`.
 
 ```json
+[
   {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting"},
-  {"id": "doEditBlogPosting", "type": "idempotent", "rt": "#Blog"},
+  {"id": "doEditBlogPosting", "type": "idempotent", "rt": "#Blog"}
+]
 ```
 
-## Element
+## Elements
 
-The semantic descriptor of an "element" that is included in a State but is not a State should be lower camel case.
+Semantic descriptors that are not defined as application states, i.e., elements, are written in lowerCamelCase starting with a lowercase letter.
 
 ```json
+[
     {"id": "articleBody"},
-    {"id": "dateCreated"},
+    {"id": "dateCreated"}
+]
 ```
 
-## ALPS file structure
+## ALPS File Structure
 
-The description of the ALPS descriptor is divided into the following three blocks, which are represented in the following order.
+The semantic descriptors in ALPS files are divided into three blocks in the following order:
 
-1. semantic descriptors for word definitions with `def` or `doc` (ontology)
-2. semantic descriptor group for inclusion relations (taxonomy)
-3. semantic descriptors for state transitions (choreography)
+1. Semantic descriptor groups with meaning definitions using `def` and `doc` (ontology)
+2. Semantic descriptor groups with inclusion relationships (taxonomy)
+3. State transition semantic descriptor groups (choreography)
 
 ```json
 "descriptor" : [
@@ -78,9 +86,9 @@ The description of the ALPS descriptor is divided into the following three block
 ]
 ```
 
-## Hierarchical structures outside ALPS
+## Hierarchical Structure Outside ALPS
 
-ALPS can represent hierarchical meanings by position.
+In ALPS, hierarchical meanings can be expressed by position.
 
 ```json
 "descriptor": [
@@ -94,10 +102,9 @@ ALPS can represent hierarchical meanings by position.
 ]
 ```
 
-In the above example, `name` is shared with `Product/name` and `Person/name`.
-The basic rule is to follow the practices of each format when representing such words in a format with only a flat hierarchy.
-
-* In the html case, it is represented by the Lower camel case.
+* In the example above, `name` is shared between `Product/name` and `Person/name`.
+* When expressing such terms in formats with only flat hierarchies, it's basic practice to follow the conventions of each format.
+* In HTML, they are expressed in lower camel case.
 
 ```html
 <form>
@@ -106,8 +113,9 @@ The basic rule is to follow the practices of each format when representing such 
 </form>
 ```
 
-## Add Schema References to Your ALPS Documents
-It is a good idea to add a reference to ALPS schemas when creating your ALPS profiles.
+## Adding Schema References
+
+When creating ALPS profiles, it is recommended to add schema references.
 
 ```json
 {
@@ -123,4 +131,111 @@ It is a good idea to add a reference to ALPS schemas when creating your ALPS pro
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
 </alps>  
+```
+
+## Implementation Examples
+
+### Semantic Elements
+
+Basic element definitions:
+
+```xml
+<descriptor id="title" title="Title" doc="Article title. Maximum 100 characters."/>
+<descriptor id="content" title="Content" doc="Article body. Supports Markdown format."/>
+<descriptor id="publishedAt" title="Publication Date" doc="Article publication date and time. ISO 8601 format."/>
+```
+
+```json
+{
+    "descriptor": [
+        { "id": "title", "title": "Title", "doc": {"value": "Article title. Maximum 100 characters."}},
+        { "id": "content", "title": "Content", "doc": {"value": "Article body. Supports Markdown format."}},
+        { "id": "publishedAt", "title": "Publication Date", "doc": {"value": "Article publication date and time. ISO 8601 format."}}
+    ]
+}
+```
+
+Reusing basic elements:
+
+```xml
+<descriptor id="blogPost">
+    <doc>User-created article. After publication, visible to all users.</doc>
+    <descriptor href="#title"/>
+    <descriptor href="#content"/>
+    <descriptor href="#publishedAt"/>
+</descriptor>
+
+<descriptor id="pagePost">
+    <doc>Static page. Permanent content such as site basic information.</doc>
+    <descriptor href="#title"/>
+    <descriptor href="#content"/>
+</descriptor>
+```
+
+```json
+{
+    "descriptor": [
+        {
+            "id": "blogPost",
+            "doc": {"value": "User-created article. After publication, visible to all users."},
+            "descriptor": [
+                {"href": "#title"},
+                {"href": "#content"},
+                {"href": "#publishedAt"}
+            ]
+        },
+        {
+            "id": "pagePost",
+            "doc": {"value": "Static page. Permanent content such as site basic information."},
+            "descriptor": [
+                {"href": "#title"},
+                {"href": "#content"}
+            ]
+        }
+    ]
+}
+```
+
+### Operation Definitions
+
+```xml
+<descriptor id="goBlog" type="safe" rt="#Blog" doc="Display blog homepage. Shows latest 10 articles."/>
+
+<descriptor id="doCreateBlogPost" type="unsafe" rt="#BlogPost">
+    <doc>Create new article. Saved in draft state.</doc>
+    <descriptor href="#title"/>
+    <descriptor href="#content"/>
+</descriptor>
+
+<descriptor id="doPublishBlogPost" type="idempotent" rt="#BlogPost">
+    <doc>Publish article. Current time is set to publishedAt.</doc>
+    <descriptor href="#id"/>
+</descriptor>
+```
+
+```json
+{
+    "descriptor": [
+        { "id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "Display blog homepage. Shows latest 10 articles."}},
+        {
+            "id": "doCreateBlogPost",
+            "type": "unsafe",
+            "rt": "#BlogPost",
+            "doc": {"value": "Create new article. Saved in draft state."},
+            "descriptor": [
+                {"href": "#title"},
+                {"href": "#content"}
+            ]
+        },
+        {
+            "id": "doPublishBlogPost",
+            "type": "idempotent",
+            "rt": "#BlogPost",
+            "doc": {"value": "Publish article. Current time is set to publishedAt."},
+            "descriptor": [
+                {"href": "#id"}
+            ]
+        }
+    ]
+}
 ```
