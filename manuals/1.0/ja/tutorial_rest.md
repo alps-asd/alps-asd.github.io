@@ -86,7 +86,7 @@ ALPSは、これらの概念を実践的に表現するための手段です。�
 
 ### エディターの準備
 
-1. ブラウザで [https://app-state-diagram.free.nf/](https://app-state-diagram.free.nf/) を開きます
+1. ブラウザで [https://app-state-diagram.com/](https://app-state-diagram.com/) を開きます
 2. 左側のエディターペインに表示されているデモコードを全て削除します
 
 ### 最初の用語を定義する

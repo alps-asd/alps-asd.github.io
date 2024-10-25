@@ -86,7 +86,7 @@ Ontology defines the meaning of terms used in the application. Clearly defining 
 
 ### Setting Up the Editor
 
-1. Open [https://app-state-diagram.free.nf/](https://app-state-diagram.free.nf/) in your browser.
+1. Open [https://app-state-diagram.com/](https://app-state-diagram.com/) in your browser.
 2. Delete all the demo code displayed in the left editor pane.
 
 ### Defining the First Term

@@ -15,7 +15,7 @@ ASD (app-state-diagram) is a tool for creating comprehensive ALPS documentation 
 
 Use immediately without local installation:
 
-- [https://app-state-diagram.free.nf/](https://app-state-diagram.free.nf/)
+- [https://app-state-diagram.com/](https://app-state-diagram.com/)
 
 Features:
 - No installation required
