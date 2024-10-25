@@ -9,7 +9,17 @@ category: Index
     <p>
         Application State Diagram of REST application with ALPS profile
     </p>
-    <a class="btn btn-primary" href="/manuals/1.0/en/index.html">
+    <a class="intl btn btn-primary" id="learn" href="/manuals/1.0/en/index.html">
         Learn more &raquo;
     </a>
-</div>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const links = document.getElementsByClassName('intl');
+            const locale = window.navigator.language;
+            if (locale.startsWith('ja')) {
+                for(let i = 0; i < links.length; i++) {
+                    links[i].setAttribute('href', links[i].getAttribute('href').replace('/en/', '/ja/'));
+                }
+            }
+        });
+    </script></div>
