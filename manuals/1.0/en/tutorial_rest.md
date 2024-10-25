@@ -259,11 +259,11 @@ In JSON:
 
 Choreography defines state transitions according to the types of operations. In ALPS, operations are categorized as follows:
 
-|Operation | Type | 	HTTP Method	Description |
+|Operation | Type |  HTTP Method Description |
 | ---- | ---- | ---- | 
-|safe |	GET	| Changes only application state |
-|unsafe |	POST |	Creates new resource state |
-|idempotent |	PUT/DELETE | Updates/deletes resource state |
+|safe | GET | Changes only application state |
+|unsafe | POST | Creates new resource state |
+|idempotent | PUT/DELETE | Updates/deletes resource state |
 
 1. `safe`
    - Changes only the application state (e.g., GET).
