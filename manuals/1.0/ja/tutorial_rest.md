@@ -1,6 +1,6 @@
 ---
 layout: docs-ja
-title: RESTチュートリアル
+title: 応用チュートリアル
 category: Manual
 permalink: /manuals/1.0/ja/tutorial_rest.html
 ---

@@ -1,6 +1,6 @@
 ---
 layout: docs-ja
-title: チュートリアル
+title: 基本チュートリアル
 category: Manual
 permalink: /manuals/1.0/ja/tutorial.html
 ---
