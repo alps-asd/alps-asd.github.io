@@ -5,21 +5,20 @@ category: Manual
 permalink: /manuals/1.0/ja/tutorial_rest.html
 ---
 
-# RESTアプリケーションのためのALPS入門チュートリアル
+# RESTアプリケーションのためのALPSチュートリアル
 
 ## はじめに
 
-現代のデジタル世界で、私たちは日々数多くのWebアプリケーションを利用しています。オンラインショッピング、SNS、動画配信サービス、業務システム—これらは全て、REST(Web)アプリケーションとして構築されています。本チュートリアルでは、RESTの本質に照らし合わせてALPSを解説します。
+現代のWebアプリケーション（オンラインショッピング、SNS、動画配信サービス、業務システムなど）は、多くがRESTアーキテクチャに基づいて構築されています。このチュートリアルでは、RESTの基本概念を踏まえ、ALPSを用いたアプリケーション設計の方法を解説します。
 
 ### RESTアプリケーションの本質
 
-RESTアプリケーションは、本質的に状態遷移システムです。例えば：
+RESTアプリケーションは本質的に「状態遷移システム」です。たとえば：
 
-- オンラインショッピングで商品を探し、カートに入れ、注文を確定する
-- SNSで投稿を読み、反応を示し、コメントを残す
-- 動画を再生し、一時停止し、次の動画に移る
+- 商品を探し、カートに入れ、注文を確定する（オンラインショッピング）
+- 投稿を読み、反応し、コメントを残す（SNS）
 
-これらの一連の行動は、全て「状態」から「状態」への移り変わり（遷移）として捉えることができます。
+これらの一連の行動はすべて「状態」から「状態」への移り変わり（遷移）として捉えられ、RESTアプリケーションはこの遷移を管理する仕組みです。
 
 ### 状態遷移とは
 
@@ -29,37 +28,26 @@ RESTアプリケーションは、本質的に状態遷移システムです。�
 2. そこから「どこかへ」移動できます（遷移可能な状態）
 3. 「どうやって」移動するかが定義されています（遷移方法）
 
-この状態遷移は**ステートマシン**とも呼ばれます。
+RESTアプリケーション2種類の重要な状態があります：
 
-Webアプリケーションには2種類の重要な状態があります：
+1. **アプリケーション状態**
+   - クライアント（ブラウザ）側での現在の位置を示し、URLで表現されます。
 
-### アプリケーション状態とリソース状態
-
-1. アプリケーション状態
-   - クライアント（ブラウザ）が「今どこを見ているか」
-   - URLで表現される現在の位置
-   - ユーザーの視点での「今どこにいるか」
-
-2. リソース状態
-   - サーバー側で管理される情報の状態
-   - URLで識別される情報の内容
-   - データの視点での「どういう状態か」
+2. **リソース状態**
+   - サーバー側で管理されるデータの状態で、クライアントがアクセスする情報の内容です。
 
 ### RESTアプリケーションの状態遷移の基本的な流れ
 
 RESTアプリケーションにおける状態遷移は、次のような流れで行われます：
 
 1. 状態の認識
-   - クライアントは現在の状態を把握します
-   - その状態で利用可能な情報を理解します
+   - クライアントは現在の状態を把握し、利用可能な情報を理解します
 
 2. 遷移の選択
-   - 提供されているリンクや操作を確認します
-   - 次に移動可能な状態を理解します
+   - 提供されているリンクや操作を確認し、次の遷移先を選択します。
 
 3. 状態の遷移
-   - 選択した操作を実行します
-   - 新しい状態へ移動します
+   - 選択した操作を実行し、新しい状態へ移行します。
 
 この流れは、アプリケーションの利用中、継続的に繰り返されます。
 
@@ -92,12 +80,9 @@ ALPSは、これらの概念を実践的に表現するための手段です。�
 
 の順で、具体的な実装方法を学んでいきます。
 
-# ALPS入門チュートリアル - オントロジー編
-
 ## オントロジー：用語の定義
 
-オントロジーでは「アプリケーションで使用する言葉の意味」を定義します。
-それにより、チーム内での共通理解の形成、用語の一貫した使用、APIの意図の明確化などがが実現できます。
+オントロジーでは、アプリケーションで使用する言葉の意味を定義します。この段階で明確に定義することで、チーム間での共通理解が生まれ、API設計が一貫性を持つようになります。
 
 ### エディターの準備
 
@@ -106,7 +91,7 @@ ALPSは、これらの概念を実践的に表現するための手段です。�
 
 ### 最初の用語を定義する
 
-まず、ブログ記事の作成日時を表す用語を定義します。
+以下は「作成日時」を表す用語の定義です。
 
 XMLの場合：
 ```xml
@@ -137,8 +122,6 @@ JSONの場合：
 
 1. `id`属性
    - 用語の識別子
-   - システム内で一意である必要があります
-   - 機械的な処理で使用される名前です
 
 2. `title`属性
    - 人間が理解しやすい短い説明です
@@ -181,18 +164,10 @@ JSONの場合：
 }
 ```
 
-### プレビュー画面での確認
-
-定義した用語は、プレビュー画面のボキャブラリリストで確認できます。各用語について：
-- 識別子（id）
-- タイトル
-- 詳細な説明
-  が一覧表示されます。
-
 ### オントロジー定義のポイント
 
 1. 命名規則
-   - 意味が分かりやすい名前を選びます
+   - [セマンティック用語](semantic-terms.html)を優先して選びます
    - 一貫性のある命名パターンを使用します
    - キャメルケースを推奨（例：dateCreated, articleBody）
 
@@ -201,16 +176,10 @@ JSONの場合：
    - 必要な場合は例も含めます
    - 形式や制約がある場合は明記します
 
-次のステップでは、これらの用語を組み合わせて、ブログ記事という構造を定義していきます（タクソノミー）。
-
-# ALPS入門チュートリアル - タクソノミー編（1）
-
 ## タクソノミー：情報の構造化
 
 タクソノミーでは「情報をどのように整理・分類するか」を定義します。
 先ほど定義した用語を組み合わせて、より大きな概念を表現します。
-
-### ブログ記事の構造を定義する
 
 ブログ記事（BlogPosting）は、作成日時と本文を持つ情報の集まりとして定義できます。
 
@@ -291,25 +260,21 @@ JSONの場合：
    - システムの全体像の把握
    - 情報構造の共通理解
 
-次のステップでは、この構造化された情報間の遷移を定義していきます（コレオグラフィー）。
-
-# ALPS入門チュートリアル - コレオグラフィー編
-
 ## コレオグラフィー：状態遷移の定義
 
-コレオグラフィーでは、情報がどのように変化するかを定義します。Webアプリケーションにおける状態遷移には3つの種類があります：
+コレオグラフィーでは、操作の種類に応じて状態遷移を定義します。ALPSでは、操作は以下の種類に分かれます：
 
-1. safe（安全）
-   - アプリケーション状態のみが変化します
+1. `safe`（安全）
+   - アプリケーション状態のみが変化します（例：GET）
    - リソース状態は変更されません
    - HTTPのGETメソッドに相当します
 
-2. unsafe（非安全）
+2. `unsafe`（非安全）
    - 新しいリソース状態を作成します
    - 実行するたびに結果が異なる可能性があります
    - HTTPのPOSTメソッドに相当します
 
-3. idempotent（べき等）
+3. `idempotent`（べき等）
    - リソース状態を更新または削除します
    - 何度実行しても同じ結果になります
    - HTTPのPUTやDELETEメソッドに相当します
@@ -358,7 +323,7 @@ JSONの場合：
                 ]
             },
             {
-                "id": "viewBlogPosting",
+                "id": "goBlogPosting",
                 "type": "safe",
                 "rt": "#BlogPosting",
                 "title": "ブログ記事を見る",
@@ -375,8 +340,7 @@ JSONの場合：
 
 0. 命名規則のプレフィックス
    - safe遷移では `go` を使用します
-   - unsafe遷移では `create` を使用します
-   - idempotent遷移では `update` や `delete` を使用します
+   - unsafe遷移とidempotent遷移では `do` を使用します
 
 1. `type`属性
    - 操作の種類を指定します
@@ -392,7 +356,7 @@ JSONの場合：
 
 プレビュー画面では：
 1. 状態遷移図に状態（BlogPosting）と遷移を示す矢印が表示されます
-2. ボキャブラリリストに遷移（viewBlogPosting）の情報が表示されます
+2. ボキャブラリリストに遷移（goBlogPosting）の情報が表示されます
 
 ### 記事を作成する遷移を定義する
 
@@ -400,7 +364,7 @@ JSONの場合：
 
 XMLの場合：
 ```xml
-<descriptor id="createBlogPosting" type="unsafe" rt="#BlogPosting" title="ブログ記事を作成する">
+<descriptor id="doCreateBlogPosting" type="unsafe" rt="#BlogPosting" title="ブログ記事を作成する">
     <descriptor href="#articleBody"/>
 </descriptor>
 ```
@@ -408,7 +372,7 @@ XMLの場合：
 JSONの場合：
 ```json
 {
-    "id": "createBlogPosting",
+    "id": "doCreateBlogPosting",
     "type": "unsafe",
     "rt": "#BlogPosting",
     "title": "ブログ記事を作成する",
@@ -434,113 +398,9 @@ JSONの場合：
 
 次のステップでは、これらの遷移をブログ全体の構造に組み込んでいきます。
 
-# ALPS入門チュートリアル - コレオグラフィー編（続き）
-
-## 記事を作成する遷移の定義
-
-記事の作成は新しいリソース状態を生成する非安全（unsafe）な操作です。
-先ほどの定義に記事作成の遷移を追加します：
-
-XMLの場合：
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<alps
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
-    <descriptor id="dateCreated" title="作成日時">
-        <doc format="text">記事が作成された日時をISO8601形式で表します</doc>
-    </descriptor>
-    <descriptor id="articleBody" title="記事本文">
-        <doc format="text">ブログ記事の本文</doc>
-    </descriptor>
-    <descriptor id="BlogPosting" title="ブログ記事">
-        <descriptor href="#dateCreated"/>
-        <descriptor href="#articleBody"/>
-    </descriptor>
-    <descriptor id="viewBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
-        <descriptor href="#dateCreated"/>
-    </descriptor>
-    <descriptor id="createBlogPosting" type="unsafe" rt="#BlogPosting" title="ブログ記事を作成する">
-        <descriptor href="#articleBody"/>
-    </descriptor>
-</alps>
-```
-
-JSONの場合：
-```json
-{
-    "$schema": "https://alps-io.github.io/schemas/alps.json",
-    "alps": {
-        "version": "1.0",
-        "descriptor": [
-            {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
-            {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
-            {
-                "id": "BlogPosting",
-                "title": "ブログ記事",
-                "descriptor": [
-                    {"href": "#dateCreated"},
-                    {"href": "#articleBody"}
-                ]
-            },
-            {
-                "id": "viewBlogPosting",
-                "type": "safe",
-                "rt": "#BlogPosting",
-                "title": "ブログ記事を見る",
-                "descriptor": [
-                    {"href": "#dateCreated"}
-                ]
-            },
-            {
-                "id": "createBlogPosting",
-                "type": "unsafe",
-                "rt": "#BlogPosting",
-                "title": "ブログ記事を作成する",
-                "descriptor": [
-                    {"href": "#articleBody"}
-                ]
-            }
-        ]
-    }
-}
-```
-
-### 遷移の比較
-
-閲覧（safe）と作成（unsafe）の違いに注目してください：
-
-1. 必要な情報の違い
-   - 閲覧：dateCreated（記事を特定するため）
-   - 作成：articleBody（新しい記事の内容）
-
-2. 状態の変化の違い
-   - 閲覧：アプリケーション状態のみ変化
-   - 作成：リソース状態も変化（新しい記事が作られる）
-
-3. 実行結果の違い
-   - 閲覧：何度実行しても同じ結果
-   - 作成：実行するたびに新しい記事が作られる
-
-### プレビュー画面での確認
-
-状態遷移図には：
-- 安全な遷移（viewBlogPosting）
-- 非安全な遷移（createBlogPosting）
-  が異なる矢印のスタイルで表示されます。
-
-次は、これらの遷移をブログ全体の構造に組み込んでいきます（タクソノミー2）。
-
-# ALPS入門チュートリアル - タクソノミー編（2）
-
 ## タクソノミー（2）：操作を含む構造化
 
-ここまでで定義した意味（セマンティクス）と操作（コレオグラフィー）を組み合わせて、
-より完全なリソースの定義を行います。
-
-### ブログの構造を定義する
-
-ブログ（Blog）は記事（BlogPosting）と、その操作を含む構造として定義できます：
+ここまでで定義した用語と操作を組み合わせ、ブログ全体を表現する構造を定義します。
 
 XMLの場合：
 
@@ -559,16 +419,16 @@ XMLの場合：
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
-    <descriptor id="viewBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
+    <descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
         <descriptor href="#dateCreated"/>
     </descriptor>
-    <descriptor id="createBlogPosting" type="unsafe" rt="#BlogPosting" title="ブログ記事を作成する">
+    <descriptor id="doCreateBlogPosting" type="unsafe" rt="#BlogPosting" title="ブログ記事を作成する">
         <descriptor href="#articleBody"/>
     </descriptor>
     <descriptor id="Blog" title="ブログ">
         <descriptor href="#BlogPosting"/>
-        <descriptor href="#viewBlogPosting"/>
-        <descriptor href="#createBlogPosting"/>
+        <descriptor href="#goBlogPosting"/>
+        <descriptor href="#doCreateBlogPosting"/>
     </descriptor>
 </alps>
 ```
@@ -587,12 +447,12 @@ JSONの場合：
                 {"href": "#dateCreated"},
                 {"href": "#articleBody"}
             ]},
-            {"id": "viewBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", "descriptor": [{"href": "#dateCreated"}]},
-            {"id": "createBlogPosting", "type": "unsafe", "rt": "#BlogPosting", "title": "ブログ記事を作成する", "descriptor": [{"href": "#articleBody"}]},
+            {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", "descriptor": [{"href": "#dateCreated"}]},
+            {"id": "doCreateBlogPosting", "type": "unsafe", "rt": "#BlogPosting", "title": "ブログ記事を作成する", "descriptor": [{"href": "#articleBody"}]},
             {"id": "Blog", "title": "ブログ", "descriptor": [
                 {"href": "#BlogPosting"},
-                {"href": "#viewBlogPosting"},
-                {"href": "#createBlogPosting"}
+                {"href": "#goBlogPosting"},
+                {"href": "#doCreateBlogPosting"}
             ]}
         ]
     }
@@ -608,7 +468,7 @@ JSONの場合：
 
 2. 状態遷移
    - goBlogPosting：記事の閲覧操作（safe）
-   - createBlogPosting：記事の作成操作（unsafe）
+   - doCreateBlogPosting：記事の作成操作（unsafe）
 
 プレビュー画面では：
 1. 状態遷移図
@@ -724,7 +584,7 @@ XMLの場合：
 <descriptor id="Blog" title="ブログ">
     <descriptor href="#BlogPosting"/>
     <descriptor href="#goBlogPosting"/>
-    <descriptor href="#createBlogPosting"/>
+    <descriptor href="#doCreateBlogPosting"/>
 </descriptor>
 ```
 
@@ -733,7 +593,7 @@ JSONの場合：
 {"id": "Blog", "title": "ブログ", "descriptor": [
     {"href": "#BlogPosting"},
     {"href": "#goBlogPosting"},
-    {"href": "#createBlogPosting"}
+    {"href": "#doCreateBlogPosting"}
 ]}
 ```
 - 情報構造と操作を組み合わせて完全な定義を作成します
@@ -749,7 +609,7 @@ XMLの場合：
     <descriptor href="#dateCreated" tag="metadata"/>
     <descriptor href="#articleBody" tag="content"/>
     <descriptor href="#goBlogPosting" tag="navigation"/>
-    <descriptor href="#createBlogPosting" tag="action"/>
+    <descriptor href="#doCreateBlogPosting" tag="action"/>
 </descriptor>
 ```
 
@@ -762,7 +622,7 @@ JSONの場合：
         { "href": "#dateCreated", "tag": "metadata" },
         { "href": "#articleBody", "tag": "content" },
         { "href": "#goBlogPosting", "tag": "navigation" },
-        { "href": "#createBlogPosting", "tag": "action" }
+        { "href": "#doCreateBlogPosting", "tag": "action" }
     ]
 }
 ```
@@ -792,7 +652,10 @@ JSONの場合：
 {"href": "#title", "tag": "metadata content"}
 ```
 
-## ALPSの利点
+## まとめ：設計手法としてのALPS
+
+ここまで、ブログシステムを例にALPSによる設計手法を学んできました。
+この手法には以下のような利点があります：
 
 1. API設計の明確化
    - 意味、構造、遷移の一貫した定義
