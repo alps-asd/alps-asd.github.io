@@ -219,25 +219,13 @@ ALPSプロファイルを作成する際には、スキーマ参照を追加す�
 {
     "descriptor": [
         {"id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "ブログのトップページを表示。最新10件の記事を一覧表示。"}},
-        {
-            "id": "doCreateBlogPost",
-            "type": "unsafe",
-            "rt": "#BlogPost",
-            "doc": {"value": "新規記事を作成。下書き状態で保存される。"},
-            "descriptor": [
-                {"href": "#title"},
-                {"href": "#content"}
-            ]
-        },
-        {
-            "id": "doPublishBlogPost",
-            "type": "idempotent",
-            "rt": "#BlogPost",
-            "doc": {"value": "記事を公開。publishedAtに現在時刻が設定される。"},
-            "descriptor": [
-                {"href": "#id"}
-            ]
-        }
+        {"id": "doCreateBlogPost", "type": "unsafe", "rt": "#BlogPost", "doc": {"value": "新規記事を作成。下書き状態で保存される。"}, "descriptor":[
+            {"href": "#title"},
+            {"href": "#content"}
+        ]},
+        {"id": "doPublishBlogPost", "type": "idempotent", "rt": "#BlogPost", "doc": {"value": "記事を公開。publishedAtに現在時刻が設定される。"}, "descriptor": [
+            {"href": "#id"}
+        ]}
     ]
 }
 ```

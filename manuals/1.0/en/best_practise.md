@@ -217,25 +217,13 @@ Reusing basic elements:
 {
     "descriptor": [
         {"id": "goBlog", "type": "safe", "rt": "#Blog", "doc": {"value": "Display blog homepage. Shows latest 10 articles."}},
-        {
-            "id": "doCreateBlogPost",
-            "type": "unsafe",
-            "rt": "#BlogPost",
-            "doc": {"value": "Create new article. Saved in draft state."},
-            "descriptor": [
-                {"href": "#title"},
-                {"href": "#content"}
-            ]
-        },
-        {
-            "id": "doPublishBlogPost",
-            "type": "idempotent",
-            "rt": "#BlogPost",
-            "doc": {"value": "Publish article. Current time is set to publishedAt."},
-            "descriptor": [
-                {"href": "#id"}
-            ]
-        }
+        {"id": "doCreateBlogPost", "type": "unsafe", "rt": "#BlogPost", "doc": {"value": "Create new article. Saved in draft state."}, "descriptor": [
+            {"href": "#title"},
+            {"href": "#content"}
+        ]},
+        {"id": "doPublishBlogPost", "type": "idempotent", "rt": "#BlogPost", "doc": {"value": "Publish article. Current time is set to publishedAt."}, "descriptor": [
+            {"href": "#id"}
+        ]}
     ]
 }
 ```
