@@ -208,9 +208,9 @@ In JSON:
    "alps": {
       "version": "1.0",
       "descriptor": [
-         {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
-         {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
-         {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
+         {"id": "dateCreated", "title": "Creation Date", "doc": {"format": "text", "value": "Represents the date the post was created, in ISO8601 format"}},
+         {"id": "articleBody", "title": "Article Body", "doc": {"format": "text", "value": "The body of the blog post"}},
+         {"id": "BlogPosting", "title": "Blog Post", "descriptor": [
             {"href": "#dateCreated"},
             {"href": "#articleBody"}
          ]}
