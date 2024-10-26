@@ -4,28 +4,27 @@ title: Introduction
 category: Manual
 permalink: /manuals/1.0/en/
 ---
+
 # Introduction
 
 [![ALPS document](/images/alps.svg)](/alps/index.html)
 
-## ALPS: A format for clarifying application-level semantics and structure
+## ALPS: A Format for Clarifying Application-Level Meaning and Structure
 
-Application-Level Profile Semantics (ALPS) is a format that expresses application-level semantics and adds application-specific information to general-purpose media such as JSON and HTML. operations, making the development process more efficient, improving compatibility between systems, and facilitating API reusability and discoverability.
+Application-Level Profile Semantics ([ALPS](http://alps.io/)) is a format that expresses application-level semantics and adds application-specific information to generic media such as JSON and HTML. ALPS clarifies the meaning, structure, and operations of data, enabling efficient development processes, enhanced system interoperability, and improved API reusability and discoverability.
 
-Consider the example of an e-commerce platform. When integrating with multiple payment services, ALPS standardizes the meaning of data and operations for each step of the payment process, facilitating API integration across different systems. Front-end and back-end developers can also communicate effectively in a common language to quickly add and improve functionality.
+Consider an e-commerce platform as an example. When integrating multiple payment services such as credit cards, digital money, and bank transfers, ALPS standardizes the meaning of data and operations at each step of the payment process. This makes it easier to add new payment methods and integrate with existing systems, allowing developers to implement APIs consistently. Frontend and backend developers can communicate efficiently using a common language, enabling rapid feature additions and improvements.
 
-## ASD: Visualization of Application State Transitions
+## ASD: Visualizing Application State Transitions
 
-ASD (Application State Diagram) is a tool for visualizing application state transitions and actions from ALPS documents. This enables a bird's-eye view of the overall structure of the application and an intuitive grasp of the transitions between states and possible actions. For example, in an online shopping application, the process from the user's search for a product to its purchase can be clearly visualized, making it easier for developers to understand the choices and possible actions the user faces at each stage. This aids design decisions that lead to improved user experience.
+Application State Diagram (ASD) is a tool that visualizes state transitions and behaviors from ALPS documents. It enables intuitive understanding of an application's overall structure, state transitions, and possible actions. For example, in an online shopping application, it clearly visualizes the process from product search to purchase, helping developers understand the choices and possible operations users face at each stage. This aids in making design decisions that enhance the user experience.
 
-The use of ASDs provides a common point of reference (Single Source of Truth, [SSOT](https://en.wikipedia.org/wiki/Single_source_of_truth)) for nearly all team members involved in a project, including product owners, back-end and front-end developers, and UI/UX designers. . This facilitates effective communication and cooperation among team members with different areas of expertise, helping to bring complex projects and new members on board quickly. It also allows the application flow and logic to be quickly evaluated and adjusted accordingly, providing an opportunity to identify and resolve problems early in the design process, directly contributing to increased development efficiency and improved application quality.
+With ASD, all team members—including product owners, backend and frontend developers, and UI/UX designers—can understand the application from the same perspective and work together effectively. This enables smooth communication between members from different specialties and helps new members quickly integrate into complex projects. Furthermore, it allows quick evaluation and adjustment of application flows and logic, providing opportunities to identify and resolve issues early in the design phase, directly contributing to improved development efficiency and application quality.
 
-Utilizing ASD increases project transparency and minimizes discrepancies between the visions held by each team member.
+Through the use of ASD, project transparency increases, minimizing discrepancies in vision among team members.
 
 ## Information Architecture for REST Application Design
 
-ALPS and ASD are important tools for designing and understanding REST applications within the framework of information architecture. ALPS standardizes the meaning and structure of the data handled by the application and uses a common vocabulary to define the meaning and function of information. ASD, on the other hand, provides a state transition diagram of the application, helping to visually understand the user's actions and the application's reactions. Thus, ALPS and ASD provide a foundation for enhancing information architecture in REST application development, supporting efficient communication among teams, and improving consistency and quality throughout the project.
+When designing REST applications from an information architecture perspective, ALPS and ASD complement each other in their roles. ALPS standardizes the meaning and structure of data handled by applications, enabling teams to define information using a common vocabulary. ASD, on the other hand, represents state changes in diagrams, making it easy to visually understand user operations and application responses. Through ALPS specifications and ASD visualization, information design in REST application development is strengthened, team communication becomes smoother, and the overall project consistency and quality are enhanced.
 
-Building a **basis of shared understanding** that resolves conflicts among diverse developers is essential to increase development efficiency, provide a superior user experience, and ensure project sustainability. ALPS and ASD can be very effective tools to achieve this goal.
-
-[If you find this text difficult, click here](index4b.html)
+To improve development efficiency, deliver excellent user experiences, and ensure project sustainability, a shared understanding among diverse developers is essential. ALPS and ASD build this foundation and support the long-term success of projects.
