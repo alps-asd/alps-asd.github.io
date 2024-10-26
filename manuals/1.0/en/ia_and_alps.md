@@ -7,30 +7,28 @@ permalink: /manuals/1.0/en/ia_and_alps.html
 
 # Information Architecture and ALPS
 
-In API design and system development, the concepts of Information Architecture (IA) are effective for domain modeling. The elements of IA - "meaning," "structure," and "interaction" - originally developed for UX and content design, hold similar value when structuring business domain knowledge. ALPS can represent this approach in a standardized way.
+Applying Information Architecture (IA) concepts to domain modeling in API design and system development enables systematic organization of business requirements. The elements of IA—"meaning," "structure," and "interaction"—originally developed in UX and content design, play a crucial role in structuring business domain knowledge. ALPS provides a standardized method to express these concepts.
 
 ## Applying Information Architecture
 
-Dan Klyn defined Information Architecture (IA) as the interplay between "meaning (`Ontology`)", "structure (`Taxonomy`)", and "rules of interaction (`Choreography`)".[^uia] These concepts function not only for content design but also as a foundation for system design. While OpenAPI focuses on technical API details like endpoints, HTTP methods, and request/response structures, ALPS uses these IA concepts to structure business domains.
+Information Architecture expert Dan Klyn defined IA as the interplay of `Ontology`, `Taxonomy`, and `Choreography`. [^uia] These concepts serve as a foundation not only for content design but also for system design. While OpenAPI focuses on technical API details (endpoints, HTTP methods, request/response structures), ALPS uses these IA concepts to structure the business domain.
 
 [^uia]: [Understanding Information Architecture](https://understandinggroup.com/ia-theory/understanding-information-architecture)
 
-## Position in the Design Process
+## Role in the Design Process
 
-ALPS bridges business requirements and system design from the early stages of development. While traditional endpoint-centric design is used at the documentation stage of finalized specifications, ALPS can be utilized from the requirements definition phase. This enables early detection of misinterpretations in business requirements. It also establishes a common language between technical and business teams and provides a structure that makes it easier to understand the scope of design changes.
+ALPS bridges business requirements and system design from the early stages of development. Unlike traditional endpoint-centric design, which is used to document predetermined specifications, ALPS can be utilized from the requirements definition phase. This enables early detection and correction of differences in business requirement interpretations. It also establishes a common language between technical and business teams, providing a framework for easily understanding the scope of design changes.
 
-ALPS goes beyond API endpoint design to provide a means of systematizing and sharing business domain knowledge. As a **Single Source of Truth (SSOT)**, it consistently models system structure and behavior. Through business terminology-centered descriptions, it can clearly express complex business rules, visualize workflows, and provide an intuitive understanding of information interactions from a bird's-eye view.
+ALPS goes beyond API endpoint design to provide a means of systematizing and sharing business domain knowledge. As a Single Source of Truth (SSOT), it consistently models system structure and behavior. Using business terminology at its core, it clearly expresses complex business rules, visualizes workflows, and enables intuitive understanding of information interactions.
 
 ## Adapting to Technical Changes
 
-ALPS has the flexibility to apply to various API styles. Even as technology evolves and architectural styles change, business domain design can be maintained. The domain model defined in ALPS can continue to be used despite technical changes such as transitions from RESTful APIs to GraphQL, introduction of microservice architecture, or adoption of new communication protocols. This is because ALPS focuses on abstraction rather than implementation details.
+ALPS offers flexibility in its application to various API styles. Even as technology evolves and architecture styles change, business domain design can be maintained. For example, whether transitioning from RESTful APIs to GraphQL, adopting microservice architecture, or implementing new communication protocols, domain models defined in ALPS remain valid. This is because ALPS focuses on abstracted business logic rather than implementation details.
 
-## From Information Design to Domain Model
+## Building Knowledge Foundation
 
-In Taxonomy implementation, relationships between business entities are defined, and scalability through hierarchical structure is ensured. This establishes a common vocabulary across the organization, streamlining communication. Choreography defines business process flows and service coordination rules, ensuring system-wide consistency and reliability.
+In the implementation of `Taxonomy`, relationships between business entities are defined, ensuring scalability through hierarchical structure. This establishes a common vocabulary across the organization, streamlining communication. `Choreography` defines business process flows and service coordination rules, enhancing system-wide consistency and reliability.
 
-By applying IA concepts to domain modeling, technical implementation and business requirements can be naturally connected. ALPS functions as a framework to achieve this bridge, serving as a foundation for structuring and evolving organizational knowledge.
+Applying IA concepts to domain modeling naturally connects technical implementation with business requirements. ALPS functions as a framework to achieve this bridge, serving as a foundation for systematically structuring and evolving organizational knowledge.
 
-## Summary
-
-By applying information architecture concepts to domain modeling, ALPS functions beyond an API design tool as a framework that structures business domain knowledge and bridges it to technical implementation. It provides a sustainable domain model that is relatively immune to technological changes.
+Through this approach, organizations can build a sustainable knowledge foundation that remains resilient to technological changes.

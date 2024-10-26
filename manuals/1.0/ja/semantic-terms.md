@@ -16,7 +16,7 @@ permalink: /manuals/1.0/ja/semantic-terms.html
 1. APIの設計を始める際は、まず 🔵 Core Terms から適切な用語を選択します。
 2. より詳細な表現が必要な場合は、🟡 Extended Terms を検討します。
 3. 特殊なユースケースでは、⚪ Full Terms まで視野に入れて検討します。
-4. カテゴリインデックスから必要な分野の用語を探すことができます。
+4. カテゴリインデックスから必要な分野の用語を探せます。
 5. ドメイン固有の用語について:
 - 業界やビジネス固有の用語は、独自のセマンティックディスクリプタとして定義します。
 - 命名規則: domainName + PropertyName （例：orderShippingStatus, medicalDiagnosisCode）
