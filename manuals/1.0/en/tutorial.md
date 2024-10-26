@@ -31,27 +31,53 @@ In this tutorial, we'll use the browser-based ALPS editor:
 
 Note: While you can use the ASD application in a local environment, we recommend using the online editor for this tutorial.
 
-## Register Meanings as IDs
+## First Step: Preparing an Empty File
 
-In ALPS, specific terms handled by the application are defined as IDs. Let's start by adding the term `dateCreated`.
+The first step in creating an ALPS document is to prepare a basic empty file. This file serves as the starting point with the minimum structure required for all ALPS documents.
 
-In XML:
+ALPS documents can be written in either XML or JSON format. Each format references its respective schema (xsd for XML, json-schema for JSON) which defines the valid structure and ensures your document follows the ALPS specification. There is no functional difference between the two formats, so you can choose based on your team's preferences and existing toolchain.
+
+For XML:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <alps
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
-    <descriptor id="dateCreated"/>
 </alps>
 ```
 
-In JSON:
+For JSON:
 ```json
 {
     "$schema": "https://alps-io.github.io/schemas/alps.json",
     "alps": {
         "descriptor": [
-            {"id": "dateCreated"}
+        ]
+    }
+}
+```
+
+## Register Meanings as IDs
+
+In ALPS, specific terms handled by the application are defined as IDs. Let's start by adding the term `dateCreated`.
+
+In XML:
+```diff
+<?xml version="1.0" encoding="UTF-8"?>
+<alps
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
++    <descriptor id="dateCreated"/>
+</alps>
+```
+
+In JSON:
+```diff
+{
+    "$schema": "https://alps-io.github.io/schemas/alps.json",
+    "alps": {
+        "descriptor": [
++            {"id": "dateCreated"}
         ]
     }
 }
@@ -62,19 +88,26 @@ In JSON:
 You can add descriptions using `title` and `doc`.
 
 In XML:
-```xml
-<descriptor id="dateCreated" title="Creation Date">
-    <doc format="text">Represents the article creation date in ISO8601 format</doc>
-</descriptor>
+```diff
+<?xml version="1.0" encoding="UTF-8"?>
+<alps
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+-    <descriptor id="dateCreated"/>
++   <descriptor id="dateCreated" title="作成日付">
++      <doc format="text">ISO8601フォーマットで記事の作成日付を表します</doc>
++   </descriptor>
+</alps>
 ```
 
 In JSON:
-```json
+```diff
 {
     "$schema": "https://alps-io.github.io/schemas/alps.json",
     "alps": {
         "descriptor": [
-            {"id": "dateCreated", "title": "Creation Date", "doc": {"format": "text", "value": "Represents the article creation date in ISO8601 format"}}
+-            {"id": "dateCreated"}
++            {"id": "dateCreated", "title": "Creation Date", "doc": {"format": "text", "value": "Represents the article creation date in ISO8601 format"}}
         ]
     }
 }
