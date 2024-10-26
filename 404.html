@@ -1,0 +1,31 @@
+---
+permalink: /404.html
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+    <script>
+        (function() {
+            // 古いGitHub PagesのURLから新しいカスタムドメインへのリダイレクト
+            var oldDomain = 'alps-asd.github.io';
+            var newDomain = 'www.app-state-diagram.com';
+
+            if (document.location.hostname === oldDomain) {
+                // 現在のパス（URLの一部）を取得
+                var path = window.location.pathname;
+
+                // 新しいドメインに同じパスでリダイレクト
+                window.location.href = 'https://' + newDomain + path;
+            }
+        })();
+    </script>
+</head>
+<body>
+    <h1>ページが見つかりません</h1>
+    <p>申し訳ありませんが、お探しのページは見つかりませんでした。</p>
+    <p><a href="/">トップページに戻る</a></p>
+</body>
+</html>
