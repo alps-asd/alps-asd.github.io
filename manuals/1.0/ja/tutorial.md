@@ -31,9 +31,11 @@ ALPSのチュートリアルは2部構成になっています：
 
 注：ローカル環境でASDアプリケーションを使用することもできますが、このチュートリアルではオンラインエディタの使用を推奨しています。
 
-## 意味をIDとして登録する
+## 最初のステップ：空のファイルを用意する
 
-ALPSではアプリケーションが扱う特定の語句をIDとして定義します。最初に`dateCreated`（作成日付）という語句を加えてみましょう。
+ALPSドキュメントを作成するための最初のステップとして、基本となる空のファイルを用意します。これは、すべてのALPSドキュメントの出発点となる最小限の構造を持つファイルです。
+
+ALPSドキュメントは、XMLまたはJSON形式で記述できます。それぞれの形式には対応するスキーマ（XMLはXSD、JSONはJson-Schema）があり、これを参照することでドキュメントの構造が正しく、ALPS仕様に沿っているかをチェックできます。どちらの形式を使っても機能的な違いはないので、チームの好みや普段使っているツールに合わせて選んでください。
 
 XMLの場合：
 ```xml
@@ -41,7 +43,6 @@ XMLの場合：
 <alps
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
-    <descriptor id="dateCreated"/>
 </alps>
 ```
 
@@ -51,7 +52,32 @@ JSONの場合：
     "$schema": "https://alps-io.github.io/schemas/alps.json",
     "alps": {
         "descriptor": [
-            {"id": "dateCreated"}
+        ]
+    }
+}
+```
+
+## 意味をIDとして登録する
+
+ALPSではアプリケーションが扱う特定の語句をIDとして定義します。最初に`dateCreated`（作成日付）という語句を加えてみましょう。
+
+XMLの場合：
+```diff
+<?xml version="1.0" encoding="UTF-8"?>
+<alps
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
++    <descriptor id="dateCreated"/>
+</alps>
+```
+
+JSONの場合：
+```diff
+{
+    "$schema": "https://alps-io.github.io/schemas/alps.json",
+    "alps": {
+        "descriptor": [
++            {"id": "dateCreated"}
         ]
     }
 }
@@ -62,19 +88,26 @@ JSONの場合：
 `title`や`doc`で説明を加えられます。
 
 XMLの場合：
-```xml
-<descriptor id="dateCreated" title="作成日付">
-    <doc format="text">ISO8601フォーマットで記事の作成日付を表します</doc>
-</descriptor>
+```diff
+<?xml version="1.0" encoding="UTF-8"?>
+<alps
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+-    <descriptor id="dateCreated"/>
++   <descriptor id="dateCreated" title="作成日付">
++      <doc format="text">ISO8601フォーマットで記事の作成日付を表します</doc>
++   </descriptor>
+</alps>
 ```
 
 JSONの場合：
-```json
+```diff
 {
     "$schema": "https://alps-io.github.io/schemas/alps.json",
     "alps": {
         "descriptor": [
-            {"id": "dateCreated", "title": "作成日付", "doc": {"format": "text", "value": "ISO8601フォーマットで記事の作成日付を表します"}}
+-            {"id": "dateCreated"}
++            {"id": "dateCreated", "title": "作成日付", "doc": {"format": "text", "value": "ISO8601フォーマットで記事の作成日付を表します"}}
         ]
     }
 }

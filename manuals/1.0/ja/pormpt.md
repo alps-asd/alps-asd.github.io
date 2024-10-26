@@ -6,12 +6,23 @@ permalink: /manuals/1.0/ja/prompt.html
 ---
 
 # プロンプト
-a
 OpenAPI、GraphQL、SQLなど、システムの具体的な実装定義は多くの詳細を含むため煩雑になりがちです。一方、ALPSはセマンティックな記述によって、システムのコアとなる情報設計を抽象度高く表現できます。
 
-この抽象的な表現は、AIとの効率的なコミュニケーションを可能にし、API仕様、データベーススキーマ、型定義など、様々な具体的な実装形式を容易にします。ここで紹介するプロンプトを活用することで、ALPSから各種実装定義を効率的に生成できます。
+## ALPSプロファイルを作成
 
-## 変換プロンプト一覧
+Chat-GPT PlusユーザーはALPS Assistantを利用することができます。ALPS Assistantでは適切なALPSプロファイルがAIによって生成されるようにあらかじめAIにインストラクションが与えられています。
+
+- [ALPS Assistant](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant)
+
+あるいは、ALPSプロファイルをAIで生成する時に以下のプロンプトを使うことができます。このプロンプトに従うことで、後述するプロンプトでの変換に適した、一貫性のあるALPSプロファイルを作成できます。
+
+- [ALPS](#alps)
+
+## ALPSプロファイルを変換
+
+OpenAPI、GraphQL、SQLなど、システムの具体的な実装定義は多くの詳細を含むため煩雑になりがちです。一方、ALPSはセマンティックな記述によって、システムのコアとなる情報設計を抽象度高く表現することができます。
+
+この抽象的な表現は、AIとの効率的なコミュニケーションを可能にし、API仕様、データベーススキーマ、型定義など、様々な具体的な実装形式への変換を容易にします。ここで紹介するプロンプトを活用することで、ALPSから各種実装定義を効率的に生成できます。
 
 - [OpenAPI](#openapi)
 - [JSON Schema](#jsonスキーマ)
@@ -19,288 +30,426 @@ OpenAPI、GraphQL、SQLなど、システムの具体的な実装定義は多く
 - [SQL](#sql)
 - [TypeScript type definitions](#typescript-type-definitions)
 
+## ALPS
+
+<pre style="font-size: x-small">
+# ALPSプロファイル作成プロンプト
+
+後述するガイドラインに基づいて以下の要件のALPSプロファイルを作成してください
+
+* 形式: [XML|JSON]
+* 内容: [作成するプロファイルの説明]
+
+## ‼️ 重要：JSON形式の記述ルール ‼️
+
+1. descriptorは1つを1行で記述（必須）
+2. descriptorがdescriptorを含む場合のみ、含まれる部分をインデントして改行
+3. 含まれるdescriptorは必ずhrefで参照
+
+```json
+{"$schema": "https://alps-io.github.io/schemas/alps.json", "alps": {"version": "1.0", "descriptor": [
+{"id": "name", "type": "semantic", "title": "Name", "def": "https://schema.org/name"},
+{"id": "email", "type": "semantic", "title": "Email", "def": "https://schema.org/email"},
+{"id": "User", "type": "semantic", "title": "User Profile", "descriptor": [
+  {"href": "#name"},
+  {"href": "#email"}
+]},
+{"id": "UserList", "type": "semantic", "title": "User List", "descriptor": [
+  {"href": "#User"},
+  {"href": "#goUser"},
+  {"href": "#doCreateUser"}
+]},
+{"id": "goUser", "type": "safe", "title": "View User Details", "rt": "#User"},
+{"id": "doCreateUser", "type": "unsafe", "title": "Create User", "rt": "#UserList"}
+]}}
+```
+
+## XML形式の記述ルール
+
+- インデントを使用して階層構造を表現
+- 1要素1行の形式で記述
+```xml
+<alps version="1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+```
+
+## セマンティックディスクリプタの構造化
+
+以下の3つのブロックに分けて記述します。全てのdescriptorは他のdescriptorから参照されるか、他のdescriptorを含む必要があります：
+
+1. 意味定義（オントロジー）
+   - 基本要素の定義（小文字始まりのローワーキャメルケース）
+   - Schema.Orgの定義がある場合は必ずdefを指定（完全なURL）
+   - 全てのdescriptorにtitleを付与
+   - 必要な場合のみdocを追加
+   - ここで定義した要素は必ずタクソノミーのいずれかの状態から参照される
+
+2. 包含関係（タクソノミー）
+   - 状態を表すディスクリプタは大文字始まりのアッパーキャメルケース
+   - 要素を参照する場合は必ずhrefを使用（id属性での直接定義は不可）
+   - 各アプリケーション状態には以下を含める：
+     * その状態で表示/使用する要素（オントロジーで定義したもの）
+     * その状態で実行可能な操作（コレオグラフィーで定義したもの）
+   - 必要な場合のみdocで詳細を説明
+   - ここで定義したタクソノミーは他のタクソノミーから含まれいているか遷移ができる
+
+3. 状態遷移（コレオグラフィー）
+   - 遷移操作の定義
+   - 適切なtype属性の選択
+   - rt（遷移先）の明示
+   - 操作に必要なデータ項目をhrefで参照
+   - ここで定義した操作は必ずタクソノミーのいずれかの状態から参照される
+
+## type属性の選択基準
+
+1. safe
+   - 読み取り専用の操作
+   - プレフィックス: "go"
+   - 例：`goUserProfile`
+   - 別の状態への遷移を表す
+
+2. idempotent
+   - 同じ操作を複数回実行しても結果が変わらない操作
+   - プレフィックス: "do"
+   - 例：`doUpdateUser`, `doDeleteUser`
+   - PUTやDELETEによる操作
+
+3. unsafe
+   - 実行のたびに異なる結果となる可能性がある操作
+   - プレフィックス: "do"
+   - 例：`doCreateUser`
+   - POSTによる新規作成など
+   - **注意**: 可能な限りidempotentを使用し、本当に必要な場合のみunsafeを使用
+
+## descriptor属性の使用ガイドライン
+
+1. 必須属性
+   - id: 一意の識別子（または href）
+   - title: 人間が読むための表示名
+
+2. 条件付き属性
+   - def: schema.orgの定義が存在する場合は必ず指定
+   - doc: 追加の説明が必要な場合のみ使用
+   - rt: 状態遷移を伴う操作の場合は必須
+   - rel: IANAで定義されたリレーションがある場合は指定
+　 - tag: 適切なグルーピングを行う
+
+## チェックリスト
+
+### フォーマット共通
+- [ ] スキーマ参照とバージョン情報が含まれている
+- [ ] 全てのdescriptorにtitleが付与されている
+- [ ] Schema.Orgの定義が存在する要素には完全なURLでdefを指定している
+- [ ] 状態遷移の命名規則が正しい（go/doプレフィックス）
+- [ ] typeの選択が適切（特にidempotentとunsafeの区別）
+- [ ] 3つのブロック（オントロジー・タクソノミー・コレオグラフィー）が明確に分かれている
+- [ ] ケース規則が正しい（状態は大文字始まり、要素は小文字始まり）
+- [ ] 要素の参照は全てhrefを使用している（id属性での直接定義はしない）
+- [ ] 各アプリケーション状態が適切に定義され、実行可能な操作を含んでいる
+- [ ] 全ての操作に適切な遷移先（rt）が指定されている
+
+### 関係性の検証（必須）
+- [ ] ‼️ 全てのdescriptorが他のdescriptorから参照されているか、他のdescriptorを含んでいる
+- [ ] ‼️ オントロジーで定義した要素が全てタクソノミーのいずれかの状態から参照されている
+- [ ] ‼️ コレオグラフィーで定義した操作が全てタクソノミーのいずれかの状態から参照されている
+- [ ] ‼️ タクソノミーで定義した要素は他のタクソノミーのいずれかに含まれているか、繊維が可能
+- [ ] ‼️ 孤立したdescriptorは存在しない。
+
+### JSON形式の場合（必須）
+- [ ] ‼️ descriptorは1つを1行で記述している（必須）
+- [ ] descriptorがdescriptorを含む場合のみ、含まれる部分をインデントして改行している
+- [ ] プロパティ名にダブルクォートを使用している
+
+### XML形式の場合
+- [ ] 適切にインデントされている
+
+</alps>
+</pre>
+
 ## OpenAPI
 
-<pre>
-**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into an OpenAPI 3.0 definition file in YAML format.
+<pre style="font-size: x-small">
+**タスク:** 提供されたALPS（Application-Level Profile Semantics）ファイルをOpenAPI 3.0の定義ファイル（YAML形式）に変換してください。
 
-**Key Points to Consider:**
+```alps
+_YOUR_ALPS_HERE_
+```
 
-1. **Descriptor Elements:**
-    - **Understanding `descriptor`:** In ALPS, a `descriptor` represents a semantic element, which can be a data element or a state transition.
-    - **Mapping to OpenAPI Paths and Operations:**
-        - For state transitions (`descriptor` with `type` of `safe`, `unsafe`, or `idempotent`), map these to OpenAPI operations under appropriate HTTP methods (`GET`, `POST`, `PUT`, `DELETE`).
-        - Ensure idempotent operations use `PUT` or `DELETE`.
-        - Do not include a request body for `DELETE` operations.
+**考慮すべき重要なポイント:**
 
-2. **Components and Reusability:**
-    - **Schemas and Parameters:**
-        - Extract data element descriptors (those with `type` of `semantic`) and define them as reusable schemas under `components/schemas`.
-        - Use these schemas in request bodies and responses where applicable.
-    - **Common Parameters:**
-        - Identify common parameters (e.g., IDs, query parameters) and define them under `components/parameters` for reuse.
+1. **Descriptor要素:**
+    - **`descriptor`の理解:** ALPSでは、`descriptor`はデータ要素や状態遷移を表す意味的な要素です。
+    - **OpenAPIパスと操作へのマッピング:**
+        - 状態遷移（`type`が`safe`、`unsafe`、`idempotent`の`descriptor`）は、適切なHTTPメソッド（`GET`、`POST`、`PUT`、`DELETE`）の下にOpenAPI操作としてマッピングします。
+        - 冪等性のある操作には`PUT`または`DELETE`を使用します。
+        - `DELETE`操作にはリクエストボディを含めません。
 
-3. **Responses and Status Codes:**
-    - **Appropriate Status Codes:**
-        - Use `200 OK` for successful retrieval.
-        - Use `201 Created` when a new resource is created.
-        - Use `204 No Content` when an operation is successful but does not return content.
-        - Use `400 Bad Request`, `404 Not Found`, etc., for error handling.
-    - **Response Schemas:**
-        - Define response schemas using the components defined earlier.
+2. **コンポーネントと再利用性:**
+    - **スキーマとパラメータ:**
+        - データ要素のディスクリプタ（`type`が`semantic`のもの）を抽出し、`components/schemas`の下で再利用可能なスキーマとして定義します。
+        - これらのスキーマをリクエストボディやレスポンスで適用します。
+    - **共通パラメータ:**
+        - 共通のパラメータ（例: ID、クエリパラメータ）を特定し、再利用のために`components/parameters`の下に定義します。
 
-4. **Data Constraints:**
-    - **Validation:**
-        - Add data constraints such as:
-            - **String Constraints:** `minLength`, `maxLength`, `pattern` (regular expressions).
-            - **Numeric Constraints:** `minimum`, `maximum`.
-            - **Enumerations:** `enum` for fixed sets of values.
-    - **Applying Constraints:**
-        - Apply these constraints to the schemas in `components/schemas`.
+3. **レスポンスとステータスコード:**
+    - **適切なステータスコード:**
+        - 正常に取得できた場合には`200 OK`を使用します。
+        - 新しいリソースが作成された場合には`201 Created`を使用します。
+        - コンテンツを返さない成功した操作には`204 No Content`を使用します。
+        - エラーハンドリングには`400 Bad Request`、`404 Not Found`などを使用します。
+    - **レスポンススキーマ:**
+        - 先に定義したコンポーネントを使ってレスポンススキーマを定義します。
 
-5. **Links and External Documentation:**
-    - **Link Relations:**
-        - If the `descriptor` includes `href` or `rel`, consider using OpenAPI's `externalDocs` or `links` to represent relationships.
-    - **Descriptions:**
-        - Use the `doc` element in ALPS to provide descriptions for operations, parameters, and schemas.
+4. **データの制約:**
+    - **バリデーション:**
+        - データの制約を追加します。
+            - **文字列の制約:** `minLength`、`maxLength`、`pattern`（正規表現）
+            - **数値の制約:** `minimum`、`maximum`
+            - **列挙:** 固定値の集合に対して`enum`
+    - **制約の適用:**
+        - `components/schemas`内のスキーマにこれらの制約を適用します。
 
-**Output Format:**
-- Provide the OpenAPI definition in **YAML** format.
+5. **リンクと外部ドキュメント:**
+    - **リンクの関係:**
+        - `descriptor`が`href`または`rel`を含む場合、OpenAPIの`externalDocs`または`links`を使って関係を表現します。
+    - **説明:**
+        - ALPSの`doc`要素を使用して、操作、パラメータ、スキーマの説明を提供します。
+
+**出力形式:**
+- OpenAPI定義は**YAML**形式で提供してください。
 
 ---
 
-**Additional Notes:**
+**追加の注意点:**
 
-- Focus on accurately translating the ALPS descriptors into OpenAPI paths, operations, and components.
-- Ensure that the resulting OpenAPI file is valid and follows best practices.
-- Do not include unnecessary information from the ALPS file that does not contribute to the OpenAPI definition.
-
-
-_YOUR_ALPS_HERE_
+- ALPSディスクリプタを正確にOpenAPIのパス、操作、およびコンポーネントに変換することに焦点を当ててください。
+- 生成されたOpenAPIファイルが有効であり、ベストプラクティスに従うことを確認してください。
+- OpenAPI定義に貢献しないALPSファイルの不要な情報は含めないでください。
 </pre>
 
 ## JSONスキーマ
 
-<pre>
-**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into a JSON Schema definition.
+<pre style="font-size: x-small">
+**タスク:** 提供されたALPS（Application-Level Profile Semantics）ファイルをJSONスキーマ定義に変換してください。
 
-**Key Points to Consider:**
+**考慮すべき重要なポイント:**
 
-1. **Descriptor Elements:**
-    - **Understanding `descriptor`:** In ALPS, a `descriptor` represents a semantic element.
-    - **Mapping to JSON Schema:**
-        - Map data elements (`descriptor` with `type` of `semantic`) to JSON Schema properties.
-        - Use appropriate JSON Schema types based on the data element's nature.
+1. **ディスクリプタ要素:**
+    - **`descriptor`の理解:** ALPSでは、`descriptor`は意味的な要素を表します。
+    - **JSONスキーマへのマッピング:**
+        - データ要素（`type`が`semantic`の`descriptor`）をJSONスキーマのプロパティにマッピングします。
+        - データ要素の性質に基づいて適切なJSONスキーマタイプを使用します。
 
-2. **Schema Structure:**
-    - **Root Schema:**
-        - Define the root schema with `$schema` and `type` properties.
-        - Include appropriate metadata like `title` and `description`.
-    - **Properties:**
-        - Define properties based on ALPS descriptors.
-        - Organize nested structures using `properties` and `items`.
+2. **スキーマ構造:**
+    - **ルートスキーマ:**
+        - `$schema`および`type`プロパティを持つルートスキーマを定義します。
+        - `title`や`description`などの適切なメタデータを含めます。
+    - **プロパティ:**
+        - ALPSディスクリプタに基づいてプロパティを定義します。
+        - `properties`や`items`を使って入れ子構造を整理します。
 
-3. **Data Types and Formats:**
-    - **Basic Types:**
-        - Use appropriate JSON Schema types:
+3. **データ型とフォーマット:**
+    - **基本タイプ:**
+        - 適切なJSONスキーマタイプを使用します:
             - `string`
             - `number`
             - `integer`
             - `boolean`
             - `object`
             - `array`
-    - **Formats:**
-        - Apply standard formats where applicable:
+    - **フォーマット:**
+        - 適用可能な標準フォーマットを適用します:
             - `date-time`
             - `date`
             - `email`
             - `uri`
             - etc.
 
-4. **Data Constraints:**
-    - **Validation Rules:**
-        - Add constraints such as:
-            - **Strings:** `minLength`, `maxLength`, `pattern`
-            - **Numbers:** `minimum`, `maximum`, `multipleOf`
-            - **Arrays:** `minItems`, `maxItems`, `uniqueItems`
-            - **Objects:** `required`, `additionalProperties`
-    - **Enumerations:**
-        - Use `enum` for fixed sets of values
-        - Include descriptions for enum values
+4. **データ制約:**
+    - **バリデーションルール:**
+        - 以下のような制約を追加します:
+            - **文字列:** `minLength`、`maxLength`、`pattern`
+            - **数値:** `minimum`、`maximum`、`multipleOf`
+            - **配列:** `minItems`、`maxItems`、`uniqueItems`
+            - **オブジェクト:** `required`、`additionalProperties`
+    - **列挙:**
+        - 固定値の集合には`enum`を使用します
+        - 列挙値の説明を含めます
 
-5. **Definitions and References:**
-    - **Reusable Components:**
-        - Define common schemas under `$defs`
-        - Use `$ref` to reference reusable schemas
-    - **Inheritance:**
-        - Use `allOf`, `anyOf`, or `oneOf` for complex type relationships
+5. **定義と参照:**
+    - **再利用可能なコンポーネント:**
+        - `$defs`の下に共通スキーマを定義します
+        - 再利用可能なスキーマを`$ref`で参照します
+    - **継承:**
+        - 複雑な型の関係には`allOf`、`anyOf`、`oneOf`を使用します
 
-6. **Documentation:**
-    - **Descriptions:**
-        - Use ALPS `doc` elements for schema and property descriptions
-    - **Examples:**
-        - Include `examples` where helpful
-    - **Titles:**
-        - Add clear titles for properties and definitions
+6. **ドキュメンテーション:**
+    - **説明:**
+        - ALPSの`doc`要素を使用して、スキーマおよびプロパティの説明を提供します
+    - **例:**
+        - 助けになる場合は`examples`を含めます
+    - **タイトル:**
+        - プロパティおよび定義に明確なタイトルを追加します
 
-**Output Format:**
-- Provide the JSON Schema in standard JSON format
-- Use proper indentation for readability
+**出力形式:**
+- JSONスキーマは標準のJSON形式で提供してください
+- 読みやすさのために適切にインデントを使用してください
 
-**Additional Requirements:**
-- The schema should be valid against JSON Schema Draft 2020-12
-- Include appropriate `required` properties
-- Use meaningful property names
-- Add comments for complex validations or business rules
-
-_YOUR_ALPS_HERE_
+**追加の要件:**
+- スキーマはJSONスキーマドラフト2020-12に対して有効である必要があります
+- 適切な`required`プロパティを含めてください
+- 意味のあるプロパティ名を使用してください
+- 複雑なバリデーションやビジネスルールに関するコメントを追加してください
 </pre>
 
 ## SQL
 
-<pre>
-**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into SQL DDL (Data Definition Language) and DML (Data Manipulation Language) statements.
+<pre style="font-size: x-small">
+**タスク:** 提供されたALPS（Application-Level Profile Semantics）ファイルをSQLのDDL（データ定義言語）およびDML（データ操作言語）ステートメントに変換してください。
 
-**Part 1: DDL Statements**
-
-1. **Schema and Table Design:**
-   - **Database Schema:**
-      - Create an appropriate database schema name based on the ALPS profile
-      - Include schema versioning considerations
-   - **Table Creation:**
-      - Map ALPS descriptors with `type` of `semantic` to database tables
-      - Handle nested structures through table relationships
-
-**Part 2: DML Statement Generation**
-
-1. **SELECT Queries:**
-    - **Basic Queries:**
-        - Generate SELECT statements for each main resource
-        - Include appropriate JOIN clauses based on relationships
-        - Add WHERE clauses for filtering
-        - Consider pagination (LIMIT/OFFSET)
-
-    - **Complex Queries:**
-        - Create queries with multiple JOINs
-        - Add subqueries where appropriate
-        - Include aggregate functions (COUNT, SUM, etc.)
-        - Implement GROUP BY and HAVING clauses
-
-    - **View Queries:**
-        - Generate useful view definitions
-        - Create materialized views for performance
-
-2. **INSERT Statements:**
-    - Generate INSERT statements with:
-        - Single row insertions
-        - Bulk insert templates
-        - INSERT ... SELECT patterns
-        - RETURNING clauses where applicable
-
-3. **UPDATE Statements:**
-    - Create UPDATE templates for:
-        - Single record updates
-        - Bulk updates
-        - Updates with JOINs
-        - Conditional updates
-
-    - Include:
-        - WHERE clauses for safe updates
-        - UPDATE triggers consideration
-        - Optimistic locking patterns
-
-4. **DELETE Statements:**
-    - Generate DELETE statements with:
-        - Safe deletion patterns
-        - Soft delete implementations
-        - Cascade delete considerations
-        - Archive strategies
-
-5. **Transaction Patterns:**
-    - Create transaction templates for:
-        - Complex operations
-        - Data consistency
-        - Error handling
-        - Rollback scenarios
-
-6. **Common Query Patterns:**
-    - **Search:**
-        - Full-text search queries
-        - Pattern matching (LIKE/ILIKE)
-        - Fuzzy matching
-
-    - **Reporting:**
-        - Summary queries
-        - Time-based aggregations
-        - Cross-table analytics
-
-    - **Audit:**
-        - Change tracking queries
-        - History viewing
-        - Activity logs
-
-**Output Format Requirements:**
-
-1. **DDL Format:**
-    - Complete CREATE statements
-    - Index definitions
-    - Constraint definitions
-    - Comment blocks explaining design decisions
-
-2. **DML Format:**
-    - Parameterized queries using :param or $n notation
-    - Comments explaining complex logic
-    - Performance considerations
-    - Expected index usage
-
-3. **Query Organization:**
-    - Group related queries together
-    - Include use case descriptions
-    - Document expected results
-    - Note any specific database engine requirements
-
-**Additional Considerations:**
-
-1. **Performance:**
-    - Index usage hints
-    - EXPLAIN plan considerations
-    - Query optimization suggestions
-    - Batch processing patterns
-
-2. **Security:**
-    - SQL injection prevention
-    - Permission requirements
-    - Row-level security patterns
-    - Audit trail implementation
-
-3. **Maintainability:**
-    - Clear query structure
-    - Consistent naming conventions
-    - Reusable components (CTEs, Views)
-    - Documentation of complex logic
-
-4. **Error Handling:**
-    - EXCEPTION blocks
-    - Transaction management
-    - Deadlock handling
-    - Constraint violation handling
-
+```alps
 _YOUR_ALPS_HERE_
+```
+
+**パート1: DDLステートメント**
+
+1. **スキーマとテーブル設計:**
+   - **データベーススキーマ:**
+      - ALPSプロファイルに基づいて適切なデータベーススキーマ名を作成
+      - スキーマのバージョン管理の考慮を含めます
+   - **テーブル作成:**
+      - `type`が`semantic`のALPSディスクリプタをデータベーステーブルにマッピング
+      - テーブル間のリレーションシップを通じてネストされた構造を扱います
+
+**パート2: DMLステートメント生成**
+
+1. **SELECTクエリ:**
+    - **基本クエリ:**
+        - 各主要リソースに対してSELECTステートメントを生成
+        - リレーションシップに基づいて適切なJOIN句を含める
+        - WHERE句でフィルタリング
+        - ページネーション（LIMIT/OFFSET）を考慮
+
+    - **複雑なクエリ:**
+        - 複数のJOINを持つクエリを作成
+        - 必要に応じてサブクエリを追加
+        - 集約関数（COUNT、SUMなど）を含める
+        - GROUP BYおよびHAVING句を実装
+
+    - **ビュークエリ:**
+        - 有用なビュー定義を生成
+        - パフォーマンス向上のためのマテリアライズドビューを作成
+
+2. **INSERTステートメント:**
+    - 次の要素を含むINSERTステートメントを生成:
+        - 単一行の挿入
+        - バルク挿入テンプレート
+        - INSERT ... SELECTパターン
+        - 適用可能な場合にはRETURNING句
+
+3. **UPDATEステートメント:**
+    - 次のテンプレートを作成:
+        - 単一レコードの更新
+        - バルク更新
+        - JOINを含む更新
+        - 条件付き更新
+
+    - 含めるもの:
+        - 安全な更新のためのWHERE句
+        - UPDATEトリガーの考慮
+        - 楽観的ロックのパターン
+
+4. **DELETEステートメント:**
+    - 次の要素を含むDELETEステートメントを生成:
+        - 安全な削除パターン
+        - ソフトデリートの実装
+        - カスケード削除の考慮
+        - アーカイブ戦略
+
+5. **トランザクションパターン:**
+    - 次のためのトランザクションテンプレートを作成:
+        - 複雑な操作
+        - データの一貫性
+        - エラーハンドリング
+        - ロールバックシナリオ
+
+6. **共通クエリパターン:**
+    - **検索:**
+        - フルテキスト検索クエリ
+        - パターンマッチング（LIKE/ILIKE）
+        - ファジーマッチング
+
+    - **レポート:**
+        - サマリークエリ
+        - 時間ベースの集計
+        - クロステーブルの分析
+
+    - **監査:**
+        - 変更追跡クエリ
+        - 履歴の閲覧
+        - アクティビティログ
+
+**出力形式の要件:**
+
+1. **DDL形式:**
+    - 完全なCREATEステートメント
+    - インデックス定義
+    - 制約定義
+    - 設計決定を説明するコメントブロック
+
+2. **DML形式:**
+    - パラメータ化されたクエリ（`:param`または`$n`記法）
+    - 複雑なロジックを説明するコメント
+    - パフォーマンスの考慮
+    - 予想されるインデックスの使用
+
+3. **クエリの組織化:**
+    - 関連するクエリをグループ化
+    - ユースケースの説明を含める
+    - 期待される結果を文書化
+    - 特定のデータベースエンジンの要件を記載
+
+**追加の考慮事項:**
+
+1. **パフォーマンス:**
+    - インデックスの使用ヒント
+    - EXPLAINプランの考慮
+    - クエリの最適化提案
+    - バッチ処理パターン
+
+2. **セキュリティ:**
+    - SQLインジェクション防止
+    - 権限要件
+    - 行レベルのセキュリティパターン
+    - 監査トレイルの実装
+
+3. **メンテナビリティ:**
+    - 明確なクエリ構造
+    - 一貫した命名規則
+    - 再利用可能なコンポーネント（CTE、ビュー）
+    - 複雑なロジックの文書化
+
+4. **エラーハンドリング:**
+    - EXCEPTIONブロック
+    - トランザクション管理
+    - デッドロックの処理
+    - 制約違反の処理
 </pre>
 
 ## GraphQL
 
-<pre>
+<pre style="font-size: x-small">
 
-**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into a complete GraphQL implementation including schema definitions and operation examples.
+**タスク:** 提供されたALPS（Application-Level Profile Semantics）ファイルを完全なGraphQL実装に変換し、スキーマ定義と操作例を含めてください。
 
-**Key Points to Consider:**
+**考慮すべき重要なポイント:**
 
-1. **Schema Definition:**
-   - **Type Definitions:**
-     - Map ALPS semantic descriptors to GraphQL types
-     - Use appropriate scalar types (ID, String, Int, Float, Boolean)
-     - Define custom scalar types if needed (DateTime, JSON, etc.)
+1. **スキーマ定義:**
+   - **タイプ定義:**
+     - ALPSのセマンティックディスクリプタをGraphQLのタイプにマッピングします
+     - 適切なスカラタイプ（ID、String、Int、Float、Boolean）を使用します
+     - 必要に応じてカスタムスカラタイプを定義します（DateTime、JSONなど）
      ```graphql
      scalar DateTime
      scalar JSON
@@ -314,9 +463,9 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-   - **Relationships:**
-     - Handle one-to-one, one-to-many, and many-to-many relationships
-     - Consider nullable vs. non-nullable fields
+   - **リレーションシップ:**
+     - 一対一、一対多、多対多のリレーションシップを扱います
+     - NullableとNon-Nullableフィールドを考慮します
      ```graphql
      type Order {
        id: ID!
@@ -326,9 +475,9 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-   - **Input Types:**
-     - Create input types for mutations
-     - Consider validation requirements
+   - **入力タイプ:**
+     - ミューテーション用の入力タイプを作成します
+     - バリデーション要件を考慮します
      ```graphql
      input CreateUserInput {
        name: String!
@@ -337,9 +486,9 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-   - **Interfaces and Unions:**
-     - Define interfaces for shared fields
-     - Use unions for polymorphic relationships
+   - **インターフェースとユニオン:**
+     - 共有フィールドのためにインターフェースを定義します
+     - ポリモーフィックなリレーションシップのためにユニオンを使用します
      ```graphql
      interface Node {
        id: ID!
@@ -348,11 +497,11 @@ _YOUR_ALPS_HERE_
      union SearchResult = User | Order | Product
      ```
 
-2. **Query Operations:**
-   - **Base Queries:**
-     - Single item retrieval
-     - List retrieval with filtering
-     - Search operations
+2. **クエリ操作:**
+   - **基本クエリ:**
+     - 単一アイテムの取得
+     - フィルタリングされたリストの取得
+     - 検索操作
      ```graphql
      type Query {
        user(id: ID!): User
@@ -361,9 +510,9 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-   - **Filtering System:**
-     - Define filter input types
-     - Support complex filtering operations
+   - **フィルタリングシステム:**
+     - フィルタ入力タイプを定義します
+     - 複雑なフィルタリング操作をサポート
      ```graphql
      input UserFilter {
        name: StringFilter
@@ -380,9 +529,9 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-   - **Pagination:**
-     - Implement cursor-based pagination
-     - Support limit/offset pagination
+   - **ページネーション:**
+     - カーソルベースのページネーションを実装
+     - limit/offsetページネーションをサポート
      ```graphql
      type UserConnection {
        edges: [UserEdge!]!
@@ -403,8 +552,8 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-3. **Mutation Operations:**
-   - **Create Operations:**
+3. **ミューテーション操作:**
+   - **作成操作:**
      ```graphql
      type Mutation {
        createUser(input: CreateUserInput!): CreateUserPayload!
@@ -418,7 +567,7 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-   - **Batch Operations:**
+   - **バッチ操作:**
      ```graphql
      input BatchCreateUserInput {
        users: [CreateUserInput!]!
@@ -430,7 +579,7 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-   - **Error Handling:**
+   - **エラーハンドリング:**
      ```graphql
      type Error {
        field: String
@@ -451,7 +600,7 @@ _YOUR_ALPS_HERE_
      }
      ```
 
-4. **Subscription Operations:**
+4. **サブスクリプション操作:**
    ```graphql
    type Subscription {
      userUpdated(id: ID): User!
@@ -460,7 +609,7 @@ _YOUR_ALPS_HERE_
    }
    ```
 
-5. **Directives:**
+5. **ディレクティブ:**
    ```graphql
    directive @auth(
      requires: Role = USER
@@ -477,11 +626,11 @@ _YOUR_ALPS_HERE_
    }
    ```
 
-**Part 2: Implementation Guidelines**
+**パート2: 実装ガイドライン**
 
-1. **Resolver Structure:**
+1. **リゾルバー構造:**
    ```typescript
-   // Example resolver structure
+   // リゾルバー構造の例
    const resolvers = {
      Query: {
        user: (parent, { id }, context) => {},
@@ -496,7 +645,7 @@ _YOUR_ALPS_HERE_
    }
    ```
 
-2. **Context and Authentication:**
+2. **コンテキストと認証:**
    ```typescript
    interface Context {
      user: User | null;
@@ -505,315 +654,46 @@ _YOUR_ALPS_HERE_
    }
    ```
 
-3. **Best Practices:**
-    - Use DataLoader for N+1 query prevention
-    - Implement proper error handling
-    - Follow naming conventions
-    - Add field-level documentation
-    - Consider rate limiting
-    - Implement proper authorization
+3. **ベストプラクティス:**
+    - N+1クエリの防止のためにDataLoaderを使用する
+    - 適切なエラーハンドリングを実装する
+    - 名前付けの規約に従う
+    - フィールドレベルのドキュメンテーションを追加する
+    - レート制限を考慮する
+    - 適切な認可を実装する
 
-**Additional Considerations:**
+**追加の考慮事項:**
 
-1. **Performance:**
-    - Query complexity analysis
-    - Field-level cost calculation
-    - Caching strategies
-    - Batching optimizations
+1. **パフォーマンス:**
+    - クエリの複雑性分析
+    - フィールドレベルのコスト計算
+    - キャッシュ戦略
+    - バッチ最適化
 
-2. **Security:**
-    - Input validation
-    - Authorization checks
-    - Rate limiting
-    - Query depth limiting
+2. **セキュリティ:**
+    - 入力のバリデーション
+    - 認可チェック
+    - レート制限
+    - クエリ深度の制限
 
-3. **Testing:**
-    - Unit tests for resolvers
-    - Integration tests for operations
-    - Schema validation tests
-    - Performance benchmarks
+3. **テスト:**
+    - リゾルバーのユニットテスト
+    - 操作の統合テスト
+    - スキーマのバリデーションテスト
+    - パフォーマンスベンチマーク
 
-**Output Format Requirements:**
+**出力形式の要件:**
 
-1. **Schema Organization:**
-    - Separate files for different concerns
-    - Clear module structure
-    - Proper type imports/exports
+1. **スキーマの組織化:**
+    - 異なる関心事ごとにファイルを分ける
+    - 明確なモジュール構造
+    - 適切なタイプのインポート/エクスポート
 
-2. **Documentation:**
-    - Schema documentation
-    - Operation examples
-    - Use cases
-    - Error scenarios
+2. **ドキュメンテーション:**
+    - スキーマドキュメンテーション
+    - 操作の例
+    - ユースケース
+    - エラーステナリオ
 
-Please provide your ALPS document and I'll help you convert it to a GraphQL implementation following these guidelines.
-
-_YOUR_ALPS_HERE_
-
-</User></pre>
-
-## TypeScript type definitions
-
-<pre>
-**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into TypeScript type definitions, interfaces, and related utilities.
-
-**Part 1: Core Type Definitions**
-
-1. **Base Types and Interfaces:**
-    - **Entity Types:**
-        ```typescript
-        // Example of expected output:
-        interface User {
-          id: string;
-          email: string;
-          name: string;
-          status: UserStatus;
-          createdAt: Date;
-          updatedAt: Date;
-        }
-
-        enum UserStatus {
-          Active = 'ACTIVE',
-          Inactive = 'INACTIVE',
-          Suspended = 'SUSPENDED'
-        }
-        ```
-
-    - **Nested Types:**
-        ```typescript
-        interface Address {
-          street: string;
-          city: string;
-          postalCode: string;
-          country: string;
-        }
-
-        interface UserWithAddress extends User {
-          address?: Address;
-        }
-        ```
-
-2. **Utility Types:**
-    - **Partial Types:**
-        ```typescript
-        type UpdateUserPayload = Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>;
-        ```
-    
-    - **Pick Types:**
-        ```typescript
-        type UserCredentials = Pick<User, 'email' | 'password'>;
-        ```
-    
-    - **Record Types:**
-        ```typescript
-        type UsersByID = Record<string, User>;
-        ```
-
-3. **Generic Types:**
-    - **Response Wrappers:**
-        ```typescript
-        interface PaginatedResponse<T> {
-          items: T[];
-          totalCount: number;
-          pageInfo: {
-            hasNextPage: boolean;
-            hasPreviousPage: boolean;
-            startCursor: string;
-            endCursor: string;
-          };
-        }
-        ```
-
-    - **Error Handling:**
-        ```typescript
-        interface ApiError {
-          code: string;
-          message: string;
-          field?: string;
-        }
-
-        type Result<T> = 
-          | { success: true; data: T }
-          | { success: false; error: ApiError };
-        ```
-
-**Part 2: API Types**
-
-1. **Request/Response Types:**
-    ```typescript
-    // Request types
-    interface CreateUserRequest {
-      email: string;
-      name: string;
-      password: string;
-      address?: Address;
-    }
-
-    interface UpdateUserRequest {
-      userId: string;
-      data: UpdateUserPayload;
-    }
-
-    // Response types
-    interface CreateUserResponse {
-      user: User;
-      token: string;
-    }
-
-    interface UpdateUserResponse {
-      user: User;
-      modified: Array<keyof User>;
-    }
-    ```
-
-2. **Query Parameters:**
-    ```typescript
-    interface UserQueryParams {
-      search?: string;
-      status?: UserStatus;
-      sortBy?: keyof User;
-      sortOrder?: 'asc' | 'desc';
-      page?: number;
-      pageSize?: number;
-    }
-    ```
-
-3. **API Client Types:**
-    ```typescript
-    interface ApiClient {
-      users: {
-        create(data: CreateUserRequest): Promise<Result<CreateUserResponse>>;
-        update(data: UpdateUserRequest): Promise<Result<UpdateUserResponse>>;
-        delete(userId: string): Promise<Result<void>>;
-        get(userId: string): Promise<Result<User>>;
-        list(params: UserQueryParams): Promise<Result<PaginatedResponse<User>>>;
-      };
-    }
-    ```
-
-**Part 3: Validation Schemas**
-
-1. **Zod Schemas:**
-    ```typescript
-    import { z } from 'zod';
-
-    const UserSchema = z.object({
-      id: z.string().uuid(),
-      email: z.string().email(),
-      name: z.string().min(2).max(100),
-      status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED']),
-      createdAt: z.date(),
-      updatedAt: z.date()
-    });
-
-    type UserFromSchema = z.infer<typeof UserSchema>;
-    ```
-
-2. **Custom Validators:**
-    ```typescript
-    type Validator<T> = {
-      validate: (value: unknown) => value is T;
-      errors: () => string[];
-    };
-    ```
-
-**Part 4: Helper Types**
-
-1. **State Management:**
-    ```typescript
-    interface EntityState<T> {
-      data: Record<string, T>;
-      loading: boolean;
-      error: ApiError | null;
-      selectedId: string | null;
-    }
-
-    type EntityActions<T> = 
-      | { type: 'SET_DATA'; payload: Record<string, T> }
-      | { type: 'SET_LOADING'; payload: boolean }
-      | { type: 'SET_ERROR'; payload: ApiError | null }
-      | { type: 'SELECT'; payload: string | null };
-    ```
-
-2. **Event Types:**
-    ```typescript
-    interface EntityEvent<T> {
-      type: 'created' | 'updated' | 'deleted';
-      entity: T;
-      timestamp: Date;
-      actor: string;
-    }
-    ```
-
-**Additional Considerations:**
-
-1. **Type Guards:**
-    ```typescript
-    function isUser(value: unknown): value is User {
-      return (
-        typeof value === 'object' &&
-        value !== null &&
-        'id' in value &&
-        'email' in value &&
-        'name' in value
-      );
-    }
-    ```
-
-2. **Mapped Types:**
-    ```typescript
-    type ResourceActions<T> = {
-      [K in keyof T as `update${Capitalize<string & K>}`]: 
-        (value: T[K]) => Promise<void>
-    };
-    ```
-
-3. **Conditional Types:**
-    ```typescript
-    type NonNullableFields<T> = {
-      [K in keyof T]: NonNullable<T[K]>;
-    };
-    ```
-
-**Output Requirements:**
-
-1. **File Organization:**
-    ```typescript
-    // models/index.ts
-    export * from './user';
-    export * from './address';
-    
-    // models/user.ts
-    export interface User { ... }
-    export type UserCreate = ...
-    export type UserUpdate = ...
-    ```
-
-2. **Documentation:**
-    ```typescript
-    /**
-     * Represents a user in the system
-     * @property {string} id - Unique identifier
-     * @property {string} email - User's email address
-     */
-    export interface User {
-      id: string;
-      email: string;
-      // ...
-    }
-    ```
-
-3. **Type Exports:**
-    ```typescript
-    export type {
-      User,
-      UserCreate,
-      UserUpdate,
-      UserQueryParams,
-      // ...
-    };
-    ```
-_YOUR_ALPS_HERE_
-
-</pre>
+提供されたALPS文書をもとに、これらのガイドラインに従ってGraphQL実装への変換をお手伝いします。
 
