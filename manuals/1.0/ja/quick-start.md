@@ -93,6 +93,12 @@ sudo chmod +x /usr/local/bin/asd
 
 CIでASD作成を行います。詳細は[マーケットプレイス](https://github.com/marketplace/actions/app-state-diagram)をご覧ください。
 
+### 6. VSCode Plugin
+
+A VSCode plugin for live preview functionality is available. (experimental)
+
+[Visual Studio Marketplace - Application State Diagram](https://marketplace.visualstudio.com/items?itemName=koriym.app-state-diagram)
+
 ## 使用方法
 
 ### デモ実行

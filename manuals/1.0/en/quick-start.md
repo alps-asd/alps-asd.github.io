@@ -93,6 +93,12 @@ Installation steps:
 
 Create ASD in CI. See [marketplace](https://github.com/marketplace/actions/app-state-diagram) for details.
 
+### 6. VSCode Plugin
+
+You can live edit ALPS files while viewing the preview screen using the VSCode Plugin (experimental).
+
+[Visual Studio Marketplace - Application State Diagram](https://marketplace.visualstudio.com/items?itemName=koriym.app-state-diagram)
+
 ## Usage
 
 ### Running Demo
