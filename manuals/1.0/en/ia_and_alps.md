@@ -17,7 +17,7 @@ Information Architecture expert Dan Klyn defined IA as the interplay of `Ontolog
 
 ## Role in the Design Process
 
-ALPS bridges business requirements and system design from the early stages of development. Unlike traditional endpoint-centric design, which is used to document predetermined specifications, ALPS can be utilized from the requirements definition phase. This enables early detection and correction of differences in business requirement interpretations. It also establishes a common language between technical and business teams, providing a framework for easily understanding the scope of design changes.
+ALPS bridges business requirements and system design from the early stages of development. Unlike traditional endpoint-centric design, which typically starts with documenting predetermined API specifications, ALPS can be utilized from the requirements definition phase. This enables early detection and correction of differences in business requirement interpretations. It also establishes a common language between technical and business teams, providing a framework for easily understanding the scope of design changes.
 
 ALPS goes beyond API endpoint design to provide a means of systematizing and sharing business domain knowledge. As a Single Source of Truth (SSOT), it consistently models system structure and behavior. Using business terminology at its core, it clearly expresses complex business rules, visualizes workflows, and enables intuitive understanding of information interactions.
 
