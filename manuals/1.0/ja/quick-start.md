@@ -95,7 +95,7 @@ CIでASD作成を行います。詳細は[マーケットプレイス](https://g
 
 ### 6. VSCode Plugin
 
-A VSCode plugin for live preview functionality is available. (experimental)
+VSCodeでライブプレビューを可能にするプラグインが利用可能です。 (experimental)
 
 [Visual Studio Marketplace - Application State Diagram](https://marketplace.visualstudio.com/items?itemName=koriym.app-state-diagram)
 
