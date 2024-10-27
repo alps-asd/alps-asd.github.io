@@ -26,7 +26,7 @@ We recommend starting with this basic tutorial.
 
 In this tutorial, we'll use the browser-based ALPS editor:
 
-1. Open [ALPS Editor](https://app-state-diagram.com/)
+1. Open [ALPS Editor]( https://editor.app-state-diagram.com/)
 2. Delete all demo code displayed in the left editor pane
 
 Note: While you can use the ASD application in a local environment, we recommend using the online editor for this tutorial.

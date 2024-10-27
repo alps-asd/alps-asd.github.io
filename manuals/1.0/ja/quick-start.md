@@ -15,7 +15,7 @@ ASD（app-state-diagram）は、アプリケーションの状態遷移図やボ
 
 ローカルインストール不要で、すぐに利用できます：
 
-- [https://app-state-diagram.com/](https://app-state-diagram.com/)
+- [ https://editor.app-state-diagram.com/]( https://editor.app-state-diagram.com/)
 
 特徴：
 - インストール不要
