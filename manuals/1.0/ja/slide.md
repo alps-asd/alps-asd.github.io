@@ -38,7 +38,10 @@ permalink: /manuals/1.0/ja/slide.html
 <img src="/images/slide/app-state-diagram.004.jpeg" alt="左側にモデリングの要素（セマンティクス/オントロジー、アフォーダンス/振付）、右側に共有言語の特徴（PO、デザイナー、開発者間の共通言語、可視化、単一の情報源）を示した図">
 <p class="description">単なるAPI設計にとどまりません。<br>ビジネスの核となる知識を整理・活用・進化させるための知識基盤フレームワークです。</p>
 
-<a class="btn btn-light" id="listen" href="/audio/ja/alps.mp3">
+<a class="btn btn-light" id="listen" href="/audio/ja/alps.mp3"
+role="button"
+aria-label="Play Audio"
+data-duration="1:00">
     Listen 🎧 &raquo;
 </a>
 
@@ -48,6 +51,6 @@ permalink: /manuals/1.0/ja/slide.html
     Learn More &raquo;
 </a>
 <script src="/js/switch_intl.js"></script>
-<script src="/js/speach.js"></script>
+<script src="/js/speech.js"></script>
 
 

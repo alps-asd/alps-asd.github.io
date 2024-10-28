@@ -42,7 +42,10 @@ permalink: /manuals/1.0/en/slide.html
 <p class="description">It's not just API design; <br>It's a framework for organizing, accessing, and evolving the core business knowledge.</p>
 
 
-<a class="btn btn-light" id="listen" href="/audio/en/alps.mp3">
+<a class="btn btn-light" id="listen" href="/audio/en/alps.mp3"
+role="button"
+aria-label="Play Audio"
+data-duration="1:00">
     Listen 🎧 &raquo;
 </a>
 
@@ -52,4 +55,4 @@ permalink: /manuals/1.0/en/slide.html
     Learn More &raquo;
 </a>
 <script src="/js/switch_intl.js"></script>
-<script src="/js/speach.js"></script>
+<script src="/js/speech.js"></script>
