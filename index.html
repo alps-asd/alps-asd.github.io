@@ -10,17 +10,8 @@ permalink: /
     <p>
         Visualize Application Semantics and Affordance in REST Architecture
     </p>
-    <a class="intl btn btn-primary" id="learn" href="/manuals/1.0/en/index.html">
-        Learn more &raquo;
+    <a class="intl btn btn-primary" id="learn" href="/manuals/1.0/ja/slide.html">
+        ALPS in 30 Sec &raquo;
     </a>
-    <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const links = document.getElementsByClassName('intl');
-            const locale = window.navigator.language;
-            if (locale.startsWith('ja')) {
-                for(let i = 0; i < links.length; i++) {
-                    links[i].setAttribute('href', links[i].getAttribute('href').replace('/en/', '/ja/'));
-                }
-            }
-        });
-    </script></div>
+    <script src="/js/switch_intl.js"></script>
+</div>
