@@ -36,7 +36,7 @@ permalink: /manuals/1.0/ja/slide.html
 ---
 
 <img src="/images/slide/app-state-diagram.004.jpeg" alt="左側にモデリングの要素（セマンティクス/オントロジー、アフォーダンス/振付）、右側に共有言語の特徴（PO、デザイナー、開発者間の共通言語、可視化、単一の情報源）を示した図">
-<p class="description">これは単なるAPI設計ではありません。<br>ビジネスの核となる知識を整理・活用・進化させるための知識基盤フレームワークなのです。</p>
+<p class="description">これは単なるAPI設計ではありません。<br>ビジネスの核となる知識を整理・活用・進化させるための知識基盤フレームワークです。</p>
 ---
 
 <a class="intl btn btn-light" id="learn" href="/manuals/1.0/en/index.html">
