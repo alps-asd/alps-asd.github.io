@@ -11,11 +11,8 @@ permalink: /manuals/1.0/en/slide.html
     font-size: 24px;
     line-height: 1.5;
     color: #333;
-    margin: 0;
     text-align: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
-
+    margin: 50px 0;
     font-family: "Noto Sans JP", "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", sans-serif;
 }
 </style>
