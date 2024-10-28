@@ -17,29 +17,34 @@ permalink: /manuals/1.0/en/slide.html
 }
 </style>
 
-<img class="crop-image" src="/images/slide/app-state-diagram.001.jpeg" alt="家の外観写真、内観写真、パース図を並べた画像。完成予想図だけでは不十分なことを示している">
+<img class="crop-image" src="/images/slide/app-state-diagram.001.jpeg" alt="An image showing a photo of the exterior of the house, a photo of the interior, and a perspective drawing. This shows that a rendering of the completed house is not enough.">
 <p class="description">When building a house, we don't rely solely on pictures or perspective drawings.</p>
 
 ---
 
 <div class="image-container">
-<img src="/images/slide/app-state-diagram.002.jpeg" alt="間取り図とそれを囲んで議論する3人の人物のイラスト。間取り図が共通言語として機能することを示している">
+<img src="/images/slide/app-state-diagram.002.jpeg" alt="A floor plan and an illustration of three people discussing it. This shows that a floor plan can function as a common language.">
 </div>
 <p class="description">Instead, we use an abstract "floor plan", <br>which serves as a common language for users, designers, and builders</p>
 
 ---
 
 <div class="image-container">
-<img src="/images/slide/app-state-diagram.003.jpeg" alt="ALPSの状態遷移図と、それに関連するセマンティックデスクリプターの一覧。Webサイト構築における共通言語としてのALPSを示している">
+<img src="/images/slide/app-state-diagram.003.jpeg" alt="A state transition diagram for ALPS and a list of related semantic descriptors. This shows ALPS as a common language for website construction.">
 </div>
 <p class="description">Similarly, ALPS document is that common language when it comes to building a website.</p>
 
 ---
 
 <div class="image-container">
-<img src="/images/slide/app-state-diagram.004.jpeg" alt="左側にモデリングの要素（セマンティクス/オントロジー、アフォーダンス/振付）、右側に共有言語の特徴（PO、デザイナー、開発者間の共通言語、可視化、単一の情報源）を示した図">
+<img src="/images/slide/app-state-diagram.004.jpeg" alt="Diagram showing modeling elements (semantics/ontology, affordances/choreography) on the left and shared language features (PO, common language between designers and developers, visualization, single source of information) on the right">
 </div>
 <p class="description">It's not just API design; <br>It's a framework for organizing, accessing, and evolving the core business knowledge.</p>
+
+
+<a class="btn btn-light" id="listen" href="/audio/en/alps.mp3">
+    Listen 🎧 &raquo;
+</a>
 
 ---
 
@@ -47,4 +52,4 @@ permalink: /manuals/1.0/en/slide.html
     Learn More &raquo;
 </a>
 <script src="/js/switch_intl.js"></script>
-
+<script src="/js/speach.js"></script>
