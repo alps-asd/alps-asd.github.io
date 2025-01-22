@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Category.schema.json",
+  "title": "商品カテゴリ",
+  "description": "商品カテゴリスキーマ",
+  "type": "object",
+  "properties": {
+    "categoryId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "カテゴリID"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 50,
+      "description": "カテゴリ名"
+    },
+    "parentCategoryId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "親カテゴリID"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "カテゴリ説明"
+    },
+    "displayOrder": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "表示順序"
+    },
+    "isActive": {
+      "type": "boolean",
+      "description": "有効状態"
+    }
+  },
+  "required": ["categoryId", "name", "isActive"],
+  "additionalProperties": false
+}

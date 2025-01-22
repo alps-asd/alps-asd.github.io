@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Review.schema.json",
+  "title": "商品レビュー",
+  "description": "商品レビュー情報スキーマ",
+  "type": "object",
+  "properties": {
+    "reviewId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "レビューID"
+    },
+    "productId": {
+      "$ref": "Product.schema.json#/properties/productId"
+    },
+    "userId": {
+      "$ref": "User.schema.json#/properties/userId"
+    },
+    "rating": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "評価（1〜5段階）"
+    },
+    "comment": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "コメント本文"
+    },
+    "verifiedPurchase": {
+      "type": "boolean",
+      "description": "購入済みユーザー確認"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["reviewId", "productId", "userId", "rating"],
+  "additionalProperties": false
+}

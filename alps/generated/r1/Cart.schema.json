@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Cart.schema.json",
+  "title": "ショッピングカート",
+  "description": "カート情報スキーマ",
+  "type": "object",
+  "properties": {
+    "cartId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "カートの一意な識別子"
+    },
+    "userId": {
+      "$ref": "User.schema.json#/properties/userId"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "$ref": "Product.schema.json#/properties/productId"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": ["productId", "quantity"]
+      }
+    },
+    "totalPrice": {
+      "type": "number",
+      "minimum": 0
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["cartId", "userId", "items"],
+  "additionalProperties": false
+}

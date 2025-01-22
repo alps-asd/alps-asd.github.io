@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Promotion.schema.json",
+  "title": "プロモーション",
+  "description": "プロモーション情報スキーマ",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 50,
+      "description": "プロモーション名"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "プロモーション説明"
+    },
+    "discountType": {
+      "type": "string",
+      "enum": ["PERCENTAGE", "FIXED_AMOUNT", "FREE_SHIPPING"],
+      "description": "割引タイプ"
+    },
+    "discountAmount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "割引率/金額"
+    },
+    "validFrom": {
+      "type": "string",
+      "format": "date-time",
+      "description": "有効開始日時"
+    },
+    "validTo": {
+      "type": "string",
+      "format": "date-time",
+      "description": "有効終了日時"
+    },
+    "couponCode": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{8}$",
+      "description": "クーポンコード"
+    },
+    "isActive": {
+      "type": "boolean",
+      "description": "アクティブ状態"
+    }
+  },
+  "required": ["name", "discountType", "validFrom"],
+  "additionalProperties": false
+}

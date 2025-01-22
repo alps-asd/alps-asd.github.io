@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Discount.schema.json",
+  "title": "割引規則",
+  "description": "割引ルールスキーマ",
+  "type": "object",
+  "properties": {
+    "discountId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "割引規則ID"
+    },
+    "ruleType": {
+      "type": "string",
+      "enum": ["PRODUCT", "CATEGORY", "CART_TOTAL"],
+      "description": "適用対象タイプ"
+    },
+    "targetIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "description": "対象商品/カテゴリIDリスト"
+    },
+    "minPurchaseAmount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "最低購入金額"
+    },
+    "maxUsage": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "最大利用回数"
+    },
+    "validPeriod": {
+      "type": "object",
+      "properties": {
+        "start": {"type": "string", "format": "date-time"},
+        "end": {"type": "string", "format": "date-time"}
+      },
+      "required": ["start", "end"]
+    }
+  },
+  "required": ["discountId", "ruleType"],
+  "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Seller.schema.json",
+  "title": "販売者",
+  "description": "販売者情報スキーマ",
+  "type": "object",
+  "properties": {
+    "sellerId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "販売者の一意な識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 50,
+      "description": "販売者名"
+    },
+    "email": {
+      "$ref": "User.schema.json#/properties/email"
+    },
+    "phoneNumber": {
+      "$ref": "Address.schema.json#/properties/phoneNumber"
+    },
+    "businessAddress": {
+      "$ref": "Address.schema.json",
+      "description": "事業所住所"
+    },
+    "taxInformation": {
+      "type": "string",
+      "pattern": "^T[0-9]{13}$",
+      "description": "税務情報（法人番号）"
+    },
+    "performanceMetrics": {
+      "type": "object",
+      "properties": {
+        "rating": {"type": "number", "minimum": 0, "maximum": 5},
+        "fulfillmentRate": {"type": "number", "minimum": 0, "maximum": 1},
+        "responseTime": {"type": "number", "minimum": 0}
+      },
+      "required": ["rating", "fulfillmentRate"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["sellerId", "name", "email", "businessAddress"],
+  "additionalProperties": false
+}

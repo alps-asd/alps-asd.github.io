@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Order.schema.json",
+  "title": "注文",
+  "description": "Eコマースプラットフォームの注文情報スキーマ",
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "注文の一意な識別子"
+    },
+    "userId": {
+      "$ref": "User.schema.json#/properties/userId"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "$ref": "Product.schema.json#/properties/productId"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "price": {
+            "$ref": "Product.schema.json#/properties/price"
+          }
+        },
+        "required": ["productId", "quantity", "price"]
+      }
+    },
+    "totalAmount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "税込合計金額"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PLACED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "RETURNED"],
+      "description": "注文の現在の状態"
+    },
+    "shippingAddress": {
+      "$ref": "Address.schema.json",
+      "description": "配送先住所情報"
+    },
+    "billingAddress": {
+      "$ref": "Address.schema.json",
+      "description": "請求先住所情報"
+    },
+    "paymentMethod": {
+      "$ref": "PaymentMethod.schema.json",
+      "description": "支払い方法の詳細"
+    },
+    "trackingNumber": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{15}$",
+      "description": "配送追跡番号"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "orderId",
+    "userId",
+    "items",
+    "totalAmount",
+    "status",
+    "shippingAddress",
+    "billingAddress",
+    "paymentMethod"
+  ],
+  "additionalProperties": false
+}

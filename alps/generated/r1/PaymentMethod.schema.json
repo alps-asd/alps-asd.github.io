@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaymentMethod.schema.json",
+  "title": "支払い方法",
+  "description": "支払い方法情報スキーマ",
+  "type": "object",
+  "properties": {
+    "methodType": {
+      "type": "string",
+      "enum": ["CREDIT_CARD", "PAYPAY", "BANK_TRANSFER", "COD"],
+      "description": "支払い方法の種類"
+    },
+    "cardNumber": {
+      "type": "string",
+      "pattern": "^[0-9]{14,19}$",
+      "description": "クレジットカード番号（非保持時は空）"
+    },
+    "expiration": {
+      "type": "string",
+      "pattern": "^(0[1-9]|1[0-2])\\/[0-9]{2}$",
+      "description": "MM/YY形式の有効期限"
+    },
+    "cvv": {
+      "type": "string",
+      "pattern": "^[0-9]{3,4}$",
+      "description": "カード検証コード（非保持）"
+    },
+    "accountName": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "口座名義/アカウント名"
+    },
+    "billingAddress": {
+      "$ref": "Address.schema.json",
+      "description": "請求先住所情報"
+    }
+  },
+  "required": ["methodType"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "methodType": { "const": "CREDIT_CARD" } }
+      },
+      "then": {
+        "required": ["cardNumber", "expiration", "cvv", "billingAddress"]
+      }
+    }
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Notification.schema.json",
+  "title": "通知",
+  "description": "通知情報スキーマ",
+  "type": "object",
+  "properties": {
+    "notificationId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "通知の一意な識別子"
+    },
+    "userId": {
+      "$ref": "User.schema.json#/properties/userId"
+    },
+    "message": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "通知メッセージ本文"
+    },
+    "isRead": {
+      "type": "boolean",
+      "description": "既読状態"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["notificationId", "userId", "message", "createdAt"],
+  "additionalProperties": false
+}

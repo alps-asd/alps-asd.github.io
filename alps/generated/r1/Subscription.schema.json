@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Subscription.schema.json",
+  "title": "サブスクリプション",
+  "description": "サブスクリプション情報スキーマ",
+  "type": "object",
+  "properties": {
+    "subscriptionId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "サブスクリプションの一意な識別子"
+    },
+    "userId": {
+      "$ref": "User.schema.json#/properties/userId"
+    },
+    "plan": {
+      "type": "string",
+      "enum": ["BASIC", "PREMIUM", "ENTERPRISE"],
+      "description": "サブスクリプションプラン種別"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "CANCELLED", "EXPIRED"]
+    },
+    "autoRenew": {
+      "type": "boolean",
+      "description": "自動更新設定"
+    },
+    "price": {
+      "$ref": "Product.schema.json#/properties/price"
+    }
+  },
+  "required": ["subscriptionId", "userId", "plan", "startDate"],
+  "additionalProperties": false
+}

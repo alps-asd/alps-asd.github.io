@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Inventory.schema.json",
+  "title": "在庫",
+  "description": "在庫管理スキーマ",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "$ref": "Product.schema.json#/properties/productId"
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "現在在庫数"
+    },
+    "lowStockThreshold": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "在庫不足警告閾値"
+    },
+    "reservedQuantity": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "予約済み数量"
+    },
+    "availableQuantity": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "利用可能数量"
+    },
+    "lastStockUpdate": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["productId", "quantity"],
+  "additionalProperties": false
+}

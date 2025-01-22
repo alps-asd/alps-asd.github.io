@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Affiliate.schema.json",
+  "title": "アフィリエイト",
+  "description": "アフィリエイト情報スキーマ",
+  "type": "object",
+  "properties": {
+    "affiliateId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "アフィリエイトの一意な識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 50,
+      "description": "アフィリエイト名"
+    },
+    "email": {
+      "$ref": "User.schema.json#/properties/email"
+    },
+    "website": {
+      "type": "string",
+      "format": "uri",
+      "description": "アフィリエイトウェブサイトURL"
+    },
+    "earnings": {
+      "type": "number",
+      "minimum": 0,
+      "description": "累計収益額"
+    },
+    "clickCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "総クリック数"
+    },
+    "conversionRate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "コンバージョン率"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["affiliateId", "name", "email", "website"],
+  "additionalProperties": false
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Tax.schema.json",
+  "title": "税務情報",
+  "description": "税務情報スキーマ",
+  "type": "object",
+  "properties": {
+    "taxId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "税務ID"
+    },
+    "region": {
+      "type": "string",
+      "enum": ["JP", "US", "EU"],
+      "description": "適用地域"
+    },
+    "rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "税率（0〜1）"
+    },
+    "taxType": {
+      "type": "string",
+      "enum": ["CONSUMPTION", "INCOME", "CORPORATE"],
+      "description": "税種別"
+    },
+    "effectiveDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "適用開始日"
+    }
+  },
+  "required": ["taxId", "region", "rate", "taxType"],
+  "additionalProperties": false
+}

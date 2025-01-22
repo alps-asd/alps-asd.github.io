@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Wishlist.schema.json",
+  "title": "ウィッシュリスト",
+  "description": "ウィッシュリスト情報スキーマ",
+  "type": "object",
+  "properties": {
+    "wishlistId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ウィッシュリストID"
+    },
+    "userId": {
+      "$ref": "User.schema.json#/properties/userId"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "$ref": "Product.schema.json#/properties/productId"
+          },
+          "addedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["productId"]
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["wishlistId", "userId"],
+  "additionalProperties": false
+}

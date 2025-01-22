@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Return.schema.json",
+  "title": "返品管理",
+  "description": "返品情報スキーマ",
+  "type": "object",
+  "properties": {
+    "returnId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "返品ID"
+    },
+    "orderId": {
+      "$ref": "Order.schema.json#/properties/orderId"
+    },
+    "productId": {
+      "$ref": "Product.schema.json#/properties/productId"
+    },
+    "reason": {
+      "type": "string",
+      "enum": ["DAMAGED", "WRONG_ITEM", "SIZE_ISSUE", "OTHER"],
+      "description": "返品理由"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["REQUESTED", "APPROVED", "PROCESSING", "COMPLETED"]
+    },
+    "returnQuantity": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "returnDate": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["returnId", "orderId", "productId", "status"],
+  "additionalProperties": false
+}

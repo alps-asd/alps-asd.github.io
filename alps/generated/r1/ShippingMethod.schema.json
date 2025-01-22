@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ShippingMethod.schema.json",
+  "title": "配送方法",
+  "description": "配送方法情報スキーマ",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 50,
+      "description": "配送方法名"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "配送方法の説明"
+    },
+    "baseCost": {
+      "type": "number",
+      "minimum": 0,
+      "description": "基本配送料"
+    },
+    "estimatedDeliveryDays": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "推定配送日数"
+    },
+    "freeShippingThreshold": {
+      "type": "number",
+      "minimum": 0,
+      "description": "送料無料閾値"
+    },
+    "supportedRegions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["JP", "US", "CN", "KR", "OTHERS"]
+      },
+      "description": "対応地域"
+    },
+    "isActive": {
+      "type": "boolean",
+      "description": "有効状態"
+    }
+  },
+  "required": ["name", "baseCost", "isActive"],
+  "additionalProperties": false
+}

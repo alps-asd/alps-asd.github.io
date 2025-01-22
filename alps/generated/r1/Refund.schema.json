@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Refund.schema.json",
+  "title": "返金処理",
+  "description": "返金情報スキーマ",
+  "type": "object",
+  "properties": {
+    "refundId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "返金ID"
+    },
+    "returnId": {
+      "$ref": "Return.schema.json#/properties/returnId"
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "返金額"
+    },
+    "paymentMethod": {
+      "$ref": "PaymentMethod.schema.json",
+      "description": "支払い方法"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "COMPLETED", "FAILED"],
+      "description": "返金ステータス"
+    },
+    "processedDate": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["refundId", "returnId", "amount", "status"],
+  "additionalProperties": false
+}

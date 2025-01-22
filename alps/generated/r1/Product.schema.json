@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Product.schema.json",
+  "title": "製品",
+  "description": "Eコマースプラットフォームの製品情報スキーマ",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "製品の一意の識別子（UUID）"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 100,
+      "pattern": "^[\\p{L}0-9\\s]+$",
+      "description": "製品表示名（多言語対応）"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "製品の詳細説明"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "multipleOf": 0.01,
+      "description": "現在の税込価格"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["electronics", "clothing", "books", "home", "other"],
+      "description": "主要カテゴリー"
+    },
+    "subcategory": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "サブカテゴリー"
+    },
+    "inventory": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "現在の在庫数"
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "description": "重量（kg単位）"
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "length": {"type": "number", "minimum": 0},
+        "width": {"type": "number", "minimum": 0},
+        "height": {"type": "number", "minimum": 0}
+      },
+      "required": ["length", "width", "height"],
+      "additionalProperties": false
+    },
+    "isCustomizable": {
+      "type": "boolean",
+      "description": "カスタマイズオプションの有無"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "製品登録日時"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "最終更新日時"
+    }
+  },
+  "required": ["productId", "name", "price", "category", "inventory"],
+  "additionalProperties": false,
+  "$defs": {
+    "Currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217通貨コード"
+    }
+  }
+}
