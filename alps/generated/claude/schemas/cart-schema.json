@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/cart.json",
+  "title": "ショッピングカート",
+  "description": "Eコマースプラットフォームのショッピングカート情報スキーマ",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "カートの所有者であるユーザーのID"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "$ref": "common-types.json#/$defs/UUID",
+            "description": "カート内の商品ID"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "カートに追加する製品の数量"
+          },
+          "price": {
+            "$ref": "common-types.json#/$defs/Money",
+            "description": "追加時点での商品単価"
+          },
+          "addedAt": {
+            "$ref": "common-types.json#/$defs/Timestamp",
+            "description": "商品がカートに追加された日時"
+          }
+        },
+        "required": ["productId", "quantity", "price", "addedAt"]
+      },
+      "description": "カート内の商品リスト"
+    },
+    "totalAmount": {
+      "$ref": "common-types.json#/$defs/Money",
+      "description": "カート内商品の合計金額"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "カートの作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "カートの最終更新日時"
+    }
+  },
+  "required": ["userId", "items", "totalAmount", "createdAt", "updatedAt"],
+  "additionalProperties": false
+}

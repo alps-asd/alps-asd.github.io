@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/shipping-method.json",
+  "title": "配送方法",
+  "description": "Eコマースプラットフォームの配送方法情報スキーマ",
+  "type": "object",
+  "properties": {
+    "shippingMethodId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "配送方法の一意の識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "配送方法名"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "配送方法の詳細説明"
+    },
+    "carrier": {
+      "type": "object",
+      "properties": {
+        "carrierId": {
+          "type": "string",
+          "description": "配送業者ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "配送業者名"
+        },
+        "trackingUrlTemplate": {
+          "type": "string",
+          "format": "uri-template",
+          "description": "追跡URLテンプレート"
+        }
+      },
+      "required": ["carrierId", "name"],
+      "description": "配送業者情報"
+    },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "baseCost": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "基本配送料"
+        },
+        "freeShippingThreshold": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "送料無料となる注文金額"
+        },
+        "additionalCosts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["WEIGHT_SURCHARGE", "DISTANCE_SURCHARGE", "HANDLING_FEE", "INSURANCE"],
+                "description": "追加料金タイプ"
+              },
+              "condition": {
+                "type": "object",
+                "description": "追加料金の適用条件"
+              },
+              "amount": {
+                "$ref": "common-types.json#/$defs/Money",
+                "description": "追加料金額"
+              }
+            },
+            "required": ["type", "amount"]
+          },
+          "description": "追加料金設定"
+        }
+      },
+      "required": ["baseCost"],
+      "description": "配送料金設定"
+    },
+    "deliveryEstimate": {
+      "type": "object",
+      "properties": {
+        "minimum": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "最短配送日数"
+        },
+        "maximum": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "最長配送日数"
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["HOURS", "DAYS", "WEEKS"],
+          "default": "DAYS",
+          "description": "配送時間の単位"
+        }
+      },
+      "required": ["minimum", "maximum", "unit"],
+      "description": "配送所要時間の見込み"
+    },
+    "restrictions": {
+      "type": "object",
+      "properties": {
+        "supportedRegions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "対応地域コード"
+          },
+          "description": "配送対応地域"
+        },
+        "excludedRegions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "配送除外地域コード"
+          },
+          "description": "配送非対応地域"
+        },
+        "maxWeight": {
+          "type": "number",
+          "minimum": 0,
+          "description": "最大重量（kg）"
+        },
+        "maxDimensions": {
+          "type": "object",
+          "properties": {
+            "length": {
+              "type": "number",
+              "minimum": 0
+            },
+            "width": {
+              "type": "number",
+              "minimum": 0
+            },
+            "height": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "description": "最大寸法（cm）"
+        },
+        "restrictedItems": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "配送制限品目"
+          },
+          "description": "配送不可商品"
+        }
+      },
+      "description": "配送制限事項"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "TRACKING",
+          "SIGNATURE_REQUIRED",
+          "INSURANCE_INCLUDED",
+          "REFRIGERATED",
+          "SAME_DAY_DELIVERY"
+        ]
+      },
+      "description": "配送オプション機能"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "INACTIVE", "SUSPENDED"],
+      "description": "配送方法の状態"
+    },
+    "availability": {
+      "type": "object",
+      "properties": {
+        "daysOfWeek": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          "description": "利用可能な曜日"
+        },
+        "timeWindows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string",
+                "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$",
+                "description": "開始時刻（HH:MM）"
+              },
+              "end": {
+                "type": "string",
+                "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$",
+                "description": "終了時刻（HH:MM）"
+              }
+            },
+            "required": ["start", "end"]
+          },
+          "description": "配送可能時間帯"
+        }
+      },
+      "description": "利用可能時間設定"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "shippingMethodId",
+    "name",
+    "carrier",
+    "cost",
+    "deliveryEstimate",
+    "status",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

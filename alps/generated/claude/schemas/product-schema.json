@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/product.json",
+  "title": "製品",
+  "description": "Eコマースプラットフォームの製品情報スキーマ",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "製品の一意の識別子。SKU（Stock Keeping Unit）と連携し、在庫管理システムとの整合性を保ちます。"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "製品の表示名。SEO最適化と製品検索のために重要。"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 5000,
+      "description": "製品の詳細な説明"
+    },
+    "price": {
+      "$ref": "common-types.json#/$defs/Money",
+      "description": "製品の現在の価格。動的価格設定アルゴリズム、プロモーション、税金計算と連携します。"
+    },
+    "category": {
+      "type": "string",
+      "description": "製品のメインカテゴリー"
+    },
+    "subcategory": {
+      "type": "string",
+      "description": "製品のサブカテゴリー"
+    },
+    "inventory": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "現在の在庫数"
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "description": "製品の重量（グラム）"
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "number",
+          "minimum": 0
+        },
+        "width": {
+          "type": "number",
+          "minimum": 0
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": ["length", "width", "height"],
+      "description": "製品の寸法（センチメートル）"
+    },
+    "isCustomizable": {
+      "type": "boolean",
+      "description": "カスタマイズ可能かどうか"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "altText": {
+            "type": "string"
+          }
+        },
+        "required": ["url"]
+      },
+      "minItems": 1,
+      "description": "製品画像のリスト"
+    },
+    "rating": {
+      "$ref": "common-types.json#/$defs/Rating"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp"
+    }
+  },
+  "required": ["productId", "name", "price", "category", "inventory", "createdAt", "updatedAt"],
+  "additionalProperties": false
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/order.json",
+  "title": "注文",
+  "description": "Eコマースプラットフォームの注文情報スキーマ",
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "注文の一意の識別子"
+    },
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "注文したユーザーのID"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "$ref": "common-types.json#/$defs/UUID"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "price": {
+            "$ref": "common-types.json#/$defs/Money"
+          },
+          "discountId": {
+            "$ref": "common-types.json#/$defs/UUID"
+          }
+        },
+        "required": ["productId", "quantity", "price"]
+      },
+      "minItems": 1,
+      "description": "注文内の商品リスト"
+    },
+    "totalAmount": {
+      "$ref": "common-types.json#/$defs/Money",
+      "description": "注文の合計金額"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"],
+      "description": "注文の現在のステータス"
+    },
+    "shippingAddress": {
+      "$ref": "common-types.json#/$defs/Address",
+      "description": "配送先住所"
+    },
+    "billingAddress": {
+      "$ref": "common-types.json#/$defs/Address",
+      "description": "請求先住所"
+    },
+    "paymentMethod": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["CREDIT_CARD", "DEBIT_CARD", "BANK_TRANSFER", "DIGITAL_WALLET"]
+        },
+        "lastFourDigits": {
+          "type": "string",
+          "pattern": "^[0-9]{4}$"
+        }
+      },
+      "required": ["type"],
+      "description": "支払い方法の詳細"
+    },
+    "trackingNumber": {
+      "type": "string",
+      "description": "配送追跡番号"
+    },
+    "estimatedDeliveryDate": {
+      "type": "string",
+      "format": "date",
+      "description": "予想配達日"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp"
+    }
+  },
+  "required": ["orderId", "userId", "items", "totalAmount", "status", "shippingAddress", "createdAt", "updatedAt"],
+  "additionalProperties": false
+}

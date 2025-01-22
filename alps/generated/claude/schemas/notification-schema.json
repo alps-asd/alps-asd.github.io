@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/notification.json",
+  "title": "通知",
+  "description": "Eコマースプラットフォームのユーザー通知情報スキーマ",
+  "type": "object",
+  "properties": {
+    "notificationId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "通知の一意の識別子"
+    },
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "通知の受信者であるユーザーのID"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "ORDER_STATUS",
+        "SHIPPING_UPDATE",
+        "PRICE_DROP",
+        "BACK_IN_STOCK",
+        "SECURITY_ALERT",
+        "PROMOTION",
+        "SYSTEM_UPDATE",
+        "REVIEW_RESPONSE",
+        "PAYMENT_CONFIRMATION",
+        "REFUND_STATUS"
+      ],
+      "description": "通知の種類"
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000,
+      "description": "通知メッセージの本文"
+    },
+    "isRead": {
+      "type": "boolean",
+      "description": "通知が既読かどうか",
+      "default": false
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["HIGH", "MEDIUM", "LOW"],
+      "description": "通知の重要度",
+      "default": "MEDIUM"
+    },
+    "relatedId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "通知に関連する要素のID（注文ID、商品IDなど）"
+    },
+    "actionUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "通知に関連するアクションのURL"
+    },
+    "expiresAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "通知の有効期限"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "通知の作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "通知の最終更新日時"
+    }
+  },
+  "required": [
+    "notificationId",
+    "userId",
+    "type",
+    "message",
+    "isRead",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

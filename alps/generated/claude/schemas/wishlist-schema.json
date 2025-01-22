@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/wishlist.json",
+  "title": "ウィッシュリスト",
+  "description": "Eコマースプラットフォームのウィッシュリスト情報スキーマ",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "ウィッシュリストの所有者であるユーザーのID"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "$ref": "common-types.json#/$defs/UUID",
+            "description": "ウィッシュリスト内の商品ID"
+          },
+          "addedAt": {
+            "$ref": "common-types.json#/$defs/Timestamp",
+            "description": "商品がウィッシュリストに追加された日時"
+          },
+          "price": {
+            "$ref": "common-types.json#/$defs/Money",
+            "description": "追加時点での商品価格"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "ユーザーが商品に付けたメモ"
+          }
+        },
+        "required": ["productId", "addedAt"]
+      },
+      "description": "ウィッシュリスト内の商品リスト"
+    },
+    "isPublic": {
+      "type": "boolean",
+      "description": "ウィッシュリストが公開されているかどうか",
+      "default": false
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "ウィッシュリストの名前"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "ウィッシュリストの作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "ウィッシュリストの最終更新日時"
+    }
+  },
+  "required": ["userId", "items", "isPublic", "createdAt", "updatedAt"],
+  "additionalProperties": false
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/review.json",
+  "title": "レビュー",
+  "description": "Eコマースプラットフォームの商品レビュー情報スキーマ",
+  "type": "object",
+  "properties": {
+    "reviewId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "レビューの一意の識別子"
+    },
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "レビューを投稿したユーザーのID"
+    },
+    "productId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "レビュー対象の商品ID"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "multipleOf": 0.5,
+      "description": "商品の評価値（1-5、0.5刻み）"
+    },
+    "comment": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "description": "レビューのコメント本文"
+    },
+    "reviewDate": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "レビューが投稿された日時"
+    },
+    "helpfulVotes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "このレビューが役立つと評価された回数"
+    },
+    "verifiedPurchase": {
+      "type": "boolean",
+      "description": "このレビューが実際の購入者によるものかどうか"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "caption": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": ["url"]
+      },
+      "maxItems": 10,
+      "description": "レビューに添付された画像"
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "sellerId": {
+          "$ref": "common-types.json#/$defs/UUID"
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "responseDate": {
+          "$ref": "common-types.json#/$defs/Timestamp"
+        }
+      },
+      "description": "販売者からのレビューへの返信"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "レビューの最終更新日時"
+    }
+  },
+  "required": ["reviewId", "userId", "productId", "rating", "comment", "reviewDate", "verifiedPurchase"],
+  "additionalProperties": false
+}

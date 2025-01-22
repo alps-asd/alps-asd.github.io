@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/marketplace.json",
+  "title": "マーケットプレイス",
+  "description": "Eコマースプラットフォームのマーケットプレイス情報スキーマ",
+  "type": "object",
+  "properties": {
+    "marketplaceId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "マーケットプレイスの一意の識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "マーケットプレイスの名称"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "マーケットプレイスの説明"
+    },
+    "commissionRate": {
+      "type": "object",
+      "properties": {
+        "percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "取引手数料率（%）"
+        },
+        "minimumAmount": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "最小手数料額"
+        }
+      },
+      "required": ["percentage"],
+      "description": "販売手数料の設定"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "このマーケットプレイスで取り扱う商品カテゴリー"
+    },
+    "region": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "主要な営業国"
+        },
+        "supportedCountries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "サービス提供対象国リスト"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "主要取引通貨"
+        }
+      },
+      "required": ["country", "currency"],
+      "description": "地域情報"
+    },
+    "requirements": {
+      "type": "object",
+      "properties": {
+        "minimumRating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "必要最小評価値"
+        },
+        "verificationRequired": {
+          "type": "boolean",
+          "description": "販売者の身元確認が必要か"
+        },
+        "documentationRequired": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "必要書類リスト"
+        }
+      },
+      "description": "販売者要件"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "MAINTENANCE", "SUSPENDED", "CLOSED"],
+      "description": "マーケットプレイスの現在の状態"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "MULTI_VENDOR",
+          "ESCROW_PAYMENT",
+          "DISPUTE_RESOLUTION",
+          "RATING_SYSTEM",
+          "ANALYTICS",
+          "BULK_UPLOAD",
+          "API_ACCESS"
+        ]
+      },
+      "description": "提供される機能リスト"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "マーケットプレイスの作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "マーケットプレイスの最終更新日時"
+    }
+  },
+  "required": [
+    "marketplaceId",
+    "name",
+    "commissionRate",
+    "region",
+    "status",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/category.json",
+  "title": "カテゴリー",
+  "description": "Eコマースプラットフォームの商品カテゴリー情報スキーマ",
+  "type": "object",
+  "properties": {
+    "categoryId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "カテゴリーの一意の識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "カテゴリー名"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "URLスラッグ"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "カテゴリーの説明"
+    },
+    "hierarchy": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "階層レベル（0がルート）"
+        },
+        "parentId": {
+          "$ref": "common-types.json#/$defs/UUID",
+          "description": "親カテゴリーのID"
+        },
+        "path": {
+          "type": "array",
+          "items": {
+            "$ref": "common-types.json#/$defs/UUID"
+          },
+          "description": "ルートからの完全なパス"
+        }
+      },
+      "required": ["level"],
+      "description": "カテゴリー階層情報"
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "属性名"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["TEXT", "NUMBER", "BOOLEAN", "DATE", "ENUM"],
+            "description": "属性の型"
+          },
+          "required": {
+            "type": "boolean",
+            "description": "必須項目かどうか"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "選択肢（ENUM型の場合）"
+          }
+        },
+        "required": ["name", "type"],
+        "description": "カテゴリーに固有の属性定義"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "SEOタイトル"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "SEOキーワード"
+        },
+        "metaDescription": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "SEOメタ説明"
+        }
+      },
+      "description": "SEO関連メタデータ"
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "カテゴリー画像URL"
+        },
+        "alt": {
+          "type": "string",
+          "description": "画像の代替テキスト"
+        }
+      },
+      "description": "カテゴリー画像情報"
+    },
+    "displaySettings": {
+      "type": "object",
+      "properties": {
+        "sortOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "表示順序"
+        },
+        "featuredOrder": {
+          "type": "integer",
+          "description": "おすすめ表示順序（該当する場合）"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["VISIBLE", "HIDDEN"],
+          "description": "表示/非表示設定"
+        }
+      },
+      "description": "表示設定"
+    },
+    "statistics": {
+      "type": "object",
+      "properties": {
+        "productCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "所属商品数"
+        },
+        "activeProductCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "有効な商品数"
+        },
+        "viewCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "閲覧数"
+        }
+      },
+      "description": "統計情報"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "INACTIVE", "DRAFT"],
+      "description": "カテゴリーの状態"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "categoryId",
+    "name",
+    "slug",
+    "hierarchy",
+    "status",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/user.json",
+  "title": "ユーザー",
+  "description": "Eコマースプラットフォームのユーザー情報スキーマ",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "ユーザーの一意の識別子。UUIDを使用し、予測不可能で安全な値を保証します。"
+    },
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "description": "ユーザーのユーザー名"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "ユーザーの主要な連絡手段。アカウント認証と重要な通知に使用されます。"
+    },
+    "fullName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "ユーザーのフルネーム"
+    },
+    "profileImage": {
+      "type": "string",
+      "format": "uri",
+      "description": "ユーザーのプロファイル画像URL"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["CUSTOMER", "SELLER", "AFFILIATE", "ADMIN"],
+      "description": "システム内でのユーザーの権限レベル"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp"
+    }
+  },
+  "required": ["userId", "username", "email", "role", "createdAt", "updatedAt"],
+  "additionalProperties": false
+}

@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/promotion.json",
+  "title": "プロモーション",
+  "description": "Eコマースプラットフォームのプロモーション情報スキーマ",
+  "type": "object",
+  "properties": {
+    "promotionId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "プロモーションの一意の識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "プロモーション名"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "プロモーションの詳細説明"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "PERCENTAGE_DISCOUNT",
+        "FIXED_AMOUNT_DISCOUNT",
+        "BUY_X_GET_Y",
+        "FREE_SHIPPING",
+        "BUNDLE_DISCOUNT",
+        "LOYALTY_POINTS_MULTIPLIER",
+        "FLASH_SALE"
+      ],
+      "description": "プロモーションの種類"
+    },
+    "discountValue": {
+      "type": "object",
+      "oneOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "PERCENTAGE"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "割引率（%）"
+            }
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "FIXED_AMOUNT"
+            },
+            "value": {
+              "$ref": "common-types.json#/$defs/Money",
+              "description": "固定割引額"
+            }
+          }
+        }
+      ],
+      "required": ["type", "value"],
+      "description": "割引の値"
+    },
+    "conditions": {
+      "type": "object",
+      "properties": {
+        "minimumPurchaseAmount": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "最小購入金額"
+        },
+        "minimumQuantity": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "最小購入数量"
+        },
+        "applicableProducts": {
+          "type": "array",
+          "items": {
+            "$ref": "common-types.json#/$defs/UUID"
+          },
+          "description": "適用対象商品IDリスト"
+        },
+        "applicableCategories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "適用対象カテゴリーリスト"
+        },
+        "userGroups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "適用対象ユーザーグループ"
+        },
+        "maxUsagePerUser": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "ユーザーあたりの最大使用回数"
+        }
+      },
+      "description": "プロモーション適用条件"
+    },
+    "couponCode": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{4,20}$",
+      "description": "プロモーションコード"
+    },
+    "validityPeriod": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "$ref": "common-types.json#/$defs/Timestamp",
+          "description": "開始日時"
+        },
+        "endDate": {
+          "$ref": "common-types.json#/$defs/Timestamp",
+          "description": "終了日時"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "適用タイムゾーン"
+        }
+      },
+      "required": ["startDate", "endDate"],
+      "description": "有効期間"
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "maxUses": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "最大利用回数"
+        },
+        "currentUses": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "現在の利用回数"
+        },
+        "remainingUses": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "残り利用可能回数"
+        }
+      },
+      "description": "利用状況"
+    },
+    "stackable": {
+      "type": "boolean",
+      "description": "他のプロモーションとの併用可否",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "ACTIVE", "PAUSED", "EXPIRED", "CANCELLED"],
+      "description": "プロモーションのステータス"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "追加のメタデータ"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "promotionId",
+    "name",
+    "type",
+    "discountValue",
+    "validityPeriod",
+    "status",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

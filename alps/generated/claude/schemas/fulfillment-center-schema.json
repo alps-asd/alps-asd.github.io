@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/fulfillment-center.json",
+  "title": "フルフィルメントセンター",
+  "description": "Eコマースプラットフォームのフルフィルメントセンター情報スキーマ",
+  "type": "object",
+  "properties": {
+    "centerId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "フルフィルメントセンターの一意の識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "センター名"
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[A-Z]{2,4}[0-9]{2,4}$",
+      "description": "センターコード"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["PRIMARY", "SECONDARY", "RETURNS", "CROSSDOCK"],
+      "description": "センターの種類"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "MAINTENANCE", "INACTIVE", "CLOSED"],
+      "description": "センターの運営状態"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "common-types.json#/$defs/Address",
+          "description": "センターの所在地"
+        },
+        "coordinates": {
+          "type": "object",
+          "properties": {
+            "latitude": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "longitude": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          "required": ["latitude", "longitude"],
+          "description": "地理座標"
+        }
+      },
+      "required": ["address"],
+      "description": "位置情報"
+    },
+    "capacity": {
+      "type": "object",
+      "properties": {
+        "totalArea": {
+          "type": "number",
+          "minimum": 0,
+          "description": "総面積（平方メートル）"
+        },
+        "storageCapacity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "保管可能数量"
+        },
+        "dailyProcessingCapacity": {
+          "type": "object",
+          "properties": {
+            "inbound": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "1日の入荷処理可能数"
+            },
+            "outbound": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "1日の出荷処理可能数"
+            }
+          },
+          "description": "日次処理能力"
+        },
+        "utilizationRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "現在の使用率（%）"
+        }
+      },
+      "description": "処理能力情報"
+    },
+    "operatingHours": {
+      "type": "object",
+      "properties": {
+        "timezone": {
+          "type": "string",
+          "description": "タイムゾーン"
+        },
+        "schedule": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dayOfWeek": {
+                "type": "string",
+                "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+              },
+              "openTime": {
+                "type": "string",
+                "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$"
+              },
+              "closeTime": {
+                "type": "string",
+                "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$"
+              }
+            },
+            "required": ["dayOfWeek", "openTime", "closeTime"]
+          }
+        },
+        "holidays": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": "休業日"
+        }
+      },
+      "required": ["timezone", "schedule"],
+      "description": "営業時間情報"
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "STORAGE",
+          "PICKING",
+          "PACKING",
+          "SHIPPING",
+          "RETURNS_PROCESSING",
+          "QUALITY_CONTROL",
+          "KITTING",
+          "CUSTOM_PACKAGING"
+        ]
+      },
+      "description": "提供サービス"
+    },
+    "equipment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "設備種類"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "数量"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["OPERATIONAL", "MAINTENANCE", "OUT_OF_SERVICE"]
+          }
+        },
+        "required": ["type", "quantity", "status"]
+      },
+      "description": "設備情報"
+    },
+    "contacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^\\+?[1-9][0-9]{7,14}$"
+          }
+        },
+        "required": ["name", "role", "email"]
+      },
+      "description": "連絡先情報"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "centerId",
+    "name",
+    "code",
+    "type",
+    "status",
+    "location",
+    "capacity",
+    "operatingHours",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/inventory.json",
+  "title": "在庫",
+  "description": "Eコマースプラットフォームの在庫管理情報スキーマ",
+  "type": "object",
+  "properties": {
+    "inventoryId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "在庫レコードの一意の識別子"
+    },
+    "productId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "関連する商品のID"
+    },
+    "warehouseId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "在庫が保管されている倉庫のID"
+    },
+    "quantity": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "総在庫数"
+        },
+        "available": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "利用可能な在庫数"
+        },
+        "reserved": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "予約済みの在庫数"
+        },
+        "damaged": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "破損品数"
+        },
+        "inTransit": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "輸送中の在庫数"
+        }
+      },
+      "required": ["total", "available"],
+      "description": "在庫数の詳細"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["IN_STOCK", "LOW_STOCK", "OUT_OF_STOCK", "DISCONTINUED"],
+      "description": "在庫状態"
+    },
+    "thresholds": {
+      "type": "object",
+      "properties": {
+        "lowStock": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "在庫低下警告のしきい値"
+        },
+        "reorderPoint": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "再発注点"
+        },
+        "maxStock": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "最大在庫数"
+        }
+      },
+      "required": ["lowStock", "reorderPoint"],
+      "description": "在庫管理のしきい値設定"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "aisle": {
+          "type": "string",
+          "description": "通路番号"
+        },
+        "rack": {
+          "type": "string",
+          "description": "棚番号"
+        },
+        "shelf": {
+          "type": "string",
+          "description": "棚板番号"
+        },
+        "bin": {
+          "type": "string",
+          "description": "収納箱番号"
+        }
+      },
+      "description": "倉庫内の保管場所"
+    },
+    "supplier": {
+      "type": "object",
+      "properties": {
+        "supplierId": {
+          "$ref": "common-types.json#/$defs/UUID",
+          "description": "供給者ID"
+        },
+        "leadTime": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "調達リードタイム（日数）"
+        },
+        "minimumOrderQuantity": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "最小発注数量"
+        }
+      },
+      "description": "供給者情報"
+    },
+    "batchInfo": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "string",
+            "description": "バッチ番号"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "バッチ内の数量"
+          },
+          "manufacturingDate": {
+            "type": "string",
+            "format": "date",
+            "description": "製造日"
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date",
+            "description": "有効期限"
+          }
+        },
+        "required": ["batchId", "quantity"]
+      },
+      "description": "バッチ管理情報"
+    },
+    "movements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["INBOUND", "OUTBOUND", "TRANSFER", "ADJUSTMENT"],
+            "description": "移動タイプ"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "移動数量"
+          },
+          "timestamp": {
+            "$ref": "common-types.json#/$defs/Timestamp",
+            "description": "移動日時"
+          },
+          "referenceId": {
+            "type": "string",
+            "description": "関連する注文や移動のID"
+          }
+        },
+        "required": ["type", "quantity", "timestamp"]
+      },
+      "description": "在庫移動履歴"
+    },
+    "lastStockCheck": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "$ref": "common-types.json#/$defs/Timestamp",
+          "description": "最終棚卸日時"
+        },
+        "performedBy": {
+          "$ref": "common-types.json#/$defs/UUID",
+          "description": "実施者のユーザーID"
+        },
+        "notes": {
+          "type": "string",
+          "description": "棚卸メモ"
+        }
+      },
+      "description": "最終棚卸情報"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "レコード作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "inventoryId",
+    "productId",
+    "warehouseId",
+    "quantity",
+    "status",
+    "createdAt",
+    "updatedAt"
+  ],
+  "additionalProperties": false
+}

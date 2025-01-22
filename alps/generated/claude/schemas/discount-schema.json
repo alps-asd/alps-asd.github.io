@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/discount.json",
+  "title": "割引",
+  "description": "Eコマースプラットフォームの割引情報スキーマ",
+  "type": "object",
+  "properties": {
+    "discountId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "割引の一意の識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "割引名"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "割引の説明"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "PERCENTAGE",
+        "FIXED_AMOUNT",
+        "BUY_X_GET_Y",
+        "BUNDLE",
+        "MINIMUM_PURCHASE",
+        "FIRST_TIME_PURCHASE",
+        "SEASONAL"
+      ],
+      "description": "割引の種類"
+    },
+    "value": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "PERCENTAGE" },
+            "amount": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "割引率（%）"
+            }
+          },
+          "required": ["type", "amount"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "FIXED_AMOUNT" },
+            "amount": {
+              "$ref": "common-types.json#/$defs/Money",
+              "description": "固定割引額"
+            }
+          },
+          "required": ["type", "amount"]
+        }
+      ],
+      "description": "割引の値"
+    },
+    "conditions": {
+      "type": "object",
+      "properties": {
+        "minimumPurchase": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "最低購入金額"
+        },
+        "maximumDiscount": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "最大割引額"
+        },
+        "applicableProducts": {
+          "type": "array",
+          "items": {
+            "$ref": "common-types.json#/$defs/UUID"
+          },
+          "description": "適用可能な商品ID"
+        },
+        "applicableCategories": {
+          "type": "array",
+          "items": {
+            "$ref": "common-types.json#/$defs/UUID"
+          },
+          "description": "適用可能なカテゴリーID"
+        },
+        "customerGroups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "適用可能な顧客グループ"
+        },
+        "usageLimit": {
+          "type": "object",
+          "properties": {
+            "perCustomer": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "顧客あたりの使用制限"
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "総使用制限"
+            }
+          }
+        }
+      },
+      "description": "割引の適用条件"
+    },
+    "validityPeriod": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "$ref": "common-types.json#/$defs/Timestamp",
+          "description": "有効開始日時"
+        },
+        "endDate": {
+          "$ref": "common-types.json#/$defs/Timestamp",
+          "description": "有効終了日時"
+        }
+      },
+      "required": ["startDate", "endDate"],
+      "description": "有効期間"
+    },
+    "couponCode": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{4,20}$",
+      "description": "クーポンコード"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "INACTIVE", "EXPIRED", "SCHEDULED"],
+      "description": "割引の状態"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "discountId",
+    "name",
+    "type",
+    "value",
+    "validityPeriod",
+    "status",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

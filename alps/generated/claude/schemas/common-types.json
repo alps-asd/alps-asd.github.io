@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/common-types.json",
+  "title": "Eコマース共通型定義",
+  "description": "Eコマースプラットフォームで使用される共通の型定義",
+  "$defs": {
+    "Money": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "description": "金額"
+        },
+        "currency": {
+          "type": "string",
+          "description": "通貨コード",
+          "pattern": "^[A-Z]{3}$"
+        }
+      },
+      "required": ["amount", "currency"]
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "street": {
+          "type": "string",
+          "description": "通り名と番号"
+        },
+        "city": {
+          "type": "string",
+          "description": "都市名"
+        },
+        "state": {
+          "type": "string",
+          "description": "州または県名"
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "郵便番号"
+        },
+        "country": {
+          "type": "string",
+          "description": "国名"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "電話番号",
+          "pattern": "^\\+?[1-9][0-9]{7,14}$"
+        }
+      },
+      "required": ["street", "city", "state", "postalCode", "country"]
+    },
+    "Rating": {
+      "type": "object",
+      "properties": {
+        "rating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "評価値（0-5）"
+        },
+        "reviewCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "レビュー数"
+        }
+      },
+      "required": ["rating", "reviewCount"]
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601形式のタイムスタンプ"
+    },
+    "UUID": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "UUID v4"
+    }
+  }
+}

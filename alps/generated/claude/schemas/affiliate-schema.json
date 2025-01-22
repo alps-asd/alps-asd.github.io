@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/affiliate.json",
+  "title": "アフィリエイト",
+  "description": "Eコマースプラットフォームのアフィリエイトパートナー情報スキーマ",
+  "type": "object",
+  "properties": {
+    "affiliateId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "アフィリエイトの一意の識別子"
+    },
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "関連付けられたユーザーアカウントのID"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "アフィリエイトパートナー名"
+    },
+    "website": {
+      "type": "string",
+      "format": "uri",
+      "description": "アフィリエイトのウェブサイトURL"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "連絡先メールアドレス"
+    },
+    "earnings": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "累計収益"
+        },
+        "pending": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "未払い収益"
+        },
+        "lastPayout": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "最終支払額"
+        }
+      },
+      "description": "収益情報"
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "clickCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "累計クリック数"
+        },
+        "conversionCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "累計コンバージョン数"
+        },
+        "conversionRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "コンバージョン率（%）"
+        },
+        "averageOrderValue": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "平均注文額"
+        }
+      },
+      "description": "パフォーマンス指標"
+    },
+    "commission": {
+      "type": "object",
+      "properties": {
+        "percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "基本コミッション率（%）"
+        },
+        "specialRates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {
+                "type": "string",
+                "description": "商品カテゴリー"
+              },
+              "percentage": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "カテゴリー別コミッション率（%）"
+              }
+            },
+            "required": ["category", "percentage"]
+          },
+          "description": "カテゴリー別特別レート"
+        }
+      },
+      "required": ["percentage"],
+      "description": "コミッション設定"
+    },
+    "paymentInfo": {
+      "type": "object",
+      "properties": {
+        "paymentMethod": {
+          "type": "string",
+          "enum": ["BANK_TRANSFER", "PAYPAL", "CRYPTO"],
+          "description": "支払い方法"
+        },
+        "paymentDetails": {
+          "type": "object",
+          "description": "支払い詳細情報"
+        },
+        "payoutThreshold": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "最小支払い金額"
+        }
+      },
+      "required": ["paymentMethod", "paymentDetails"],
+      "description": "支払い情報"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "ACTIVE", "SUSPENDED", "TERMINATED"],
+      "description": "アカウントステータス"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "アカウント作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "affiliateId",
+    "userId",
+    "name",
+    "website",
+    "email",
+    "commission",
+    "status",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

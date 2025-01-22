@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/supplier.json",
+  "title": "供給者",
+  "description": "Eコマースプラットフォームの供給者情報スキーマ",
+  "type": "object",
+  "properties": {
+    "supplierId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "供給者の一意の識別子"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "供給者名"
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{3,10}$",
+      "description": "供給者コード"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["MANUFACTURER", "WHOLESALER", "DISTRIBUTOR", "IMPORTER"],
+      "description": "供給者の種類"
+    },
+    "contactInfo": {
+      "type": "object",
+      "properties": {
+        "primaryContact": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "position": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "phone": {
+              "type": "string",
+              "pattern": "^\\+?[1-9][0-9]{7,14}$"
+            }
+          },
+          "required": ["name", "email", "phone"]
+        },
+        "address": {
+          "$ref": "common-types.json#/$defs/Address"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        },
+        "supportEmail": {
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "required": ["primaryContact", "address"],
+      "description": "連絡先情報"
+    },
+    "performanceMetrics": {
+      "type": "object",
+      "properties": {
+        "rating": {
+          "$ref": "common-types.json#/$defs/Rating"
+        },
+        "onTimeDeliveryRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "納期遵守率（%）"
+        },
+        "qualityScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "品質スコア"
+        },
+        "defectRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "不良品率（%）"
+        }
+      },
+      "description": "パフォーマンス指標"
+    },
+    "terms": {
+      "type": "object",
+      "properties": {
+        "paymentTerms": {
+          "type": "string",
+          "description": "支払い条件"
+        },
+        "minimumOrderValue": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "最小発注金額"
+        },
+        "leadTime": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "標準リードタイム（日数）"
+        },
+        "shippingTerms": {
+          "type": "string",
+          "description": "配送条件"
+        }
+      },
+      "description": "取引条件"
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "認証名"
+          },
+          "issuedBy": {
+            "type": "string",
+            "description": "発行機関"
+          },
+          "validUntil": {
+            "type": "string",
+            "format": "date",
+            "description": "有効期限"
+          },
+          "documentUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "証明書のURL"
+          }
+        },
+        "required": ["name", "issuedBy", "validUntil"]
+      },
+      "description": "保有認証情報"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "取扱商品カテゴリー"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "INACTIVE", "SUSPENDED", "PENDING_REVIEW"],
+      "description": "取引状態"
+    },
+    "bankingInfo": {
+      "type": "object",
+      "properties": {
+        "bankName": {
+          "type": "string"
+        },
+        "accountHolder": {
+          "type": "string"
+        },
+        "accountNumber": {
+          "type": "string"
+        },
+        "routingNumber": {
+          "type": "string"
+        },
+        "swiftCode": {
+          "type": "string"
+        }
+      },
+      "required": ["bankName", "accountHolder", "accountNumber"],
+      "description": "銀行口座情報"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "supplierId",
+    "name",
+    "code",
+    "type",
+    "contactInfo",
+    "status",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

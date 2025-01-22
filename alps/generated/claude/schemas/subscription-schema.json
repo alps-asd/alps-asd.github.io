@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/subscription.json",
+  "title": "サブスクリプション",
+  "description": "Eコマースプラットフォームのサブスクリプション情報スキーマ",
+  "type": "object",
+  "properties": {
+    "subscriptionId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "サブスクリプションの一意の識別子"
+    },
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "サブスクリプション所有者のユーザーID"
+    },
+    "plan": {
+      "type": "object",
+      "properties": {
+        "planId": {
+          "type": "string",
+          "description": "プランの識別子"
+        },
+        "name": {
+          "type": "string",
+          "description": "プラン名"
+        },
+        "description": {
+          "type": "string",
+          "description": "プランの説明"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "プランに含まれる機能リスト"
+        },
+        "interval": {
+          "type": "string",
+          "enum": ["DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY"],
+          "description": "課金間隔"
+        },
+        "price": {
+          "$ref": "common-types.json#/$defs/Money",
+          "description": "プランの価格"
+        }
+      },
+      "required": ["planId", "name", "interval", "price"],
+      "description": "サブスクリプションプラン詳細"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "PAST_DUE",
+        "CANCELED",
+        "EXPIRED",
+        "PENDING",
+        "PAUSED"
+      ],
+      "description": "サブスクリプションの現在のステータス"
+    },
+    "startDate": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "サブスクリション開始日"
+    },
+    "endDate": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "サブスクリプション終了日"
+    },
+    "nextBillingDate": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "次回請求日"
+    },
+    "autoRenew": {
+      "type": "boolean",
+      "description": "自動更新の有効/無効",
+      "default": true
+    },
+    "paymentMethod": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["CREDIT_CARD", "DEBIT_CARD", "BANK_TRANSFER", "DIGITAL_WALLET"],
+          "description": "支払い方法の種類"
+        },
+        "lastFourDigits": {
+          "type": "string",
+          "pattern": "^[0-9]{4}$",
+          "description": "支払い方法の下4桁"
+        },
+        "expiryDate": {
+          "type": "string",
+          "pattern": "^(0[1-9]|1[0-2])/[0-9]{2}$",
+          "description": "支払い方法の有効期限"
+        }
+      },
+      "required": ["type"],
+      "description": "支払い方法情報"
+    },
+    "billingHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "billingDate": {
+            "$ref": "common-types.json#/$defs/Timestamp",
+            "description": "請求日"
+          },
+          "amount": {
+            "$ref": "common-types.json#/$defs/Money",
+            "description": "請求額"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["SUCCESSFUL", "FAILED", "PENDING", "REFUNDED"],
+            "description": "請求ステータス"
+          }
+        },
+        "required": ["billingDate", "amount", "status"]
+      },
+      "description": "請求履歴"
+    },
+    "cancelReason": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "enum": [
+            "TOO_EXPENSIVE",
+            "NOT_USING",
+            "SWITCHING_SERVICE",
+            "TECHNICAL_ISSUES",
+            "OTHER"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "canceledAt": {
+          "$ref": "common-types.json#/$defs/Timestamp"
+        }
+      },
+      "description": "キャンセル理由（該当する場合）"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "追加のメタデータ"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "レコード作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "subscriptionId",
+    "userId",
+    "plan",
+    "status",
+    "startDate",
+    "autoRenew",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

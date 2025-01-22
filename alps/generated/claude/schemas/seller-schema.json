@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/seller.json",
+  "title": "販売者",
+  "description": "Eコマースプラットフォームの販売者情報スキーマ",
+  "type": "object",
+  "properties": {
+    "sellerId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "販売者の一意の識別子"
+    },
+    "userId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "関連付けられたユーザーアカウントのID"
+    },
+    "businessInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "事業者名"
+        },
+        "registrationNumber": {
+          "type": "string",
+          "description": "事業者登録番号"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["INDIVIDUAL", "CORPORATION", "PARTNERSHIP", "LLC"],
+          "description": "事業形態"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "事業概要"
+        }
+      },
+      "required": ["name", "type"],
+      "description": "事業者情報"
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "pattern": "^\\+?[1-9][0-9]{7,14}$"
+        },
+        "businessAddress": {
+          "$ref": "common-types.json#/$defs/Address"
+        },
+        "websiteUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": ["email", "phone", "businessAddress"],
+      "description": "連絡先情報"
+    },
+    "taxInformation": {
+      "type": "object",
+      "properties": {
+        "taxId": {
+          "type": "string",
+          "description": "税務番号"
+        },
+        "vatNumber": {
+          "type": "string",
+          "description": "VAT番号（該当する場合）"
+        },
+        "taxationCountry": {
+          "type": "string",
+          "description": "税務上の所在国"
+        }
+      },
+      "required": ["taxId", "taxationCountry"],
+      "description": "税務関連情報"
+    },
+    "performanceMetrics": {
+      "type": "object",
+      "properties": {
+        "rating": {
+          "$ref": "common-types.json#/$defs/Rating"
+        },
+        "totalSales": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "累計販売数"
+        },
+        "fulfillmentRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "注文履行率（%）"
+        },
+        "responseRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "問い合わせ応答率（%）"
+        },
+        "disputeRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "紛争発生率（%）"
+        }
+      },
+      "description": "実績指標"
+    },
+    "paymentInfo": {
+      "type": "object",
+      "properties": {
+        "bankName": {
+          "type": "string"
+        },
+        "accountHolder": {
+          "type": "string"
+        },
+        "accountNumber": {
+          "type": "string",
+          "pattern": "^[0-9]{8,20}$"
+        },
+        "routingNumber": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        }
+      },
+      "required": ["bankName", "accountHolder", "accountNumber", "currency"],
+      "description": "支払い情報"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "ACTIVE", "SUSPENDED", "BANNED"],
+      "description": "アカウントのステータス"
+    },
+    "verificationStatus": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "PENDING", "VERIFIED", "REJECTED"],
+      "description": "本人確認状況"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "アカウント作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "sellerId",
+    "userId",
+    "businessInfo",
+    "contact",
+    "taxInformation",
+    "status",
+    "verificationStatus",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ecommerce/image.json",
+  "title": "画像",
+  "description": "Eコマースプラットフォームの画像情報スキーマ",
+  "type": "object",
+  "properties": {
+    "imageId": {
+      "$ref": "common-types.json#/$defs/UUID",
+      "description": "画像の一意の識別子"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "画像のURL"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["PRODUCT", "CATEGORY", "BANNER", "PROFILE", "THUMBNAIL"],
+      "description": "画像の用途"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "description": "元のファイル名"
+        },
+        "mimeType": {
+          "type": "string",
+          "pattern": "^image/[a-zA-Z0-9.+-]+$",
+          "description": "MIMEタイプ"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "ファイルサイズ（バイト）"
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "画像の幅（ピクセル）"
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "画像の高さ（ピクセル）"
+            }
+          },
+          "required": ["width", "height"]
+        }
+      },
+      "required": ["mimeType", "size", "dimensions"],
+      "description": "画像のメタデータ"
+    },
+    "altText": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "代替テキスト（アクセシビリティ用）"
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["THUMBNAIL", "SMALL", "MEDIUM", "LARGE", "ORIGINAL"],
+            "description": "バリアントの種類"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "バリアントのURL"
+          },
+          "dimensions": {
+            "type": "object",
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": ["width", "height"]
+          }
+        },
+        "required": ["type", "url", "dimensions"]
+      },
+      "description": "画像のバリアント（サイズ違い）"
+    },
+    "optimization": {
+      "type": "object",
+      "properties": {
+        "quality": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "画質設定"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["JPEG", "PNG", "WEBP", "AVIF"],
+          "description": "最適化フォーマット"
+        },
+        "compressed": {
+          "type": "boolean",
+          "description": "圧縮済みかどうか"
+        },
+        "originalHash": {
+          "type": "string",
+          "description": "元画像のハッシュ値"
+        }
+      },
+      "description": "画像の最適化情報"
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "entityType": {
+          "type": "string",
+          "enum": ["PRODUCT", "CATEGORY", "USER", "BANNER"],
+          "description": "関連エンティティの種類"
+        },
+        "entityId": {
+          "$ref": "common-types.json#/$defs/UUID",
+          "description": "関連エンティティのID"
+        },
+        "sorting": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "表示順序"
+        }
+      },
+      "description": "画像の使用情報"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "PROCESSING", "FAILED", "DELETED"],
+      "description": "画像の状態"
+    },
+    "createdAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "作成日時"
+    },
+    "updatedAt": {
+      "$ref": "common-types.json#/$defs/Timestamp",
+      "description": "最終更新日時"
+    }
+  },
+  "required": [
+    "imageId",
+    "url",
+    "type",
+    "metadata",
+    "altText",
+    "status",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}
