@@ -1,0 +1,1209 @@
+openapi: 3.1.0
+info:
+  title: Eコマースプラットフォーム API
+  description: |
+    Eコマースプラットフォームのバックエンドサービスを提供するRESTful API。
+    商品管理、注文処理、在庫管理、ユーザー管理など、プラットフォームの全機能をカバーします。
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: api-support@example.com
+
+servers:
+  - url: https://api.example.com/v1
+    description: 本番環境
+  - url: https://staging-api.example.com/v1
+    description: ステージング環境
+  - url: https://dev-api.example.com/v1
+    description: 開発環境
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    # 共通の応答形式
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: エラーコード
+        message:
+          type: string
+          description: エラーメッセージ
+        details:
+          type: object
+          description: 詳細情報
+      required:
+        - code
+        - message
+
+    # 既存のJSONスキーマの参照
+    User:
+      $ref: './schemas/user-schema.json'
+    Product:
+      $ref: './schemas/product-schema.json'
+    Order:
+      $ref: './schemas/order-schema.json'
+    Cart:
+      $ref: './schemas/cart-schema.json'
+    Category:
+      $ref: './schemas/category-schema.json'
+    Review:
+      $ref: './schemas/review-schema.json'
+    Inventory:
+      $ref: './schemas/inventory-schema.json'
+    Promotion:
+      $ref: './schemas/promotion-schema.json'
+    
+  parameters:
+    # 共通のクエリパラメータ
+    pageParam:
+      name: page
+      in: query
+      description: ページ番号
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    limitParam:
+      name: limit
+      in: query
+      description: 1ページあたりの件数
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    sortParam:
+      name: sort
+      in: query
+      description: ソートフィールドと順序
+      schema:
+        type: string
+        pattern: '^[-+]?[a-zA-Z0-9_]+$'
+        example: '+createdAt'
+
+paths:
+  /users:
+    get:
+      summary: ユーザー一覧の取得
+      description: 登録されているユーザーの一覧を取得します。
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/sortParam'
+        - name: role
+          in: query
+          description: ユーザーロール
+          schema:
+            type: string
+            enum: [CUSTOMER, SELLER, AFFILIATE, ADMIN]
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  pagination:
+                    type: object
+                    properties:
+                      totalItems:
+                        type: integer
+                      totalPages:
+                        type: integer
+                      currentPage:
+                        type: integer
+                required:
+                  - data
+                  - pagination
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: 新規ユーザーの作成
+      description: 新しいユーザーアカウントを作成します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: 作成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 入力エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        description: ユーザーID
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: ユーザー情報の取得
+      description: 指定されたユーザーの詳細情報を取得します。
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: ユーザーが見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: ユーザー情報の更新
+      description: 指定されたユーザーの情報を更新します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 入力エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: ユーザーの削除
+      description: 指定されたユーザーを削除します。
+      responses:
+        '204':
+          description: 削除成功
+        '404':
+          description: ユーザーが見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /products:
+    get:
+      summary: 商品一覧の取得
+      description: 商品の一覧を取得します。
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/sortParam'
+        - name: category
+          in: query
+          description: カテゴリーID
+          schema:
+            type: string
+            format: uuid
+        - name: minPrice
+          in: query
+          description: 最小価格
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          description: 最大価格
+          schema:
+            type: number
+        - name: inStock
+          in: query
+          description: 在庫の有無
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  pagination:
+                    type: object
+                    properties:
+                      totalItems:
+                        type: integer
+                      totalPages:
+                        type: integer
+                      currentPage:
+                        type: integer
+                required:
+                  - data
+                  - pagination
+
+  /products/{productId}:
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        description: 商品ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: 商品詳細の取得
+      description: 指定された商品の詳細情報を取得します。
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: 商品が見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /orders:
+    post:
+      summary: 注文の作成
+      description: 新しい注文を作成します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: 作成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: 入力エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /orders/{orderId}/status:
+    parameters:
+      - name: orderId
+        in: path
+        required: true
+        description: 注文ID
+        schema:
+          type: string
+          format: uuid
+    put:
+      summary: 注文状態の更新
+      description: 指定された注文の状態を更新します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED]
+                reason:
+                  type: string
+              required:
+                - status
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: 入力エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /cart:
+    get:
+      summary: カート情報の取得
+      description: 現在のユーザーのカート情報を取得します。
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /cart/items:
+    post:
+      summary: カートへの商品追加
+      description: カートに商品を追加します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+                  format: uuid
+                quantity:
+                  type: integer
+                  minimum: 1
+              required:
+                - productId
+                - quantity
+      responses:
+        '200':
+          description: 追加成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: 入力エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /inventory/check:
+    post:
+      summary: 在庫チェック
+      description: 複数商品の在庫状況を一括チェックします。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  productId:
+                    type: string
+                    format: uuid
+                  quantity:
+                    type: integer
+                    minimum: 1
+                required:
+                  - productId
+                  - quantity
+      responses:
+        '200':
+          description: チェック成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    productId:
+                      type: string
+                      format: uuid
+                    available:
+                      type: boolean
+                    currentStock:
+                      type: integer
+                    message:
+                      type: string
+                  required:
+                    - productId
+                    - available
+                    - currentStock
+
+  /promotions/validate:
+    post:
+      summary: プロモーションコードの検証
+      description: プロモーションコードの有効性を検証します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                cartTotal:
+                  type: number
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      productId:
+                        type: string
+                        format: uuid
+                      quantity:
+                        type: integer
+              required:
+                - code
+                - cartTotal
+      responses:
+        '200':
+          description: 検証成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Promotion'
+        '400':
+          description: 無効なコード
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /reviews:
+    post:
+      summary: レビューの投稿
+      description: 商品のレビューを投稿します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        '201':
+          description: 投稿成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400':
+          description: 入力エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /categories:
+    get:
+      summary: カテゴリー一覧の取得
+      description: 商品カテゴリーの一覧を取得します。
+      parameters:
+        - name: includeProducts
+          in: query
+          description: 商品情報を含めるかどうか
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+
+  /marketplace/sellers:
+    get:
+      summary: 販売者一覧の取得
+      description: マーケットプレイスの販売者一覧を取得します。
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - name: rating
+          in: query
+          description: 最小評価値
+          schema:
+            type: number
+            minimum: 0
+            maximum: 5
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './schemas/seller-schema.json'
+
+  /marketplace/sellers/{sellerId}/products:
+    parameters:
+      - name: sellerId
+        in: path
+        required: true
+        description: 販売者ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: 販売者の商品一覧取得
+      description: 特定の販売者が出品している商品の一覧を取得します。
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+  /analytics/sales:
+    get:
+      summary: 売上分析データの取得
+      description: 期間指定での売上分析データを取得します。
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: groupBy
+          in: query
+          description: グループ化の単位
+          schema:
+            type: string
+            enum: [DAY, WEEK, MONTH]
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalSales:
+                    $ref: './schemas/common-types.json#/$defs/Money'
+                  salesByPeriod:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        period:
+                          type: string
+
+  /notifications:
+    get:
+      summary: 通知一覧の取得
+      description: ユーザーの通知一覧を取得します。
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [READ, UNREAD, ALL]
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      $ref: './schemas/notification-schema.json'
+                  unreadCount:
+                    type: integer
+
+  /notifications/preferences:
+    put:
+      summary: 通知設定の更新
+      description: ユーザーの通知設定を更新します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emailNotifications:
+                  type: object
+                  properties:
+                    orderUpdates:
+                      type: boolean
+                    promotions:
+                      type: boolean
+                    productAlerts:
+                      type: boolean
+                pushNotifications:
+                  type: object
+                  properties:
+                    orderUpdates:
+                      type: boolean
+                    promotions:
+                      type: boolean
+                    productAlerts:
+                      type: boolean
+                notificationTypes:
+                  type: array
+                  items:
+                    type: string
+                    enum: [EMAIL, PUSH, SMS, IN_APP]
+      responses:
+        '200':
+          description: 設定更新成功
+
+  /auth/token:
+    post:
+      summary: アクセストークンの取得
+      description: 認証情報を使用してアクセストークンを取得します。
+      security: []  # No authentication required for this endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                grantType:
+                  type: string
+                  enum: [PASSWORD, REFRESH_TOKEN, CLIENT_CREDENTIALS]
+                username:
+                  type: string
+                password:
+                  type: string
+                refreshToken:
+                  type: string
+                clientId:
+                  type: string
+                clientSecret:
+                  type: string
+              required:
+                - grantType
+      responses:
+        '200':
+          description: トークン取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+                  expiresIn:
+                    type: integer
+                  tokenType:
+                    type: string
+                    enum: [Bearer]
+
+  /auth/permissions:
+    get:
+      summary: 権限一覧の取得
+      description: 現在のユーザーの権限一覧を取得します。
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                  permissions:
+                    type: array
+                    items:
+                      type: string
+                  features:
+                    type: array
+                    items:
+                      type: string
+
+  /marketplace/disputes:
+    get:
+      summary: 紛争一覧の取得
+      description: マーケットプレイスでの紛争一覧を取得します。
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [OPEN, IN_PROGRESS, RESOLVED, CLOSED]
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    disputeId:
+                      type: string
+                    orderId:
+                      type: string
+                    sellerId:
+                      type: string
+                    buyerId:
+                      type: string
+                    type:
+                      type: string
+                      enum: [QUALITY, DELIVERY, DESCRIPTION_MISMATCH, OTHER]
+                    status:
+                      type: string
+                    createdAt:
+                      type: string
+                      format: date-time
+
+
+  /marketplace/performance-metrics:
+    get:
+      summary: パフォーマンス指標の取得
+      description: マーケットプレイス参加者のパフォーマンス指標を取得します。
+      parameters:
+        - name: sellerId
+          in: query
+          schema:
+            type: string
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [LAST_7_DAYS, LAST_30_DAYS, LAST_90_DAYS]
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderCompletionRate:
+                    type: number
+                  customerSatisfactionScore:
+                    type: number
+                  responseTime:
+                    type: number
+                  shippingPerformance:
+                    type: number
+                  returnRate:
+                    type: number
+                  recommendations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        area:
+                          type: string
+                        suggestion:
+                          type: string
+                        priority:
+                          type: string
+                          enum: [HIGH, MEDIUM, LOW]
+
+  /affiliates/campaigns:
+    get:
+      summary: アフィリエイトキャンペーン一覧の取得
+      description: 利用可能なアフィリエイトキャンペーンの一覧を取得します。
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    campaignId:
+                      type: string
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    commissionRate:
+                      type: number
+                    termsAndConditions:
+                      type: string
+                    startDate:
+                      type: string
+                      format: date
+                    endDate:
+                      type: string
+                      format: date
+                    status:
+                      type: string
+                      enum: [ACTIVE, SCHEDULED, ENDED]
+
+  /affiliates/earnings:
+    get:
+      summary: アフィリエイト収益の取得
+      description: アフィリエイトパートナーの収益情報を取得します。
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [DAILY, WEEKLY, MONTHLY, YEARLY]
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalEarnings:
+                    $ref: './schemas/common-types.json#/$defs/Money'
+                  pendingPayments:
+                    $ref: './schemas/common-types.json#/$defs/Money'
+                  earningsByPeriod:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        period:
+                          type: string
+                        earnings:
+                          $ref: './schemas/common-types.json#/$defs/Money'
+                        clicks:
+                          type: integer
+                        conversions:
+                          type: integer
+                        conversionRate:
+                          type: number
+
+  /system/health:
+    get:
+      summary: システム健康状態の確認
+      description: システムの各コンポーネントの健康状態を確認します。
+      responses:
+        '200':
+          description: 確認成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [HEALTHY, DEGRADED, UNHEALTHY]
+                  components:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                        message:
+                          type: string
+                        lastChecked:
+                          type: string
+                          format: date-time
+                  metrics:
+                    type: object
+                    properties:
+                      responseTime:
+                        type: number
+                      errorRate:
+                        type: number
+                      requestRate:
+                        type: number
+
+  /system/maintenance:
+    post:
+      summary: メンテナンスモードの切り替え
+      description: システムのメンテナンスモードを切り替えます。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                message:
+                  type: string
+                plannedEndTime:
+                  type: string
+                  format: date-time
+              required:
+                - enabled
+      responses:
+        '200':
+          description: 切り替え成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [MAINTENANCE_ENABLED, MAINTENANCE_DISABLED]
+                  appliedAt:
+                    type: string
+                    format: date-time
+                  amount:
+                    $ref: './schemas/common-types.json#/$defs/Money'
+                  orderCount:
+                    type: integer
+
+  /subscriptions:
+    get:
+      summary: サブスクリプション一覧の取得
+      description: ユーザーのサブスクリプション一覧を取得します。
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './schemas/subscription-schema.json'
+    post:
+      summary: サブスクリプションの作成
+      description: 新しいサブスクリプションを作成します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/subscription-schema.json'
+      responses:
+        '201':
+          description: 作成成功
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/subscription-schema.json'
+
+  /subscriptions/{subscriptionId}/cancel:
+    parameters:
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      summary: サブスクリプションのキャンセル
+      description: 既存のサブスクリプションをキャンセルします。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                feedback:
+                  type: string
+      responses:
+        '200':
+          description: キャンセル成功
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/subscription-schema.json'
+
+  /affiliates/links:
+    post:
+      summary: アフィリエイトリンクの生成
+      description: 商品のアフィリエイトリンクを生成します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+                  format: uuid
+                campaignId:
+                  type: string
+                customParams:
+                  type: object
+      responses:
+        '201':
+          description: 生成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                  shortUrl:
+                    type: string
+                    format: uri
+
+  /fulfillment/centers:
+    get:
+      summary: フルフィルメントセンター一覧の取得
+      description: 利用可能なフルフィルメントセンターの一覧を取得します。
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './schemas/fulfillment-center-schema.json'
+
+  /webhooks:
+    post:
+      summary: Webhookの登録
+      description: イベント通知用のWebhookを登録します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                events:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - ORDER_CREATED
+                      - ORDER_UPDATED
+                      - PAYMENT_RECEIVED
+                      - SHIPMENT_CREATED
+                      - INVENTORY_LOW
+                secret:
+                  type: string
+                  description: Webhook検証用のシークレット
+              required:
+                - url
+                - events
+      responses:
+        '201':
+          description: 登録成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  status:
+                    type: string
+                    enum: [ACTIVE, PENDING_VERIFICATION]
+
+  /reports/generate:
+    post:
+      summary: レポートの生成
+      description: 各種レポートを非同期で生成します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - SALES_REPORT
+                    - INVENTORY_REPORT
+                    - CUSTOMER_REPORT
+                    - MARKETPLACE_REPORT
+                format:
+                  type: string
+                  enum: [CSV, PDF, EXCEL]
+                dateRange:
+                  type: object
+                  properties:
+                    start:
+                      type: string
+                      format: date
+                    end:
+                      type: string
+                      format: date
+              required:
+                - type
+                - format
+      responses:
+        '202':
+          description: レポート生成受付
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reportId:
+                    type: string
+                  estimatedCompletionTime:
+                    type: string
+                    format: date-time
