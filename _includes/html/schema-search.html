@@ -1,0 +1,123 @@
+<!-- _includes/schema-search.html -->
+{% assign table_id = include.table_id | default: "schema-table" %}
+
+<div class="schema-search">
+    <div class="search-container">
+        <input type="text" id="{{ table_id }}-search" class="search-input" placeholder="キーワードを入力して検索...">
+    </div>
+    <div class="count-info" id="{{ table_id }}-count"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableId = "{{ table_id }}";
+        const searchInput = document.getElementById(`${tableId}-search`);
+        const resultCount = document.getElementById(`${tableId}-count`);
+        const table = document.getElementById(tableId);
+
+        if (!table || !searchInput || !resultCount) {
+            console.error('検索機能の初期化に失敗しました: 要素が見つかりません');
+            return;
+        }
+
+        const tableRows = table.querySelectorAll('tbody tr');
+
+        // カウント情報を更新する関数
+        function updateResultCount(count) {
+            resultCount.textContent = `検索結果: ${count}件`;
+        }
+
+        // 初期カウント設定
+        updateResultCount(tableRows.length);
+
+        // テキストをハイライトする関数
+        function highlightText(element, text, searchTerm) {
+            if (!searchTerm) {
+                element.textContent = text;
+                return false;
+            }
+
+            const index = text.toLowerCase().indexOf(searchTerm.toLowerCase());
+            if (index >= 0) {
+                const before = text.substring(0, index);
+                const match = text.substring(index, index + searchTerm.length);
+                const after = text.substring(index + searchTerm.length);
+
+                element.innerHTML = before + '<span class="highlight">' + match + '</span>' + after;
+                return true;
+            } else {
+                element.textContent = text;
+                return false;
+            }
+        }
+
+        // 検索処理
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            // 既存の「結果なし」行を削除
+            const noResultsRow = table.querySelector('.no-results-row');
+            if (noResultsRow) noResultsRow.remove();
+
+            // 各行をチェック
+            tableRows.forEach(row => {
+                // 行内のテキストを取得
+                const rowText = row.textContent.toLowerCase();
+
+                // ハイライトをリセット
+                row.querySelectorAll('.highlight').forEach(el => {
+                    const parent = el.parentNode;
+                    parent.textContent = parent.textContent;
+                });
+
+                if (searchTerm === '' || rowText.includes(searchTerm)) {
+                    row.classList.remove('hidden-row');
+
+                    // 検索語が空でない場合のハイライト処理
+                    if (searchTerm !== '') {
+                        // リンクのハイライト
+                        const links = row.querySelectorAll('a');
+                        links.forEach(link => {
+                            if (link.textContent.toLowerCase().includes(searchTerm)) {
+                                highlightText(link, link.textContent, searchTerm);
+                            }
+                        });
+
+                        // テキストノードのハイライト
+                        const cells = row.querySelectorAll('td');
+                        cells.forEach(cell => {
+                            if (cell.childNodes.length === 1 && cell.childNodes[0].nodeType === 3) {
+                                if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                                    highlightText(cell, cell.textContent, searchTerm);
+                                }
+                            }
+                        });
+                    }
+
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden-row');
+                }
+            });
+
+            // 結果カウントの更新
+            updateResultCount(visibleCount);
+
+            // 結果がない場合のメッセージを表示
+            if (visibleCount === 0) {
+                const tbody = table.querySelector('tbody');
+                if (tbody) {
+                    const newRow = document.createElement('tr');
+                    newRow.className = 'no-results-row';
+                    const cell = document.createElement('td');
+                    cell.colSpan = table.querySelector('thead tr').childElementCount || 3;
+                    cell.className = 'no-results';
+                    cell.textContent = '一致する項目がありません';
+                    newRow.appendChild(cell);
+                    tbody.appendChild(newRow);
+                }
+            }
+        });
+    });
+</script>

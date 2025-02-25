@@ -1,0 +1,76 @@
+/* schema-common.css */
+.schema-link {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.schema-link:hover {
+    color: #004499;
+    text-decoration: underline;
+}
+
+.meta-cell {
+    font-size: 13px;
+    color: #333;
+}
+
+.meta-item {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.meta-label {
+    font-size: 12px;
+    color: #777;
+    margin-right: 8px;
+    min-width: 85px;
+}
+
+.meta-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.meta-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Properties用の色 */
+.domain-tag {
+    background-color: #eaf2fd;
+    color: #2662ab;
+}
+
+.range-tag {
+    background-color: #edf7ed;
+    color: #2e7d32;
+}
+
+.subprop-tag {
+    background-color: #f5e9f7;
+    color: #7b1fa2;
+}
+
+/* Types用の色 */
+.subtype-tag {
+    background-color: #e8eaf6;
+    color: #3949ab;
+}
+
+.properties-tag {
+    background-color: #e3f2fd;
+    color: #0277bd;
+}
+
+.subtypes-tag {
+    background-color: #e0f2f1;
+    color: #00796b;
+}
