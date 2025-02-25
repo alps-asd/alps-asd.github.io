@@ -28,7 +28,7 @@ permalink: /manuals/1.0/en/schema-org.html
         <td>
           <a href="https://schema.org/{{ property.label }}" class="schema-link">{{ property.label }}</a>
         </td>
-        <td>{{ property.comment }}</td>
+        <td>{{ property.comment | replace: 'href="/', 'href="https://schema.org/' }}</td>
         {% include html/property-meta.html property=property %}
       </tr>
     {% endfor %}
