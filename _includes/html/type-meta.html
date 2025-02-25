@@ -1,0 +1,43 @@
+<td class="meta-cell">
+    {% if type.subTypeOf and type.subTypeOf != "" %}
+    <div class="meta-item">
+        <span class="meta-label">SubTypeOf:</span>
+        <div class="meta-values">
+            {% assign subtypes = type.subTypeOf | split: ", " %}
+            {% for subtype in subtypes %}
+            {% assign subtype_name = subtype | replace: "https://schema.org/", "" %}
+            <span class="meta-tag subtype-tag">{{ subtype_name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if type.properties and type.properties != "" %}
+    <div class="meta-item">
+        <span class="meta-label">Properties:</span>
+        <div class="meta-values">
+            {% assign props = type.properties | split: ", " %}
+            {% for prop in props | limit:5 %}
+            {% assign prop_name = prop | replace: "https://schema.org/", "" %}
+            <span class="meta-tag properties-tag">{{ prop_name }}</span>
+            {% endfor %}
+            {% if props.size > 5 %}
+            <span class="meta-tag more-tag">+{{ props.size | minus: 5 }}個</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if type.subTypes and type.subTypes != "" %}
+    <div class="meta-item">
+        <span class="meta-label">SubTypes:</span>
+        <div class="meta-values">
+            {% assign subtypes_list = type.subTypes | split: ", " %}
+            {% for subtype in subtypes_list %}
+            {% assign subtype_name = subtype | replace: "https://schema.org/", "" %}
+            <span class="meta-tag subtypes-tag">{{ subtype_name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</td>

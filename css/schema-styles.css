@@ -1,0 +1,196 @@
+/* schema-styles.css */
+
+/* テーブル全体のスタイル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+}
+
+th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+    color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* リンクスタイル */
+.schema-link {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.schema-link:hover {
+    color: #004499;
+    text-decoration: underline;
+}
+
+/* メタ情報のスタイル */
+.meta-cell {
+    font-size: 13px;
+    color: #333;
+}
+
+.meta-item {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.meta-label {
+    font-size: 12px;
+    color: #777;
+    margin-right: 8px;
+    min-width: 85px;
+}
+
+.meta-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.meta-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* タグの色分け */
+.domain-tag {
+    background-color: #eaf2fd;
+    color: #2662ab;
+}
+
+.range-tag {
+    background-color: #edf7ed;
+    color: #2e7d32;
+}
+
+.subprop-tag {
+    background-color: #f5e9f7;
+    color: #7b1fa2;
+}
+
+.inverse-tag {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.subtype-tag {
+    background-color: #e8eaf6;
+    color: #3949ab;
+}
+
+.properties-tag {
+    background-color: #e3f2fd;
+    color: #0277bd;
+}
+
+.subtypes-tag {
+    background-color: #e0f2f1;
+    color: #00796b;
+}
+
+.more-tag {
+    background-color: #f5f5f5;
+    color: #616161;
+}
+
+/* 検索関連のスタイル */
+.schema-search {
+    margin-bottom: 20px;
+}
+
+.search-container {
+    margin-bottom: 5px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    border-color: #0066cc;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,102,204,0.2);
+}
+
+.count-info {
+    margin: 10px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.hidden-row {
+    display: none !important;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #0066cc;
+    background-color: #f0f8ff;
+}
+
+.no-results {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    table {
+        font-size: 13px;
+    }
+
+    th, td {
+        padding: 6px 8px;
+    }
+
+    .meta-label {
+        min-width: 70px;
+    }
+
+    .meta-tag {
+        font-size: 11px;
+        padding: 1px 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .meta-item {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 8px;
+    }
+
+    .meta-label {
+        margin-bottom: 4px;
+    }
+}

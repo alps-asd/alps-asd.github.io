@@ -1,0 +1,21 @@
+<h2> Properties </h2>
+<table id="schema-properties-table" class="properties-table">
+    <thead>
+    <tr>
+        <th>プロパティ</th>
+        <th>説明</th>
+        <th>メタ情報</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for property in site.data.schemaorg-current-https-properties %}
+    <tr>
+        <td>
+            <a href="https://schema.org/{{ property.label }}" class="schema-link">{{ property.label }}</a>
+        </td>
+        <td>{{ property.comment }}</td>
+        {% include html/property-meta.html property=property %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

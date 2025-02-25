@@ -1,0 +1,47 @@
+<td class="meta-cell">
+    {% if property.domainIncludes and property.domainIncludes != "" %}
+    <div class="meta-item">
+        <span class="meta-label">Domain:</span>
+        <div class="meta-values">
+            {% assign domains = property.domainIncludes | split: ", " %}
+            {% for domain in domains %}
+            {% assign domain_name = domain | replace: "https://schema.org/", "" %}
+            <span class="meta-tag domain-tag">{{ domain_name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if property.rangeIncludes and property.rangeIncludes != "" %}
+    <div class="meta-item">
+        <span class="meta-label">Range:</span>
+        <div class="meta-values">
+            {% assign ranges = property.rangeIncludes | split: ", " %}
+            {% for range in ranges %}
+            {% assign range_name = range | replace: "https://schema.org/", "" %}
+            <span class="meta-tag range-tag">{{ range_name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if property.subPropertyOf and property.subPropertyOf != "" and property.subPropertyOf != " " %}
+    <div class="meta-item">
+        <span class="meta-label">SubPropertyOf:</span>
+        <div class="meta-values">
+            {% assign subprop = property.subPropertyOf | replace: "https://schema.org/", "" %}
+            <span class="meta-tag subprop-tag">{{ subprop }}</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if property.inverseOf and property.inverseOf != "" and property.inverseOf != " " %}
+    <div class="meta-item">
+        <span class="meta-label">InverseOf:</span>
+        <div class="meta-values">
+            {% assign inverse = property.inverseOf | replace: "https://schema.org/", "" %}
+            <span class="meta-tag inverse-tag">{{ inverse }}</span>
+        </div>
+    </div>
+    {% endif %}
+</td>

@@ -1,0 +1,12 @@
+{% if include.label and include.values %}
+<div class="meta-item">
+    <span class="meta-label">{{ include.label }}:</span>
+    <div class="meta-values">
+        {% assign items = include.values | split: ", " %}
+        {% for item in items %}
+        {% assign item_name = item | replace: "https://schema.org/", "" %}
+        <span class="meta-tag {{ include.tag_class }}">{{ item_name }}</span>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
