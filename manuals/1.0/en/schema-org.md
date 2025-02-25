@@ -8,16 +8,18 @@ permalink: /manuals/1.0/en/schema-org.html
 <link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}">
 
 
-# Schema.org プロパティ一覧
+# Schema.org Terms
+
+<h2>Properties</h2>
 
 {% include html/schema-search.html table_id="schema-property-table" %}
 
 <table id="schema-property-table">
   <thead>
     <tr>
-      <th>プロパティ</th>
-      <th>説明</th>
-      <th>メタ情報</th>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Meta information</th>
     </tr>
   </thead>
   <tbody>
@@ -33,16 +35,14 @@ permalink: /manuals/1.0/en/schema-org.html
   </tbody>
 </table>
 
-<h1 id="types">Schema.org タイプ一覧</h1>
-
-{% include html/schema-search.html table_id="schema-type-table" %}
+<h2>Types</h2>
 
 <table id="schema-type-table">
   <thead>
     <tr>
-      <th>タイプ</th>
-      <th>説明</th>
-      <th>メタ情報</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Meta information</th>
     </tr>
   </thead>
   <tbody>

@@ -1,33 +1,48 @@
-{% assign table_id = include.table_id | default: "schema-table" %}
-
+<!-- _includes/schema-combined-search.html -->
 <div class="schema-search">
     <div class="search-container">
-        <input type="text" id="{{ table_id }}-search" class="search-input" placeholder="キーワードを入力して検索...">
+        <input type="text" id="schema-combined-search" class="search-input" placeholder="Enter keywords to search...">
     </div>
-    <div class="count-info" id="{{ table_id }}-count"></div>
+    <div class="count-info">
+        <span id="property-count"></span> / <span id="type-count"></span>
+    </div>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const tableId = "{{ table_id }}";
-        const searchInput = document.getElementById(`${tableId}-search`);
-        const resultCount = document.getElementById(`${tableId}-count`);
-        const table = document.getElementById(tableId);
+        const searchInput = document.getElementById('schema-combined-search');
+        const propertyCount = document.getElementById('property-count');
+        const typeCount = document.getElementById('type-count');
 
-        if (!table || !searchInput || !resultCount) {
-            console.error('検索機能の初期化に失敗しました: 要素が見つかりません');
-            return;
-        }
+        const propertyTable = document.getElementById('schema-property-table');
+        const typeTable = document.getElementById('schema-type-table');
 
-        const tableRows = table.querySelectorAll('tbody tr');
+        const propertyRows = propertyTable ? propertyTable.querySelectorAll('tbody tr') : [];
+        const typeRows = typeTable ? typeTable.querySelectorAll('tbody tr') : [];
 
         // カウント情報を更新する関数
-        function updateResultCount(count) {
-            resultCount.textContent = `検索結果: ${count}件`;
+        function updateResultCount() {
+            let visiblePropertyCount = 0;
+            let visibleTypeCount = 0;
+
+            propertyRows.forEach(row => {
+                if (!row.classList.contains('hidden-row')) {
+                    visiblePropertyCount++;
+                }
+            });
+
+            typeRows.forEach(row => {
+                if (!row.classList.contains('hidden-row')) {
+                    visibleTypeCount++;
+                }
+            });
+
+            propertyCount.textContent = `Properties: ${visiblePropertyCount}`;
+            typeCount.textContent = `Types: ${visibleTypeCount}`;
         }
 
         // 初期カウント設定
-        updateResultCount(tableRows.length);
+        updateResultCount();
 
         // テキストをハイライトする関数
         function highlightText(element, text, searchTerm) {
@@ -50,13 +65,12 @@
             }
         }
 
-        // 検索処理
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase().trim();
+        // 特定のテーブルを検索する関数
+        function searchTable(tableRows, searchTerm, tableId) {
             let visibleCount = 0;
 
             // 既存の「結果なし」行を削除
-            const noResultsRow = table.querySelector('.no-results-row');
+            const noResultsRow = document.querySelector(`#${tableId} .no-results-row`);
             if (noResultsRow) noResultsRow.remove();
 
             // 各行をチェック
@@ -100,11 +114,9 @@
                 }
             });
 
-            // 結果カウントの更新
-            updateResultCount(visibleCount);
-
             // 結果がない場合のメッセージを表示
-            if (visibleCount === 0) {
+            if (visibleCount === 0 && tableRows.length > 0) {
+                const table = document.getElementById(tableId);
                 const tbody = table.querySelector('tbody');
                 if (tbody) {
                     const newRow = document.createElement('tr');
@@ -112,11 +124,27 @@
                     const cell = document.createElement('td');
                     cell.colSpan = table.querySelector('thead tr').childElementCount || 3;
                     cell.className = 'no-results';
-                    cell.textContent = '一致する項目がありません';
+                    cell.textContent = 'No matching items found';
                     newRow.appendChild(cell);
                     tbody.appendChild(newRow);
                 }
             }
+
+            return visibleCount;
+        }
+
+        // 検索処理
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+
+            // プロパティテーブルの検索
+            searchTable(propertyRows, searchTerm, 'schema-property-table');
+
+            // タイプテーブルの検索
+            searchTable(typeRows, searchTerm, 'schema-type-table');
+
+            // カウント情報の更新
+            updateResultCount();
         });
     });
 </script>
