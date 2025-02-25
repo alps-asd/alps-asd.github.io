@@ -5,14 +5,14 @@ category: Manual
 permalink: /manuals/1.0/en/schema-org.html
 ---
 
-<h1>Schema.org プロパティ一覧</h1>
+<link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}">
 
-<link rel="stylesheet" href="{{ '/css/schema-search.css' | relative_url }}">
 
-{% include html/schema-search.html %}
+# Schema.org プロパティ一覧
 
-<!-- schema-properties.html -->
-<table id="schema-table" class="properties-table">
+{% include html/schema-search.html table_id="schema-property-table" %}
+
+<table id="schema-property-table">
   <thead>
     <tr>
       <th>プロパティ</th>
@@ -32,9 +32,12 @@ permalink: /manuals/1.0/en/schema-org.html
     {% endfor %}
   </tbody>
 </table>
-<h2>Types</h2>
-<!-- schema-types.html -->
-<table id="schema-table" class="types-table">
+
+<h1 id="types">Schema.org タイプ一覧</h1>
+
+{% include html/schema-search.html table_id="schema-type-table" %}
+
+<table id="schema-type-table">
   <thead>
     <tr>
       <th>タイプ</th>
