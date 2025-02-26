@@ -51,7 +51,7 @@ permalink: /manuals/1.0/en/schema-org.html
         <td>
           <a href="https://schema.org/{{ type.label }}" class="schema-link">{{ type.label }}</a>
         </td>
-        <td>{{ type.comment }}</td>
+        <td>{{ type.comment | replace: 'href="/', 'href="https://schema.org/' }}</td>
         {% include html/type-meta.html type=type %}
       </tr>
     {% endfor %}

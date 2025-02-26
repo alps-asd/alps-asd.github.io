@@ -1,28 +1,34 @@
 /* schema-styles.css */
 
-/* テーブル全体のスタイル */
 table {
     width: 100%;
+    table-layout: auto; /* 内容に合わせて列幅を調整 */
     border-collapse: collapse;
-    margin-top: 15px;
-    margin-bottom: 30px;
     font-size: 14px;
+    overflow-x: auto; /* テーブル自体に横スクロールを適用 */
+    display: block; /* ブロック要素としてレンダリング */
 }
 
-th, td {
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-    vertical-align: top;
+/* 列幅の調整 */
+table th:first-child,
+table td:first-child {
+    min-width: 150px; /* プロパティ名の列の最小幅 */
+    width: auto;
 }
 
-th {
-    background-color: #f5f5f5;
-    font-weight: 600;
-    color: #333;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+table th:nth-child(2),
+table td:nth-child(2) {
+    min-width: 400px; /* 説明の列の最小幅 */
+    width: auto;
+    word-wrap: break-word;
+    word-break: normal;
+    white-space: normal;
+}
+
+table th:last-child,
+table td:last-child {
+    min-width: 250px; /* メタ情報の列の最小幅 */
+    width: auto;
 }
 
 tbody tr:hover {
@@ -193,4 +199,20 @@ tbody tr:hover {
     .meta-label {
         margin-bottom: 4px;
     }
+}
+
+
+table {
+    table-layout: fixed !important;
+    width: 100% !important;  /* テーブル全体を親要素に合わせる */
+    overflow-x: auto !important;  /* 横スクロールを可能にする */
+}
+
+table tr td:nth-child(2) {
+    width: 400px !important;
+    min-width: 800px !important;
+    max-width: 800px !important;
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+    white-space: normal !important;
 }
