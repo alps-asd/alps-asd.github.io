@@ -2,6 +2,7 @@
 layout: docs-en
 title: Schema.org Terms
 category: Manual
+sidebar: false
 permalink: /manuals/1.0/en/schema-org.html
 ---
 
