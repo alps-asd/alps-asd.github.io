@@ -2,6 +2,7 @@
 layout: docs-ja
 title: Schema.org 用語集
 category: Manual
+sidebar: false
 permalink: /manuals/1.0/ja/schema-org.html
 ---
 

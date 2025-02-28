@@ -6,14 +6,18 @@
                 {% include manuals/1.0/en/contents.html %}
             </div>
         </div>
-        <div class="col-md-9 col-lg-8">
+
+        <div class="col-md-9 col-lg-{% if page.sidebar != false %}8{% else %}10{% endif %}">
             <article id="article" class="markdown-body">
                 {{ content }}
             </article>
         </div>
-        <div id="ArticleToc" class="col-lg-2 d-none d-lg-block">
-            <nav class="nav side-bar-right"></nav>
-        </div>
+
+        {% if page.sidebar != false %}
+            <div id="ArticleToc" class="col-lg-2 d-none d-lg-block">
+                <nav class="nav side-bar-right"></nav>
+            </div>
+        {% endif %}
     </div>
 </main>
 {% include manuals/1.0/footer.html %}
