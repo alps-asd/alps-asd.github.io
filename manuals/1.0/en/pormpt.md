@@ -308,14 +308,13 @@ permalink: /manuals/1.0/en/prompt.html
   <div class="container">
     <header>
       <div class="logo">ALPS Prompt Brewery</div>
-      <div class="tagline">Brewing implementation code prompts from your user stories</div>
+      <div class="tagline">AI prompt generator for ALPS and implementation code</div>
     </header>
 
     <main>
       <div class="step-indicator">
-        <div class="step active" id="step1">Step 1: User Story → ALPS</div>
-        <div class="step" id="step2">Step 2: ALPS → Implementation</div>
-        <div class="step" id="step3">Result</div>
+        <div class="step active" id="step1">Step 1: User Story</div>
+        <div class="step" id="step2">Step 2: ALPS</div>
       </div>
       
       <!-- Step 1: User Story to ALPS Prompt -->
@@ -326,7 +325,6 @@ permalink: /manuals/1.0/en/prompt.html
           <button class="tab-btn active" id="userStoryTabBtn">Create from User Story</button>
           <button class="tab-btn" id="directAlpsTabBtn">Convert Existing ALPS</button>
         </div>
-        
         <!-- User Story Tab Content -->
         <div id="userStoryTab" class="tab-content active">
           <div class="sample-controls">
@@ -341,6 +339,7 @@ permalink: /manuals/1.0/en/prompt.html
               <optgroup label="Content & Information Systems">
                 <option value="blog">Blog System</option>
                 <option value="library">Library Management System</option>
+                <option value="lms">Learning Management System (LMS)</option>
               </optgroup>
               <optgroup label="Service Industries">
                 <option value="travel">Travel Booking System</option>
@@ -402,7 +401,9 @@ permalink: /manuals/1.0/en/prompt.html
         <textarea id="alpsInput" placeholder="Your generated ALPS prompt will appear here. You can also paste your own ALPS profile."></textarea>
         
         <div class="verification-tip">
-          <p><strong>💡 Pro Tip:</strong> After receiving your ALPS profile from the AI, consider asking: <span class="tip-text">"Please verify all links and references in this ALPS profile and fix any inconsistencies."</span> <button id="copyTipBtn" class="mini-btn">Copy Tip</button></p>
+          <p><strong>💡 Pro Tip:</strong> After receiving your ALPS profile from the AI, consider asking: <span class="tip-text">"Please review this ALPS profile to verify that there are no isolated states (unreachable or exit-less states) and that all state transitions are properly connected. Also check if all semantic descriptors are consistently tagged and grouped."</span> <button id="copyTipBtn" class="mini-btn">Copy Tip</button></p>
+          <p><strong>💡 Next Step:</strong> After confirming that ALPS is rendered correctly at <a target="_blank" href="https://editor.app-state-diagram.com/">https://editor.app-state-diagram.com/</a>, Paste your ALPS profile into textarea and proceed directly to the format conversion step. 
+          </p>
         </div>
         
         <h3>Select Target Implementation Format</h3>
@@ -530,10 +531,61 @@ Members should be able to search the catalog, reserve books, and view their acco
 Tables have capacity, location, and availability status.
 Menu items have names, descriptions, prices, categories, and dietary information.
 Staff need to manage reservations, take orders, and process payments.
-Customers should be able to book tables, browse menus, and place orders.`
+Customers should be able to book tables, browse menus, and place orders.`,
+      
+      'lms': `## Learning Management System (LMS)
+
+### Core Users
+1. **Students**: Individuals who register for courses, access content, and submit assignments
+2. **Instructors**: Educators who create and manage courses, evaluate student progress
+3. **Administrators**: People who oversee the entire system, manage user accounts and course catalog
+
+### Course & Content Management
+- **As an instructor**, I want to create courses with metadata like title, description, category, start/end dates, enrollment capacity, and difficulty level.
+- **As an instructor**, I want to add modules or sections to courses to organize content in logical order.
+- **As an instructor**, I want to upload various formats of teaching materials including text, video, audio, PDFs, slideshows, and interactive HTML elements.
+- **As an instructor**, I want to create course content in draft mode and preview it before publishing.
+- **As an administrator**, I want to view the entire course catalog and filter by category, instructor, or status (active, private, archived).
+
+### Enrollment & Progress Tracking
+- **As a student**, I want to browse available courses, check details, and then register.
+- **As a student**, I want to track my progress and see completed modules and what's next.
+- **As a student**, I want to check course prerequisites to understand required skills or prior knowledge before enrolling.
+- **As an instructor**, I want to enroll or unenroll students and set course start/end date extensions for individuals or the entire class.
+- **As an instructor**, I want to view class-wide progress on a dashboard and identify students falling behind.
+
+### Assessment & Feedback
+- **As an instructor**, I want to create various types of assignments and tests including multiple-choice, written, file upload, and programming assignments.
+- **As an instructor**, I want to set grading criteria (rubrics) and provide detailed feedback on assignments.
+- **As a student**, I want to submit assignments and resubmit before deadlines if needed.
+- **As a student**, I want to view my grades and feedback, and ask questions to the instructor if necessary.
+- **As an instructor**, I want to manage a gradebook and calculate overall grades for each student.
+
+### Communication & Collaboration
+- **As a student**, I want to post questions on discussion forums and receive answers from other students or instructors.
+- **As an instructor**, I want to send notifications and announcements to the entire class or individual students.
+- **As a student**, I want to participate in group projects with a shared workspace for collaboration with other students.
+- **As any user**, I want to send and receive messages within the system and share attachments.
+- **As an instructor**, I want to schedule real-time webinars or online sessions and save recordings for students to access later.
+
+### Reports & Analytics
+- **As an instructor**, I want to see analytics on student engagement and activity (login frequency, content viewed, time to complete assignments).
+- **As an administrator**, I want to view platform-wide usage and performance metrics.
+- **As an administrator**, I want to generate reports on enrollment trends, completion rates, and satisfaction ratings.
+- **As an instructor**, I want to export student performance data for use in external analytics tools.
+
+### Accessibility & Localization
+- **As any user**, I want to select my interface language for interacting with the system.
+- **As a student**, I want to use accessibility features for visual or hearing impairments.
+- **As an instructor**, I want to add accessibility elements to content like captions and alternative text.
+
+### Mobile & Offline Access
+- **As a student**, I want to access courses from mobile devices and learn comfortably on smartphones or tablets.
+- **As a student**, I want to download content for offline learning without internet connection.
+- **As an instructor**, I want to send notifications via mobile app to boost student engagement.`
     };
     
-    // ALPS guide content (abbreviated version of llms-full.txt)
+    // ALPS guide content
     const alpsGuide = `## ‼️ Important: JSON Format Guidelines ‼️
 
 1. Write each descriptor on a single line (mandatory).
@@ -542,13 +594,13 @@ Customers should be able to book tables, browse menus, and place orders.`
 
 \`\`\`json
 {"$schema": "https://alps-io.github.io/schemas/alps.json", "alps": {"version": "1.0", "descriptor": [
-{"id": "name", "type": "semantic", "title": "Name", "def": "https://schema.org/name"},
-{"id": "email", "type": "semantic", "title": "Email", "def": "https://schema.org/email"},
-{"id": "User", "type": "semantic", "title": "User Profile", "descriptor": [
+{"id": "name", "title": "Name", "def": "https://schema.org/name"},
+{"id": "email", "title": "Email", "def": "https://schema.org/email"},
+{"id": "User", "title": "User Profile", "descriptor": [
   {"href": "#name"},
   {"href": "#email"}
 ]},
-{"id": "UserList", "type": "semantic", "title": "User List", "descriptor": [
+{"id": "UserList", "title": "User List", "descriptor": [
   {"href": "#User"},
   {"href": "#goUser"},
   {"href": "#doCreateUser"}
@@ -599,273 +651,197 @@ Organize into the following three blocks. Each descriptor must either reference 
     
     // Conversion prompt templates
     const conversionPrompts = {
-      'OpenAPI': `**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into an OpenAPI 3.0 definition file in YAML format.
+      'OpenAPI': `**Task:** Convert this ALPS profile into a comprehensive OpenAPI 3.1 specification.
 
-**Key Points to Consider:**
+**Key Instructions:**
 
-1. **Descriptor Elements:**
-    - **Understanding \`descriptor\`:** In ALPS, a \`descriptor\` represents a semantic element, which can be a data element or a state transition.
-    - **Mapping to OpenAPI Paths and Operations:**
-        - For state transitions (\`descriptor\` with \`type\` of \`safe\`, \`unsafe\`, or \`idempotent\`), map these to OpenAPI operations under appropriate HTTP methods (\`GET\`, \`POST\`, \`PUT\`, \`DELETE\`).
-        - Ensure idempotent operations use \`PUT\` or \`DELETE\`.
-        - Do not include a request body for \`DELETE\` operations.
+1. **State to Endpoint Mapping:**
+   - Map each semantic state to a resource endpoint
+   - Use tag attributes to organize endpoints into logical groups
+   - Apply proper REST principles (plural nouns for collections, etc.)
 
-2. **Components and Reusability:**
-    - **Schemas and Parameters:**
-        - Extract data element descriptors (those with \`type\` of \`semantic\`) and define them as reusable schemas under \`components/schemas\`.
-        - Use these schemas in request bodies and responses where applicable.
-    - **Common Parameters:**
-        - Identify common parameters (e.g., IDs, query parameters) and define them under \`components/parameters\` for reuse.
+2. **Transition Operations:**
+   - Convert transitions with specific type attributes:
+     - \`safe\` → GET operations
+     - \`unsafe\` → POST operations 
+     - \`idempotent\` → PUT/PATCH operations
+     - Include DELETE operations for removal actions
+   - Use appropriate HTTP status codes (200, 201, 204, 400, 404, etc.)
 
-3. **Responses and Status Codes:**
-    - **Appropriate Status Codes:**
-        - Use \`200 OK\` for successful retrieval.
-        - Use \`201 Created\` when a new resource is created.
-        - Use \`204 No Content\` when an operation is successful but does not return content.
-        - Use \`400 Bad Request\`, \`404 Not Found\`, etc., for error handling.
-    - **Response Schemas:**
-        - Define response schemas using the components defined earlier.
+3. **Schema Definitions:**
+   - Build schemas from semantic descriptors
+   - Include all properties referenced in state descriptors
+   - Use Schema.org definitions when available via \`def\` attributes
+   - Apply proper validation constraints based on domain knowledge
+   - Create both request and response schemas
 
-4. **Data Constraints:**
-    - **Validation:**
-        - Add data constraints such as:
-            - **String Constraints:** \`minLength\`, \`maxLength\`, \`pattern\` (regular expressions).
-            - **Numeric Constraints:** \`minimum\`, \`maximum\`.
-            - **Enumerations:** \`enum\` for fixed sets of values.
-    - **Applying Constraints:**
-        - Apply these constraints to the schemas in \`components/schemas\`.
+4. **Complete Documentation:**
+   - Use titles as summary descriptions
+   - Convert doc attributes to detailed descriptions
+   - Include examples for each operation
+   - Document error responses and handling
 
-5. **Links and External Documentation:**
-    - **Link Relations:**
-        - If the \`descriptor\` includes \`href\` or \`rel\`, consider using OpenAPI's \`externalDocs\` or \`links\` to represent relationships.
-    - **Descriptions:**
-        - Use the \`doc\` element in ALPS to provide descriptions for operations, parameters, and schemas.
+5. **Consistent Design:**
+   - Apply query parameters for filtering, sorting, pagination
+   - Use path parameters for resource identifiers
+   - Include security schemes appropriate for the domain
+   - Ensure all endpoints have complete request/response documentation
 
-**Output Format:**
-- Provide the OpenAPI definition in **YAML** format.`,
+**Output Format:** Provide YAML format with appropriate indentation and organization.`,
       
-      'JSON Schema': `**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into a JSON Schema definition.
+      'JSON Schema': `**Task:** Convert this ALPS profile into a comprehensive JSON Schema that accurately captures all data structures.
 
-**Key Points to Consider:**
+**Key Instructions:**
 
-1. **Descriptor Elements:**
-    - **Understanding \`descriptor\`:** In ALPS, a \`descriptor\` represents a semantic element.
-    - **Mapping to JSON Schema:**
-        - Map data elements (\`descriptor\` with \`type\` of \`semantic\`) to JSON Schema properties.
-        - Use appropriate JSON Schema types based on the data element's nature.
+1. **Semantic Descriptors:**
+   - Create type definitions for each semantic descriptor
+   - Use $defs for proper schema reusability
+   - Follow semantic descriptor hierarchies when defining nested structures
+   - Use \`$ref\` to reference repeated structures
 
-2. **Schema Structure:**
-    - **Root Schema:**
-        - Define the root schema with \`$schema\` and \`type\` properties.
-        - Include appropriate metadata like \`title\` and \`description\`.
-    - **Properties:**
-        - Define properties based on ALPS descriptors.
-        - Organize nested structures using \`properties\` and \`items\`.
+2. **Type & Format Selection:**
+   - Choose appropriate types (string, number, integer, boolean, object, array)
+   - Apply formats based on semantic meaning (date-time, email, uri, etc.)
+   - For descriptors with Schema.org definitions, infer types from those definitions
+   - Include multitype properties where appropriate
 
-3. **Data Types and Formats:**
-    - **Basic Types:**
-        - Use appropriate JSON Schema types:
-            - \`string\`
-            - \`number\`
-            - \`integer\`
-            - \`boolean\`
-            - \`object\`
-            - \`array\`
-    - **Formats:**
-        - Apply standard formats where applicable:
-            - \`date-time\`
-            - \`date\`
-            - \`email\`
-            - \`uri\`
-            - etc.
+3. **Validation Rules:**
+   - Add property constraints:
+     - Strings: minLength, maxLength, pattern
+     - Numbers: minimum, maximum, multipleOf
+     - Arrays: minItems, maxItems, uniqueItems
+     - Objects: required, additionalProperties
+   - Define enumerations for constrained values
 
-4. **Data Constraints:**
-    - **Validation Rules:**
-        - Add constraints such as:
-            - **Strings:** \`minLength\`, \`maxLength\`, \`pattern\`
-            - **Numbers:** \`minimum\`, \`maximum\`, \`multipleOf\`
-            - **Arrays:** \`minItems\`, \`maxItems\`, \`uniqueItems\`
-            - **Objects:** \`required\`, \`additionalProperties\`
-    - **Enumerations:**
-        - Use \`enum\` for fixed sets of values
-        - Include descriptions for enum values
+4. **Documentation & Metadata:**
+   - Include title from the ALPS descriptor
+   - Add description from doc attributes
+   - Provide examples of valid data
+   - Add $schema reference for validation
 
-5. **Definitions and References:**
-    - **Reusable Components:**
-        - Define common schemas under \`$defs\`
-        - Use \`$ref\` to reference reusable schemas
-    - **Inheritance:**
-        - Use \`allOf\`, \`anyOf\`, or \`oneOf\` for complex type relationships
+5. **Design Patterns:**
+   - Use oneOf/anyOf for polymorphic structures
+   - Create composition patterns with allOf when appropriate
+   - Add conditional validation with if/then/else where needed
 
-6. **Documentation:**
-    - **Descriptions:**
-        - Use ALPS \`doc\` elements for schema and property descriptions
-    - **Examples:**
-        - Include \`examples\` where helpful
-    - **Titles:**
-        - Add clear titles for properties and definitions`,
+**Output Format:** Provide properly formatted JSON with appropriate indentation.`,
       
-      'GraphQL': `**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into a complete GraphQL implementation including schema definitions and operation examples.
+'GraphQL': `**Task:** Convert this ALPS profile into a complete GraphQL schema with operations and resolvers.
 
-**Key Points to Consider:**
+**Key Instructions:**
 
-1. **Schema Definition:**
-   - **Type Definitions:**
-     - Map ALPS semantic descriptors to GraphQL types
-     - Use appropriate scalar types (ID, String, Int, Float, Boolean)
-     - Define custom scalar types if needed (DateTime, JSON, etc.)
-
-   - **Relationships:**
-     - Handle one-to-one, one-to-many, and many-to-many relationships
-     - Consider nullable vs. non-nullable fields
-
-   - **Input Types:**
-     - Create input types for mutations
-     - Consider validation requirements
-
-   - **Interfaces and Unions:**
-     - Define interfaces for shared fields
-     - Use unions for polymorphic relationships
+1. **Type Definitions:**
+   - Create GraphQL types for each semantic descriptor
+   - Define scalars based on data nature (String, Int, Float, Boolean, ID)
+   - Create custom scalars for special formats (DateTime, Email, URL)
+   - Structure relationships using proper GraphQL object connections
 
 2. **Query Operations:**
-   - **Base Queries:**
-     - Single item retrieval
-     - List retrieval with filtering
-     - Search operations
-
-   - **Filtering System:**
-     - Define filter input types
-     - Support complex filtering operations
-
-   - **Pagination:**
-     - Implement cursor-based pagination
-     - Support limit/offset pagination
+   - Create queries from \`safe\` transitions
+   - Implement filtering, sorting, and pagination for collection queries
+   - Design nested queries that follow the semantic connections
+   - Support efficient graph traversal with proper resolver planning
 
 3. **Mutation Operations:**
-   - **Create Operations:**
-     - Include proper input validation
-     - Return meaningful payloads with error handling
+   - Create mutations from \`unsafe\` and \`idempotent\` transitions
+   - Define input types for creating and updating resources
+   - Implement proper error handling and return types
+   - Return modified objects from mutations for efficient client updates
 
-   - **Batch Operations:**
-     - Support batch create/update/delete operations
+4. **Schema Organization:**
+   - Use GraphQL directives for documentation and validation
+   - Group related operations based on ALPS tag attributes
+   - Design consistent naming patterns across the schema
+   - Implement interfaces for shared structures
 
-   - **Error Handling:**
-     - Define proper error handling structures
-     - Include field-level errors
+5. **Advanced Features:**
+   - Add subscription operations for real-time updates where appropriate
+   - Implement union types for polymorphic responses
+   - Design proper pagination with cursor-based approaches
+   - Add custom directives for authorization and caching hints
 
-4. **Subscription Operations:**
-   - Define event-based subscriptions for real-time updates
-
-5. **Directives:**
-   - Add appropriate directives for authorization, deprecation, etc.`,
+**Output Format:** Provide the schema in SDL (Schema Definition Language) format, along with example operations and resolver patterns.`,
       
-      'SQL': `**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into SQL DDL (Data Definition Language) and DML (Data Manipulation Language) statements.
+      'SQL': `**Task:** Convert this ALPS profile into a comprehensive SQL database schema with tables, relationships, and key operations.
 
-**Part 1: DDL Statements**
+**Key Instructions:**
 
-1. **Schema and Table Design:**
-   - **Database Schema:**
-      - Create an appropriate database schema name based on the ALPS profile
-      - Include schema versioning considerations
-   - **Table Creation:**
-      - Map ALPS descriptors with \`type\` of \`semantic\` to database tables
-      - Handle nested structures through table relationships
+1. **Table Structure:**
+   - Create tables for main semantic descriptors
+   - Define appropriate column types based on semantic meaning
+   - Implement proper primary keys and indexes
+   - Add foreign key constraints for relationships
+   - Include CHECK constraints for data validation
 
-**Part 2: DML Statement Generation**
+2. **Relationship Modeling:**
+   - Identify one-to-many, many-to-many, and one-to-one relationships
+   - Create junction tables for many-to-many relationships
+   - Implement proper ON DELETE/UPDATE behavior for referential integrity
+   - Use appropriate naming conventions for relationship columns
 
-1. **SELECT Queries:**
-    - **Basic Queries:**
-        - Generate SELECT statements for each main resource
-        - Include appropriate JOIN clauses based on relationships
-        - Add WHERE clauses for filtering
-        - Consider pagination (LIMIT/OFFSET)
+3. **Data Operations:**
+   - Create SELECT queries for \`safe\` transitions
+   - Implement INSERT statements for \`unsafe\` transitions
+   - Design UPDATE operations for \`idempotent\` transitions
+   - Add DELETE operations where appropriate
+   - Include stored procedures for complex operations
 
-    - **Complex Queries:**
-        - Create queries with multiple JOINs
-        - Add subqueries where appropriate
-        - Include aggregate functions (COUNT, SUM, etc.)
-        - Implement GROUP BY and HAVING clauses
+4. **Advanced Database Features:**
+   - Design appropriate indexes for performance
+   - Create views for common query patterns
+   - Implement triggers for data integrity and auditing
+   - Add computed columns for derived properties
+   - Consider partitioning for large tables
 
-    - **View Queries:**
-        - Generate useful view definitions
-        - Create materialized views for performance
+5. **Completeness & Standards:**
+   - Follow SQL standards for portability
+   - Include documentation as comments
+   - Create role-based permissions aligned with the domain
+   - Design for transaction safety
+   - Include data migration considerations
 
-2. **INSERT Statements:**
-    - Generate INSERT statements with:
-        - Single row insertions
-        - Bulk insert templates
-        - INSERT ... SELECT patterns
-        - RETURNING clauses where applicable
-
-3. **UPDATE Statements:**
-    - Create UPDATE templates for:
-        - Single record updates
-        - Bulk updates
-        - Updates with JOINs
-        - Conditional updates
-
-4. **DELETE Statements:**
-    - Generate DELETE statements with:
-        - Safe deletion patterns
-        - Soft delete implementations
-        - Cascade delete considerations
-        - Archive strategies`,
+**Output Format:** Provide SQL DDL statements for schema creation, followed by example DML operations.`,
       
-      'TypeScript': `**Task:** Convert the provided ALPS (Application-Level Profile Semantics) file into TypeScript type definitions, interfaces, and related utilities.
+      'TypeScript': `**Task:** Convert this ALPS profile into a comprehensive TypeScript type system with interfaces, classes, and utility types.
 
-**Part 1: Core Type Definitions**
+**Key Instructions:**
 
-1. **Base Types and Interfaces:**
-    - **Entity Types:**
-        - Create interfaces for main entities
-        - Include proper type annotations
-        - Use enums for finite value sets
+1. **Core Type Definitions:**
+   - Create interfaces for each semantic descriptor
+   - Use proper TypeScript types (string, number, boolean, Date, etc.)
+   - Implement inheritance for related types
+   - Define enums for constrained values
+   - Add JSDoc comments from ALPS documentation
 
-    - **Nested Types:**
-        - Handle nested structures through composition
-        - Use extension for related types
+2. **Type Relationships:**
+   - Design composition patterns for nested structures
+   - Create utility types for operations (Partial<T>, Pick<T>, etc.)
+   - Implement generics for reusable patterns
+   - Define index signatures for dynamic properties
+   - Use union and intersection types appropriately
 
-2. **Utility Types:**
-    - **Partial Types:**
-        - Create update payload types
-        - Omit appropriate fields
+3. **API Integration:**
+   - Create request and response interfaces
+   - Implement service interfaces with typed methods
+   - Design error handling with typed exceptions
+   - Add validation decorators if using class-validator
+   - Structure according to ALPS tag groupings
 
-    - **Pick Types:**
-        - Create specialized subsets of types
-        - Use for specific operations
+4. **Advanced TypeScript Features:**
+   - Use conditional types for complex logic
+   - Implement mapped types for transformations
+   - Add template literal types for string patterns
+   - Define type guards for runtime type checking
+   - Use const assertions for literal values
 
-    - **Record Types:**
-        - Create lookup collections
+5. **Code Organization:**
+   - Structure code into modules based on ALPS tags
+   - Create barrel exports for simplified imports
+   - Design for tree-shaking and code splitting
+   - Add examples of type usage
+   - Include TypeScript configuration recommendations
 
-3. **Generic Types:**
-    - **Response Wrappers:**
-        - Create pagination wrappers
-        - Design proper error handling types
-
-**Part 2: API Types**
-
-1. **Request/Response Types:**
-    - Define request payloads
-    - Define response structures
-    - Include proper validation constraints
-
-2. **Query Parameters:**
-    - Define search parameter types
-    - Include sorting and filtering options
-
-3. **API Client Types:**
-    - Define service interfaces
-    - Include proper error handling
-
-**Part 3: Validation Schemas**
-
-1. **Zod Schemas:**
-    - Define validation schemas
-    - Infer types from schemas
-
-2. **Custom Validators:**
-    - Create type guards
-    - Include proper error reporting`
+**Output Format:** Provide well-organized TypeScript code with proper imports and exports.`
     };
     
     // Tab switching functionality
@@ -1031,7 +1007,7 @@ Organize into the following three blocks. Each descriptor must either reference 
     
     // Copy verification tip
     document.getElementById('copyTipBtn').addEventListener('click', function() {
-      const tipText = "Please verify all links and references in this ALPS profile and fix any inconsistencies.";
+      const tipText = "Please review this ALPS profile to verify that there are no isolated states (unreachable or exit-less states) and that all state transitions are properly connected. Also check if all semantic descriptors are consistently tagged and grouped.";
       copyToClipboard(tipText, this);
     });
     
@@ -1048,7 +1024,7 @@ Organize into the following three blocks. Each descriptor must either reference 
     function generateAlpsPrompt(userStory, format, language) {
       return `# ALPS Profile Creation Prompt
 
-Create an ALPS profile based on the following requirements, adhering to the guidelines described below:
+Please create an ALPS profile based on the following requirements. This profile should represent a complete and consistent application state design.
 
 * Format: ${format.toUpperCase()}
 * Language: ${language}
@@ -1056,14 +1032,53 @@ Create an ALPS profile based on the following requirements, adhering to the guid
 
 ${userStory}
 
-${alpsGuide}`;
+## ‼️ Important: Guidelines for Design Consistency and Completeness ‼️
+
+1. **All states must be connected**:
+   - Avoid isolated states (states that cannot be reached or exited)
+   - Every state should have at least one incoming and one outgoing transition (except for home/start and final states)
+   - Ensure all transitions between states are logical and clear
+
+2. **Consistent use of semantic descriptors**:
+   - Use consistent naming conventions for the same concepts
+   - Only use the \`def\` attribute when a corresponding Schema.org definition exists
+   - For custom concepts, provide clear titles and use the \`doc\` attribute for details when needed
+
+3. **Complete user flows**:
+   - Provide complete state transition paths for each key user story
+   - Ensure CRUD operations (Create, Read, Update, Delete) are fully represented
+   - Include all necessary functionality for each user role
+
+4. **State transition completeness**:
+   - Clearly define the success path for each operation
+   - Ensure transitions between key states to prevent disruption of important business processes
+   - Consider alternative flows for critical failure cases when necessary
+
+5. **Grouping related elements**:
+   - Group related processes and user journeys using the \`tag\` attribute
+   - Use tags like "user-management", "content-creation", "payment-process", etc.
+   - Apply consistent tags to states and transitions belonging to the same functional area
+   - This helps identify related functionality when converting to APIs or data models
+
+${alpsGuide}
+
+## Output Requirements
+
+- Include a clear title for every descriptor (concise one-line explanation)
+- Use the doc attribute for detailed explanations when necessary
+- Only reference Schema.org URLs with the def attribute when a corresponding definition exists
+- Set appropriate type attributes (safe, unsafe, idempotent) for all state transitions
+- Create reusable descriptors for common patterns
+- Use consistent IDs and naming conventions for the same concepts
+- Utilize the tag attribute to group related elements
+- Use consistent tags for business domains or functional areas`;
     }
     
     function copyToClipboard(text, button) {
       navigator.clipboard.writeText(text)
         .then(() => {
           const originalText = button.textContent;
-          button.textContent = '✅ Copied!';
+          button.textContent = '✅ Copied!, Paste it to your AI assistant';
           setTimeout(() => {
             button.textContent = originalText;
           }, 2000);

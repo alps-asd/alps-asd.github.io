@@ -1,11 +1,11 @@
 ---
 layout: docs-ja
-title: ALPSプロンプトブルワリー
-category: マニュアル
+title: ALPS Prompt Brewery
+category: Manual
 permalink: /manuals/1.0/ja/prompt.html
 ---
 <style>
-  /* 共通スタイル */
+  /* Common Styles */
   .alps-brewery {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
@@ -131,7 +131,7 @@ permalink: /manuals/1.0/ja/prompt.html
     font-size: 0.9rem;
   }
   
-  /* ステップインジケーター */
+  /* Step Indicator */
   .alps-brewery .step-indicator {
     display: flex;
     justify-content: center;
@@ -168,7 +168,7 @@ permalink: /manuals/1.0/ja/prompt.html
     background-color: #336699;
   }
   
-  /* タブ */
+  /* Tabs */
   .alps-brewery .tabs {
     display: flex;
     margin-bottom: 20px;
@@ -202,7 +202,7 @@ permalink: /manuals/1.0/ja/prompt.html
     display: block;
   }
   
-  /* セクションコントロール */
+  /* Section Controls */
   .alps-brewery .options-row {
     display: flex;
     justify-content: space-between;
@@ -235,7 +235,7 @@ permalink: /manuals/1.0/ja/prompt.html
     max-width: 300px;
   }
   
-  /* フォーマットボタン */
+  /* Format Buttons */
   .alps-brewery .format-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -243,7 +243,7 @@ permalink: /manuals/1.0/ja/prompt.html
     margin-bottom: 20px;
   }
   
-  /* 結果セクション */
+  /* Result Section */
   .alps-brewery .result-header {
     display: flex;
     justify-content: space-between;
@@ -296,7 +296,7 @@ permalink: /manuals/1.0/ja/prompt.html
     margin-bottom: 20px;
   }
   
-  /* ナビゲーションボタン */
+  /* Navigation Buttons */
   .alps-brewery .nav-buttons {
     display: flex;
     justify-content: space-between;
@@ -307,105 +307,106 @@ permalink: /manuals/1.0/ja/prompt.html
 <div class="alps-brewery">
   <div class="container">
     <header>
-      <div class="logo">ALPSプロンプト</div>
-      <div class="tagline">あなたのユーザーストーリーから実装コードプロンプトを生成します</div>
+      <div class="logo">ALPS Prompt Brewery</div>
+      <div class="tagline">AI prompt generator for ALPS and implementation code</div>
     </header>
 
     <main>
       <div class="step-indicator">
-        <div class="step active" id="step1">ステップ1: ユーザーストーリー → ALPS</div>
-        <div class="step" id="step2">ステップ2: ALPS → 実装</div>
-        <div class="step" id="step3">結果</div>
+        <div class="step active" id="step1">Step 1: User Story</div>
+        <div class="step" id="step2">Step 2: ALPS</div>
       </div>
       
-      <!-- ステップ1: ユーザーストーリーからALPSプロンプトへ -->
+      <!-- Step 1: User Story to ALPS Prompt -->
       <section id="userStorySection" class="section-active">
-        <h2>ALPSプロンプト作成</h2>
+        <h2>ALPS Prompt Creation</h2>
         
         <div class="tabs">
-          <button class="tab-btn active" id="userStoryTabBtn">ユーザーストーリーから作成</button>
-          <button class="tab-btn" id="directAlpsTabBtn">既存のALPSを変換</button>
+          <button class="tab-btn active" id="userStoryTabBtn">Create from User Story</button>
+          <button class="tab-btn" id="directAlpsTabBtn">Convert Existing ALPS</button>
         </div>
-        
-        <!-- ユーザーストーリータブコンテンツ -->
+        <!-- User Story Tab Content -->
         <div id="userStoryTab" class="tab-content active">
           <div class="sample-controls">
-            <label>インスピレーションが必要ですか？</label>
-            <select id="sampleStorySelect">
-              <option value="">サンプルユーザーストーリーを選択...</option>
-              <optgroup label="ビジネスアプリケーション">
-                <option value="ecommerce">Eコマース商品管理</option>
-                <option value="taskapp">タスク管理アプリ</option>
-                <option value="restaurant">レストラン予約システム</option>
-              </optgroup>
-              <optgroup label="コンテンツ＆情報システム">
-                <option value="blog">ブログシステム</option>
-                <option value="library">図書館管理システム</option>
-              </optgroup>
-              <optgroup label="サービス産業">
-                <option value="travel">旅行予約システム</option>
-                <option value="events">イベント管理プラットフォーム</option>
-                <option value="healthcare">医療患者管理</option>
-              </optgroup>
-            </select>
+            <label>Need inspiration?</label>
+<select id="sampleStorySelect">
+  <option value="">サンプルユーザーストーリーを選択してください...</option>
+  <optgroup label="ビジネスアプリケーション">
+    <option value="ecommerce">Eコマース商品管理</option>
+    <option value="taskapp">タスク管理アプリ</option>
+    <option value="restaurant">レストラン予約システム</option>
+  </optgroup>
+  <optgroup label="コンテンツ・情報システム">
+    <option value="blog">ブログシステム</option>
+    <option value="library">図書館管理システム</option>
+    <option value="lms">学習管理システム（LMS）</option>
+  </optgroup>
+  <optgroup label="サービス業">
+    <option value="travel">旅行予約システム</option>
+    <option value="events">イベント管理プラットフォーム</option>
+    <option value="healthcare">医療患者管理</option>
+  </optgroup>
+</select>
           </div>
           
-          <textarea id="userStoryInput" placeholder="ここにユーザーストーリーまたはシステム要件を入力してください..."></textarea>
+          <textarea id="userStoryInput" placeholder="Enter your user story or system requirements here..."></textarea>
           
           <div class="options-row">
             <div class="format-selection">
-              <label>ALPSフォーマット:</label>
+              <label>ALPS Format:</label>
               <label><input type="radio" name="alpsFormat" value="json" checked> JSON</label>
               <label><input type="radio" name="alpsFormat" value="xml"> XML</label>
             </div>
             
             <div class="language-selection">
-              <label>ドキュメント言語:</label>
+              <label>Documentation Language:</label>
               <select id="languageSelect">
-                <option value="English">英語</option>
-                <option value="Japanese">日本語</option>
-                <option value="Spanish">スペイン語</option>
-                <option value="French">フランス語</option>
-                <option value="German">ドイツ語</option>
-                <option value="Chinese">中国語</option>
-                <option value="other">その他...</option>
+                <option value="English">English</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Chinese">Chinese</option>
+                <option value="other">Other...</option>
               </select>
-              <input type="text" id="customLanguage" placeholder="言語を指定" class="hidden">
+              <input type="text" id="customLanguage" placeholder="Specify language" class="hidden">
             </div>
           </div>
           
-          <button id="generateAlpsPromptBtn" class="primary-btn">ALPSプロンプトを生成</button>
+          <button id="generateAlpsPromptBtn" class="primary-btn">Generate ALPS Prompt</button>
         </div>
         
-        <!-- 直接ALPSタブコンテンツ -->
+        <!-- Direct ALPS Tab Content -->
         <div id="directAlpsTab" class="tab-content">
-          <p>既存のALPSプロファイルを以下に貼り付けて、フォーマット変換ステップに直接進みます。</p>
-          <textarea id="directAlpsInput" placeholder="既存のALPSプロファイルをここに貼り付けてください..."></textarea>
+          <p>Paste your existing ALPS profile below and proceed directly to the format conversion step.</p>
+          <textarea id="directAlpsInput" placeholder="Paste your existing ALPS profile here..."></textarea>
           <div class="format-selection">
-            <label>ALPSプロファイルのフォーマットを選択:</label>
+            <label>Select the format of your ALPS profile:</label>
             <label><input type="radio" name="directAlpsFormat" value="json" checked> JSON</label>
             <label><input type="radio" name="directAlpsFormat" value="xml"> XML</label>
           </div>
-          <button id="proceedToConversionBtn" class="primary-btn">変換に進む</button>
+          <button id="proceedToConversionBtn" class="primary-btn">Proceed to Conversion</button>
         </div>
       </section>
       
-      <!-- ステップ2: ALPSから実装へ -->
+      <!-- Step 2: ALPS to Implementation -->
       <section id="alpsSection" class="hidden">
-        <h2>ALPSを実装フォーマットに変換</h2>
+        <h2>Convert ALPS to Implementation Format</h2>
         
         <div class="result-header">
-          <h3>生成されたALPSプロンプト</h3>
-          <button id="copyAlpsBtn" class="copy-btn">ALPSプロンプトをコピー</button>
+          <h3>Generated ALPS Prompt</h3>
+          <button id="copyAlpsBtn" class="copy-btn">Copy ALPS Prompt</button>
         </div>
         
-        <textarea id="alpsInput" placeholder="生成されたALPSプロンプトがここに表示されます。独自のALPSプロファイルを貼り付けることもできます。"></textarea>
+        <textarea id="alpsInput" placeholder="Your generated ALPS prompt will appear here. You can also paste your own ALPS profile."></textarea>
         
         <div class="verification-tip">
-          <p><strong>💡 プロのヒント:</strong> AIからALPSプロファイルを受け取った後、次のように尋ねることを検討してください: <span class="tip-text">"このALPSプロファイル内のすべてのリンクと参照を確認し、不整合を修正してください。"</span> <button id="copyTipBtn" class="mini-btn">ヒントをコピー</button></p>
+          <p><strong>💡 Pro Tip:</strong> After receiving your ALPS profile from the AI, consider asking: <span class="tip-text">"Please review this ALPS profile to verify that there are no isolated states (unreachable or exit-less states) and that all state transitions are properly connected. Also check if all semantic descriptors are consistently tagged and grouped."</span> <button id="copyTipBtn" class="mini-btn">Copy Tip</button></p>
+          <p><strong>💡 Next Step:</strong> After confirming that ALPS is rendered correctly at <a target="_blank" href="https://editor.app-state-diagram.com/">https://editor.app-state-diagram.com/</a>, Paste your ALPS profile into textarea and proceed directly to the format conversion step. 
+          </p>
         </div>
         
-        <h3>目標実装フォーマットを選択</h3>
+        <h3>Select Target Implementation Format</h3>
         <div class="format-buttons">
           <button id="openApiBtn">OpenAPI</button>
           <button id="jsonSchemaBtn">JSON Schema</button>
@@ -414,34 +415,34 @@ permalink: /manuals/1.0/ja/prompt.html
           <button id="typescriptBtn">TypeScript</button>
         </div>
         
-        <button id="convertAlpsBtn" class="primary-btn">変換プロンプトを生成</button>
+        <button id="convertAlpsBtn" class="primary-btn">Generate Conversion Prompt</button>
         
         <div class="nav-buttons">
-          <button id="backToUserStoryBtn" class="secondary-btn">← ユーザーストーリーに戻る</button>
+          <button id="backToUserStoryBtn" class="secondary-btn">← Back to User Story</button>
         </div>
       </section>
       
-      <!-- ステップ3: 結果 -->
+      <!-- Step 3: Result -->
       <section id="resultSection" class="hidden">
         <div class="result-header">
-          <h2 id="resultTitle">生成された変換プロンプト</h2>
-          <button id="copyResultBtn" class="copy-btn">クリップボードにコピー</button>
+          <h2 id="resultTitle">Generated Conversion Prompt</h2>
+          <button id="copyResultBtn" class="copy-btn">Copy to Clipboard</button>
         </div>
         
-        <p>このプロンプトをChatGPT、Claude、またはその他のAIアシスタントにコピーしてください:</p>
+        <p>Copy this prompt to ChatGPT, Claude, or any other AI assistant:</p>
         <div id="promptResult"></div>
         
         <div class="verification-tip">
-          <p><strong>💡 覚えておいてください:</strong> 最良の結果を得るには、まずAIにALPSプロファイルの正確性を確認させ、その後この変換プロンプトを提供してください。</p>
+          <p><strong>💡 Remember:</strong> For best results, first have the AI verify the ALPS profile for correctness, then provide this conversion prompt.</p>
         </div>
         
         <div class="nav-buttons">
-          <button id="startOverBtn" class="secondary-btn">最初からやり直す</button>
-          <button id="backToAlpsBtn" class="secondary-btn">← ALPSに戻る</button>
+          <button id="startOverBtn" class="secondary-btn">Start Over</button>
+          <button id="backToAlpsBtn" class="secondary-btn">← Back to ALPS</button>
         </div>
         
         <div class="gpts-link" style="margin-top: 25px; text-align: center;">
-          <p>ヒント: 迅速な結果を得るには、<a href="https://chatgpt.com/g/g-HYPygRnLS-alps-assistant" target="_blank">ALPSアシスタントGPTs</a>をプロンプトと一緒に使用することもできます。</p>
+          <p>Tip: For quick results, you can also use <a href="https://chatgpt.com/g/g-HYPygRnLS-alps-assistant" target="_blank">ALPS Assistant GPTs</a> with your prompts.</p>
         </div>
       </section>
     </main>
@@ -453,23 +454,23 @@ permalink: /manuals/1.0/ja/prompt.html
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // 要素
+    // Elements
     const userStoryInput = document.getElementById('userStoryInput');
     const alpsInput = document.getElementById('alpsInput');
     const promptResult = document.getElementById('promptResult');
     const resultTitle = document.getElementById('resultTitle');
     
-    // セクション
+    // Sections
     const userStorySection = document.getElementById('userStorySection');
     const alpsSection = document.getElementById('alpsSection');
     const resultSection = document.getElementById('resultSection');
     
-    // ステップインジケーター
+    // Step indicators
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
     
-    // ボタン
+    // Buttons
     const generateAlpsPromptBtn = document.getElementById('generateAlpsPromptBtn');
     const convertAlpsBtn = document.getElementById('convertAlpsBtn');
     const copyAlpsBtn = document.getElementById('copyAlpsBtn');
@@ -478,7 +479,7 @@ permalink: /manuals/1.0/ja/prompt.html
     const backToAlpsBtn = document.getElementById('backToAlpsBtn');
     const startOverBtn = document.getElementById('startOverBtn');
     
-    // フォーマットボタン
+    // Format buttons
     const openApiBtn = document.getElementById('openApiBtn');
     const jsonSchemaBtn = document.getElementById('jsonSchemaBtn');
     const graphqlBtn = document.getElementById('graphqlBtn');
@@ -486,82 +487,133 @@ permalink: /manuals/1.0/ja/prompt.html
     const typescriptBtn = document.getElementById('typescriptBtn');
     
     // サンプルユーザーストーリー
-    const sampleStories = {
-      'ecommerce': `ストアオーナーとして、商品在庫を管理したい。
-商品には名前、説明、価格、カテゴリ、在庫数量があります。
-新商品の追加、既存商品の更新、販売終了商品の削除が必要です。
-顧客はカテゴリごとに商品を閲覧し、商品の詳細を確認できるようにしてください。`,
-      
-      'taskapp': `プロジェクトマネージャーとして、タスク追跡システムが必要です。
-タスクにはタイトル、説明、期限、優先度、割り当てられたユーザーが含まれます。
-ユーザーはタスクを作成し、ステータスを更新し、完了としてマークできるようにしてください。
-システムはステータスまたは割り当てられたユーザーでフィルタリングされたタスクリストを表示する必要があります。`,
-      
-      'blog': `コンテンツクリエイターとして、ブログ管理システムが必要です。
-記事にはタイトル、内容、公開日、タグ、著者が含まれます。
+const sampleStories = {
+  'ecommerce': `ストア所有者として、商品在庫を管理したいです。
+商品には、名前、説明、価格、カテゴリ、在庫数量があります。
+新しい商品を追加し、既存の商品を更新し、廃止された商品を削除する必要があります。
+顧客はカテゴリ別に商品を閲覧し、商品の詳細を確認できるようにする必要があります。`,
+  
+  'taskapp': `プロジェクトマネージャーとして、タスク追跡システムが必要です。
+タスクにはタイトル、説明、期限、優先度、担当ユーザーがあります。
+ユーザーはタスクを作成し、ステータスを更新し、完了としてマークできる必要があります。
+システムはステータスまたは担当ユーザーでフィルタリングされたタスクリストを表示する必要があります。`,
+  
+  'blog': `コンテンツ作成者として、ブログ管理システムが必要です。
+記事にはタイトル、内容、公開日、タグ、著者があります。
 下書きを作成し、記事を公開し、コメントを管理したいです。
-読者はタグまたは著者で記事を閲覧し、コメントを残せるようにしてください。`,
-      
-      'travel': `旅行代理店として、予約管理システムが必要です。
-旅行には目的地、出発/到着日、交通手段、宿泊施設が含まれます。
-顧客には個人情報、支払情報、旅行の好みがあります。
-代理店は利用可能な旅行を検索し、予約を行い、旅程を管理できるようにしてください。
+読者はタグまたは著者別に記事を閲覧し、コメントを残すことができる必要があります。`,
+  
+  'travel': `旅行代理店として、予約管理システムが必要です。
+旅行には目的地、出発/到着日、交通手段、宿泊施設があります。
+顧客には個人情報、支払い情報、旅行の好みがあります。
+エージェントは利用可能な旅行を検索し、予約を行い、旅程を管理できる必要があります。
 システムは予約状況、支払い、確認通知の送信を追跡する必要があります。`,
-      
-      'healthcare': `クリニック管理者として、患者管理システムが必要です。
-患者には個人情報、医療履歴、保険の詳細が含まれます。
+  
+  'healthcare': `クリニック管理者として、患者管理システムが必要です。
+患者には個人情報、医療履歴、保険の詳細があります。
 予約には日付、時間、医師、患者、ステータスがあります。
 医療スタッフは予約をスケジュールし、診断を記録し、処方箋を管理する必要があります。
-患者は医療記録と今後の予約を確認できるようにしてください。`,
-      
-      'events': `イベントプランナーとして、イベント管理プラットフォームが必要です。
-イベントには名前、会場、日付、時間、収容人数、チケットタイプが含まれます。
-参加者はチケットを購入し、セッションに登録し、フィードバックを残せます。
+患者は自分の医療記録と今後の予約を確認できる必要があります。`,
+  
+  'events': `イベントプランナーとして、イベント管理プラットフォームが必要です。
+イベントには名前、会場、日付、時間、収容人数、チケットタイプがあります。
+参加者はチケットを購入し、セッションに登録し、フィードバックを残すことができます。
 主催者は会場、スピーカー、スケジュール、チケット販売を管理する必要があります。
-システムはチェックインをサポートし、リマインダーを送信し、出席レポートを生成する必要があります。`,
-      
-      'library': `図書館員として、図書館管理システムが必要です。
-本にはタイトル、著者、ジャンル、ISBN、出版日、利用可能性ステータスがあります。
-メンバーは個人情報、借りた本、借用履歴を含むアカウントを持ちます。
+システムはチェックイン、リマインダーの送信、出席レポートの生成をサポートする必要があります。`,
+  
+  'library': `図書館員として、図書館管理システムが必要です。
+本にはタイトル、著者、ジャンル、ISBN、出版日、利用可能状況があります。
+会員には個人情報、借りている本、貸出履歴を含むアカウントがあります。
 図書館員は本をカタログ化し、貸出と返却を処理し、予約を管理する必要があります。
-メンバーはカタログを検索し、本を予約し、アカウント状況を確認できるようにしてください。`,
-      
-      'restaurant': `レストランオーナーとして、予約と注文システムが必要です。
-テーブルには収容人数、場所、利用可能性ステータスがあります。
-メニュー項目には名前、説明、価格、カテゴリ、食事情報が含まれます。
-スタッフは予約を管理し、注文を受け付け、支払いを処理する必要があります。
-顧客はテーブルを予約し、メニューを閲覧し、注文できるようにしてください。`
-    };
-    
-    // ALPSガイドコンテンツ（簡略版）
-    const alpsGuide = `## ‼️ 重要: JSONフォーマットガイドライン ‼️
+会員はカタログを検索し、本を予約し、アカウント状況を確認できる必要があります。`,
+  
+  'restaurant': `レストラン所有者として、予約と注文システムが必要です。
+テーブルには収容人数、場所、利用可能状況があります。
+メニュー項目には名前、説明、価格、カテゴリ、食事制限情報があります。
+スタッフは予約を管理し、注文を受け、支払いを処理する必要があります。
+顧客はテーブルを予約し、メニューを閲覧し、注文を行うことができる必要があります。`,
+  
+  'lms': `## 学習管理システム（LMS）
 
-1. 各ディスクリプターを1行で記述（必須）。
-2. 他のディスクリプターを含む場合のみインデントと改行を使用。
-3. すべてのネストされたディスクリプターは親を\`href\`で参照する必要があります。
+### 主要ユーザー
+1. **学生**: コースに登録し、コンテンツにアクセスし、課題を提出する個人
+2. **講師**: コースを作成・管理し、学生の進捗を評価する教育者
+3. **管理者**: システム全体を監督し、ユーザーアカウントとコースカタログを管理する人々
+
+### コース・コンテンツ管理
+- **講師として**、タイトル、説明、カテゴリ、開始/終了日、登録定員、難易度などのメタデータを持つコースを作成したいです。
+- **講師として**、コンテンツを論理的な順序で整理するためにコースにモジュールやセクションを追加したいです。
+- **講師として**、テキスト、ビデオ、音声、PDF、スライドショー、インタラクティブなHTML要素など、様々な形式の教材をアップロードしたいです。
+- **講師として**、コースコンテンツをドラフトモードで作成し、公開前にプレビューしたいです。
+- **管理者として**、コース全体のカタログを閲覧し、カテゴリ、講師、ステータス（アクティブ、プライベート、アーカイブ）でフィルタリングしたいです。
+
+### 登録・進捗追跡
+- **学生として**、利用可能なコースを閲覧し、詳細を確認してから登録したいです。
+- **学生として**、自分の進捗を追跡し、完了したモジュールと次に何があるかを確認したいです。
+- **学生として**、登録前に必要なスキルや予備知識を理解するためにコースの前提条件を確認したいです。
+- **講師として**、学生の登録・登録解除を行い、個人またはクラス全体のコース開始/終了日の延長を設定したいです。
+- **講師として**、ダッシュボードでクラス全体の進捗を確認し、遅れている学生を特定したいです。
+
+### 評価・フィードバック
+- **講師として**、多肢選択、記述、ファイルアップロード、プログラミング課題など、様々なタイプの課題やテストを作成したいです。
+- **講師として**、採点基準（ルーブリック）を設定し、課題に詳細なフィードバックを提供したいです。
+- **学生として**、課題を提出し、必要に応じて締め切り前に再提出したいです。
+- **学生として**、自分の成績とフィードバックを確認し、必要に応じて講師に質問したいです。
+- **講師として**、成績簿を管理し、各学生の総合成績を計算したいです。
+
+### コミュニケーション・コラボレーション
+- **学生として**、ディスカッションフォーラムで質問を投稿し、他の学生や講師から回答を受け取りたいです。
+- **講師として**、クラス全体または個々の学生に通知やアナウンスを送信したいです。
+- **学生として**、他の学生との共同作業のための共有ワークスペースを持つグループプロジェクトに参加したいです。
+- **すべてのユーザーとして**、システム内でメッセージを送受信し、添付ファイルを共有したいです。
+- **講師として**、リアルタイムのウェビナーやオンラインセッションをスケジュールし、録画を保存して学生が後からアクセスできるようにしたいです。
+
+### レポート・分析
+- **講師として**、学生のエンゲージメントとアクティビティ（ログイン頻度、閲覧したコンテンツ、課題完了までの時間）に関する分析を確認したいです。
+- **管理者として**、プラットフォーム全体の使用状況とパフォーマンスメトリクスを確認したいです。
+- **管理者として**、登録傾向、完了率、満足度評価に関するレポートを生成したいです。
+- **講師として**、外部分析ツールで使用するために学生のパフォーマンスデータをエクスポートしたいです。
+
+### アクセシビリティ・ローカライゼーション
+- **すべてのユーザーとして**、システムとの対話のためのインターフェース言語を選択したいです。
+- **学生として**、視覚または聴覚障害のためのアクセシビリティ機能を使用したいです。
+- **講師として**、キャプションや代替テキストなどのアクセシビリティ要素をコンテンツに追加したいです。
+
+### モバイル・オフラインアクセス
+- **学生として**、モバイルデバイスからコースにアクセスし、スマートフォンやタブレットで快適に学習したいです。
+- **学生として**、インターネット接続なしでオフライン学習のためにコンテンツをダウンロードしたいです。
+- **講師として**、学生のエンゲージメントを高めるためにモバイルアプリを通じて通知を送信したいです。`
+};
+    
+    // ALPS guide content
+    const alpsGuide = `## ‼️ Important: JSON Format Guidelines ‼️
+
+1. Write each descriptor on a single line (mandatory).
+2. Only indent and line-break descriptors if they contain other descriptors.
+3. All nested descriptors must reference their parent with \`href\`.
 
 \`\`\`json
 {"$schema": "https://alps-io.github.io/schemas/alps.json", "alps": {"version": "1.0", "descriptor": [
-{"id": "name", "type": "semantic", "title": "名前", "def": "https://schema.org/name"},
-{"id": "email", "type": "semantic", "title": "メール", "def": "https://schema.org/email"},
-{"id": "User", "type": "semantic", "title": "ユーザープロフィール", "descriptor": [
+{"id": "name", "title": "Name", "def": "https://schema.org/name"},
+{"id": "email", "title": "Email", "def": "https://schema.org/email"},
+{"id": "User", "title": "User Profile", "descriptor": [
   {"href": "#name"},
   {"href": "#email"}
 ]},
-{"id": "UserList", "type": "semantic", "title": "ユーザーリスト", "descriptor": [
+{"id": "UserList", "title": "User List", "descriptor": [
   {"href": "#User"},
   {"href": "#goUser"},
   {"href": "#doCreateUser"}
 ]},
-{"id": "goUser", "type": "safe", "title": "ユーザー詳細を表示", "rt": "#User"},
-{"id": "doCreateUser", "type": "unsafe", "title": "ユーザーを作成", "rt": "#UserList"}
+{"id": "goUser", "type": "safe", "title": "View User Details", "rt": "#User"},
+{"id": "doCreateUser", "type": "unsafe", "title": "Create User", "rt": "#UserList"}
 ]}}
 \`\`\`
 
-## XMLフォーマットガイドライン
+## XML Format Guidelines
 
-- 階層を示すためにインデントを使用。
-- 各要素を1行で記述。
+- Use indentation to indicate hierarchy.
+- Write each element on a single line.
 
 \`\`\`xml
 <alps version="1.0"
@@ -570,304 +622,229 @@ permalink: /manuals/1.0/ja/prompt.html
 </alps>
 \`\`\`
 
-## セマンティックディスクリプターの構造化
+## Structuring Semantic Descriptors
 
-次の3つのブロックに整理します。各ディスクリプターは他のディスクリプターを参照するか含む必要があります:
+Organize into the following three blocks. Each descriptor must either reference or contain other descriptors:
 
-1. セマンティック定義（オントロジー）
-   - 基本要素を定義（lowerCamelCaseを使用）。
-   - Schema.orgの定義がある場合は、\`def\`を完全なURLとして指定。
-   - すべてのディスクリプターに\`title\`を追加。
-   - 必要に応じてのみ\`doc\`を含める。
-   - 定義された各要素は少なくとも1つの分類状態で参照される必要があります。
+1. Semantic Definitions (Ontology)
+   - Define basic elements (lowerCamelCase).
+   - Always specify \`def\` as a full URL if there's a Schema.org definition.
+   - Add a \`title\` to all descriptors.
+   - Include \`doc\` only if necessary.
+   - Each defined element must be referenced by at least one taxonomy state.
 
-2. 包含関係（分類）
-   - 状態を表すディスクリプターはUpperCamelCaseを使用。
-   - 要素を参照するために\`href\`を使用（\`id\`による直接定義は不可）。
-   - 各アプリケーション状態には以下が含まれます:
-     * 状態で表示/使用される要素（オントロジーで定義）。
-     * 実行可能なアクション（振付で定義）。
-   - 必要に応じて追加の詳細のために\`doc\`を使用。
-   - 各分類は他の分類を含むか、それに移行する必要があります。
+2. Containment Relationships (Taxonomy)
+   - Descriptors representing states use UpperCamelCase.
+   - Use \`href\` for referencing elements (direct definition via \`id\` is not allowed).
+   - Each application state includes:
+     * Elements displayed/used in the state (defined in the ontology).
+     * Actions that can be performed (defined in choreography).
+   - Use \`doc\` for additional details if needed.
+   - Each taxonomy must either contain or transition to other taxonomies.
 
-3. 状態遷移（振付）
-   - 遷移アクションを定義。
-   - 適切な\`type\`属性を選択。
-   - 遷移先（\`rt\`）を指定。
-   - 必要なデータ項目を参照するために\`href\`を使用。
-   - 各操作は少なくとも1つの分類状態で参照される必要があります。`;
+3. State Transitions (Choreography)
+   - Define transition actions.
+   - Select the appropriate \`type\` attribute.
+   - Specify the transition destination (\`rt\`).
+   - Use \`href\` to refer to necessary data items.
+   - Each operation must be referenced by at least one taxonomy state.`;
     
-    // 変換プロンプトテンプレート
+    // Conversion prompt templates
     const conversionPrompts = {
-      'OpenAPI': `**タスク:** 提供されたALPS（アプリケーション層プロファイルセマンティクス）ファイルをOpenAPI 3.0定義ファイル（YAMLフォーマット）に変換してください。
+      'OpenAPI': `**Task:** Convert this ALPS profile into a comprehensive OpenAPI 3.1 specification.
 
-**考慮すべき主なポイント:**
+**Key Instructions:**
 
-1. **ディスクリプター要素:**
-    - **\`descriptor\`の理解:** ALPSでは、\`descriptor\`はセマンティック要素を表し、データ要素または状態遷移のいずれかになります。
-    - **OpenAPIパスと操作へのマッピング:**
-        - 状態遷移（\`type\`が\`safe\`, \`unsafe\`, または\`idempotent\`の\`descriptor\`）を適切なHTTPメソッド（\`GET\`, \`POST\`, \`PUT\`, \`DELETE\`）の下のOpenAPI操作にマッピング。
-        - 冪等操作には\`PUT\`または\`DELETE\`を使用。
-        - \`DELETE\`操作にはリクエストボディを含めない。
+1. **State to Endpoint Mapping:**
+   - Map each semantic state to a resource endpoint
+   - Use tag attributes to organize endpoints into logical groups
+   - Apply proper REST principles (plural nouns for collections, etc.)
 
-2. **コンポーネントと再利用性:**
-    - **スキーマとパラメータ:**
-        - データ要素ディスクリプター（\`type\`が\`semantic\`のもの）を抽出し、\`components/schemas\`の下で再利用可能なスキーマとして定義。
-        - 必要に応じてリクエストボディやレスポンスでこれらのスキーマを使用。
-    - **共通パラメータ:**
-        - 共通パラメータ（例: ID、クエリパラメータ）を特定し、\`components/parameters\`の下で再利用のために定義。
+2. **Transition Operations:**
+   - Convert transitions with specific type attributes:
+     - \`safe\` → GET operations
+     - \`unsafe\` → POST operations 
+     - \`idempotent\` → PUT/PATCH operations
+     - Include DELETE operations for removal actions
+   - Use appropriate HTTP status codes (200, 201, 204, 400, 404, etc.)
 
-3. **レスポンスとステータスコード:**
-    - **適切なステータスコード:**
-        - 取得成功には\`200 OK\`を使用。
-        - 新しいリソース作成時には\`201 Created\`を使用。
-        - 操作が成功したがコンテンツを返さない場合は\`204 No Content\`を使用。
-        - エラー処理には\`400 Bad Request\`, \`404 Not Found\`などを使用。
-    - **レスポンススキーマ:**
-        - 先に定義したコンポーネントを使用してレスポンススキーマを定義。
+3. **Schema Definitions:**
+   - Build schemas from semantic descriptors
+   - Include all properties referenced in state descriptors
+   - Use Schema.org definitions when available via \`def\` attributes
+   - Apply proper validation constraints based on domain knowledge
+   - Create both request and response schemas
 
-4. **データ制約:**
-    - **バリデーション:**
-        - 次のようなデータ制約を追加:
-            - **文字列制約:** \`minLength\`, \`maxLength\`, \`pattern\`（正規表現）。
-            - **数値制約:** \`minimum\`, \`maximum\`。
-            - **列挙型:** 固定値セットには\`enum\`。
-    - **制約の適用:**
-        - これらの制約を\`components/schemas\`内のスキーマに適用。
+4. **Complete Documentation:**
+   - Use titles as summary descriptions
+   - Convert doc attributes to detailed descriptions
+   - Include examples for each operation
+   - Document error responses and handling
 
-5. **リンクと外部ドキュメント:**
-    - **リンク関係:**
-        - \`descriptor\`に\`href\`または\`rel\`が含まれる場合、OpenAPIの\`externalDocs\`または\`links\`を使用して関係を表現することを検討。
-    - **説明:**
-        - ALPSの\`doc\`要素を使用して、操作、パラメータ、スキーマの説明を提供。
+5. **Consistent Design:**
+   - Apply query parameters for filtering, sorting, pagination
+   - Use path parameters for resource identifiers
+   - Include security schemes appropriate for the domain
+   - Ensure all endpoints have complete request/response documentation
 
-**出力フォーマット:**
-- OpenAPI定義を**YAML**フォーマットで提供してください。`,
+**Output Format:** Provide YAML format with appropriate indentation and organization.`,
       
-      'JSON Schema': `**タスク:** 提供されたALPS（アプリケーション層プロファイルセマンティクス）ファイルをJSON Schema定義に変換してください。
+      'JSON Schema': `**Task:** Convert this ALPS profile into a comprehensive JSON Schema that accurately captures all data structures.
 
-**考慮すべき主なポイント:**
+**Key Instructions:**
 
-1. **ディスクリプター要素:**
-    - **\`descriptor\`の理解:** ALPSでは、\`descriptor\`はセマンティック要素を表します。
-    - **JSON Schemaへのマッピング:**
-        - データ要素（\`type\`が\`semantic\`の\`descriptor\`）をJSON Schemaプロパティにマッピング。
-        - データ要素の性質に基づいて適切なJSON Schemaタイプを使用。
+1. **Semantic Descriptors:**
+   - Create type definitions for each semantic descriptor
+   - Use $defs for proper schema reusability
+   - Follow semantic descriptor hierarchies when defining nested structures
+   - Use \`$ref\` to reference repeated structures
 
-2. **スキーマ構造:**
-    - **ルートスキーマ:**
-        - \`$schema\`と\`type\`プロパティでルートスキーマを定義。
-        - \`title\`や\`description\`などの適切なメタデータを含める。
-    - **プロパティ:**
-        - ALPSディスクリプターに基づいてプロパティを定義。
-        - \`properties\`と\`items\`を使用してネストされた構造を整理。
+2. **Type & Format Selection:**
+   - Choose appropriate types (string, number, integer, boolean, object, array)
+   - Apply formats based on semantic meaning (date-time, email, uri, etc.)
+   - For descriptors with Schema.org definitions, infer types from those definitions
+   - Include multitype properties where appropriate
 
-3. **データ型とフォーマット:**
-    - **基本型:**
-        - 適切なJSON Schemaタイプを使用:
-            - \`string\`
-            - \`number\`
-            - \`integer\`
-            - \`boolean\`
-            - \`object\`
-            - \`array\`
-    - **フォーマット:**
-        - 該当する場合に標準フォーマットを適用:
-            - \`date-time\`
-            - \`date\`
-            - \`email\`
-            - \`uri\`
-            - など
+3. **Validation Rules:**
+   - Add property constraints:
+     - Strings: minLength, maxLength, pattern
+     - Numbers: minimum, maximum, multipleOf
+     - Arrays: minItems, maxItems, uniqueItems
+     - Objects: required, additionalProperties
+   - Define enumerations for constrained values
 
-4. **データ制約:**
-    - **バリデーションルール:**
-        - 次のような制約を追加:
-            - **文字列:** \`minLength\`, \`maxLength\`, \`pattern\`
-            - **数値:** \`minimum\`, \`maximum\`, \`multipleOf\`
-            - **配列:** \`minItems\`, \`maxItems\`, \`uniqueItems\`
-            - **オブジェクト:** \`required\`, \`additionalProperties\`
-    - **列挙型:**
-        - 固定値セットには\`enum\`を使用
-        - 列挙値に説明を含める
+4. **Documentation & Metadata:**
+   - Include title from the ALPS descriptor
+   - Add description from doc attributes
+   - Provide examples of valid data
+   - Add $schema reference for validation
 
-5. **定義と参照:**
-    - **再利用可能なコンポーネント:**
-        - 共通スキーマを\`$defs\`の下に定義
-        - 再利用可能なスキーマを参照するために\`$ref\`を使用
-    - **継承:**
-        - 複雑な型の関係には\`allOf\`, \`anyOf\`, または\`oneOf\`を使用
+5. **Design Patterns:**
+   - Use oneOf/anyOf for polymorphic structures
+   - Create composition patterns with allOf when appropriate
+   - Add conditional validation with if/then/else where needed
 
-6. **ドキュメント:**
-    - **説明:**
-        - ALPSの\`doc\`要素を使用してスキーマとプロパティの説明を提供
-    - **例:**
-        - 役立つ場合は\`examples\`を含める
-    - **タイトル:**
-        - プロパティと定義に明確なタイトルを追加`,
+**Output Format:** Provide properly formatted JSON with appropriate indentation.`,
       
-      'GraphQL': `**タスク:** 提供されたALPS（アプリケーション層プロファイルセマンティクス）ファイルを完全なGraphQL実装（スキーマ定義と操作例を含む）に変換してください。
+'GraphQL': `**Task:** Convert this ALPS profile into a complete GraphQL schema with operations and resolvers.
 
-**考慮すべき主なポイント:**
+**Key Instructions:**
 
-1. **スキーマ定義:**
-   - **型定義:**
-     - ALPSセマンティックディスクリプターをGraphQL型にマッピング
-     - 適切なスカラー型（ID、String、Int、Float、Boolean）を使用
-     - 必要に応じてカスタムスカラー型（DateTime、JSONなど）を定義
+1. **Type Definitions:**
+   - Create GraphQL types for each semantic descriptor
+   - Define scalars based on data nature (String, Int, Float, Boolean, ID)
+   - Create custom scalars for special formats (DateTime, Email, URL)
+   - Structure relationships using proper GraphQL object connections
 
-   - **関係:**
-     - 1対1、1対多、多対多の関係を処理
-     - null許容フィールドと非nullフィールドを検討
+2. **Query Operations:**
+   - Create queries from \`safe\` transitions
+   - Implement filtering, sorting, and pagination for collection queries
+   - Design nested queries that follow the semantic connections
+   - Support efficient graph traversal with proper resolver planning
 
-   - **入力型:**
-     - ミューテーション用に入力型を作成
-     - バリデーション要件を考慮
+3. **Mutation Operations:**
+   - Create mutations from \`unsafe\` and \`idempotent\` transitions
+   - Define input types for creating and updating resources
+   - Implement proper error handling and return types
+   - Return modified objects from mutations for efficient client updates
 
-   - **インターフェースとユニオン:**
-     - 共有フィールド用にインターフェースを定義
-     - 多形関係にユニオンを使用
+4. **Schema Organization:**
+   - Use GraphQL directives for documentation and validation
+   - Group related operations based on ALPS tag attributes
+   - Design consistent naming patterns across the schema
+   - Implement interfaces for shared structures
 
-2. **クエリ操作:**
-   - **基本クエリ:**
-     - 単一アイテムの取得
-     - フィルタリング付きリスト取得
-     - 検索操作
+5. **Advanced Features:**
+   - Add subscription operations for real-time updates where appropriate
+   - Implement union types for polymorphic responses
+   - Design proper pagination with cursor-based approaches
+   - Add custom directives for authorization and caching hints
 
-   - **フィルタリングシステム:**
-     - フィルター入力型を定義
-     - 複雑なフィルタリング操作をサポート
-
-   - **ページネーション:**
-     - カーソルベースのページネーションを実装
-     - 制限/オフセットページネーションをサポート
-
-3. **ミューテーション操作:**
-   - **作成操作:**
-     - 適切な入力バリデーションを含める
-     - エラーハンドリング付きの意味のあるペイロードを返す
-
-   - **バッチ操作:**
-     - バッチ作成/更新/削除操作をサポート
-
-   - **エラーハンドリング:**
-     - 適切なエラーハンドリング構造を定義
-     - フィールドレベルのエラーを含める
-
-4. **サブスクリプション操作:**
-   - リアルタイム更新用にイベントベースのサブスクリプションを定義
-
-5. **ディレクティブ:**
-   - 認証、非推奨などの適切なディレクティブを追加`,
+**Output Format:** Provide the schema in SDL (Schema Definition Language) format, along with example operations and resolver patterns.`,
       
-      'SQL': `**タスク:** 提供されたALPS（アプリケーション層プロファイルセマンティクス）ファイルをSQL DDL（データ定義言語）とDML（データ操作言語）ステートメントに変換してください。
+      'SQL': `**Task:** Convert this ALPS profile into a comprehensive SQL database schema with tables, relationships, and key operations.
 
-**パート1: DDLステートメント**
+**Key Instructions:**
 
-1. **スキーマとテーブル設計:**
-   - **データベーススキーマ:**
-      - ALPSプロファイルに基づいて適切なデータベーススキーマ名を作成
-      - スキーマのバージョニングを考慮
-   - **テーブル作成:**
-      - \`type\`が\`semantic\`のALPSディスクリプターをデータベーステーブルにマッピング
-      - テーブル関係を通じてネストされた構造を処理
+1. **Table Structure:**
+   - Create tables for main semantic descriptors
+   - Define appropriate column types based on semantic meaning
+   - Implement proper primary keys and indexes
+   - Add foreign key constraints for relationships
+   - Include CHECK constraints for data validation
 
-**パート2: DMLステートメント生成**
+2. **Relationship Modeling:**
+   - Identify one-to-many, many-to-many, and one-to-one relationships
+   - Create junction tables for many-to-many relationships
+   - Implement proper ON DELETE/UPDATE behavior for referential integrity
+   - Use appropriate naming conventions for relationship columns
 
-1. **SELECTクエリ:**
-    - **基本クエリ:**
-        - 各主要リソースに対するSELECTステートメントを生成
-        - 関係に基づく適切なJOIN句を含める
-        - フィルタリング用のWHERE句を追加
-        - ページネーション（LIMIT/OFFSET）を考慮
+3. **Data Operations:**
+   - Create SELECT queries for \`safe\` transitions
+   - Implement INSERT statements for \`unsafe\` transitions
+   - Design UPDATE operations for \`idempotent\` transitions
+   - Add DELETE operations where appropriate
+   - Include stored procedures for complex operations
 
-    - **複雑なクエリ:**
-        - 複数のJOINを使用したクエリを作成
-        - 適切な場所でサブクエリを追加
-        - 集計関数（COUNT、SUMなど）を含める
-        - GROUP BYとHAVING句を実装
+4. **Advanced Database Features:**
+   - Design appropriate indexes for performance
+   - Create views for common query patterns
+   - Implement triggers for data integrity and auditing
+   - Add computed columns for derived properties
+   - Consider partitioning for large tables
 
-    - **ビュークエリ:**
-        - 役立つビュー定義を生成
-        - パフォーマンスのためにマテリアライズドビューを作成
+5. **Completeness & Standards:**
+   - Follow SQL standards for portability
+   - Include documentation as comments
+   - Create role-based permissions aligned with the domain
+   - Design for transaction safety
+   - Include data migration considerations
 
-2. **INSERTステートメント:**
-    - 以下を含むINSERTステートメントを生成:
-        - 単一行挿入
-        - バルク挿入テンプレート
-        - INSERT ... SELECTパターン
-        - 該当する場合にRETURNING句
-
-3. **UPDATEステートメント:**
-    - 以下用のUPDATEテンプレートを作成:
-        - 単一レコード更新
-        - バルク更新
-        - JOINを使用した更新
-        - 条件付き更新
-
-4. **DELETEステートメント:**
-    - 以下を含むDELETEステートメントを生成:
-        - 安全な削除パターン
-        - ソフト削除実装
-        - カスケード削除の考慮
-        - アーカイブ戦略`,
+**Output Format:** Provide SQL DDL statements for schema creation, followed by example DML operations.`,
       
-      'TypeScript': `**タスク:** 提供されたALPS（アプリケーション層プロファイルセマンティクス）ファイルをTypeScriptの型定義、インターフェース、関連ユーティリティに変換してください。
+      'TypeScript': `**Task:** Convert this ALPS profile into a comprehensive TypeScript type system with interfaces, classes, and utility types.
 
-**パート1: コア型定義**
+**Key Instructions:**
 
-1. **基本型とインターフェース:**
-    - **エンティティ型:**
-        - 主要エンティティ用にインターフェースを作成
-        - 適切な型アノテーションを含める
-        - 有限値セットにenumを使用
+1. **Core Type Definitions:**
+   - Create interfaces for each semantic descriptor
+   - Use proper TypeScript types (string, number, boolean, Date, etc.)
+   - Implement inheritance for related types
+   - Define enums for constrained values
+   - Add JSDoc comments from ALPS documentation
 
-    - **ネストされた型:**
-        - 構成を通じてネストされた構造を処理
-        - 関連型に拡張を使用
+2. **Type Relationships:**
+   - Design composition patterns for nested structures
+   - Create utility types for operations (Partial<T>, Pick<T>, etc.)
+   - Implement generics for reusable patterns
+   - Define index signatures for dynamic properties
+   - Use union and intersection types appropriately
 
-2. **ユーティリティ型:**
-    - **部分型:**
-        - 更新ペイロード型を作成
-        - 適切なフィールドを省略
+3. **API Integration:**
+   - Create request and response interfaces
+   - Implement service interfaces with typed methods
+   - Design error handling with typed exceptions
+   - Add validation decorators if using class-validator
+   - Structure according to ALPS tag groupings
 
-    - **ピック型:**
-        - 特定の操作用に特殊化されたサブセットを作成
+4. **Advanced TypeScript Features:**
+   - Use conditional types for complex logic
+   - Implement mapped types for transformations
+   - Add template literal types for string patterns
+   - Define type guards for runtime type checking
+   - Use const assertions for literal values
 
-    - **レコード型:**
-        - ルックアップコレクションを作成
+5. **Code Organization:**
+   - Structure code into modules based on ALPS tags
+   - Create barrel exports for simplified imports
+   - Design for tree-shaking and code splitting
+   - Add examples of type usage
+   - Include TypeScript configuration recommendations
 
-3. **ジェネリック型:**
-    - **レスポンスラッパー:**
-        - ページネーションラッパーを作成
-        - 適切なエラーハンドリング型を設計
-
-**パート2: API型**
-
-1. **リクエスト/レスポンス型:**
-    - リクエストペイロードを定義
-    - レスポンス構造を定義
-    - 適切なバリデーション制約を含める
-
-2. **クエリパラメータ:**
-    - 検索パラメータ型を定義
-    - ソートおよびフィルタリングオプションを含める
-
-3. **APIクライアント型:**
-    - サービスインターフェースを定義
-    - 適切なエラーハンドリングを含める
-
-**パート3: バリデーションスキーマ**
-
-1. **Zodスキーマ:**
-    - バリデーションスキーマを定義
-    - スキーマから型を推論
-
-2. **カスタムバリデータ:**
-    - 型ガードを作成
-    - 適切なエラー報告を含める`
+**Output Format:** Provide well-organized TypeScript code with proper imports and exports.`
     };
     
-    // タブ切り替え機能
+    // Tab switching functionality
     document.getElementById('userStoryTabBtn').addEventListener('click', function() {
       document.getElementById('userStoryTab').classList.add('active');
       document.getElementById('directAlpsTab').classList.remove('active');
@@ -882,14 +859,14 @@ permalink: /manuals/1.0/ja/prompt.html
       document.getElementById('userStoryTabBtn').classList.remove('active');
     });
     
-    // ステップ1: サンプルストーリーの処理
+    // STEP 1: Sample story handling
     document.getElementById('sampleStorySelect').addEventListener('change', function() {
       if (this.value) {
         userStoryInput.value = sampleStories[this.value];
       }
     });
     
-    // カスタム言語の処理
+    // Custom language handling
     document.getElementById('languageSelect').addEventListener('change', function() {
       const customLanguageInput = document.getElementById('customLanguage');
       if (this.value === 'other') {
@@ -899,21 +876,21 @@ permalink: /manuals/1.0/ja/prompt.html
       }
     });
     
-    // ALPSプロンプト生成ボタン（ユーザーストーリーから）
+    // Generate ALPS Prompt button (from user story)
     generateAlpsPromptBtn.addEventListener('click', function() {
       if (userStoryInput.value.trim() === '') {
-        alert('ユーザーストーリーを入力してください。');
+        alert('Please enter a user story.');
         return;
       }
       
       const format = document.querySelector('input[name="alpsFormat"]:checked').value;
       const language = getSelectedLanguage();
       
-      // ALPSプロンプトを生成
+      // Generate ALPS prompt
       const alpsPrompt = generateAlpsPrompt(userStoryInput.value, format, language);
       alpsInput.value = alpsPrompt;
       
-      // ステップ2に移動
+      // Move to Step 2
       userStorySection.classList.add('hidden');
       alpsSection.classList.remove('hidden');
       
@@ -921,19 +898,19 @@ permalink: /manuals/1.0/ja/prompt.html
       step2.classList.add('active');
     });
     
-    // 変換に進むボタン（直接ALPS入力から）
+    // Proceed to conversion button (from direct ALPS input)
     document.getElementById('proceedToConversionBtn').addEventListener('click', function() {
       const directAlpsInput = document.getElementById('directAlpsInput');
       
       if (directAlpsInput.value.trim() === '') {
-        alert('ALPSプロファイルを入力してください。');
+        alert('Please enter an ALPS profile.');
         return;
       }
       
-      // 直接ALPS入力を変換セクションに転送
+      // Transfer direct ALPS input to the conversion section
       alpsInput.value = directAlpsInput.value;
       
-      // ステップ2に直接移動
+      // Move directly to Step 2
       userStorySection.classList.add('hidden');
       alpsSection.classList.remove('hidden');
       
@@ -941,7 +918,7 @@ permalink: /manuals/1.0/ja/prompt.html
       step2.classList.add('active');
     });
     
-    // ステップ2: フォーマット選択の処理
+    // STEP 2: Format selection handling
     let selectedFormat = null;
     
     openApiBtn.addEventListener('click', () => selectFormat('OpenAPI', openApiBtn));
@@ -953,33 +930,33 @@ permalink: /manuals/1.0/ja/prompt.html
     function selectFormat(format, button) {
       selectedFormat = format;
       
-      // UIを更新して選択されたフォーマットを表示
+      // Update UI to show selected format
       document.querySelectorAll('.format-buttons button').forEach(btn => {
         btn.classList.remove('selected');
       });
       button.classList.add('selected');
     }
     
-    // ALPS変換ボタン
+    // Convert ALPS button
     convertAlpsBtn.addEventListener('click', function() {
       if (alpsInput.value.trim() === '') {
-        alert('ALPSプロファイルを生成または貼り付けてください。');
+        alert('Please generate or paste an ALPS profile.');
         return;
       }
       
       if (!selectedFormat) {
-        alert('変換するフォーマットを選択してください。');
+        alert('Please select a format to convert to.');
         return;
       }
       
-      // 変換プロンプトを生成
+      // Generate conversion prompt
       const conversionPrompt = conversionPrompts[selectedFormat] + 
         '\n\n_YOUR_ALPS_HERE_\n\n```\n' + alpsInput.value + '\n```';
       
       promptResult.textContent = conversionPrompt;
-      resultTitle.textContent = `${selectedFormat} 変換プロンプト`;
+      resultTitle.textContent = `${selectedFormat} Conversion Prompt`;
       
-      // ステップ3に移動
+      // Move to Step 3
       alpsSection.classList.add('hidden');
       resultSection.classList.remove('hidden');
       
@@ -987,7 +964,7 @@ permalink: /manuals/1.0/ja/prompt.html
       step3.classList.add('active');
     });
     
-    // ナビゲーションボタン
+    // Navigation buttons
     backToUserStoryBtn.addEventListener('click', function() {
       alpsSection.classList.add('hidden');
       userStorySection.classList.remove('hidden');
@@ -1012,14 +989,14 @@ permalink: /manuals/1.0/ja/prompt.html
       step1.classList.add('active');
       step2.classList.remove('active');
       
-      // 選択をリセット
+      // Reset selections
       selectedFormat = null;
       document.querySelectorAll('.format-buttons button').forEach(btn => {
         btn.classList.remove('selected');
       });
     });
     
-    // コピーボタン
+    // Copy buttons
     copyAlpsBtn.addEventListener('click', function() {
       copyToClipboard(alpsInput.value, copyAlpsBtn);
     });
@@ -1028,48 +1005,87 @@ permalink: /manuals/1.0/ja/prompt.html
       copyToClipboard(promptResult.textContent, copyResultBtn);
     });
     
-    // 検証ヒントのコピー
+    // Copy verification tip
     document.getElementById('copyTipBtn').addEventListener('click', function() {
-      const tipText = "このALPSプロファイル内のすべてのリンクと参照を確認し、不整合を修正してください。";
+      const tipText = "Please review this ALPS profile to verify that there are no isolated states (unreachable or exit-less states) and that all state transitions are properly connected. Also check if all semantic descriptors are consistently tagged and grouped.";
       copyToClipboard(tipText, this);
     });
     
-    // ヘルパー関数
+    // Helper functions
     function getSelectedLanguage() {
       const languageSelect = document.getElementById('languageSelect');
       if (languageSelect.value === 'other') {
-        return document.getElementById('customLanguage').value || 'カスタム';
+        return document.getElementById('customLanguage').value || 'Custom';
       } else {
         return languageSelect.value;
       }
     }
     
     function generateAlpsPrompt(userStory, format, language) {
-      return `# ALPSプロファイル作成プロンプト
+      return `# ALPS Profile Creation Prompt
 
-以下の要件に基づいてALPSプロファイルを作成し、以下に記載されたガイドラインに従ってください:
+Please create an ALPS profile based on the following requirements. This profile should represent a complete and consistent application state design.
 
-* フォーマット: ${format.toUpperCase()}
-* 言語: ${language}
-* 内容: 
+* Format: ${format.toUpperCase()}
+* Language: ${language}
+* Content: 
 
 ${userStory}
 
-${alpsGuide}`;
+## ‼️ Important: Guidelines for Design Consistency and Completeness ‼️
+
+1. **All states must be connected**:
+   - Avoid isolated states (states that cannot be reached or exited)
+   - Every state should have at least one incoming and one outgoing transition (except for home/start and final states)
+   - Ensure all transitions between states are logical and clear
+
+2. **Consistent use of semantic descriptors**:
+   - Use consistent naming conventions for the same concepts
+   - Only use the \`def\` attribute when a corresponding Schema.org definition exists
+   - For custom concepts, provide clear titles and use the \`doc\` attribute for details when needed
+
+3. **Complete user flows**:
+   - Provide complete state transition paths for each key user story
+   - Ensure CRUD operations (Create, Read, Update, Delete) are fully represented
+   - Include all necessary functionality for each user role
+
+4. **State transition completeness**:
+   - Clearly define the success path for each operation
+   - Ensure transitions between key states to prevent disruption of important business processes
+   - Consider alternative flows for critical failure cases when necessary
+
+5. **Grouping related elements**:
+   - Group related processes and user journeys using the \`tag\` attribute
+   - Use tags like "user-management", "content-creation", "payment-process", etc.
+   - Apply consistent tags to states and transitions belonging to the same functional area
+   - This helps identify related functionality when converting to APIs or data models
+
+${alpsGuide}
+
+## Output Requirements
+
+- Include a clear title for every descriptor (concise one-line explanation)
+- Use the doc attribute for detailed explanations when necessary
+- Only reference Schema.org URLs with the def attribute when a corresponding definition exists
+- Set appropriate type attributes (safe, unsafe, idempotent) for all state transitions
+- Create reusable descriptors for common patterns
+- Use consistent IDs and naming conventions for the same concepts
+- Utilize the tag attribute to group related elements
+- Use consistent tags for business domains or functional areas`;
     }
     
     function copyToClipboard(text, button) {
       navigator.clipboard.writeText(text)
         .then(() => {
           const originalText = button.textContent;
-          button.textContent = '✅ コピー完了!';
+          button.textContent = '✅ Copied!, Paste it to your AI assistant';
           setTimeout(() => {
             button.textContent = originalText;
           }, 2000);
         })
         .catch(err => {
-          console.error('コピーに失敗しました: ', err);
-          alert('コピーに失敗しました。手動でコピーしてください。');
+          console.error('Failed to copy: ', err);
+          alert('Failed to copy. Please copy manually.');
         });
     }
   });
