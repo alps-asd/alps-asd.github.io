@@ -9,3 +9,4 @@ permalink: /manuals/1.0/ja/example.html
 
 * [todomvc](https://alps-asd.github.io/app-state-diagram/todomvc/)
 * [mini amazon](/alps/ja/amazon.html)
+* [LMS](/alps/ja/lms.html)
