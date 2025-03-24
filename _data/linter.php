@@ -40,7 +40,7 @@ function logMessage($message, $level = 'INFO') {
  */
 function checkHtmlTagBalance($text) {
     // 空のテキストは有効とみなす
-    if (empty($text)) {
+    if (trim($text) === '') {
         return ['valid' => true, 'message' => 'テキストが空です'];
     }
 
