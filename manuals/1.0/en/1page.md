@@ -4,13 +4,16 @@ title: 1 Page Manual
 category: Manual
 permalink: /manuals/1.0/en/1page.html
 ---
-This is a page that brings together all the manual pages for BEAR.Sunday.
+This page collects all BEAR.Sunday manuals in one place.
+
+
+
 
 # Advanced Implementation Guide
 
 ## Overview
 
-This document describes more advanced implementation topics for Application-Level Profile Semantics (alps). For a description of basic elements and attributes, please refer to the [alps Reference](reference.html).
+This document describes more advanced implementation topics for Application-Level Profile Semantics (ALPS). For a description of basic elements and attributes, please refer to the [ALPS Reference](reference.html).
 
 ## Descriptors and Link Relation Types
 
@@ -23,13 +26,13 @@ When including state transitions in representations, valid values for link relat
 
 2. **Extended Link Relation Types** ([RFC8288])
    - Fully qualified URI for a document describing the relation type
-   - Contains a URI fragment identifier for an alps descriptor
+   - Contains a URI fragment identifier for an ALPS descriptor
    - Example: `rel="http://alps.io/profiles/item#purchased-by"`
    - Example: `rel="http://alps.io/profiles/blog#comment"`
 
-3. **alps Descriptor ID**
-   - `id` attribute value of a state transition descriptor in an alps document
-   - Usable only if the representation includes an alps profile
+3. **ALPS Descriptor ID**
+   - `id` attribute value of a state transition descriptor in an ALPS document
+   - Usable only if the representation includes an ALPS profile
    - Example: `rel="purchased-by"`
    - Example: `rel="create-comment"`
 
@@ -52,11 +55,11 @@ When including state transitions in representations, valid values for link relat
 
 ## Integration with Existing Media Types
 
-alps can be used in combination with various existing media types. Below, we explain how to integrate with major media types.
+ALPS can be used in combination with various existing media types. Below, we explain how to integrate with major media types.
 
 ### HTML
 
-In HTML, alps descriptors are primarily represented using the `class` attribute:
+In HTML, ALPS descriptors are primarily represented using the `class` attribute:
 
 ```html
 <div class="blog-post">
@@ -69,7 +72,7 @@ In HTML, alps descriptors are primarily represented using the `class` attribute:
 </div>
 ```
 
-Corresponding alps profile:
+Corresponding ALPS profile:
 ```xml
 <alps version="1.0">
   <descriptor id="blog-post" type="semantic">
@@ -133,9 +136,9 @@ In Collection+JSON, descriptors are expressed as queries and data elements:
 }
 ```
 
-## Referencing alps Documents
+## Referencing ALPS Documents
 
-This section describes how to reference alps profiles when applying them.
+This section describes how to reference ALPS profiles when applying them.
 
 ### Referencing by Link
 
@@ -156,7 +159,7 @@ This section describes how to reference alps profiles when applying them.
 
 ### Applying Multiple Profiles
 
-Multiple alps profiles can be applied to a single representation:
+Multiple ALPS profiles can be applied to a single representation:
 
 ```http
 Link: <http://example.com/alps/blog>; rel="profile",
@@ -250,9 +253,9 @@ Semantic descriptors that are not defined as application states, i.e., elements,
 ]
 ```
 
-## alps File Structure
+## ALPS File Structure
 
-The semantic descriptors in alps files are divided into three blocks in the following order:
+The semantic descriptors in ALPS files are divided into three blocks in the following order:
 
 1. Semantic descriptor groups with meaning definitions using `def` and `doc` (ontology)
 2. Semantic descriptor groups with inclusion relationships (taxonomy)
@@ -272,9 +275,9 @@ The semantic descriptors in alps files are divided into three blocks in the foll
 ]
 ```
 
-## Hierarchical Structure Outside alps
+## Hierarchical Structure Outside ALPS
 
-In alps, hierarchical meanings can be expressed by position.
+In ALPS, hierarchical meanings can be expressed by position.
 
 ```json
 {"descriptor": [
@@ -301,7 +304,7 @@ In alps, hierarchical meanings can be expressed by position.
 
 ## Adding Schema References
 
-When creating alps profiles, it is recommended to add schema references.
+When creating ALPS profiles, it is recommended to add schema references.
 
 ```json
 {
@@ -406,6 +409,7 @@ Reusing basic elements:
 
 * [todomvc](https://alps-asd.github.io/app-state-diagram/todomvc/)
 * [mini amazon](/alps/en/amazon.html)
+* [LMS](/alps/en/lms.html)
 
 
 # FAQ
@@ -414,9 +418,9 @@ Reusing basic elements:
 
 A. It can be used by anyone involved in site creation (engineers, designers, POs).
 
-<strong>Q. What kind of people can write alps</strong>?
+<strong>Q. What kind of people can write ALPS</strong>?
 
-A. Anyone who can understand XML and JSON and can do simple HTML coding can write alps.
+A. Anyone who can understand XML and JSON and can do simple HTML coding can write ALPS.
 
 <strong>Q. How do you use it?</strong>
 
@@ -430,7 +434,7 @@ A. Based on IA (Information Architecture), it defines the information (meta-info
 
 A. No, it is not. It can be used as a modeling tool from the very early stage of site design to organize information and formulate what kind of site it will be.
 
-<strong>Q. What do I need to write alps</strong>?
+<strong>Q. What do I need to write ALPS</strong>?
 
 A. You need an editor to edit JSON and XML.
 
@@ -440,52 +444,69 @@ A. If you use an editor that supports schemas such as WebStorm, you can edit the
 
 <strong>Q. Which is better, XML or JSON</strong>?
 
-A. There is no difference in functionality. There is also no need to unify them when using multiple alps files. Please compare them in practice. [XML](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) / [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.json)
+A. There is no difference in functionality. There is also no need to unify them when using multiple ALPS files. Please compare them in practice. [XML](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) / [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.json)
 
 <strong>Q. Can it be used for APIs without links</strong>?
 
 A. Yes. It cannot represent a transition diagram, but it can generate a vocabulary and documentation of the nature of the information.
 
-<strong>Q. Are there any other technologies that are similar to alps?</strong>
+<strong>Q. Are there any other technologies that are similar to ALPS?</strong>
 
 A. There are no direct competitors. A similar technology is [Microformat](http://www.asahi-net.or.jp/~ax2s-kmtn/internet/rec-owl-features-20040210.html).
 
 <strong>Q. What is the difference from IDL such as OpenAPI</strong>?
 
-A. alps deals with REST abstractions that are higher than HTTP. Therefore, it can be used as a modeling and design language for OpenAPI implementations.
+A. ALPS deals with REST abstractions that are higher than HTTP. Therefore, it can be used as a modeling and design language for OpenAPI implementations.
 
 <strong>Q. Do I need it</strong>?
 
-A. If you want to model information to improve the quality of user experience, or if you want a reference (SSOT) to unify the understanding among production members, or if you want to overview and reuse your design, or if you want to keep your information design as a standardized document, alps+ASD will be useful as your information design modeling tool or as a format to express it.
+A. If you want to model information to improve the quality of user experience, or if you want a reference (SSOT) to unify the understanding among production members, or if you want to overview and reuse your design, or if you want to keep your information design as a standardized document, ALPS+ASD will be useful as your information design modeling tool or as a format to express it.
+
+
+VERY IMPORTANT:
+
+ALPS is pronounced ‘alps’, the same as the Swiss alps. It is not A-L-P-S. "ælps"
+
+VERY IMPORTANT:
+
+ALPS is pronounced ‘alps’, the same as the Swiss alps. It is not A-L-P-S. "ælps"
+
+VERY IMPORTANT:
+
+ALPS is pronounced ‘alps’, the same as the Swiss alps. It is not A-L-P-S. "ælps"
+
+VERY IMPORTANT:
+
+ALPS is pronounced ‘alps’, the same as the Swiss alps. It is not A-L-P-S. "ælps"
 
 
 
 
-# Information Architecture and alps
+# Information Architecture and ALPS
 
-Applying Information Architecture (IA) concepts to domain modeling in API design and system development enables systematic organization of business requirements. The elements of IA—"meaning," "structure," and "interaction"—originally developed in UX and content design, play a crucial role in structuring business domain knowledge. alps provides a standardized method to express these concepts.
+Applying Information Architecture (IA) concepts to domain modeling in API design and system development enables systematic organization of business requirements. The elements of IA—"meaning," "structure," and "interaction"—originally developed in UX and content design, play a crucial role in structuring business domain knowledge. ALPS provides a standardized method to express these concepts.
 
 ## Applying Information Architecture
 
-Information Architecture expert Dan Klyn defined IA as the interplay of `Ontology`, `Taxonomy`, and `Choreography`. [^uia] These concepts serve as a foundation not only for content design but also for system design. While OpenAPI focuses on technical API details (endpoints, HTTP methods, request/response structures), alps uses these IA concepts to structure the business domain.
+Information Architecture expert Dan Klyn defined IA as the interplay of `Ontology`, `Taxonomy`, and `Choreography`. [^uia] These concepts serve as a foundation not only for content design but also for system design. While OpenAPI focuses on technical API details (endpoints, HTTP methods, request/response structures), ALPS uses these IA concepts to structure the business domain.
 
 [^uia]: [Understanding Information Architecture](https://understandinggroup.com/ia-theory/understanding-information-architecture)
 
 ## Role in the Design Process
 
-alps bridges business requirements and system design from the early stages of development. Unlike traditional endpoint-centric design, which typically starts with documenting predetermined API specifications, alps can be utilized from the requirements definition phase. This enables early detection and correction of differences in business requirement interpretations. It also establishes a common language between technical and business teams, providing a framework for easily understanding the scope of design changes.
+ALPS bridges business requirements and system design from the early stages of development. Unlike traditional endpoint-centric design, which typically starts with documenting predetermined API specifications, ALPS can be utilized from the requirements definition phase. This enables early detection and correction of differences in business requirement interpretations. It also establishes a common language between technical and business teams, providing a framework for easily understanding the scope of design changes.
 
-alps goes beyond API endpoint design to provide a means of systematizing and sharing business domain knowledge. As a Single Source of Truth (SSOT), it consistently models system structure and behavior. Using business terminology at its core, it clearly expresses complex business rules, visualizes workflows, and enables intuitive understanding of information interactions.
+ALPS goes beyond API endpoint design to provide a means of systematizing and sharing business domain knowledge. As a Single Source of Truth (SSOT), it consistently models system structure and behavior. Using business terminology at its core, it clearly expresses complex business rules, visualizes workflows, and enables intuitive understanding of information interactions.
 
 ## Adapting to Technical Changes
 
-alps offers flexibility in its application to various API styles. Even as technology evolves and architecture styles change, business domain design can be maintained. For example, whether transitioning from RESTful APIs to GraphQL, adopting microservice architecture, or implementing new communication protocols, domain models defined in alps remain valid. This is because alps focuses on abstracted business logic rather than implementation details.
+ALPS offers flexibility in its application to various API styles. Even as technology evolves and architecture styles change, business domain design can be maintained. For example, whether transitioning from RESTful APIs to GraphQL, adopting microservice architecture, or implementing new communication protocols, domain models defined in ALPS remain valid. This is because ALPS focuses on abstracted business logic rather than implementation details.
 
 ## Building Knowledge Foundation
 
 In the implementation of `Taxonomy`, relationships between business entities are defined, ensuring scalability through hierarchical structure. This establishes a common vocabulary across the organization, streamlining communication. `Choreography` defines business process flows and service coordination rules, enhancing system-wide consistency and reliability.
 
-Applying IA concepts to domain modeling naturally connects technical implementation with business requirements. alps functions as a framework to achieve this bridge, serving as a foundation for systematically structuring and evolving organizational knowledge.
+Applying IA concepts to domain modeling naturally connects technical implementation with business requirements. ALPS functions as a framework to achieve this bridge, serving as a foundation for systematically structuring and evolving organizational knowledge.
 
 Through this approach, organizations can build a sustainable knowledge foundation that remains resilient to technological changes.
 
@@ -493,7 +514,7 @@ Through this approach, organizations can build a sustainable knowledge foundatio
 
 # IANA Link Relations
 
-This document lists IANA link relations recommended for use in the rel attribute of alps profiles.
+This document lists IANA link relations recommended for use in the rel attribute of ALPS profiles.
 
 ## State Transitions
 
@@ -531,7 +552,7 @@ This document lists IANA link relations recommended for use in the rel attribute
 | alternate | Reference to alternative representation |
 
 Notes:
-1. This list is an excerpt of relations that are likely to be commonly used in alps profiles
+1. This list is an excerpt of relations that are likely to be commonly used in ALPS profiles
 2. For a complete list, refer to [IANA Registry](https://www.iana.org/assignments/link-relations/link-relations.xhtml)
 3. The categorization is for convenience
 4. When using these relations, please select appropriate ones according to your application requirements
@@ -540,17 +561,17 @@ Notes:
 
 # Introduction
 
-[![alps document](/images/alps.svg)](/alps/index.html)
+[![ALPS document](/images/alps.svg)](/alps/index.html)
 
-## alps: A Format for Clarifying Application-Level Meaning and Structure
+## ALPS: A Format for Clarifying Application-Level Meaning and Structure
 
-Application-Level Profile Semantics ([alps](http://alps.io/)) is a format that expresses application-level semantics and adds application-specific information to generic media such as JSON and HTML. alps clarifies the meaning, structure, and operations of data, enabling efficient development processes, enhanced system interoperability, and improved API reusability and discoverability.
+Application-Level Profile Semantics ([ALPS](http://alps.io/)) is a format that expresses application-level semantics and adds application-specific information to generic media such as JSON and HTML. ALPS clarifies the meaning, structure, and operations of data, enabling efficient development processes, enhanced system interoperability, and improved API reusability and discoverability.
 
-Consider an e-commerce platform as an example. When integrating multiple payment services such as credit cards, digital money, and bank transfers, alps standardizes the meaning of data and operations at each step of the payment process. This makes it easier to add new payment methods and integrate with existing systems, allowing developers to implement APIs consistently. Frontend and backend developers can communicate efficiently using a common language, enabling rapid feature additions and improvements.
+Consider an e-commerce platform as an example. When integrating multiple payment services such as credit cards, digital money, and bank transfers, ALPS standardizes the meaning of data and operations at each step of the payment process. This makes it easier to add new payment methods and integrate with existing systems, allowing developers to implement APIs consistently. Frontend and backend developers can communicate efficiently using a common language, enabling rapid feature additions and improvements.
 
 ## ASD: Visualizing Application State Transitions
 
-Application State Diagram (ASD) is a tool that visualizes state transitions and behaviors from alps documents. It enables intuitive understanding of an application's overall structure, state transitions, and possible actions. For example, in an online shopping application, it clearly visualizes the process from product search to purchase, helping developers understand the choices and possible operations users face at each stage. This aids in making design decisions that enhance the user experience.
+Application State Diagram (ASD) is a tool that visualizes state transitions and behaviors from ALPS documents. It enables intuitive understanding of an application's overall structure, state transitions, and possible actions. For example, in an online shopping application, it clearly visualizes the process from product search to purchase, helping developers understand the choices and possible operations users face at each stage. This aids in making design decisions that enhance the user experience.
 
 With ASD, all team members—including product owners, backend and frontend developers, and UI/UX designers—can understand the application from the same perspective and work together effectively. This enables smooth communication between members from different specialties and helps new members quickly integrate into complex projects. Furthermore, it allows quick evaluation and adjustment of application flows and logic, providing opportunities to identify and resolve issues early in the design phase, directly contributing to improved development efficiency and application quality.
 
@@ -558,38 +579,38 @@ Through the use of ASD, project transparency increases, minimizing discrepancies
 
 ## Information Architecture for REST Application Design
 
-When designing REST applications from an information architecture perspective, alps and ASD complement each other in their roles. alps standardizes the meaning and structure of data handled by applications, enabling teams to define information using a common vocabulary. ASD, on the other hand, represents state changes in diagrams, making it easy to visually understand user operations and application responses. Through alps specifications and ASD visualization, information design in REST application development is strengthened, team communication becomes smoother, and the overall project consistency and quality are enhanced.
+When designing REST applications from an information architecture perspective, ALPS and ASD complement each other in their roles. ALPS standardizes the meaning and structure of data handled by applications, enabling teams to define information using a common vocabulary. ASD, on the other hand, represents state changes in diagrams, making it easy to visually understand user operations and application responses. Through ALPS specifications and ASD visualization, information design in REST application development is strengthened, team communication becomes smoother, and the overall project consistency and quality are enhanced.
 
-To improve development efficiency, deliver excellent user experiences, and ensure project sustainability, a shared understanding among diverse developers is essential. alps and ASD build this foundation and support the long-term success of projects.
+To improve development efficiency, deliver excellent user experiences, and ensure project sustainability, a shared understanding among diverse developers is essential. ALPS and ASD build this foundation and support the long-term success of projects.
 
 
 # Introduction
 
 ![ASD](https://alps-asd.github.io/app-state-diagram/blog/profile.svg)
 
-## alps: A way to organize app information
+## ALPS: A way to organize app information
 
-alps (Application Level Profile Semantics) is a way to neatly describe the information and mechanics of an app. It adds app-specific information to formats commonly used on the Internet (e.g., JSON and HTML) to clarify how the app works and what information it handles. This will make the process of creating the app smoother and allow different apps and systems to work well together.
+ALPS (Application Level Profile Semantics) is a way to neatly describe the information and mechanics of an app. It adds app-specific information to formats commonly used on the Internet (e.g., JSON and HTML) to clarify how the app works and what information it handles. This will make the process of creating the app smoother and allow different apps and systems to work well together.
 
-For example, consider an online shopping site. For the sequence of steps (including payment) that a customer goes through to select and buy a product, alps can clearly show what is happening at each step. This makes it easier for those who create the app to make the necessary improvements to ensure a smooth shopping experience for customers.
+For example, consider an online shopping site. For the sequence of steps (including payment) that a customer goes through to select and buy a product, ALPS can clearly show what is happening at each step. This makes it easier for those who create the app to make the necessary improvements to ensure a smooth shopping experience for customers.
 
 ## ASD: Diagrams showing how the app works
 
-The ASD (Application State Transition Diagram) shows a diagram of how the app moves and the operations the user can perform based on the app information described in the alps. This allows you to understand at a glance how the app is working. In the case of an online shopping site, the diagram shows a series of steps, such as searching for a product, adding it to the cart, and paying for it.
+The ASD (Application State Transition Diagram) shows a diagram of how the app moves and the operations the user can perform based on the app information described in the ALPS. This allows you to understand at a glance how the app is working. In the case of an online shopping site, the diagram shows a series of steps, such as searching for a product, adding it to the cart, and paying for it.
 
 ASD allows people in different roles in the team building the app, such as programmers and designers, to have a common understanding of how the app should work. This can be very helpful in discussions about how to improve the app and in coming up with new ideas.
 
 ## Designing REST Applications
 
-alps and ASD are especially useful for designing apps that run on the web (called REST applications). Using these tools, you can clearly show what information the app handles and how it works. The result is an app that is easier to create and improve, and more user-friendly for the people using it.
+ALPS and ASD are especially useful for designing apps that run on the web (called REST applications). Using these tools, you can clearly show what information the app handles and how it works. The result is an app that is easier to create and improve, and more user-friendly for the people using it.
 
-In order for team members with diverse skills to work efficiently toward the same goal, it is important that they understand exactly what each other is working on, and alps and ASD are very useful tools to help them achieve this understanding.
+In order for team members with diverse skills to work efficiently toward the same goal, it is important that they understand exactly what each other is working on, and ALPS and ASD are very useful tools to help them achieve this understanding.
 
 
 
 # Resource
 
-* [alps official](http://alps.io/)
+* [ALPS official](http://alps.io/)
 * [RFC](https://datatracker.ietf.org/doc/html/draft-amundsen-richardson-foster-alps-07)
 * Skeleton
   * [json](https://github.com/alps-asd/alps-skeleton-json)
@@ -598,58 +619,603 @@ In order for team members with diverse skills to work efficiently toward the sam
 * [app-state-diagram](https://github.com/alps-asd/app-state-diagram)
 
 
+<style>
+  /* Common Styles */
+  .alps-brewery {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  
+  .alps-brewery .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .alps-brewery header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .alps-brewery .logo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #336699;
+    margin-bottom: 10px;
+  }
+  
+  .alps-brewery .tagline {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .alps-brewery .gpts-link {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #f0f4f8;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: inline-block;
+  }
+  
+  .alps-brewery .gpts-link a {
+    color: #336699;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .alps-brewery .gpts-link a:hover {
+    text-decoration: underline;
+  }
+  
+  .alps-brewery main {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+    margin-bottom: 40px;
+  }
+  
+  .alps-brewery h1, .alps-brewery h2, .alps-brewery h3 {
+    color: #336699;
+    margin-top: 0;
+  }
+  
+  .alps-brewery textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-family: monospace;
+    font-size: 14px;
+    resize: vertical;
+  }
+  
+  .alps-brewery button {
+    background-color: #336699;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+  }
+  
+  .alps-brewery button:hover {
+    background-color: #254e77;
+  }
+  
+  .alps-brewery button.selected {
+    background-color: #254e77;
+    box-shadow: 0 0 0 2px rgba(37, 78, 119, 0.5);
+  }
+  
+  .alps-brewery button.secondary-btn {
+    background-color: #6c757d;
+  }
+  
+  .alps-brewery button.secondary-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  .alps-brewery button.copy-btn {
+    background-color: #4CAF50;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+  
+  .alps-brewery button.copy-btn:hover {
+    background-color: #3e8e41;
+  }
+  
+  .alps-brewery .hidden {
+    display: none;
+  }
+  
+  .alps-brewery footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  /* Step Indicator */
+  .alps-brewery .step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .alps-brewery .step {
+    width: 180px;
+    padding: 10px;
+    text-align: center;
+    background-color: #e9ecef;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .alps-brewery .step:not(:last-child):after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -15px;
+    width: 30px;
+    height: 2px;
+    background-color: #e9ecef;
+    z-index: 0;
+  }
+  
+  .alps-brewery .step.active {
+    background-color: #336699;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .alps-brewery .step.active:not(:last-child):after {
+    background-color: #336699;
+  }
+  
+  /* Tabs */
+  .alps-brewery .tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .alps-brewery .tab-btn {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-right: 5px;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    font-weight: normal;
+  }
+  
+  .alps-brewery .tab-btn.active {
+    background-color: #336699;
+    color: white;
+    border-color: #336699;
+    font-weight: bold;
+  }
+  
+  .alps-brewery .tab-content {
+    display: none;
+    padding-top: 15px;
+  }
+  
+  .alps-brewery .tab-content.active {
+    display: block;
+  }
+  
+  /* Section Controls */
+  .alps-brewery .options-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .alps-brewery .format-selection, .alps-brewery .language-selection {
+    margin-bottom: 15px;
+  }
+  
+  .alps-brewery .format-selection label, .alps-brewery .language-selection label {
+    margin-right: 10px;
+  }
+  
+  .alps-brewery select, .alps-brewery input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .alps-brewery .sample-controls {
+    margin-bottom: 15px;
+  }
+  
+  .alps-brewery .sample-controls select {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  /* Format Buttons */
+  .alps-brewery .format-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Result Section */
+  .alps-brewery .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .alps-brewery .verification-tip {
+    background-color: #f8f9fa;
+    border-left: 4px solid #336699;
+    padding: 10px 15px;
+    margin: 15px 0;
+    font-size: 0.95rem;
+  }
+  
+  .alps-brewery .verification-tip .tip-text {
+    background-color: #eef1f7;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+  }
+  
+  .alps-brewery .mini-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+  
+  .alps-brewery .mini-btn:hover {
+    background-color: #3e8e41;
+  }
+  
+  .alps-brewery #promptResult {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+  }
+  
+  /* Navigation Buttons */
+  .alps-brewery .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+</style>
 
-# Prompts
+<div class="alps-brewery">
+  <div class="container">
+    <header>
+      <div class="logo">ALPS Prompt Brewery</div>
+      <div class="tagline">AI prompt generator for ALPS and implementation code</div>
+    </header>
 
-## Create alps profile
+    <main>
+      <div class="step-indicator">
+        <div class="step active" id="step1">Step 1: User Story</div>
+        <div class="step" id="step2">Step 2: ALPS</div>
+      </div>
+      
+      <!-- Step 1: User Story to ALPS Prompt -->
+      <section id="userStorySection" class="section-active">
+        <h2>ALPS Prompt Creation</h2>
+        
+        <div class="tabs">
+          <button class="tab-btn active" id="userStoryTabBtn">Create from User Story</button>
+          <button class="tab-btn" id="directAlpsTabBtn">Convert Existing ALPS</button>
+        </div>
+        <!-- User Story Tab Content -->
+        <div id="userStoryTab" class="tab-content active">
+          <div class="sample-controls">
+            <label>Need inspiration?</label>
+            <select id="sampleStorySelect">
+              <option value="">Select a sample user story...</option>
+              <optgroup label="Business Applications">
+                <option value="ecommerce">E-commerce Product Management</option>
+                <option value="taskapp">Task Management App</option>
+                <option value="restaurant">Restaurant Reservation System</option>
+              </optgroup>
+              <optgroup label="Content & Information Systems">
+                <option value="blog">Blog System</option>
+                <option value="library">Library Management System</option>
+                <option value="lms">Learning Management System (LMS)</option>
+              </optgroup>
+              <optgroup label="Service Industries">
+                <option value="travel">Travel Booking System</option>
+                <option value="events">Event Management Platform</option>
+                <option value="healthcare">Healthcare Patient Management</option>
+              </optgroup>
+            </select>
+          </div>
+          
+          <textarea id="userStoryInput" placeholder="Enter your user story or system requirements here..."></textarea>
+          
+          <div class="options-row">
+            <div class="format-selection">
+              <label>ALPS Format:</label>
+              <label><input type="radio" name="alpsFormat" value="json" checked> JSON</label>
+              <label><input type="radio" name="alpsFormat" value="xml"> XML</label>
+            </div>
+            
+            <div class="language-selection">
+              <label>Documentation Language:</label>
+              <select id="languageSelect">
+                <option value="English">English</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Chinese">Chinese</option>
+                <option value="other">Other...</option>
+              </select>
+              <input type="text" id="customLanguage" placeholder="Specify language" class="hidden">
+            </div>
+          </div>
+          
+          <button id="generateAlpsPromptBtn" class="primary-btn">Generate ALPS Prompt</button>
+        </div>
+        
+        <!-- Direct ALPS Tab Content -->
+        <div id="directAlpsTab" class="tab-content">
+          <p>Paste your existing ALPS profile below and proceed directly to the format conversion step.</p>
+          <textarea id="directAlpsInput" placeholder="Paste your existing ALPS profile here..."></textarea>
+          <div class="format-selection">
+            <label>Select the format of your ALPS profile:</label>
+            <label><input type="radio" name="directAlpsFormat" value="json" checked> JSON</label>
+            <label><input type="radio" name="directAlpsFormat" value="xml"> XML</label>
+          </div>
+          <button id="proceedToConversionBtn" class="primary-btn">Proceed to Conversion</button>
+        </div>
+      </section>
+      
+      <!-- Step 2: ALPS to Implementation -->
+      <section id="alpsSection" class="hidden">
+        <h2>Convert ALPS to Implementation Format</h2>
+        
+        <div class="result-header">
+          <h3>Generated ALPS Prompt</h3>
+          <button id="copyAlpsBtn" class="copy-btn">Copy ALPS Prompt</button>
+        </div>
+        
+        <textarea id="alpsInput" placeholder="Your generated ALPS prompt will appear here. You can also paste your own ALPS profile."></textarea>
+        
+        <div class="verification-tip">
+          <p><strong>💡 Pro Tip:</strong> After receiving your ALPS profile from the AI, consider asking: <span class="tip-text">"Please review this ALPS profile to verify that there are no isolated states (unreachable or exit-less states) and that all state transitions are properly connected. Also check if all semantic descriptors are consistently tagged and grouped."</span> <button id="copyTipBtn" class="mini-btn">Copy Tip</button></p>
+          <p><strong>💡 Next Step:</strong> After confirming that ALPS is rendered correctly at <a target="_blank" href="https://editor.app-state-diagram.com/">https://editor.app-state-diagram.com/</a>, Paste your ALPS profile into textarea and proceed directly to the format conversion step. 
+          </p>
+        </div>
+        
+        <h3>Select Target Implementation Format</h3>
+        <div class="format-buttons">
+          <button id="openApiBtn">OpenAPI</button>
+          <button id="jsonSchemaBtn">JSON Schema</button>
+          <button id="graphqlBtn">GraphQL</button>
+          <button id="sqlBtn">SQL</button>
+          <button id="typescriptBtn">TypeScript</button>
+        </div>
+        
+        <button id="convertAlpsBtn" class="primary-btn">Generate Conversion Prompt</button>
+        
+        <div class="nav-buttons">
+          <button id="backToUserStoryBtn" class="secondary-btn">← Back to User Story</button>
+        </div>
+      </section>
+      
+      <!-- Step 3: Result -->
+      <section id="resultSection" class="hidden">
+        <div class="result-header">
+          <h2 id="resultTitle">Generated Conversion Prompt</h2>
+          <button id="copyResultBtn" class="copy-btn">Copy to Clipboard</button>
+        </div>
+        
+        <p>Copy this prompt to ChatGPT, Claude, or any other AI assistant:</p>
+        <div id="promptResult"></div>
+        
+        <div class="verification-tip">
+          <p><strong>💡 Remember:</strong> For best results, first have the AI verify the ALPS profile for correctness, then provide this conversion prompt.</p>
+        </div>
+        
+        <div class="nav-buttons">
+          <button id="startOverBtn" class="secondary-btn">Start Over</button>
+          <button id="backToAlpsBtn" class="secondary-btn">← Back to ALPS</button>
+        </div>
+        
+        <div class="gpts-link" style="margin-top: 25px; text-align: center;">
+          <p>Tip: For quick results, you can also use <a href="https://chatgpt.com/g/g-HYPygRnLS-alps-assistant" target="_blank">ALPS Assistant GPTs</a> with your prompts.</p>
+        </div>
+      </section>
+    </main>
+    
+    <footer>
+    </footer>
+  </div>
+</div>
 
-Chat-GPT Plus users can use the alps Assistant, where instructions are given to the AI in advance so that the appropriate alps profile is generated by the AI.
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const userStoryInput = document.getElementById('userStoryInput');
+    const alpsInput = document.getElementById('alpsInput');
+    const promptResult = document.getElementById('promptResult');
+    const resultTitle = document.getElementById('resultTitle');
+    
+    // Sections
+    const userStorySection = document.getElementById('userStorySection');
+    const alpsSection = document.getElementById('alpsSection');
+    const resultSection = document.getElementById('resultSection');
+    
+    // Step indicators
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    
+    // Buttons
+    const generateAlpsPromptBtn = document.getElementById('generateAlpsPromptBtn');
+    const convertAlpsBtn = document.getElementById('convertAlpsBtn');
+    const copyAlpsBtn = document.getElementById('copyAlpsBtn');
+    const copyResultBtn = document.getElementById('copyResultBtn');
+    const backToUserStoryBtn = document.getElementById('backToUserStoryBtn');
+    const backToAlpsBtn = document.getElementById('backToAlpsBtn');
+    const startOverBtn = document.getElementById('startOverBtn');
+    
+    // Format buttons
+    const openApiBtn = document.getElementById('openApiBtn');
+    const jsonSchemaBtn = document.getElementById('jsonSchemaBtn');
+    const graphqlBtn = document.getElementById('graphqlBtn');
+    const sqlBtn = document.getElementById('sqlBtn');
+    const typescriptBtn = document.getElementById('typescriptBtn');
+    
+    // Sample user stories
+    const sampleStories = {
+      'ecommerce': `As a store owner, I want to manage product inventory.
+Products have a name, description, price, category, and stock quantity.
+I need to add new products, update existing ones, and remove discontinued items.
+Customers should be able to browse products by category and view product details.`,
+      
+      'taskapp': `As a project manager, I need a task tracking system.
+Tasks have a title, description, due date, priority, and assigned user.
+Users should be able to create tasks, update status, and mark them complete.
+The system should display task lists filtered by status or assigned user.`,
+      
+      'blog': `As a content creator, I need a blog management system.
+Articles have a title, content, publication date, tags, and author.
+I want to create drafts, publish articles, and manage comments.
+Readers should be able to view articles by tag or author and leave comments.`,
+      
+      'travel': `As a travel agent, I need a booking management system.
+Trips have destinations, departure/arrival dates, transportation type, and accommodations.
+Customers have personal details, payment information, and travel preferences.
+Agents should be able to search for available trips, make reservations, and manage itineraries.
+The system needs to track booking status, payments, and send confirmation notifications.`,
+      
+      'healthcare': `As a clinic administrator, I need a patient management system.
+Patients have personal information, medical history, and insurance details.
+Appointments have a date, time, doctor, patient, and status.
+Medical staff need to schedule appointments, record diagnoses, and manage prescriptions.
+Patients should be able to view their medical records and upcoming appointments.`,
+      
+      'events': `As an event planner, I need an event management platform.
+Events have a name, venue, date, time, capacity, and ticket types.
+Attendees can purchase tickets, register for sessions, and leave feedback.
+Organizers need to manage venues, speakers, schedules, and ticket sales.
+The system should support check-ins, send reminders, and generate attendance reports.`,
+      
+      'library': `As a librarian, I need a library management system.
+Books have titles, authors, genres, ISBN, publication dates, and availability status.
+Members have accounts with personal information, borrowed books, and borrowing history.
+Librarians need to catalog books, process loans and returns, and manage reservations.
+Members should be able to search the catalog, reserve books, and view their account status.`,
+      
+      'restaurant': `As a restaurant owner, I need a reservation and ordering system.
+Tables have capacity, location, and availability status.
+Menu items have names, descriptions, prices, categories, and dietary information.
+Staff need to manage reservations, take orders, and process payments.
+Customers should be able to book tables, browse menus, and place orders.`,
+      
+      'lms': `## Learning Management System (LMS)
 
-- [alps Assistant](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant)
+### Core Users
+1. **Students**: Individuals who register for courses, access content, and submit assignments
+2. **Instructors**: Educators who create and manage courses, evaluate student progress
+3. **Administrators**: People who oversee the entire system, manage user accounts and course catalog
 
-Alternatively, the following prompt can be used when the alps profile is generated by the AI. By following this prompt, you can create a consistent alps profile suitable for conversion in the prompts described below.
+### Course & Content Management
+- **As an instructor**, I want to create courses with metadata like title, description, category, start/end dates, enrollment capacity, and difficulty level.
+- **As an instructor**, I want to add modules or sections to courses to organize content in logical order.
+- **As an instructor**, I want to upload various formats of teaching materials including text, video, audio, PDFs, slideshows, and interactive HTML elements.
+- **As an instructor**, I want to create course content in draft mode and preview it before publishing.
+- **As an administrator**, I want to view the entire course catalog and filter by category, instructor, or status (active, private, archived).
 
-- [alps](#alps)
+### Enrollment & Progress Tracking
+- **As a student**, I want to browse available courses, check details, and then register.
+- **As a student**, I want to track my progress and see completed modules and what's next.
+- **As a student**, I want to check course prerequisites to understand required skills or prior knowledge before enrolling.
+- **As an instructor**, I want to enroll or unenroll students and set course start/end date extensions for individuals or the entire class.
+- **As an instructor**, I want to view class-wide progress on a dashboard and identify students falling behind.
 
-## Convert alps profile
+### Assessment & Feedback
+- **As an instructor**, I want to create various types of assignments and tests including multiple-choice, written, file upload, and programming assignments.
+- **As an instructor**, I want to set grading criteria (rubrics) and provide detailed feedback on assignments.
+- **As a student**, I want to submit assignments and resubmit before deadlines if needed.
+- **As a student**, I want to view my grades and feedback, and ask questions to the instructor if necessary.
+- **As an instructor**, I want to manage a gradebook and calculate overall grades for each student.
 
-While system implementation definitions such as OpenAPI, GraphQL, and SQL tend to become complex due to the many details they contain, alps can express the core information design of a system at a high level of abstraction through semantic descriptions.
+### Communication & Collaboration
+- **As a student**, I want to post questions on discussion forums and receive answers from other students or instructors.
+- **As an instructor**, I want to send notifications and announcements to the entire class or individual students.
+- **As a student**, I want to participate in group projects with a shared workspace for collaboration with other students.
+- **As any user**, I want to send and receive messages within the system and share attachments.
+- **As an instructor**, I want to schedule real-time webinars or online sessions and save recordings for students to access later.
 
-This abstract representation enables efficient communication with AI and facilitates conversion to various concrete implementation forms such as API specifications, database schemas, and type definitions. By utilizing the prompts introduced here, you can efficiently generate various implementation definitions from alps.
+### Reports & Analytics
+- **As an instructor**, I want to see analytics on student engagement and activity (login frequency, content viewed, time to complete assignments).
+- **As an administrator**, I want to view platform-wide usage and performance metrics.
+- **As an administrator**, I want to generate reports on enrollment trends, completion rates, and satisfaction ratings.
+- **As an instructor**, I want to export student performance data for use in external analytics tools.
 
-## List of conversion prompts
+### Accessibility & Localization
+- **As any user**, I want to select my interface language for interacting with the system.
+- **As a student**, I want to use accessibility features for visual or hearing impairments.
+- **As an instructor**, I want to add accessibility elements to content like captions and alternative text.
 
-- [OpenAPI](#openapi)
-- [JSON Schema](#json-schema)
-- [GraphQL](#graphql)
-- [SQL](#sql)
-- [TypeScript type definitions](#typescript-type-definitions)
-
-## alps
-
-<pre style="font-size: x-small">
-# alps Profile Creation Prompt
-
-Create an alps profile based on the following requirements, adhering to the guidelines described below:
-
-* Format: [XML|JSON]
-* Content: [Description of the profile to be created]
-
-## ‼️ Important: JSON Format Guidelines ‼️
+### Mobile & Offline Access
+- **As a student**, I want to access courses from mobile devices and learn comfortably on smartphones or tablets.
+- **As a student**, I want to download content for offline learning without internet connection.
+- **As an instructor**, I want to send notifications via mobile app to boost student engagement.`
+    };
+    
+    // ALPS guide content
+    const alpsGuide = `## ‼️ Important: JSON Format Guidelines ‼️
 
 1. Write each descriptor on a single line (mandatory).
 2. Only indent and line-break descriptors if they contain other descriptors.
-3. All nested descriptors must reference their parent with `href`.
+3. All nested descriptors must reference their parent with \`href\`.
 
-```json
+\`\`\`json
 {"$schema": "https://alps-io.github.io/schemas/alps.json", "alps": {"version": "1.0", "descriptor": [
-{"id": "name", "type": "semantic", "title": "Name", "def": "https://schema.org/name"},
-{"id": "email", "type": "semantic", "title": "Email", "def": "https://schema.org/email"},
-{"id": "User", "type": "semantic", "title": "User Profile", "descriptor": [
+{"id": "name", "title": "Name", "def": "https://schema.org/name"},
+{"id": "email", "title": "Email", "def": "https://schema.org/email"},
+{"id": "User", "title": "User Profile", "descriptor": [
   {"href": "#name"},
   {"href": "#email"}
 ]},
-{"id": "UserList", "type": "semantic", "title": "User List", "descriptor": [
+{"id": "UserList", "title": "User List", "descriptor": [
   {"href": "#User"},
   {"href": "#goUser"},
   {"href": "#doCreateUser"}
@@ -657,18 +1223,19 @@ Create an alps profile based on the following requirements, adhering to the guid
 {"id": "goUser", "type": "safe", "title": "View User Details", "rt": "#User"},
 {"id": "doCreateUser", "type": "unsafe", "title": "Create User", "rt": "#UserList"}
 ]}}
-```
+\`\`\`
 
 ## XML Format Guidelines
 
 - Use indentation to indicate hierarchy.
 - Write each element on a single line.
 
-```xml
+\`\`\`xml
 <alps version="1.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
-```
+</alps>
+\`\`\`
 
 ## Structuring Semantic Descriptors
 
@@ -676,897 +1243,474 @@ Organize into the following three blocks. Each descriptor must either reference 
 
 1. Semantic Definitions (Ontology)
    - Define basic elements (lowerCamelCase).
-   - Always specify `def` as a full URL if there’s a Schema.org definition.
-   - Add a `title` to all descriptors.
-   - Include `doc` only if necessary.
+   - Always specify \`def\` as a full URL if there's a Schema.org definition.
+   - Add a \`title\` to all descriptors.
+   - Include \`doc\` only if necessary.
    - Each defined element must be referenced by at least one taxonomy state.
 
 2. Containment Relationships (Taxonomy)
    - Descriptors representing states use UpperCamelCase.
-   - Use `href` for referencing elements (direct definition via `id` is not allowed).
+   - Use \`href\` for referencing elements (direct definition via \`id\` is not allowed).
    - Each application state includes:
      * Elements displayed/used in the state (defined in the ontology).
      * Actions that can be performed (defined in choreography).
-   - Use `doc` for additional details if needed.
+   - Use \`doc\` for additional details if needed.
    - Each taxonomy must either contain or transition to other taxonomies.
 
 3. State Transitions (Choreography)
    - Define transition actions.
-   - Select the appropriate `type` attribute.
-   - Specify the transition destination (`rt`).
-   - Use `href` to refer to necessary data items.
-   - Each operation must be referenced by at least one taxonomy state.
-
-## Guidelines for Choosing the `type` Attribute
-
-1. safe
-   - Read-only operation.
-   - Prefix: "go"
-   - Example: `goUserProfile`
-   - Represents a transition to another state.
-
-2. idempotent
-   - Operations where repeated execution has no effect on the outcome.
-   - Prefix: "do"
-   - Example: `doUpdateUser`, `doDeleteUser`
-   - Typically PUT or DELETE actions.
-
-3. unsafe
-   - Operation with potentially different outcomes each time.
-   - Prefix: "do"
-   - Example: `doCreateUser`
-   - Used for actions like creating new entries via POST.
-   - **Note**: Prefer `idempotent` when possible; use `unsafe` only when necessary.
-
-## Usage Guidelines for Descriptor Attributes
-
-1. Required Attributes
-   - `id`: Unique identifier (or `href`)
-   - `title`: Human-readable display name.
-
-2. Conditional Attributes
-   - `def`: Required if there is a Schema.org definition.
-   - `doc`: Use only if additional description is necessary.
-   - `rt`: Required for transition operations.
-   - `rel`: Specify if there’s an IANA-defined relation.
-   - `tag`: Use for suitable grouping.
-
-## Checklist
-
-### General Format
-- [ ] Schema reference and version information are included.
-- [ ] All descriptors have a `title`.
-- [ ] Any element with a Schema.org definition specifies `def` as a complete URL.
-- [ ] Transition naming conventions are correct (go/do prefix).
-- [ ] The chosen `type` is appropriate (especially distinguishing between `idempotent` and `unsafe`).
-- [ ] Three blocks (Ontology, Taxonomy, and Choreography) are clearly defined.
-- [ ] Naming conventions are followed (states in UpperCamelCase, elements in lowerCamelCase).
-- [ ] All element references use `href` (no direct `id` definitions).
-- [ ] Each application state is properly defined and includes executable actions.
-- [ ] All operations specify appropriate transition destinations (`rt`).
-
-### Relationship Verification (Mandatory)
-- [ ] ‼️ All descriptors are either referenced by other descriptors or contain other descriptors.
-- [ ] ‼️ All elements defined in the ontology are referenced by at least one taxonomy state.
-- [ ] ‼️ All actions defined in choreography are referenced by at least one taxonomy state.
-- [ ] ‼️ Each taxonomy element is contained in or transitions to other taxonomies.
-- [ ] ‼️ No isolated descriptors exist.
-
-### For JSON Format (Mandatory)
-- [ ] ‼️ Each descriptor is on a single line.
-- [ ] Indent and line-break only when descriptors contain other descriptors.
-- [ ] Use double quotes for property names.
-
-### For XML Format
-- [ ] Properly indented.
-
-</alps>
-</pre>
-
-## OpenAPI
-
-<pre style="font-size: x-small">
-**Task:** Convert the provided alps (Application-Level Profile Semantics) file into an OpenAPI 3.0 definition file in YAML format.
-
-**Key Points to Consider:**
-
-1. **Descriptor Elements:**
-    - **Understanding `descriptor`:** In alps, a `descriptor` represents a semantic element, which can be a data element or a state transition.
-    - **Mapping to OpenAPI Paths and Operations:**
-        - For state transitions (`descriptor` with `type` of `safe`, `unsafe`, or `idempotent`), map these to OpenAPI operations under appropriate HTTP methods (`GET`, `POST`, `PUT`, `DELETE`).
-        - Ensure idempotent operations use `PUT` or `DELETE`.
-        - Do not include a request body for `DELETE` operations.
-
-2. **Components and Reusability:**
-    - **Schemas and Parameters:**
-        - Extract data element descriptors (those with `type` of `semantic`) and define them as reusable schemas under `components/schemas`.
-        - Use these schemas in request bodies and responses where applicable.
-    - **Common Parameters:**
-        - Identify common parameters (e.g., IDs, query parameters) and define them under `components/parameters` for reuse.
-
-3. **Responses and Status Codes:**
-    - **Appropriate Status Codes:**
-        - Use `200 OK` for successful retrieval.
-        - Use `201 Created` when a new resource is created.
-        - Use `204 No Content` when an operation is successful but does not return content.
-        - Use `400 Bad Request`, `404 Not Found`, etc., for error handling.
-    - **Response Schemas:**
-        - Define response schemas using the components defined earlier.
-
-4. **Data Constraints:**
-    - **Validation:**
-        - Add data constraints such as:
-            - **String Constraints:** `minLength`, `maxLength`, `pattern` (regular expressions).
-            - **Numeric Constraints:** `minimum`, `maximum`.
-            - **Enumerations:** `enum` for fixed sets of values.
-    - **Applying Constraints:**
-        - Apply these constraints to the schemas in `components/schemas`.
-
-5. **Links and External Documentation:**
-    - **Link Relations:**
-        - If the `descriptor` includes `href` or `rel`, consider using OpenAPI's `externalDocs` or `links` to represent relationships.
-    - **Descriptions:**
-        - Use the `doc` element in alps to provide descriptions for operations, parameters, and schemas.
-
-**Output Format:**
-- Provide the OpenAPI definition in **YAML** format.
-
----
-
-**Additional Notes:**
-
-- Focus on accurately translating the alps descriptors into OpenAPI paths, operations, and components.
-- Ensure that the resulting OpenAPI file is valid and follows best practices.
-- Do not include unnecessary information from the alps file that does not contribute to the OpenAPI definition.
-
-
-_YOUR_alps_HERE_
-</pre>
-
-## JSON Schema
-
-<pre style="font-size: x-small">
-**Task:** Convert the provided alps (Application-Level Profile Semantics) file into a JSON Schema definition.
-
-**Key Points to Consider:**
-
-1. **Descriptor Elements:**
-    - **Understanding `descriptor`:** In alps, a `descriptor` represents a semantic element.
-    - **Mapping to JSON Schema:**
-        - Map data elements (`descriptor` with `type` of `semantic`) to JSON Schema properties.
-        - Use appropriate JSON Schema types based on the data element's nature.
-
-2. **Schema Structure:**
-    - **Root Schema:**
-        - Define the root schema with `$schema` and `type` properties.
-        - Include appropriate metadata like `title` and `description`.
-    - **Properties:**
-        - Define properties based on alps descriptors.
-        - Organize nested structures using `properties` and `items`.
-
-3. **Data Types and Formats:**
-    - **Basic Types:**
-        - Use appropriate JSON Schema types:
-            - `string`
-            - `number`
-            - `integer`
-            - `boolean`
-            - `object`
-            - `array`
-    - **Formats:**
-        - Apply standard formats where applicable:
-            - `date-time`
-            - `date`
-            - `email`
-            - `uri`
-            - etc.
-
-4. **Data Constraints:**
-    - **Validation Rules:**
-        - Add constraints such as:
-            - **Strings:** `minLength`, `maxLength`, `pattern`
-            - **Numbers:** `minimum`, `maximum`, `multipleOf`
-            - **Arrays:** `minItems`, `maxItems`, `uniqueItems`
-            - **Objects:** `required`, `additionalProperties`
-    - **Enumerations:**
-        - Use `enum` for fixed sets of values
-        - Include descriptions for enum values
-
-5. **Definitions and References:**
-    - **Reusable Components:**
-        - Define common schemas under `$defs`
-        - Use `$ref` to reference reusable schemas
-    - **Inheritance:**
-        - Use `allOf`, `anyOf`, or `oneOf` for complex type relationships
-
-6. **Documentation:**
-    - **Descriptions:**
-        - Use alps `doc` elements for schema and property descriptions
-    - **Examples:**
-        - Include `examples` where helpful
-    - **Titles:**
-        - Add clear titles for properties and definitions
-
-**Output Format:**
-- Provide the JSON Schema in standard JSON format
-- Use proper indentation for readability
-
-**Additional Requirements:**
-- The schema should be valid against JSON Schema Draft 2020-12
-- Include appropriate `required` properties
-- Use meaningful property names
-- Add comments for complex validations or business rules
-
-_YOUR_alps_HERE_
-</pre>
-
-## SQL
-
-<pre style="font-size: x-small">
-**Task:** Convert the provided alps (Application-Level Profile Semantics) file into SQL DDL (Data Definition Language) and DML (Data Manipulation Language) statements.
-
-**Part 1: DDL Statements**
-
-1. **Schema and Table Design:**
-   - **Database Schema:**
-      - Create an appropriate database schema name based on the alps profile
-      - Include schema versioning considerations
-   - **Table Creation:**
-      - Map alps descriptors with `type` of `semantic` to database tables
-      - Handle nested structures through table relationships
-
-**Part 2: DML Statement Generation**
-
-1. **SELECT Queries:**
-    - **Basic Queries:**
-        - Generate SELECT statements for each main resource
-        - Include appropriate JOIN clauses based on relationships
-        - Add WHERE clauses for filtering
-        - Consider pagination (LIMIT/OFFSET)
-
-    - **Complex Queries:**
-        - Create queries with multiple JOINs
-        - Add subqueries where appropriate
-        - Include aggregate functions (COUNT, SUM, etc.)
-        - Implement GROUP BY and HAVING clauses
-
-    - **View Queries:**
-        - Generate useful view definitions
-        - Create materialized views for performance
-
-2. **INSERT Statements:**
-    - Generate INSERT statements with:
-        - Single row insertions
-        - Bulk insert templates
-        - INSERT ... SELECT patterns
-        - RETURNING clauses where applicable
-
-3. **UPDATE Statements:**
-    - Create UPDATE templates for:
-        - Single record updates
-        - Bulk updates
-        - Updates with JOINs
-        - Conditional updates
-
-    - Include:
-        - WHERE clauses for safe updates
-        - UPDATE triggers consideration
-        - Optimistic locking patterns
-
-4. **DELETE Statements:**
-    - Generate DELETE statements with:
-        - Safe deletion patterns
-        - Soft delete implementations
-        - Cascade delete considerations
-        - Archive strategies
-
-5. **Transaction Patterns:**
-    - Create transaction templates for:
-        - Complex operations
-        - Data consistency
-        - Error handling
-        - Rollback scenarios
-
-6. **Common Query Patterns:**
-    - **Search:**
-        - Full-text search queries
-        - Pattern matching (LIKE/ILIKE)
-        - Fuzzy matching
-
-    - **Reporting:**
-        - Summary queries
-        - Time-based aggregations
-        - Cross-table analytics
-
-    - **Audit:**
-        - Change tracking queries
-        - History viewing
-        - Activity logs
-
-**Output Format Requirements:**
-
-1. **DDL Format:**
-    - Complete CREATE statements
-    - Index definitions
-    - Constraint definitions
-    - Comment blocks explaining design decisions
-
-2. **DML Format:**
-    - Parameterized queries using :param or $n notation
-    - Comments explaining complex logic
-    - Performance considerations
-    - Expected index usage
-
-3. **Query Organization:**
-    - Group related queries together
-    - Include use case descriptions
-    - Document expected results
-    - Note any specific database engine requirements
-
-**Additional Considerations:**
-
-1. **Performance:**
-    - Index usage hints
-    - EXPLAIN plan considerations
-    - Query optimization suggestions
-    - Batch processing patterns
-
-2. **Security:**
-    - SQL injection prevention
-    - Permission requirements
-    - Row-level security patterns
-    - Audit trail implementation
-
-3. **Maintainability:**
-    - Clear query structure
-    - Consistent naming conventions
-    - Reusable components (CTEs, Views)
-    - Documentation of complex logic
-
-4. **Error Handling:**
-    - EXCEPTION blocks
-    - Transaction management
-    - Deadlock handling
-    - Constraint violation handling
-
-_YOUR_alps_HERE_
-</pre>
-
-## GraphQL
-
-<pre style="font-size: x-small">
-
-**Task:** Convert the provided alps (Application-Level Profile Semantics) file into a complete GraphQL implementation including schema definitions and operation examples.
-
-**Key Points to Consider:**
-
-1. **Schema Definition:**
-   - **Type Definitions:**
-     - Map alps semantic descriptors to GraphQL types
-     - Use appropriate scalar types (ID, String, Int, Float, Boolean)
-     - Define custom scalar types if needed (DateTime, JSON, etc.)
-     ```graphql
-     scalar DateTime
-     scalar JSON
-
-     type User {
-       id: ID!
-       name: String!
-       email: String!
-       createdAt: DateTime!
-       metadata: JSON
-     }
-     ```
-
-   - **Relationships:**
-     - Handle one-to-one, one-to-many, and many-to-many relationships
-     - Consider nullable vs. non-nullable fields
-     ```graphql
-     type Order {
-       id: ID!
-       user: User!
-       items: [OrderItem!]!
-       total: Float!
-     }
-     ```
-
-   - **Input Types:**
-     - Create input types for mutations
-     - Consider validation requirements
-     ```graphql
-     input CreateUserInput {
-       name: String!
-       email: String!
-       password: String!
-     }
-     ```
-
-   - **Interfaces and Unions:**
-     - Define interfaces for shared fields
-     - Use unions for polymorphic relationships
-     ```graphql
-     interface Node {
-       id: ID!
-     }
-
-     union SearchResult = User | Order | Product
-     ```
+   - Select the appropriate \`type\` attribute.
+   - Specify the transition destination (\`rt\`).
+   - Use \`href\` to refer to necessary data items.
+   - Each operation must be referenced by at least one taxonomy state.`;
+    
+    // Conversion prompt templates
+    const conversionPrompts = {
+      'OpenAPI': `**Task:** Convert this ALPS profile into a comprehensive OpenAPI 3.1 specification.
+
+**Key Instructions:**
+
+1. **State to Endpoint Mapping:**
+   - Map each semantic state to a resource endpoint
+   - Use tag attributes to organize endpoints into logical groups
+   - Apply proper REST principles (plural nouns for collections, etc.)
+
+2. **Transition Operations:**
+   - Convert transitions with specific type attributes:
+     - \`safe\` → GET operations
+     - \`unsafe\` → POST operations 
+     - \`idempotent\` → PUT/PATCH operations
+     - Include DELETE operations for removal actions
+   - Use appropriate HTTP status codes (200, 201, 204, 400, 404, etc.)
+
+3. **Schema Definitions:**
+   - Build schemas from semantic descriptors
+   - Include all properties referenced in state descriptors
+   - Use Schema.org definitions when available via \`def\` attributes
+   - Apply proper validation constraints based on domain knowledge
+   - Create both request and response schemas
+
+4. **Complete Documentation:**
+   - Use titles as summary descriptions
+   - Convert doc attributes to detailed descriptions
+   - Include examples for each operation
+   - Document error responses and handling
+
+5. **Consistent Design:**
+   - Apply query parameters for filtering, sorting, pagination
+   - Use path parameters for resource identifiers
+   - Include security schemes appropriate for the domain
+   - Ensure all endpoints have complete request/response documentation
+
+**Output Format:** Provide YAML format with appropriate indentation and organization.`,
+      
+      'JSON Schema': `**Task:** Convert this ALPS profile into a comprehensive JSON Schema that accurately captures all data structures.
+
+**Key Instructions:**
+
+1. **Semantic Descriptors:**
+   - Create type definitions for each semantic descriptor
+   - Use $defs for proper schema reusability
+   - Follow semantic descriptor hierarchies when defining nested structures
+   - Use \`$ref\` to reference repeated structures
+
+2. **Type & Format Selection:**
+   - Choose appropriate types (string, number, integer, boolean, object, array)
+   - Apply formats based on semantic meaning (date-time, email, uri, etc.)
+   - For descriptors with Schema.org definitions, infer types from those definitions
+   - Include multitype properties where appropriate
+
+3. **Validation Rules:**
+   - Add property constraints:
+     - Strings: minLength, maxLength, pattern
+     - Numbers: minimum, maximum, multipleOf
+     - Arrays: minItems, maxItems, uniqueItems
+     - Objects: required, additionalProperties
+   - Define enumerations for constrained values
+
+4. **Documentation & Metadata:**
+   - Include title from the ALPS descriptor
+   - Add description from doc attributes
+   - Provide examples of valid data
+   - Add $schema reference for validation
+
+5. **Design Patterns:**
+   - Use oneOf/anyOf for polymorphic structures
+   - Create composition patterns with allOf when appropriate
+   - Add conditional validation with if/then/else where needed
+
+**Output Format:** Provide properly formatted JSON with appropriate indentation.`,
+      
+'GraphQL': `**Task:** Convert this ALPS profile into a complete GraphQL schema with operations and resolvers.
+
+**Key Instructions:**
+
+1. **Type Definitions:**
+   - Create GraphQL types for each semantic descriptor
+   - Define scalars based on data nature (String, Int, Float, Boolean, ID)
+   - Create custom scalars for special formats (DateTime, Email, URL)
+   - Structure relationships using proper GraphQL object connections
 
 2. **Query Operations:**
-   - **Base Queries:**
-     - Single item retrieval
-     - List retrieval with filtering
-     - Search operations
-     ```graphql
-     type Query {
-       user(id: ID!): User
-       users(filter: UserFilter, limit: Int, offset: Int): [User!]!
-       search(term: String!): [SearchResult!]!
-     }
-     ```
-
-   - **Filtering System:**
-     - Define filter input types
-     - Support complex filtering operations
-     ```graphql
-     input UserFilter {
-       name: StringFilter
-       age: IntFilter
-       AND: [UserFilter!]
-       OR: [UserFilter!]
-     }
-
-     input StringFilter {
-       eq: String
-       contains: String
-       startsWith: String
-       in: [String!]
-     }
-     ```
-
-   - **Pagination:**
-     - Implement cursor-based pagination
-     - Support limit/offset pagination
-     ```graphql
-     type UserConnection {
-       edges: [UserEdge!]!
-       pageInfo: PageInfo!
-       totalCount: Int!
-     }
-
-     type UserEdge {
-       node: User!
-       cursor: String!
-     }
-
-     type PageInfo {
-       hasNextPage: Boolean!
-       hasPreviousPage: Boolean!
-       startCursor: String
-       endCursor: String
-     }
-     ```
+   - Create queries from \`safe\` transitions
+   - Implement filtering, sorting, and pagination for collection queries
+   - Design nested queries that follow the semantic connections
+   - Support efficient graph traversal with proper resolver planning
 
 3. **Mutation Operations:**
-   - **Create Operations:**
-     ```graphql
-     type Mutation {
-       createUser(input: CreateUserInput!): CreateUserPayload!
-       updateUser(id: ID!, input: UpdateUserInput!): UpdateUserPayload!
-       deleteUser(id: ID!): DeleteUserPayload!
-     }
+   - Create mutations from \`unsafe\` and \`idempotent\` transitions
+   - Define input types for creating and updating resources
+   - Implement proper error handling and return types
+   - Return modified objects from mutations for efficient client updates
 
-     type CreateUserPayload {
-       user: User
-       errors: [Error!]
-     }
-     ```
+4. **Schema Organization:**
+   - Use GraphQL directives for documentation and validation
+   - Group related operations based on ALPS tag attributes
+   - Design consistent naming patterns across the schema
+   - Implement interfaces for shared structures
 
-   - **Batch Operations:**
-     ```graphql
-     input BatchCreateUserInput {
-       users: [CreateUserInput!]!
-     }
+5. **Advanced Features:**
+   - Add subscription operations for real-time updates where appropriate
+   - Implement union types for polymorphic responses
+   - Design proper pagination with cursor-based approaches
+   - Add custom directives for authorization and caching hints
 
-     type BatchCreateUserPayload {
-       users: [User!]!
-       errors: [BatchError!]!
-     }
-     ```
+**Output Format:** Provide the schema in SDL (Schema Definition Language) format, along with example operations and resolver patterns.`,
+      
+      'SQL': `**Task:** Convert this ALPS profile into a comprehensive SQL database schema with tables, relationships, and key operations.
 
-   - **Error Handling:**
-     ```graphql
-     type Error {
-       field: String
-       message: String!
-       code: ErrorCode!
-     }
+**Key Instructions:**
 
-     type BatchError {
-       index: Int!
-       errors: [Error!]!
-     }
+1. **Table Structure:**
+   - Create tables for main semantic descriptors
+   - Define appropriate column types based on semantic meaning
+   - Implement proper primary keys and indexes
+   - Add foreign key constraints for relationships
+   - Include CHECK constraints for data validation
 
-     enum ErrorCode {
-       INVALID_INPUT
-       NOT_FOUND
-       UNAUTHORIZED
-       INTERNAL_ERROR
-     }
-     ```
+2. **Relationship Modeling:**
+   - Identify one-to-many, many-to-many, and one-to-one relationships
+   - Create junction tables for many-to-many relationships
+   - Implement proper ON DELETE/UPDATE behavior for referential integrity
+   - Use appropriate naming conventions for relationship columns
 
-4. **Subscription Operations:**
-   ```graphql
-   type Subscription {
-     userUpdated(id: ID): User!
-     newOrder: Order!
-     notifications(userId: ID!): Notification!
-   }
-   ```
+3. **Data Operations:**
+   - Create SELECT queries for \`safe\` transitions
+   - Implement INSERT statements for \`unsafe\` transitions
+   - Design UPDATE operations for \`idempotent\` transitions
+   - Add DELETE operations where appropriate
+   - Include stored procedures for complex operations
 
-5. **Directives:**
-   ```graphql
-   directive @auth(
-     requires: Role = USER
-   ) on OBJECT | FIELD_DEFINITION
+4. **Advanced Database Features:**
+   - Design appropriate indexes for performance
+   - Create views for common query patterns
+   - Implement triggers for data integrity and auditing
+   - Add computed columns for derived properties
+   - Consider partitioning for large tables
 
-   directive @deprecated(
-     reason: String = "No longer supported"
-   ) on FIELD_DEFINITION | ENUM_VALUE
+5. **Completeness & Standards:**
+   - Follow SQL standards for portability
+   - Include documentation as comments
+   - Create role-based permissions aligned with the domain
+   - Design for transaction safety
+   - Include data migration considerations
 
-   enum Role {
-     ADMIN
-     USER
-     GUEST
-   }
-   ```
+**Output Format:** Provide SQL DDL statements for schema creation, followed by example DML operations.`,
+      
+      'TypeScript': `**Task:** Convert this ALPS profile into a comprehensive TypeScript type system with interfaces, classes, and utility types.
 
-**Part 2: Implementation Guidelines**
+**Key Instructions:**
 
-1. **Resolver Structure:**
-   ```typescript
-   // Example resolver structure
-   const resolvers = {
-     Query: {
-       user: (parent, { id }, context) => {},
-       users: (parent, { filter, limit, offset }, context) => {}
-     },
-     Mutation: {
-       createUser: (parent, { input }, context) => {}
-     },
-     User: {
-       orders: (parent, args, context) => {}
-     }
-   }
-   ```
+1. **Core Type Definitions:**
+   - Create interfaces for each semantic descriptor
+   - Use proper TypeScript types (string, number, boolean, Date, etc.)
+   - Implement inheritance for related types
+   - Define enums for constrained values
+   - Add JSDoc comments from ALPS documentation
 
-2. **Context and Authentication:**
-   ```typescript
-   interface Context {
-     user: User | null;
-     dataSources: DataSources;
-     authenticate: () => Promise<User>;
-   }
-   ```
+2. **Type Relationships:**
+   - Design composition patterns for nested structures
+   - Create utility types for operations (Partial<T>, Pick<T>, etc.)
+   - Implement generics for reusable patterns
+   - Define index signatures for dynamic properties
+   - Use union and intersection types appropriately
 
-3. **Best Practices:**
-    - Use DataLoader for N+1 query prevention
-    - Implement proper error handling
-    - Follow naming conventions
-    - Add field-level documentation
-    - Consider rate limiting
-    - Implement proper authorization
+3. **API Integration:**
+   - Create request and response interfaces
+   - Implement service interfaces with typed methods
+   - Design error handling with typed exceptions
+   - Add validation decorators if using class-validator
+   - Structure according to ALPS tag groupings
 
-**Additional Considerations:**
+4. **Advanced TypeScript Features:**
+   - Use conditional types for complex logic
+   - Implement mapped types for transformations
+   - Add template literal types for string patterns
+   - Define type guards for runtime type checking
+   - Use const assertions for literal values
 
-1. **Performance:**
-    - Query complexity analysis
-    - Field-level cost calculation
-    - Caching strategies
-    - Batching optimizations
+5. **Code Organization:**
+   - Structure code into modules based on ALPS tags
+   - Create barrel exports for simplified imports
+   - Design for tree-shaking and code splitting
+   - Add examples of type usage
+   - Include TypeScript configuration recommendations
 
-2. **Security:**
-    - Input validation
-    - Authorization checks
-    - Rate limiting
-    - Query depth limiting
-
-3. **Testing:**
-    - Unit tests for resolvers
-    - Integration tests for operations
-    - Schema validation tests
-    - Performance benchmarks
-
-**Output Format Requirements:**
-
-1. **Schema Organization:**
-    - Separate files for different concerns
-    - Clear module structure
-    - Proper type imports/exports
-
-2. **Documentation:**
-    - Schema documentation
-    - Operation examples
-    - Use cases
-    - Error scenarios
-
-Please provide your alps document and I'll help you convert it to a GraphQL implementation following these guidelines.
-
-_YOUR_alps_HERE_
-
-</User></pre>
-
-## TypeScript type definitions
-
-<pre style="font-size: x-small">
-**Task:** Convert the provided alps (Application-Level Profile Semantics) file into TypeScript type definitions, interfaces, and related utilities.
-
-**Part 1: Core Type Definitions**
-
-1. **Base Types and Interfaces:**
-    - **Entity Types:**
-        ```typescript
-        // Example of expected output:
-        interface User {
-          id: string;
-          email: string;
-          name: string;
-          status: UserStatus;
-          createdAt: Date;
-          updatedAt: Date;
-        }
-
-        enum UserStatus {
-          Active = 'ACTIVE',
-          Inactive = 'INACTIVE',
-          Suspended = 'SUSPENDED'
-        }
-        ```
-
-    - **Nested Types:**
-        ```typescript
-        interface Address {
-          street: string;
-          city: string;
-          postalCode: string;
-          country: string;
-        }
-
-        interface UserWithAddress extends User {
-          address?: Address;
-        }
-        ```
-
-2. **Utility Types:**
-    - **Partial Types:**
-        ```typescript
-        type UpdateUserPayload = Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>;
-        ```
+**Output Format:** Provide well-organized TypeScript code with proper imports and exports.`
+    };
     
-    - **Pick Types:**
-        ```typescript
-        type UserCredentials = Pick<User, 'email' | 'password'>;
-        ```
-    
-    - **Record Types:**
-        ```typescript
-        type UsersByID = Record<string, User>;
-        ```
-
-3. **Generic Types:**
-    - **Response Wrappers:**
-        ```typescript
-        interface PaginatedResponse<T> {
-          items: T[];
-          totalCount: number;
-          pageInfo: {
-            hasNextPage: boolean;
-            hasPreviousPage: boolean;
-            startCursor: string;
-            endCursor: string;
-          };
-        }
-        ```
-
-    - **Error Handling:**
-        ```typescript
-        interface ApiError {
-          code: string;
-          message: string;
-          field?: string;
-        }
-
-        type Result<T> = 
-          | { success: true; data: T }
-          | { success: false; error: ApiError };
-        ```
-
-**Part 2: API Types**
-
-1. **Request/Response Types:**
-    ```typescript
-    // Request types
-    interface CreateUserRequest {
-      email: string;
-      name: string;
-      password: string;
-      address?: Address;
-    }
-
-    interface UpdateUserRequest {
-      userId: string;
-      data: UpdateUserPayload;
-    }
-
-    // Response types
-    interface CreateUserResponse {
-      user: User;
-      token: string;
-    }
-
-    interface UpdateUserResponse {
-      user: User;
-      modified: Array<keyof User>;
-    }
-    ```
-
-2. **Query Parameters:**
-    ```typescript
-    interface UserQueryParams {
-      search?: string;
-      status?: UserStatus;
-      sortBy?: keyof User;
-      sortOrder?: 'asc' | 'desc';
-      page?: number;
-      pageSize?: number;
-    }
-    ```
-
-3. **API Client Types:**
-    ```typescript
-    interface ApiClient {
-      users: {
-        create(data: CreateUserRequest): Promise<Result<CreateUserResponse>>;
-        update(data: UpdateUserRequest): Promise<Result<UpdateUserResponse>>;
-        delete(userId: string): Promise<Result<void>>;
-        get(userId: string): Promise<Result<User>>;
-        list(params: UserQueryParams): Promise<Result<PaginatedResponse<User>>>;
-      };
-    }
-    ```
-
-**Part 3: Validation Schemas**
-
-1. **Zod Schemas:**
-    ```typescript
-    import { z } from 'zod';
-
-    const UserSchema = z.object({
-      id: z.string().uuid(),
-      email: z.string().email(),
-      name: z.string().min(2).max(100),
-      status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED']),
-      createdAt: z.date(),
-      updatedAt: z.date()
+    // Tab switching functionality
+    document.getElementById('userStoryTabBtn').addEventListener('click', function() {
+      document.getElementById('userStoryTab').classList.add('active');
+      document.getElementById('directAlpsTab').classList.remove('active');
+      this.classList.add('active');
+      document.getElementById('directAlpsTabBtn').classList.remove('active');
     });
-
-    type UserFromSchema = z.infer<typeof UserSchema>;
-    ```
-
-2. **Custom Validators:**
-    ```typescript
-    type Validator<T> = {
-      validate: (value: unknown) => value is T;
-      errors: () => string[];
-    };
-    ```
-
-**Part 4: Helper Types**
-
-1. **State Management:**
-    ```typescript
-    interface EntityState<T> {
-      data: Record<string, T>;
-      loading: boolean;
-      error: ApiError | null;
-      selectedId: string | null;
-    }
-
-    type EntityActions<T> = 
-      | { type: 'SET_DATA'; payload: Record<string, T> }
-      | { type: 'SET_LOADING'; payload: boolean }
-      | { type: 'SET_ERROR'; payload: ApiError | null }
-      | { type: 'SELECT'; payload: string | null };
-    ```
-
-2. **Event Types:**
-    ```typescript
-    interface EntityEvent<T> {
-      type: 'created' | 'updated' | 'deleted';
-      entity: T;
-      timestamp: Date;
-      actor: string;
-    }
-    ```
-
-**Additional Considerations:**
-
-1. **Type Guards:**
-    ```typescript
-    function isUser(value: unknown): value is User {
-      return (
-        typeof value === 'object' &&
-        value !== null &&
-        'id' in value &&
-        'email' in value &&
-        'name' in value
-      );
-    }
-    ```
-
-2. **Mapped Types:**
-    ```typescript
-    type ResourceActions<T> = {
-      [K in keyof T as `update${Capitalize<string & K>}`]: 
-        (value: T[K]) => Promise<void>
-    };
-    ```
-
-3. **Conditional Types:**
-    ```typescript
-    type NonNullableFields<T> = {
-      [K in keyof T]: NonNullable<T[K]>;
-    };
-    ```
-
-**Output Requirements:**
-
-1. **File Organization:**
-    ```typescript
-    // models/index.ts
-    export * from './user';
-    export * from './address';
     
-    // models/user.ts
-    export interface User { ... }
-    export type UserCreate = ...
-    export type UserUpdate = ...
-    ```
-
-2. **Documentation:**
-    ```typescript
-    /**
-     * Represents a user in the system
-     * @property {string} id - Unique identifier
-     * @property {string} email - User's email address
-     */
-    export interface User {
-      id: string;
-      email: string;
-      // ...
+    document.getElementById('directAlpsTabBtn').addEventListener('click', function() {
+      document.getElementById('directAlpsTab').classList.add('active');
+      document.getElementById('userStoryTab').classList.remove('active');
+      this.classList.add('active');
+      document.getElementById('userStoryTabBtn').classList.remove('active');
+    });
+    
+    // STEP 1: Sample story handling
+    document.getElementById('sampleStorySelect').addEventListener('change', function() {
+      if (this.value) {
+        userStoryInput.value = sampleStories[this.value];
+      }
+    });
+    
+    // Custom language handling
+    document.getElementById('languageSelect').addEventListener('change', function() {
+      const customLanguageInput = document.getElementById('customLanguage');
+      if (this.value === 'other') {
+        customLanguageInput.classList.remove('hidden');
+      } else {
+        customLanguageInput.classList.add('hidden');
+      }
+    });
+    
+    // Generate ALPS Prompt button (from user story)
+    generateAlpsPromptBtn.addEventListener('click', function() {
+      if (userStoryInput.value.trim() === '') {
+        alert('Please enter a user story.');
+        return;
+      }
+      
+      const format = document.querySelector('input[name="alpsFormat"]:checked').value;
+      const language = getSelectedLanguage();
+      
+      // Generate ALPS prompt
+      const alpsPrompt = generateAlpsPrompt(userStoryInput.value, format, language);
+      alpsInput.value = alpsPrompt;
+      
+      // Move to Step 2
+      userStorySection.classList.add('hidden');
+      alpsSection.classList.remove('hidden');
+      
+      step1.classList.remove('active');
+      step2.classList.add('active');
+    });
+    
+    // Proceed to conversion button (from direct ALPS input)
+    document.getElementById('proceedToConversionBtn').addEventListener('click', function() {
+      const directAlpsInput = document.getElementById('directAlpsInput');
+      
+      if (directAlpsInput.value.trim() === '') {
+        alert('Please enter an ALPS profile.');
+        return;
+      }
+      
+      // Transfer direct ALPS input to the conversion section
+      alpsInput.value = directAlpsInput.value;
+      
+      // Move directly to Step 2
+      userStorySection.classList.add('hidden');
+      alpsSection.classList.remove('hidden');
+      
+      step1.classList.remove('active');
+      step2.classList.add('active');
+    });
+    
+    // STEP 2: Format selection handling
+    let selectedFormat = null;
+    
+    openApiBtn.addEventListener('click', () => selectFormat('OpenAPI', openApiBtn));
+    jsonSchemaBtn.addEventListener('click', () => selectFormat('JSON Schema', jsonSchemaBtn));
+    graphqlBtn.addEventListener('click', () => selectFormat('GraphQL', graphqlBtn));
+    sqlBtn.addEventListener('click', () => selectFormat('SQL', sqlBtn));
+    typescriptBtn.addEventListener('click', () => selectFormat('TypeScript', typescriptBtn));
+    
+    function selectFormat(format, button) {
+      selectedFormat = format;
+      
+      // Update UI to show selected format
+      document.querySelectorAll('.format-buttons button').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      button.classList.add('selected');
     }
-    ```
+    
+    // Convert ALPS button
+    convertAlpsBtn.addEventListener('click', function() {
+      if (alpsInput.value.trim() === '') {
+        alert('Please generate or paste an ALPS profile.');
+        return;
+      }
+      
+      if (!selectedFormat) {
+        alert('Please select a format to convert to.');
+        return;
+      }
+      
+      // Generate conversion prompt
+      const conversionPrompt = conversionPrompts[selectedFormat] + 
+        '\n\n_YOUR_ALPS_HERE_\n\n```\n' + alpsInput.value + '\n```';
+      
+      promptResult.textContent = conversionPrompt;
+      resultTitle.textContent = `${selectedFormat} Conversion Prompt`;
+      
+      // Move to Step 3
+      alpsSection.classList.add('hidden');
+      resultSection.classList.remove('hidden');
+      
+      step2.classList.remove('active');
+      step3.classList.add('active');
+    });
+    
+    // Navigation buttons
+    backToUserStoryBtn.addEventListener('click', function() {
+      alpsSection.classList.add('hidden');
+      userStorySection.classList.remove('hidden');
+      
+      step2.classList.remove('active');
+      step1.classList.add('active');
+    });
+    
+    backToAlpsBtn.addEventListener('click', function() {
+      resultSection.classList.add('hidden');
+      alpsSection.classList.remove('hidden');
+      
+      step3.classList.remove('active');
+      step2.classList.add('active');
+    });
+    
+    startOverBtn.addEventListener('click', function() {
+      resultSection.classList.add('hidden');
+      userStorySection.classList.remove('hidden');
+      
+      step3.classList.remove('active');
+      step1.classList.add('active');
+      step2.classList.remove('active');
+      
+      // Reset selections
+      selectedFormat = null;
+      document.querySelectorAll('.format-buttons button').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+    });
+    
+    // Copy buttons
+    copyAlpsBtn.addEventListener('click', function() {
+      copyToClipboard(alpsInput.value, copyAlpsBtn);
+    });
+    
+    copyResultBtn.addEventListener('click', function() {
+      copyToClipboard(promptResult.textContent, copyResultBtn);
+    });
+    
+    // Copy verification tip
+    document.getElementById('copyTipBtn').addEventListener('click', function() {
+      const tipText = "Please review this ALPS profile to verify that there are no isolated states (unreachable or exit-less states) and that all state transitions are properly connected. Also check if all semantic descriptors are consistently tagged and grouped.";
+      copyToClipboard(tipText, this);
+    });
+    
+    // Helper functions
+    function getSelectedLanguage() {
+      const languageSelect = document.getElementById('languageSelect');
+      if (languageSelect.value === 'other') {
+        return document.getElementById('customLanguage').value || 'Custom';
+      } else {
+        return languageSelect.value;
+      }
+    }
+    
+    function generateAlpsPrompt(userStory, format, language) {
+      return `# ALPS Profile Creation Prompt
 
-3. **Type Exports:**
-    ```typescript
-    export type {
-      User,
-      UserCreate,
-      UserUpdate,
-      UserQueryParams,
-      // ...
-    };
-    ```
-_YOUR_alps_HERE_
+Please create an ALPS profile based on the following requirements. This profile should represent a complete and consistent application state design.
 
-</pre>
+* Format: ${format.toUpperCase()}
+* Language: ${language}
+* Content: 
 
+${userStory}
+
+## ‼️ Important: Guidelines for Design Consistency and Completeness ‼️
+
+1. **All states must be connected**:
+   - Avoid isolated states (states that cannot be reached or exited)
+   - Every state should have at least one incoming and one outgoing transition (except for home/start and final states)
+   - Ensure all transitions between states are logical and clear
+
+2. **Consistent use of semantic descriptors**:
+   - Use consistent naming conventions for the same concepts
+   - Only use the \`def\` attribute when a corresponding Schema.org definition exists
+   - For custom concepts, provide clear titles and use the \`doc\` attribute for details when needed
+
+3. **Complete user flows**:
+   - Provide complete state transition paths for each key user story
+   - Ensure CRUD operations (Create, Read, Update, Delete) are fully represented
+   - Include all necessary functionality for each user role
+
+4. **State transition completeness**:
+   - Clearly define the success path for each operation
+   - Ensure transitions between key states to prevent disruption of important business processes
+   - Consider alternative flows for critical failure cases when necessary
+
+5. **Grouping related elements**:
+   - Group related processes and user journeys using the \`tag\` attribute
+   - Use tags like "user-management", "content-creation", "payment-process", etc.
+   - Apply consistent tags to states and transitions belonging to the same functional area
+   - This helps identify related functionality when converting to APIs or data models
+
+${alpsGuide}
+
+## Output Requirements
+
+- Include a clear title for every descriptor (concise one-line explanation)
+- Use the doc attribute for detailed explanations when necessary
+- Only reference Schema.org URLs with the def attribute when a corresponding definition exists
+- Set appropriate type attributes (safe, unsafe, idempotent) for all state transitions
+- Create reusable descriptors for common patterns
+- Use consistent IDs and naming conventions for the same concepts
+- Utilize the tag attribute to group related elements
+- Use consistent tags for business domains or functional areas`;
+    }
+    
+    function copyToClipboard(text, button) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          const originalText = button.textContent;
+          button.textContent = '✅ Copied!, Paste it to your AI assistant';
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+          alert('Failed to copy. Please copy manually.');
+        });
+    }
+  });
+</script>
 
 
 
 # Installation and Usage Guide
 
-ASD (app-state-diagram) is a tool for creating comprehensive alps documentation that includes application state transition diagrams and vocabulary lists. It can be used in the following ways:
+ASD (app-state-diagram) is a tool for creating comprehensive ALPS documentation that includes application state transition diagrams and vocabulary lists. It can be used in the following ways:
 
 ## Choosing Usage Method
 
@@ -1654,7 +1798,7 @@ Create ASD in CI. See [marketplace](https://github.com/marketplace/actions/app-s
 
 ### 6. VSCode Plugin
 
-You can live edit alps files while viewing the preview screen using the VSCode Plugin (experimental).
+You can live edit ALPS files while viewing the preview screen using the VSCode Plugin (experimental).
 
 [Visual Studio Marketplace - Application State Diagram](https://marketplace.visualstudio.com/items?itemName=koriym.app-state-diagram)
 
@@ -1699,36 +1843,39 @@ usage: asd [options] alps_file
 - CI/CD environment use → GitHub Actions version
 
 
-# Reference
+
+# ALPS Reference
 
 ## Overview
 
-Application-Level Profile Semantics (alps) is a document format for describing application semantics. This document explains the elements and attributes of alps.
+Application-Level Profile Semantics (ALPS) is a document format for describing application semantics. This document explains the elements and attributes of ALPS.
 
 ## Document Structure
 
-alps documents have the following hierarchical structure:
+ALPS documents have the following hierarchical structure:
 
 1. **Root Element (`alps`)**
-- The document's root element containing version information
+- The root element of the document containing version information
 - All definitions are contained within this element
 
 2. **Descriptor Element (`descriptor`)**
-- The central element that defines the meaning of application functions and information
+- The central element that defines the meaning of application features and information
 - There are four types:
-  - semantic: Represents terms and information (default)
+  - semantic: Represents information or terminology (default)
   - safe: Read operations (does not change resource state)
-  - idempotent: Operations that produce the same result when executed multiple times (complete replacement with PUT, deletion with DELETE, etc.)
-  - unsafe: Operations that produce different results when executed multiple times (creation with POST, numerical addition operations, etc.)
+  - idempotent: Operations that produce the same result when executed multiple times (e.g., complete replacement with PUT or removal with DELETE)
+  - unsafe: Operations that produce different results when executed multiple times (e.g., creation with POST, numeric addition, etc.)
+- Can contain other descriptor elements as child elements
+- Can contain link elements as child elements
 
 3. **Supplementary Elements**
-- `doc`: Detailed explanations and supplementary information
+- `doc`: Detailed explanations or supplementary information
 - `link`: References to related documents
-- `title`: Profile description
+- `title`: Description of the profile
 
-## Description Formats
+## Representation Formats
 
-alps documents can be written in two formats:
+ALPS documents can be written in the following two formats:
 
 **XML Format**
 
@@ -1736,13 +1883,14 @@ alps documents can be written in two formats:
 <?xml version="1.0" encoding="UTF-8"?>
 <alps version="1.0">
     <title>Blog API Profile</title>
-    <doc>API Profile for Blog System</doc>
+    <doc>API profile for a blog system</doc>
     
     <descriptor id="title" title="Title" doc="Article title. Maximum 100 characters."/>
     
     <descriptor id="blogPost">
         <doc>Blog post</doc>
         <descriptor href="#title"/>
+        <link rel="related" href="http://example.org/related-docs/blog.html" />
     </descriptor>
 </alps>
 ```
@@ -1754,12 +1902,17 @@ alps documents can be written in two formats:
     "alps": {
         "version": "1.0",
         "title": "Blog API Profile",
-        "doc": {"value": "API Profile for Blog System"},
+        "doc": {"value": "API profile for a blog system"},
         "descriptor": [
             {"id": "title", "title": "Title", "doc": {"value": "Article title. Maximum 100 characters."}},
-            {"id": "blogPost", "doc": {"value": "Blog post"}, "descriptor": [
+            {"id": "blogPost", "doc": {"value": "Blog post"}, 
+             "descriptor": [
                 {"href": "#title"}
-            ]}
+             ],
+             "link": [
+                {"rel": "related", "href": "http://example.org/related-docs/blog.html"}
+             ]
+            }
         ]
     }
 }
@@ -1769,70 +1922,171 @@ alps documents can be written in two formats:
 
 ### alps
 
-The root element of an alps document.
+The root element of an ALPS document.
 
 Attributes:
-- version: Document version (required)
+- version: The document version (required)
 
 ### descriptor
 
-Defines the meaning (semantics) of application functions and information.
-Either id or href is required; other attributes are optional.
+Defines the semantics (meaning) of application features or information.
+Either id or href is required, and other attributes are optional.
 
-### List of descriptor Attributes
+A descriptor can have the following child elements:
+- descriptor: Other descriptor elements can be nested to represent hierarchical structures
+- doc: Detailed description
+- link: Links to related resources
+- ext: Extension information
+
+### descriptor attributes list
 
 | Attribute | Required | Type | Description | Example |
 |-||-|--||
 | href | optional | string | External document URL | `"http://example.com/doc"` |
 | format | optional | string | Document format | `"markdown"` |
 | contentType | optional | string | Content type | `"text/html"` |
-| tag | optional | string | Classification tag | `"api spec"` |
-| value | optional | string | Explanation text | `"Detailed description"` |
+| tag | optional | string | Classification tags | `"api spec"` |
+| value | optional | string | Description text | `"Detailed description"` |
 
-Support levels for format attribute:
+Format attribute support levels:
 
-- text: Must support (MUST)
-- html: Should support (SHOULD)
-- asciidoc: May support (MAY)
-- markdown: May support (MAY), compliant with [RFC7763]
+- text: Required support (MUST)
+- html: Recommended support (SHOULD)
+- asciidoc: Optional support (MAY)
+- markdown: Optional support (MAY), compliant with [RFC7763]
 
 Priority of contentType and format:
 
-- Use contentType if it exists
-- Ignore format if both contentType and format exist
-- Treat as text/plain if neither exists
+- If contentType exists, it is used
+- If both contentType and format exist, format is ignored
+- If neither exists, text/plain is assumed
 
 ### link
 
-Defines references to related documents.
+Defines references to related documents. Link can be used as a child element of alps or descriptor elements.
 
-Attributes:
-- href: Link destination URL (required)
-- rel: Relation (required)
-  - self: Link to self
-  - profile: Profile document
-  - help: Help document
-  - related: Related document
-  - Other [IANA link relations](iana_rels.html)
+#### link attributes list
+
+| Attribute | Required | Type | Description | Example |
+|-||-|--||
+| id | required | string | Unique identifier for the extension | `"range"` |
+| href | recommended | string | URL explaining the extension | `"http://alps.io/ext/range"` |
+| value | optional | string | Extension value | `"0,100"` |
+| tag | optional | string | Classification tags | `"validation"` |
 
 ## Validation
 
-1. Descriptors must have either id or href
-2. href reference destination must be a resolvable URL and must have a fragment identifier
-3. rt transition destination must exist within the document
-4. type attribute must be one of the four defined values (semantic, safe, idempotent, unsafe)
+1. A descriptor requires either id or href
+2. href reference targets must be resolvable URLs and must include a fragment identifier
+3. rt transition targets must exist in the document
+4. The type attribute must be one of the four defined values (semantic, safe, idempotent, unsafe)
 5. The following prefixes are recommended for operation descriptors:
 - safe: `go` (e.g., `goBlog`)
 - unsafe: `do` (e.g., `doCreateBlog`)
 - idempotent: `do` (e.g., `doUpdateBlog`)
 
+## Hierarchical Structure Example
+
+Below is a concise example of hierarchical structure using nested descriptor elements:
+
+**XML Format**
+
+```xml
+<alps version="1.0">
+  <descriptor id="user" type="semantic">
+    <doc>User information</doc>
+    <descriptor id="name" type="semantic" />
+    <descriptor id="email" type="semantic" />
+    <link rel="help" href="http://example.org/help/user.html" />
+  </descriptor>
+</alps>
+```
+
+**JSON Format**
+
+```json
+{
+  "alps": {
+    "version": "1.0",
+    "descriptor": [
+      {
+        "id": "user",
+        "type": "semantic",
+        "doc": {"value": "User information"},
+        "descriptor": [
+          {"id": "name", "type": "semantic"},
+          {"id": "email", "type": "semantic"}
+        ],
+        "link": [
+          {"rel": "help", "href": "http://example.org/help/user.html"}
+        ]
+      }
+    ]
+  }
+}
+```
+
+
+
+<link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}">
+
+
+# Schema.org Terms
+
+<h2>Properties</h2>
+
+{% include html/schema-search.html table_id="schema-property-table" %}
+
+<table id="schema-property-table">
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Meta information</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for property in site.data.schema_properties %}
+      <tr>
+        <td>
+          <a href="https://schema.org/{{ property.label }}" class="schema-link">{{ property.label }}</a>
+        </td>
+        <td>{{ property.comment | replace: 'href="/', 'href="https://schema.org/' }}</td>
+        {% include html/property-meta.html property=property %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Types</h2>
+
+<table id="schema-type-table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Meta information</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for type in site.data.schema_types %}
+      <tr>
+        <td>
+          <a href="https://schema.org/{{ type.label }}" class="schema-link">{{ type.label }}</a>
+        </td>
+        <td>{{ type.comment | replace: 'href="/', 'href="https://schema.org/' }}</td>
+        {% include html/type-meta.html type=type %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 
 # Recommended Semantic Terms
 
 ## Overview
 
-This document provides a complete list of terms from [Schema.org](https://schema.org) vocabulary that can be used as semantic descriptors (id) in alps profiles.
+This document provides a complete list of terms from [Schema.org](https://schema.org) vocabulary that can be used as semantic descriptors (id) in ALPS profiles.
 
 ### Usage
 
@@ -1968,7 +2222,7 @@ All terms are classified into three levels based on importance and frequency of 
 
 - [Schema.org](https://schema.org)
 - [IANA Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)
-- [alps Specification](http://alps.io/spec/)
+- [ALPS Specification](http://alps.io/spec/)
 
 
 
@@ -1994,9 +2248,9 @@ Schema.org is a vocabulary for structured data jointly developed by Google, Micr
 
 Please refer to [Semantic Terms](semantic-terms.html).
 
-alps files that import semantics from [Schema.org](https://schema.org) are available.
+ALPS files that import semantics from [Schema.org](https://schema.org) are available.
 
-* [Schema.org alps Index](https://alps-io.github.io/imports/schema.org)
+* [Schema.org ALPS Index](https://alps-io.github.io/imports/schema.org)
 
 Link to semantics using `href`.
 
@@ -2038,9 +2292,9 @@ Example)
 
 
 <div class="image-container">
-<img src="/images/slide/app-state-diagram.003.jpeg" alt="A state transition diagram for alps and a list of related semantic descriptors. This shows alps as a common language for website construction.">
+<img src="/images/slide/app-state-diagram.003.jpeg" alt="A state transition diagram for ALPS and a list of related semantic descriptors. This shows ALPS as a common language for website construction.">
 </div>
-<p class="description">Similarly, alps document is that common language when it comes to building a website.</p>
+<p class="description">Similarly, ALPS document is that common language when it comes to building a website.</p>
 
 
 
@@ -2051,17 +2305,17 @@ Example)
 <script src="/js/speech.js"></script>
 
 
-# alps Basic Tutorial
+# ALPS Basic Tutorial
 
-The alps tutorial consists of two parts:
+The ALPS tutorial consists of two parts:
 
 1. **Basic Tutorial** (this page)
-   - Learn the basic usage of alps through hands-on practice
-   - Start with tool usage and gradually understand alps features
-   - Ideal as the first step to getting started with alps
+   - Learn the basic usage of ALPS through hands-on practice
+   - Start with tool usage and gradually understand ALPS features
+   - Ideal as the first step to getting started with ALPS
 
 2. **[Advanced Tutorial](./tutorial_rest.html)**
-   - Learn about the theoretical foundation and design patterns of alps
+   - Learn about the theoretical foundation and design patterns of ALPS
    - Understand the essence of REST/HTTP applications as state transition systems
    - For those who want a deeper understanding or are involved in large-scale application design
 
@@ -2071,18 +2325,18 @@ We recommend starting with this basic tutorial.
 
 ## Getting Started
 
-In this tutorial, we'll use the browser-based alps editor:
+In this tutorial, we'll use the browser-based ALPS editor:
 
-1. Open [alps Editor]( https://editor.app-state-diagram.com/)
+1. Open [ALPS Editor]( https://editor.app-state-diagram.com/)
 2. Delete all demo code displayed in the left editor pane
 
 Note: While you can use the ASD application in a local environment, we recommend using the online editor for this tutorial.
 
 ## First Step: Preparing an Empty File
 
-The first step in creating an alps document is to prepare a basic empty file. This file serves as the starting point with the minimum structure required for all alps documents.
+The first step in creating an ALPS document is to prepare a basic empty file. This file serves as the starting point with the minimum structure required for all ALPS documents.
 
-alps documents can be written in either XML or JSON format. Each format references its respective schema (xsd for XML, json-schema for JSON) which defines the valid structure and ensures your document follows the alps specification. There is no functional difference between the two formats, so you can choose based on your team's preferences and existing toolchain.
+ALPS documents can be written in either XML or JSON format. Each format references its respective schema (xsd for XML, json-schema for JSON) which defines the valid structure and ensures your document follows the ALPS specification. There is no functional difference between the two formats, so you can choose based on your team's preferences and existing toolchain.
 
 For XML:
 ```xml
@@ -2106,7 +2360,7 @@ For JSON:
 
 ## Register Meanings as IDs
 
-In alps, specific terms handled by the application are defined as IDs. Let's start by adding the term `dateCreated`.
+In ALPS, specific terms handled by the application are defined as IDs. Let's start by adding the term `dateCreated`.
 
 In XML:
 ```diff
@@ -2166,7 +2420,7 @@ This ID bound to a meaning is called a **semantic descriptor**. `dateCreated` is
 
 ### Vocabulary
 
-One of alps's important roles is to serve as a dictionary of application terms. It helps users use the same terms when referring to the same meaning, preventing expression variations and misunderstandings among users.
+One of ALPS's important roles is to serve as a dictionary of application terms. It helps users use the same terms when referring to the same meaning, preventing expression variations and misunderstandings among users.
 
 ## Information Contains Information
 
@@ -2358,11 +2612,11 @@ In JSON:
 
 
 
-# alps Tutorial for REST Applications
+# ALPS Tutorial for REST Applications
 
 ## Introduction
 
-Modern web applications (online shopping, social networks, video streaming services, business systems, etc.) are mostly built based on the REST architecture. In this tutorial, we will explain how to design applications using alps, considering the basic concepts of REST.
+Modern web applications (online shopping, social networks, video streaming services, business systems, etc.) are mostly built based on the REST architecture. In this tutorial, we will explain how to design applications using ALPS, considering the basic concepts of REST.
 
 ### Essence of REST Applications
 
@@ -2411,7 +2665,7 @@ State transitions in REST applications proceed as follows:
 
 This flow repeats continuously throughout the use of the application.
 
-## Information Architecture and alps
+## Information Architecture and ALPS
 
 To properly design a REST application, the state transition system needs to be systematically documented.
 Dan Klyn has proposed three important aspects needed for this documentation:
@@ -2431,7 +2685,7 @@ Dan Klyn has proposed three important aspects needed for this documentation:
    - Example: Viewing, creating, updating, and deleting posts.
    - Shows the flow of actions.
 
-alps is a means to practically express these concepts. In the following sections of this tutorial:
+ALPS is a means to practically express these concepts. In the following sections of this tutorial:
 
 1. Ontology: Define the basic terms.
 2. Taxonomy (1): Define the information structure.
@@ -2617,7 +2871,7 @@ In JSON:
 
 ## Choreography: Defining State Transitions
 
-Choreography defines state transitions according to the types of operations. In alps, operations are categorized as follows:
+Choreography defines state transitions according to the types of operations. In ALPS, operations are categorized as follows:
 
 |Operation | Type |  HTTP Method Description |
 | - | ---- | 
@@ -2637,7 +2891,7 @@ Choreography defines state transitions according to the types of operations. In 
    - Updates or deletes the resource state.
    - Produces the same outcome no matter how many times it is executed.
 
-alps operations distinguish between resource changes that have a different result each time they are performed, i.e., non-idempotent operations, such as add operations, and those that have a different result each time they are performed, i.e., idempotent operations, such as change or delete operations, which do not change the result no matter how many times they are repeated.
+ALPS operations distinguish between resource changes that have a different result each time they are performed, i.e., non-idempotent operations, such as add operations, and those that have a different result each time they are performed, i.e., idempotent operations, such as change or delete operations, which do not change the result no matter how many times they are repeated.
 
 ### Defining the Transition to View an Article
 
@@ -2832,17 +3086,17 @@ In the preview screen:
 1. The state diagram shows the complete structure of the blog system.
 2. The vocabulary list displays all defined elements and their relationships.
 
-## Conclusion: alps as a Design Methodology
+## Conclusion: ALPS as a Design Methodology
 
-In this tutorial, we learned how to use alps to design a blog system:
+In this tutorial, we learned how to use ALPS to design a blog system:
 
 1. **Ontology**: Defining terms and their meanings.
 2. **Taxonomy**: Structuring information.
 3. **Choreography**: Defining state transitions.
 4. **Integration**: Combining states and transitions to represent the complete system.
 
-Using alps allows for clear and consistent API design, shared understanding among team members, and effective documentation.
+Using ALPS allows for clear and consistent API design, shared understanding among team members, and effective documentation.
 
-The alps approach may initially seem like extra work, but as the project grows, its value becomes evident. Consistent design, clear documentation, and effective communication are key contributors to the long-term success of a project.
+The ALPS approach may initially seem like extra work, but as the project grows, its value becomes evident. Consistent design, clear documentation, and effective communication are key contributors to the long-term success of a project.
 
 
