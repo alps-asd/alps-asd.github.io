@@ -16,21 +16,23 @@ Application-Level Profile Semantics (ALPS) は、アプリケーションのセ�
 ALPSドキュメントは以下のような階層構造を持ちます：
 
 1. **ルート要素 (`alps`)**
-  - バージョン情報を含むドキュメントのルート要素
-  - すべての定義はこの要素の中に含まれます
+- バージョン情報を含むドキュメントのルート要素
+- すべての定義はこの要素の中に含まれます
 
 2. **ディスクリプタ要素 (`descriptor`)**
-  - アプリケーションの機能や情報の意味を定義する中心的な要素
-  - 以下の4つの型があります：
-    - semantic: 語句・情報を表す（デフォルト）
-    - safe: 読み取り操作（リソースの状態を変更しない）
-    - idempotent: 同じ操作を複数回実行しても結果が変わらない操作（PUTによる完全な置き換えやDELETEによる消去など）
-    - unsafe: 同じ操作を複数回実行すると異なる結果になる操作（POSTによる新規作成、数値の加算操作など）
+- アプリケーションの機能や情報の意味を定義する中心的な要素
+- 以下の4つの型があります：
+  - semantic: 語句・情報を表す（デフォルト）
+  - safe: 読み取り操作（リソースの状態を変更しない）
+  - idempotent: 同じ操作を複数回実行しても結果が変わらない操作（PUTによる完全な置き換えやDELETEによる消去など）
+  - unsafe: 同じ操作を複数回実行すると異なる結果になる操作（POSTによる新規作成、数値の加算操作など）
+- 他のdescriptor要素を子要素として含むことができます
+- link要素を子要素として含むことができます
 
 3. **補足要素**
-  - `doc`: 詳細な説明や補足情報
-  - `link`: 関連ドキュメントへの参照
-  - `title`: プロファイルの説明
+- `doc`: 詳細な説明や補足情報
+- `link`: 関連ドキュメントへの参照
+- `title`: プロファイルの説明
 
 ## 記述形式
 
@@ -49,6 +51,7 @@ ALPSドキュメントは以下の2つの形式で記述できます：
     <descriptor id="blogPost">
         <doc>ブログ記事</doc>
         <descriptor href="#title"/>
+        <link rel="related" href="http://example.org/related-docs/blog.html" />
     </descriptor>
 </alps>
 ```
@@ -63,9 +66,14 @@ ALPSドキュメントは以下の2つの形式で記述できます：
         "doc": {"value": "ブログシステムのAPIプロファイル"},
         "descriptor": [
             {"id": "title", "title": "タイトル", "doc": {"value": "記事のタイトル。最大100文字。"}},
-            {"id": "blogPost", "doc": {"value": "ブログ記事"}, "descriptor": [
+            {"id": "blogPost", "doc": {"value": "ブログ記事"}, 
+             "descriptor": [
                 {"href": "#title"}
-            ]}
+             ],
+             "link": [
+                {"rel": "related", "href": "http://example.org/related-docs/blog.html"}
+             ]
+            }
         ]
     }
 }
@@ -85,6 +93,12 @@ ALPSドキュメントのルート要素です。
 アプリケーションの機能や情報の意味（セマンティクス）を定義します。
 idまたはhrefのいずれかが必要でその他の属性はオプションです。
 
+descriptorは以下の子要素を持つことができます：
+- descriptor: 他のdescriptor要素を入れ子にして、階層構造を表現できます
+- doc: 詳細な説明
+- link: 関連リソースへのリンク
+- ext: 拡張情報
+
 ### descriptor属性一覧
 
 | 属性名 | 必須 | 型 | 説明 | 例 |
@@ -96,7 +110,10 @@ idまたはhrefのいずれかが必要でその他の属性はオプション�
 | rel | 任意 | string | リレーション | `"item"` |
 | title | 任意 | string | 表示名 | `"ブログ投稿"` |
 | tag | 任意 | string | 分類タグ | `"blog post"` |
-| doc | 任意 | object/string | 詳細説明 | `"詳細な説明"` |
+| name | 任意 | string | 表示用名前 | `"blog"` |
+| def | 任意 | string | 定義元URI | `"http://schema.org/BlogPosting"` |
+| descriptor | 任意 | element | 子descriptorの入れ子 | `<descriptor id="child">...</descriptor>` |
+| link | 任意 | element | 関連リソースへのリンク | `<link rel="help" href="..."/>` |
 
 ※1: idまたはhrefのいずれかが必須
 
@@ -138,10 +155,14 @@ idまたはhrefのいずれかが必要でその他の属性はオプション�
   - 複数指定する場合はスペース区切り
   - カテゴリ分類やフィルタリング用
 
-* **doc**: 詳細説明
-  - descriptorの詳細な説明
-  - doc要素として子要素にも定義可能
-  - フォーマットの指定が可能
+* **name**: 表示用名前
+  - 実際の表現で使用される名前
+  - idが一意である必要がある場合に、共通の名前を指定するために使用
+  - 同じnameを持つ複数のdescriptorが存在可能
+
+* **def**: 定義元URI
+  - descriptorの定義元となる外部リソースを示すURI
+  - Schema.orgなどの標準的な定義への参照に使用
 
 ### doc
 
@@ -172,17 +193,36 @@ contentTypeとformatの優先順位:
 
 ### link
 
-関連ドキュメントへの参照を定義します。
+関連ドキュメントへの参照を定義します。linkはalpsまたはdescriptor要素の子要素として使用できます。
 
-属性：
-- href: リンク先URL（必須）
-- rel: リレーション（必須）
-  - self: 自身へのリンク
-  - profile: プロファイルドキュメント
-  - help: ヘルプドキュメント
-  - related: 関連ドキュメント
-  - その他の[IANAリンクリレーション](iana_rels.html)
+#### link属性一覧
 
+| 属性名 | 必須 | 型 | 説明 | 例 |
+|--------|------|-----|------|-----|
+| href | 必須 | string | リンク先URL | `"http://example.com/docs"` |
+| rel | 必須 | string | リレーション | `"help"` |
+| title | 任意 | string | 表示名 | `"ヘルプドキュメント"` |
+| tag | 任意 | string | 分類タグ | `"documentation"` |
+
+リレーション値:
+- self: 自身へのリンク
+- profile: プロファイルドキュメント
+- help: ヘルプドキュメント
+- related: 関連ドキュメント
+- その他の[IANAリンクリレーション](iana_rels.html)
+
+### ext
+
+拡張情報を提供します。標準仕様にない追加情報を含める場合に使用します。
+
+#### ext属性一覧
+
+| 属性名 | 必須 | 型 | 説明 | 例 |
+|--------|------|-----|------|-----|
+| id | 必須 | string | 拡張の一意識別子 | `"range"` |
+| href | 推奨 | string | 拡張の説明URL | `"http://alps.io/ext/range"` |
+| value | 任意 | string | 拡張値 | `"0,100"` |
+| tag | 任意 | string | 分類タグ | `"validation"` |
 
 ## バリデーション
 
@@ -191,6 +231,47 @@ contentTypeとformatの優先順位:
 3. rt遷移先は文書内に実在する必要があります
 4. type属性は定義された4値（semantic、safe、idempotent、unsafe）のいずれかである必要があります
 5. 操作系descriptorには以下のプレフィックスの使用を推奨します：
-  - safe: `go`（例：`goBlog`）
-  - unsafe: `do`（例：`doCreateBlog`）
-  - idempotent: `do`（例：`doUpdateBlog`）
+- safe: `go`（例：`goBlog`）
+- unsafe: `do`（例：`doCreateBlog`）
+- idempotent: `do`（例：`doUpdateBlog`）
+
+## 階層構造の例
+
+以下は、入れ子になったdescriptor要素を使用した簡潔な階層構造の例です：
+
+**XML形式**
+
+```xml
+<alps version="1.0">
+  <descriptor id="user" type="semantic">
+    <doc>ユーザー情報</doc>
+    <descriptor id="name" type="semantic" />
+    <descriptor id="email" type="semantic" />
+    <link rel="help" href="http://example.org/help/user.html" />
+  </descriptor>
+</alps>
+```
+
+**JSON形式**
+
+```json
+{
+  "alps": {
+    "version": "1.0",
+    "descriptor": [
+      {
+        "id": "user",
+        "type": "semantic",
+        "doc": {"value": "ユーザー情報"},
+        "descriptor": [
+          {"id": "name", "type": "semantic"},
+          {"id": "email", "type": "semantic"}
+        ],
+        "link": [
+          {"rel": "help", "href": "http://example.org/help/user.html"}
+        ]
+      }
+    ]
+  }
+}
+```
