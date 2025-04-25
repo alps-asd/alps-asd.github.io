@@ -415,6 +415,7 @@ ALPSプロファイルを作成する際には、スキーマ参照を追加す�
 
 * [todomvc](https://alps-asd.github.io/app-state-diagram/todomvc/)
 * [mini amazon](/alps/ja/amazon.html)
+* [LMS](/alps/ja/lms.html)
 
 
 #  FAQ
@@ -634,57 +635,603 @@ ALPSとASDは、特にWeb上で動くアプリ（RESTアプリケーションと
 * [app-state-diagram](https://github.com/alps-asd/app-state-diagram)
 
 
+<style>
+  /* Common Styles */
+  .alps-brewery {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  
+  .alps-brewery .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .alps-brewery header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .alps-brewery .logo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #336699;
+    margin-bottom: 10px;
+  }
+  
+  .alps-brewery .tagline {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .alps-brewery .gpts-link {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #f0f4f8;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: inline-block;
+  }
+  
+  .alps-brewery .gpts-link a {
+    color: #336699;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .alps-brewery .gpts-link a:hover {
+    text-decoration: underline;
+  }
+  
+  .alps-brewery main {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+    margin-bottom: 40px;
+  }
+  
+  .alps-brewery h1, .alps-brewery h2, .alps-brewery h3 {
+    color: #336699;
+    margin-top: 0;
+  }
+  
+  .alps-brewery textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-family: monospace;
+    font-size: 14px;
+    resize: vertical;
+  }
+  
+  .alps-brewery button {
+    background-color: #336699;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+  }
+  
+  .alps-brewery button:hover {
+    background-color: #254e77;
+  }
+  
+  .alps-brewery button.selected {
+    background-color: #254e77;
+    box-shadow: 0 0 0 2px rgba(37, 78, 119, 0.5);
+  }
+  
+  .alps-brewery button.secondary-btn {
+    background-color: #6c757d;
+  }
+  
+  .alps-brewery button.secondary-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  .alps-brewery button.copy-btn {
+    background-color: #4CAF50;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+  
+  .alps-brewery button.copy-btn:hover {
+    background-color: #3e8e41;
+  }
+  
+  .alps-brewery .hidden {
+    display: none;
+  }
+  
+  .alps-brewery footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  /* Step Indicator */
+  .alps-brewery .step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .alps-brewery .step {
+    width: 180px;
+    padding: 10px;
+    text-align: center;
+    background-color: #e9ecef;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .alps-brewery .step:not(:last-child):after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -15px;
+    width: 30px;
+    height: 2px;
+    background-color: #e9ecef;
+    z-index: 0;
+  }
+  
+  .alps-brewery .step.active {
+    background-color: #336699;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .alps-brewery .step.active:not(:last-child):after {
+    background-color: #336699;
+  }
+  
+  /* Tabs */
+  .alps-brewery .tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .alps-brewery .tab-btn {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-right: 5px;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    font-weight: normal;
+  }
+  
+  .alps-brewery .tab-btn.active {
+    background-color: #336699;
+    color: white;
+    border-color: #336699;
+    font-weight: bold;
+  }
+  
+  .alps-brewery .tab-content {
+    display: none;
+    padding-top: 15px;
+  }
+  
+  .alps-brewery .tab-content.active {
+    display: block;
+  }
+  
+  /* Section Controls */
+  .alps-brewery .options-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .alps-brewery .format-selection, .alps-brewery .language-selection {
+    margin-bottom: 15px;
+  }
+  
+  .alps-brewery .format-selection label, .alps-brewery .language-selection label {
+    margin-right: 10px;
+  }
+  
+  .alps-brewery select, .alps-brewery input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .alps-brewery .sample-controls {
+    margin-bottom: 15px;
+  }
+  
+  .alps-brewery .sample-controls select {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  /* Format Buttons */
+  .alps-brewery .format-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Result Section */
+  .alps-brewery .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .alps-brewery .verification-tip {
+    background-color: #f8f9fa;
+    border-left: 4px solid #336699;
+    padding: 10px 15px;
+    margin: 15px 0;
+    font-size: 0.95rem;
+  }
+  
+  .alps-brewery .verification-tip .tip-text {
+    background-color: #eef1f7;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+  }
+  
+  .alps-brewery .mini-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+  
+  .alps-brewery .mini-btn:hover {
+    background-color: #3e8e41;
+  }
+  
+  .alps-brewery #promptResult {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+  }
+  
+  /* Navigation Buttons */
+  .alps-brewery .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+</style>
 
-# プロンプト
-OpenAPI、GraphQL、SQLなど、システムの具体的な実装定義は多くの詳細を含むため煩雑になりがちです。一方、ALPSはセマンティックな記述によって、システムのコアとなる情報設計を抽象度高く表現できます。
+<div class="alps-brewery">
+  <div class="container">
+    <header>
+      <div class="logo">ALPS Prompt Brewery</div>
+      <div class="tagline">AI prompt generator for ALPS and implementation code</div>
+    </header>
 
-## ALPSプロファイルを作成
+    <main>
+      <div class="step-indicator">
+        <div class="step active" id="step1">Step 1: User Story</div>
+        <div class="step" id="step2">Step 2: ALPS</div>
+      </div>
+      
+      <!-- Step 1: User Story to ALPS Prompt -->
+      <section id="userStorySection" class="section-active">
+        <h2>ALPS Prompt Creation</h2>
+        
+        <div class="tabs">
+          <button class="tab-btn active" id="userStoryTabBtn">Create from User Story</button>
+          <button class="tab-btn" id="directAlpsTabBtn">Convert Existing ALPS</button>
+        </div>
+        <!-- User Story Tab Content -->
+        <div id="userStoryTab" class="tab-content active">
+          <div class="sample-controls">
+            <label>Need inspiration?</label>
+<select id="sampleStorySelect">
+  <option value="">サンプルユーザーストーリーを選択してください...</option>
+  <optgroup label="ビジネスアプリケーション">
+    <option value="ecommerce">Eコマース商品管理</option>
+    <option value="taskapp">タスク管理アプリ</option>
+    <option value="restaurant">レストラン予約システム</option>
+  </optgroup>
+  <optgroup label="コンテンツ・情報システム">
+    <option value="blog">ブログシステム</option>
+    <option value="library">図書館管理システム</option>
+    <option value="lms">学習管理システム（LMS）</option>
+  </optgroup>
+  <optgroup label="サービス業">
+    <option value="travel">旅行予約システム</option>
+    <option value="events">イベント管理プラットフォーム</option>
+    <option value="healthcare">医療患者管理</option>
+  </optgroup>
+</select>
+          </div>
+          
+          <textarea id="userStoryInput" placeholder="Enter your user story or system requirements here..."></textarea>
+          
+          <div class="options-row">
+            <div class="format-selection">
+              <label>ALPS Format:</label>
+              <label><input type="radio" name="alpsFormat" value="json" checked> JSON</label>
+              <label><input type="radio" name="alpsFormat" value="xml"> XML</label>
+            </div>
+            
+            <div class="language-selection">
+              <label>Documentation Language:</label>
+              <select id="languageSelect">
+                <option value="English">English</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Chinese">Chinese</option>
+                <option value="other">Other...</option>
+              </select>
+              <input type="text" id="customLanguage" placeholder="Specify language" class="hidden">
+            </div>
+          </div>
+          
+          <button id="generateAlpsPromptBtn" class="primary-btn">Generate ALPS Prompt</button>
+        </div>
+        
+        <!-- Direct ALPS Tab Content -->
+        <div id="directAlpsTab" class="tab-content">
+          <p>Paste your existing ALPS profile below and proceed directly to the format conversion step.</p>
+          <textarea id="directAlpsInput" placeholder="Paste your existing ALPS profile here..."></textarea>
+          <div class="format-selection">
+            <label>Select the format of your ALPS profile:</label>
+            <label><input type="radio" name="directAlpsFormat" value="json" checked> JSON</label>
+            <label><input type="radio" name="directAlpsFormat" value="xml"> XML</label>
+          </div>
+          <button id="proceedToConversionBtn" class="primary-btn">Proceed to Conversion</button>
+        </div>
+      </section>
+      
+      <!-- Step 2: ALPS to Implementation -->
+      <section id="alpsSection" class="hidden">
+        <h2>Convert ALPS to Implementation Format</h2>
+        
+        <div class="result-header">
+          <h3>Generated ALPS Prompt</h3>
+          <button id="copyAlpsBtn" class="copy-btn">Copy ALPS Prompt</button>
+        </div>
+        
+        <textarea id="alpsInput" placeholder="Your generated ALPS prompt will appear here. You can also paste your own ALPS profile."></textarea>
+        
+        <div class="verification-tip">
+          <p><strong>💡 Pro Tip:</strong> After receiving your ALPS profile from the AI, consider asking: <span class="tip-text">"Please review this ALPS profile to verify that there are no isolated states (unreachable or exit-less states) and that all state transitions are properly connected. Also check if all semantic descriptors are consistently tagged and grouped."</span> <button id="copyTipBtn" class="mini-btn">Copy Tip</button></p>
+          <p><strong>💡 Next Step:</strong> After confirming that ALPS is rendered correctly at <a target="_blank" href="https://editor.app-state-diagram.com/">https://editor.app-state-diagram.com/</a>, Paste your ALPS profile into textarea and proceed directly to the format conversion step. 
+          </p>
+        </div>
+        
+        <h3>Select Target Implementation Format</h3>
+        <div class="format-buttons">
+          <button id="openApiBtn">OpenAPI</button>
+          <button id="jsonSchemaBtn">JSON Schema</button>
+          <button id="graphqlBtn">GraphQL</button>
+          <button id="sqlBtn">SQL</button>
+          <button id="typescriptBtn">TypeScript</button>
+        </div>
+        
+        <button id="convertAlpsBtn" class="primary-btn">Generate Conversion Prompt</button>
+        
+        <div class="nav-buttons">
+          <button id="backToUserStoryBtn" class="secondary-btn">← Back to User Story</button>
+        </div>
+      </section>
+      
+      <!-- Step 3: Result -->
+      <section id="resultSection" class="hidden">
+        <div class="result-header">
+          <h2 id="resultTitle">Generated Conversion Prompt</h2>
+          <button id="copyResultBtn" class="copy-btn">Copy to Clipboard</button>
+        </div>
+        
+        <p>Copy this prompt to ChatGPT, Claude, or any other AI assistant:</p>
+        <div id="promptResult"></div>
+        
+        <div class="verification-tip">
+          <p><strong>💡 Remember:</strong> For best results, first have the AI verify the ALPS profile for correctness, then provide this conversion prompt.</p>
+        </div>
+        
+        <div class="nav-buttons">
+          <button id="startOverBtn" class="secondary-btn">Start Over</button>
+          <button id="backToAlpsBtn" class="secondary-btn">← Back to ALPS</button>
+        </div>
+        
+        <div class="gpts-link" style="margin-top: 25px; text-align: center;">
+          <p>Tip: For quick results, you can also use <a href="https://chatgpt.com/g/g-HYPygRnLS-alps-assistant" target="_blank">ALPS Assistant GPTs</a> with your prompts.</p>
+        </div>
+      </section>
+    </main>
+    
+    <footer>
+    </footer>
+  </div>
+</div>
 
-Chat-GPT PlusユーザーはALPS Assistantを利用することができます。ALPS Assistantでは適切なALPSプロファイルがAIによって生成されるようにあらかじめAIにインストラクションが与えられています。
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const userStoryInput = document.getElementById('userStoryInput');
+    const alpsInput = document.getElementById('alpsInput');
+    const promptResult = document.getElementById('promptResult');
+    const resultTitle = document.getElementById('resultTitle');
+    
+    // Sections
+    const userStorySection = document.getElementById('userStorySection');
+    const alpsSection = document.getElementById('alpsSection');
+    const resultSection = document.getElementById('resultSection');
+    
+    // Step indicators
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    
+    // Buttons
+    const generateAlpsPromptBtn = document.getElementById('generateAlpsPromptBtn');
+    const convertAlpsBtn = document.getElementById('convertAlpsBtn');
+    const copyAlpsBtn = document.getElementById('copyAlpsBtn');
+    const copyResultBtn = document.getElementById('copyResultBtn');
+    const backToUserStoryBtn = document.getElementById('backToUserStoryBtn');
+    const backToAlpsBtn = document.getElementById('backToAlpsBtn');
+    const startOverBtn = document.getElementById('startOverBtn');
+    
+    // Format buttons
+    const openApiBtn = document.getElementById('openApiBtn');
+    const jsonSchemaBtn = document.getElementById('jsonSchemaBtn');
+    const graphqlBtn = document.getElementById('graphqlBtn');
+    const sqlBtn = document.getElementById('sqlBtn');
+    const typescriptBtn = document.getElementById('typescriptBtn');
+    
+    // サンプルユーザーストーリー
+const sampleStories = {
+  'ecommerce': `ストア所有者として、商品在庫を管理したいです。
+商品には、名前、説明、価格、カテゴリ、在庫数量があります。
+新しい商品を追加し、既存の商品を更新し、廃止された商品を削除する必要があります。
+顧客はカテゴリ別に商品を閲覧し、商品の詳細を確認できるようにする必要があります。`,
+  
+  'taskapp': `プロジェクトマネージャーとして、タスク追跡システムが必要です。
+タスクにはタイトル、説明、期限、優先度、担当ユーザーがあります。
+ユーザーはタスクを作成し、ステータスを更新し、完了としてマークできる必要があります。
+システムはステータスまたは担当ユーザーでフィルタリングされたタスクリストを表示する必要があります。`,
+  
+  'blog': `コンテンツ作成者として、ブログ管理システムが必要です。
+記事にはタイトル、内容、公開日、タグ、著者があります。
+下書きを作成し、記事を公開し、コメントを管理したいです。
+読者はタグまたは著者別に記事を閲覧し、コメントを残すことができる必要があります。`,
+  
+  'travel': `旅行代理店として、予約管理システムが必要です。
+旅行には目的地、出発/到着日、交通手段、宿泊施設があります。
+顧客には個人情報、支払い情報、旅行の好みがあります。
+エージェントは利用可能な旅行を検索し、予約を行い、旅程を管理できる必要があります。
+システムは予約状況、支払い、確認通知の送信を追跡する必要があります。`,
+  
+  'healthcare': `クリニック管理者として、患者管理システムが必要です。
+患者には個人情報、医療履歴、保険の詳細があります。
+予約には日付、時間、医師、患者、ステータスがあります。
+医療スタッフは予約をスケジュールし、診断を記録し、処方箋を管理する必要があります。
+患者は自分の医療記録と今後の予約を確認できる必要があります。`,
+  
+  'events': `イベントプランナーとして、イベント管理プラットフォームが必要です。
+イベントには名前、会場、日付、時間、収容人数、チケットタイプがあります。
+参加者はチケットを購入し、セッションに登録し、フィードバックを残すことができます。
+主催者は会場、スピーカー、スケジュール、チケット販売を管理する必要があります。
+システムはチェックイン、リマインダーの送信、出席レポートの生成をサポートする必要があります。`,
+  
+  'library': `図書館員として、図書館管理システムが必要です。
+本にはタイトル、著者、ジャンル、ISBN、出版日、利用可能状況があります。
+会員には個人情報、借りている本、貸出履歴を含むアカウントがあります。
+図書館員は本をカタログ化し、貸出と返却を処理し、予約を管理する必要があります。
+会員はカタログを検索し、本を予約し、アカウント状況を確認できる必要があります。`,
+  
+  'restaurant': `レストラン所有者として、予約と注文システムが必要です。
+テーブルには収容人数、場所、利用可能状況があります。
+メニュー項目には名前、説明、価格、カテゴリ、食事制限情報があります。
+スタッフは予約を管理し、注文を受け、支払いを処理する必要があります。
+顧客はテーブルを予約し、メニューを閲覧し、注文を行うことができる必要があります。`,
+  
+  'lms': `## 学習管理システム（LMS）
 
-- [ALPS Assistant](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant)
+### 主要ユーザー
+1. **学生**: コースに登録し、コンテンツにアクセスし、課題を提出する個人
+2. **講師**: コースを作成・管理し、学生の進捗を評価する教育者
+3. **管理者**: システム全体を監督し、ユーザーアカウントとコースカタログを管理する人々
 
-あるいは、ALPSプロファイルをAIで生成する時に以下のプロンプトを使うことができます。このプロンプトに従うことで、後述するプロンプトでの変換に適した、一貫性のあるALPSプロファイルを作成できます。
+### コース・コンテンツ管理
+- **講師として**、タイトル、説明、カテゴリ、開始/終了日、登録定員、難易度などのメタデータを持つコースを作成したいです。
+- **講師として**、コンテンツを論理的な順序で整理するためにコースにモジュールやセクションを追加したいです。
+- **講師として**、テキスト、ビデオ、音声、PDF、スライドショー、インタラクティブなHTML要素など、様々な形式の教材をアップロードしたいです。
+- **講師として**、コースコンテンツをドラフトモードで作成し、公開前にプレビューしたいです。
+- **管理者として**、コース全体のカタログを閲覧し、カテゴリ、講師、ステータス（アクティブ、プライベート、アーカイブ）でフィルタリングしたいです。
 
-- [ALPS](#alps)
+### 登録・進捗追跡
+- **学生として**、利用可能なコースを閲覧し、詳細を確認してから登録したいです。
+- **学生として**、自分の進捗を追跡し、完了したモジュールと次に何があるかを確認したいです。
+- **学生として**、登録前に必要なスキルや予備知識を理解するためにコースの前提条件を確認したいです。
+- **講師として**、学生の登録・登録解除を行い、個人またはクラス全体のコース開始/終了日の延長を設定したいです。
+- **講師として**、ダッシュボードでクラス全体の進捗を確認し、遅れている学生を特定したいです。
 
-## ALPSプロファイルを変換
+### 評価・フィードバック
+- **講師として**、多肢選択、記述、ファイルアップロード、プログラミング課題など、様々なタイプの課題やテストを作成したいです。
+- **講師として**、採点基準（ルーブリック）を設定し、課題に詳細なフィードバックを提供したいです。
+- **学生として**、課題を提出し、必要に応じて締め切り前に再提出したいです。
+- **学生として**、自分の成績とフィードバックを確認し、必要に応じて講師に質問したいです。
+- **講師として**、成績簿を管理し、各学生の総合成績を計算したいです。
 
-OpenAPI、GraphQL、SQLなど、システムの具体的な実装定義は多くの詳細を含むため煩雑になりがちです。一方、ALPSはセマンティックな記述によって、システムのコアとなる情報設計を抽象度高く表現することができます。
+### コミュニケーション・コラボレーション
+- **学生として**、ディスカッションフォーラムで質問を投稿し、他の学生や講師から回答を受け取りたいです。
+- **講師として**、クラス全体または個々の学生に通知やアナウンスを送信したいです。
+- **学生として**、他の学生との共同作業のための共有ワークスペースを持つグループプロジェクトに参加したいです。
+- **すべてのユーザーとして**、システム内でメッセージを送受信し、添付ファイルを共有したいです。
+- **講師として**、リアルタイムのウェビナーやオンラインセッションをスケジュールし、録画を保存して学生が後からアクセスできるようにしたいです。
 
-この抽象的な表現は、AIとの効率的なコミュニケーションを可能にし、API仕様、データベーススキーマ、型定義など、様々な具体的な実装形式への変換を容易にします。ここで紹介するプロンプトを活用することで、ALPSから各種実装定義を効率的に生成できます。
+### レポート・分析
+- **講師として**、学生のエンゲージメントとアクティビティ（ログイン頻度、閲覧したコンテンツ、課題完了までの時間）に関する分析を確認したいです。
+- **管理者として**、プラットフォーム全体の使用状況とパフォーマンスメトリクスを確認したいです。
+- **管理者として**、登録傾向、完了率、満足度評価に関するレポートを生成したいです。
+- **講師として**、外部分析ツールで使用するために学生のパフォーマンスデータをエクスポートしたいです。
 
-- [OpenAPI](#openapi)
-- [JSON Schema](#jsonスキーマ)
-- [GraphQL](#graphql)
-- [SQL](#sql)
-- [TypeScript type definitions](#typescript-type-definitions)
+### アクセシビリティ・ローカライゼーション
+- **すべてのユーザーとして**、システムとの対話のためのインターフェース言語を選択したいです。
+- **学生として**、視覚または聴覚障害のためのアクセシビリティ機能を使用したいです。
+- **講師として**、キャプションや代替テキストなどのアクセシビリティ要素をコンテンツに追加したいです。
 
-## ALPS
+### モバイル・オフラインアクセス
+- **学生として**、モバイルデバイスからコースにアクセスし、スマートフォンやタブレットで快適に学習したいです。
+- **学生として**、インターネット接続なしでオフライン学習のためにコンテンツをダウンロードしたいです。
+- **講師として**、学生のエンゲージメントを高めるためにモバイルアプリを通じて通知を送信したいです。`
+};
+    
+    // ALPS guide content
+    const alpsGuide = `## ‼️ Important: JSON Format Guidelines ‼️
 
-<pre style="font-size: x-small">
-# ALPSプロファイル作成プロンプト
+1. Write each descriptor on a single line (mandatory).
+2. Only indent and line-break descriptors if they contain other descriptors.
+3. All nested descriptors must reference their parent with \`href\`.
 
-後述するガイドラインに基づいて以下の要件のALPSプロファイルを作成してください
-
-* 形式: [XML|JSON]
-* 内容: [作成するプロファイルの説明]
-
-## ‼️ 重要：JSON形式の記述ルール ‼️
-
-1. descriptorは1つを1行で記述（必須）
-2. descriptorがdescriptorを含む場合のみ、含まれる部分をインデントして改行
-3. 含まれるdescriptorは必ずhrefで参照
-
-```json
+\`\`\`json
 {"$schema": "https://alps-io.github.io/schemas/alps.json", "alps": {"version": "1.0", "descriptor": [
-{"id": "name", "type": "semantic", "title": "Name", "def": "https://schema.org/name"},
-{"id": "email", "type": "semantic", "title": "Email", "def": "https://schema.org/email"},
-{"id": "User", "type": "semantic", "title": "User Profile", "descriptor": [
+{"id": "name", "title": "Name", "def": "https://schema.org/name"},
+{"id": "email", "title": "Email", "def": "https://schema.org/email"},
+{"id": "User", "title": "User Profile", "descriptor": [
   {"href": "#name"},
   {"href": "#email"}
 ]},
-{"id": "UserList", "type": "semantic", "title": "User List", "descriptor": [
+{"id": "UserList", "title": "User List", "descriptor": [
   {"href": "#User"},
   {"href": "#goUser"},
   {"href": "#doCreateUser"}
@@ -692,641 +1239,488 @@ OpenAPI、GraphQL、SQLなど、システムの具体的な実装定義は多く
 {"id": "goUser", "type": "safe", "title": "View User Details", "rt": "#User"},
 {"id": "doCreateUser", "type": "unsafe", "title": "Create User", "rt": "#UserList"}
 ]}}
-```
+\`\`\`
 
-## XML形式の記述ルール
+## XML Format Guidelines
 
-- インデントを使用して階層構造を表現
-- 1要素1行の形式で記述
-```xml
+- Use indentation to indicate hierarchy.
+- Write each element on a single line.
+
+\`\`\`xml
 <alps version="1.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
-```
-
-## セマンティックディスクリプタの構造化
-
-以下の3つのブロックに分けて記述します。全てのdescriptorは他のdescriptorから参照されるか、他のdescriptorを含む必要があります：
-
-1. 意味定義（オントロジー）
-   - 基本要素の定義（小文字始まりのローワーキャメルケース）
-   - Schema.Orgの定義がある場合は必ずdefを指定（完全なURL）
-   - 全てのdescriptorにtitleを付与
-   - 必要な場合のみdocを追加
-   - ここで定義した要素は必ずタクソノミーのいずれかの状態から参照される
-
-2. 包含関係（タクソノミー）
-   - 状態を表すディスクリプタは大文字始まりのアッパーキャメルケース
-   - 要素を参照する場合は必ずhrefを使用（id属性での直接定義は不可）
-   - 各アプリケーション状態には以下を含める：
-     * その状態で表示/使用する要素（オントロジーで定義したもの）
-     * その状態で実行可能な操作（コレオグラフィーで定義したもの）
-   - 必要な場合のみdocで詳細を説明
-   - ここで定義したタクソノミーは他のタクソノミーから含まれいているか遷移ができる
-
-3. 状態遷移（コレオグラフィー）
-   - 遷移操作の定義
-   - 適切なtype属性の選択
-   - rt（遷移先）の明示
-   - 操作に必要なデータ項目をhrefで参照
-   - ここで定義した操作は必ずタクソノミーのいずれかの状態から参照される
-
-## type属性の選択基準
-
-1. safe
-   - 読み取り専用の操作
-   - プレフィックス: "go"
-   - 例：`goUserProfile`
-   - 別の状態への遷移を表す
-
-2. idempotent
-   - 同じ操作を複数回実行しても結果が変わらない操作
-   - プレフィックス: "do"
-   - 例：`doUpdateUser`, `doDeleteUser`
-   - PUTやDELETEによる操作
-
-3. unsafe
-   - 実行のたびに異なる結果となる可能性がある操作
-   - プレフィックス: "do"
-   - 例：`doCreateUser`
-   - POSTによる新規作成など
-   - **注意**: 可能な限りidempotentを使用し、本当に必要な場合のみunsafeを使用
-
-## descriptor属性の使用ガイドライン
-
-1. 必須属性
-   - id: 一意の識別子（または href）
-   - title: 人間が読むための表示名
-
-2. 条件付き属性
-   - def: schema.orgの定義が存在する場合は必ず指定
-   - doc: 追加の説明が必要な場合のみ使用
-   - rt: 状態遷移を伴う操作の場合は必須
-   - rel: IANAで定義されたリレーションがある場合は指定
-　 - tag: 適切なグルーピングを行う
-
-## チェックリスト
-
-### フォーマット共通
-- [ ] スキーマ参照とバージョン情報が含まれている
-- [ ] 全てのdescriptorにtitleが付与されている
-- [ ] Schema.Orgの定義が存在する要素には完全なURLでdefを指定している
-- [ ] 状態遷移の命名規則が正しい（go/doプレフィックス）
-- [ ] typeの選択が適切（特にidempotentとunsafeの区別）
-- [ ] 3つのブロック（オントロジー・タクソノミー・コレオグラフィー）が明確に分かれている
-- [ ] ケース規則が正しい（状態は大文字始まり、要素は小文字始まり）
-- [ ] 要素の参照は全てhrefを使用している（id属性での直接定義はしない）
-- [ ] 各アプリケーション状態が適切に定義され、実行可能な操作を含んでいる
-- [ ] 全ての操作に適切な遷移先（rt）が指定されている
-
-### 関係性の検証（必須）
-- [ ] ‼️ 全てのdescriptorが他のdescriptorから参照されているか、他のdescriptorを含んでいる
-- [ ] ‼️ オントロジーで定義した要素が全てタクソノミーのいずれかの状態から参照されている
-- [ ] ‼️ コレオグラフィーで定義した操作が全てタクソノミーのいずれかの状態から参照されている
-- [ ] ‼️ タクソノミーで定義した要素は他のタクソノミーのいずれかに含まれているか、繊維が可能
-- [ ] ‼️ 孤立したdescriptorは存在しない。
-
-### JSON形式の場合（必須）
-- [ ] ‼️ descriptorは1つを1行で記述している（必須）
-- [ ] descriptorがdescriptorを含む場合のみ、含まれる部分をインデントして改行している
-- [ ] プロパティ名にダブルクォートを使用している
-
-### XML形式の場合
-- [ ] 適切にインデントされている
-
 </alps>
-</pre>
-
-## OpenAPI
-
-<pre style="font-size: x-small">
-**タスク:** 提供されたALPS（Application-Level Profile Semantics）ファイルをOpenAPI 3.0の定義ファイル（YAML形式）に変換してください。
-
-```alps
-_YOUR_ALPS_HERE_
-```
-
-**考慮すべき重要なポイント:**
-
-1. **Descriptor要素:**
-    - **`descriptor`の理解:** ALPSでは、`descriptor`はデータ要素や状態遷移を表す意味的な要素です。
-    - **OpenAPIパスと操作へのマッピング:**
-        - 状態遷移（`type`が`safe`、`unsafe`、`idempotent`の`descriptor`）は、適切なHTTPメソッド（`GET`、`POST`、`PUT`、`DELETE`）の下にOpenAPI操作としてマッピングします。
-        - 冪等性のある操作には`PUT`または`DELETE`を使用します。
-        - `DELETE`操作にはリクエストボディを含めません。
-
-2. **コンポーネントと再利用性:**
-    - **スキーマとパラメータ:**
-        - データ要素のディスクリプタ（`type`が`semantic`のもの）を抽出し、`components/schemas`の下で再利用可能なスキーマとして定義します。
-        - これらのスキーマをリクエストボディやレスポンスで適用します。
-    - **共通パラメータ:**
-        - 共通のパラメータ（例: ID、クエリパラメータ）を特定し、再利用のために`components/parameters`の下に定義します。
-
-3. **レスポンスとステータスコード:**
-    - **適切なステータスコード:**
-        - 正常に取得できた場合には`200 OK`を使用します。
-        - 新しいリソースが作成された場合には`201 Created`を使用します。
-        - コンテンツを返さない成功した操作には`204 No Content`を使用します。
-        - エラーハンドリングには`400 Bad Request`、`404 Not Found`などを使用します。
-    - **レスポンススキーマ:**
-        - 先に定義したコンポーネントを使ってレスポンススキーマを定義します。
-
-4. **データの制約:**
-    - **バリデーション:**
-        - データの制約を追加します。
-            - **文字列の制約:** `minLength`、`maxLength`、`pattern`（正規表現）
-            - **数値の制約:** `minimum`、`maximum`
-            - **列挙:** 固定値の集合に対して`enum`
-    - **制約の適用:**
-        - `components/schemas`内のスキーマにこれらの制約を適用します。
-
-5. **リンクと外部ドキュメント:**
-    - **リンクの関係:**
-        - `descriptor`が`href`または`rel`を含む場合、OpenAPIの`externalDocs`または`links`を使って関係を表現します。
-    - **説明:**
-        - ALPSの`doc`要素を使用して、操作、パラメータ、スキーマの説明を提供します。
-
-**出力形式:**
-- OpenAPI定義は**YAML**形式で提供してください。
-
----
-
-**追加の注意点:**
-
-- ALPSディスクリプタを正確にOpenAPIのパス、操作、およびコンポーネントに変換することに焦点を当ててください。
-- 生成されたOpenAPIファイルが有効であり、ベストプラクティスに従うことを確認してください。
-- OpenAPI定義に貢献しないALPSファイルの不要な情報は含めないでください。
-</pre>
-
-## JSONスキーマ
-
-<pre style="font-size: x-small">
-**タスク:** 提供されたALPS（Application-Level Profile Semantics）ファイルをJSONスキーマ定義に変換してください。
-
-**考慮すべき重要なポイント:**
-
-1. **ディスクリプタ要素:**
-    - **`descriptor`の理解:** ALPSでは、`descriptor`は意味的な要素を表します。
-    - **JSONスキーマへのマッピング:**
-        - データ要素（`type`が`semantic`の`descriptor`）をJSONスキーマのプロパティにマッピングします。
-        - データ要素の性質に基づいて適切なJSONスキーマタイプを使用します。
-
-2. **スキーマ構造:**
-    - **ルートスキーマ:**
-        - `$schema`および`type`プロパティを持つルートスキーマを定義します。
-        - `title`や`description`などの適切なメタデータを含めます。
-    - **プロパティ:**
-        - ALPSディスクリプタに基づいてプロパティを定義します。
-        - `properties`や`items`を使って入れ子構造を整理します。
-
-3. **データ型とフォーマット:**
-    - **基本タイプ:**
-        - 適切なJSONスキーマタイプを使用します:
-            - `string`
-            - `number`
-            - `integer`
-            - `boolean`
-            - `object`
-            - `array`
-    - **フォーマット:**
-        - 適用可能な標準フォーマットを適用します:
-            - `date-time`
-            - `date`
-            - `email`
-            - `uri`
-            - etc.
-
-4. **データ制約:**
-    - **バリデーションルール:**
-        - 以下のような制約を追加します:
-            - **文字列:** `minLength`、`maxLength`、`pattern`
-            - **数値:** `minimum`、`maximum`、`multipleOf`
-            - **配列:** `minItems`、`maxItems`、`uniqueItems`
-            - **オブジェクト:** `required`、`additionalProperties`
-    - **列挙:**
-        - 固定値の集合には`enum`を使用します
-        - 列挙値の説明を含めます
-
-5. **定義と参照:**
-    - **再利用可能なコンポーネント:**
-        - `$defs`の下に共通スキーマを定義します
-        - 再利用可能なスキーマを`$ref`で参照します
-    - **継承:**
-        - 複雑な型の関係には`allOf`、`anyOf`、`oneOf`を使用します
-
-6. **ドキュメンテーション:**
-    - **説明:**
-        - ALPSの`doc`要素を使用して、スキーマおよびプロパティの説明を提供します
-    - **例:**
-        - 助けになる場合は`examples`を含めます
-    - **タイトル:**
-        - プロパティおよび定義に明確なタイトルを追加します
-
-**出力形式:**
-- JSONスキーマは標準のJSON形式で提供してください
-- 読みやすさのために適切にインデントを使用してください
-
-**追加の要件:**
-- スキーマはJSONスキーマドラフト2020-12に対して有効である必要があります
-- 適切な`required`プロパティを含めてください
-- 意味のあるプロパティ名を使用してください
-- 複雑なバリデーションやビジネスルールに関するコメントを追加してください
-</pre>
-
-## SQL
-
-<pre style="font-size: x-small">
-**タスク:** 提供されたALPS（Application-Level Profile Semantics）ファイルをSQLのDDL（データ定義言語）およびDML（データ操作言語）ステートメントに変換してください。
-
-```alps
-_YOUR_ALPS_HERE_
-```
-
-**パート1: DDLステートメント**
-
-1. **スキーマとテーブル設計:**
-   - **データベーススキーマ:**
-      - ALPSプロファイルに基づいて適切なデータベーススキーマ名を作成
-      - スキーマのバージョン管理の考慮を含めます
-   - **テーブル作成:**
-      - `type`が`semantic`のALPSディスクリプタをデータベーステーブルにマッピング
-      - テーブル間のリレーションシップを通じてネストされた構造を扱います
-
-**パート2: DMLステートメント生成**
-
-1. **SELECTクエリ:**
-    - **基本クエリ:**
-        - 各主要リソースに対してSELECTステートメントを生成
-        - リレーションシップに基づいて適切なJOIN句を含める
-        - WHERE句でフィルタリング
-        - ページネーション（LIMIT/OFFSET）を考慮
-
-    - **複雑なクエリ:**
-        - 複数のJOINを持つクエリを作成
-        - 必要に応じてサブクエリを追加
-        - 集約関数（COUNT、SUMなど）を含める
-        - GROUP BYおよびHAVING句を実装
-
-    - **ビュークエリ:**
-        - 有用なビュー定義を生成
-        - パフォーマンス向上のためのマテリアライズドビューを作成
-
-2. **INSERTステートメント:**
-    - 次の要素を含むINSERTステートメントを生成:
-        - 単一行の挿入
-        - バルク挿入テンプレート
-        - INSERT ... SELECTパターン
-        - 適用可能な場合にはRETURNING句
-
-3. **UPDATEステートメント:**
-    - 次のテンプレートを作成:
-        - 単一レコードの更新
-        - バルク更新
-        - JOINを含む更新
-        - 条件付き更新
-
-    - 含めるもの:
-        - 安全な更新のためのWHERE句
-        - UPDATEトリガーの考慮
-        - 楽観的ロックのパターン
-
-4. **DELETEステートメント:**
-    - 次の要素を含むDELETEステートメントを生成:
-        - 安全な削除パターン
-        - ソフトデリートの実装
-        - カスケード削除の考慮
-        - アーカイブ戦略
-
-5. **トランザクションパターン:**
-    - 次のためのトランザクションテンプレートを作成:
-        - 複雑な操作
-        - データの一貫性
-        - エラーハンドリング
-        - ロールバックシナリオ
-
-6. **共通クエリパターン:**
-    - **検索:**
-        - フルテキスト検索クエリ
-        - パターンマッチング（LIKE/ILIKE）
-        - ファジーマッチング
-
-    - **レポート:**
-        - サマリークエリ
-        - 時間ベースの集計
-        - クロステーブルの分析
-
-    - **監査:**
-        - 変更追跡クエリ
-        - 履歴の閲覧
-        - アクティビティログ
-
-**出力形式の要件:**
-
-1. **DDL形式:**
-    - 完全なCREATEステートメント
-    - インデックス定義
-    - 制約定義
-    - 設計決定を説明するコメントブロック
-
-2. **DML形式:**
-    - パラメータ化されたクエリ（`:param`または`$n`記法）
-    - 複雑なロジックを説明するコメント
-    - パフォーマンスの考慮
-    - 予想されるインデックスの使用
-
-3. **クエリの組織化:**
-    - 関連するクエリをグループ化
-    - ユースケースの説明を含める
-    - 期待される結果を文書化
-    - 特定のデータベースエンジンの要件を記載
-
-**追加の考慮事項:**
-
-1. **パフォーマンス:**
-    - インデックスの使用ヒント
-    - EXPLAINプランの考慮
-    - クエリの最適化提案
-    - バッチ処理パターン
-
-2. **セキュリティ:**
-    - SQLインジェクション防止
-    - 権限要件
-    - 行レベルのセキュリティパターン
-    - 監査トレイルの実装
-
-3. **メンテナビリティ:**
-    - 明確なクエリ構造
-    - 一貫した命名規則
-    - 再利用可能なコンポーネント（CTE、ビュー）
-    - 複雑なロジックの文書化
-
-4. **エラーハンドリング:**
-    - EXCEPTIONブロック
-    - トランザクション管理
-    - デッドロックの処理
-    - 制約違反の処理
-</pre>
-
-## GraphQL
-
-<pre style="font-size: x-small">
-
-**タスク:** 提供されたALPS（Application-Level Profile Semantics）ファイルを完全なGraphQL実装に変換し、スキーマ定義と操作例を含めてください。
-
-**考慮すべき重要なポイント:**
-
-1. **スキーマ定義:**
-   - **タイプ定義:**
-     - ALPSのセマンティックディスクリプタをGraphQLのタイプにマッピングします
-     - 適切なスカラタイプ（ID、String、Int、Float、Boolean）を使用します
-     - 必要に応じてカスタムスカラタイプを定義します（DateTime、JSONなど）
-     ```graphql
-     scalar DateTime
-     scalar JSON
-
-     type User {
-       id: ID!
-       name: String!
-       email: String!
-       createdAt: DateTime!
-       metadata: JSON
-     }
-     ```
-
-   - **リレーションシップ:**
-     - 一対一、一対多、多対多のリレーションシップを扱います
-     - NullableとNon-Nullableフィールドを考慮します
-     ```graphql
-     type Order {
-       id: ID!
-       user: User!
-       items: [OrderItem!]!
-       total: Float!
-     }
-     ```
-
-   - **入力タイプ:**
-     - ミューテーション用の入力タイプを作成します
-     - バリデーション要件を考慮します
-     ```graphql
-     input CreateUserInput {
-       name: String!
-       email: String!
-       password: String!
-     }
-     ```
-
-   - **インターフェースとユニオン:**
-     - 共有フィールドのためにインターフェースを定義します
-     - ポリモーフィックなリレーションシップのためにユニオンを使用します
-     ```graphql
-     interface Node {
-       id: ID!
-     }
-
-     union SearchResult = User | Order | Product
-     ```
-
-2. **クエリ操作:**
-   - **基本クエリ:**
-     - 単一アイテムの取得
-     - フィルタリングされたリストの取得
-     - 検索操作
-     ```graphql
-     type Query {
-       user(id: ID!): User
-       users(filter: UserFilter, limit: Int, offset: Int): [User!]!
-       search(term: String!): [SearchResult!]!
-     }
-     ```
-
-   - **フィルタリングシステム:**
-     - フィルタ入力タイプを定義します
-     - 複雑なフィルタリング操作をサポート
-     ```graphql
-     input UserFilter {
-       name: StringFilter
-       age: IntFilter
-       AND: [UserFilter!]
-       OR: [UserFilter!]
-     }
-
-     input StringFilter {
-       eq: String
-       contains: String
-       startsWith: String
-       in: [String!]
-     }
-     ```
-
-   - **ページネーション:**
-     - カーソルベースのページネーションを実装
-     - limit/offsetページネーションをサポート
-     ```graphql
-     type UserConnection {
-       edges: [UserEdge!]!
-       pageInfo: PageInfo!
-       totalCount: Int!
-     }
-
-     type UserEdge {
-       node: User!
-       cursor: String!
-     }
-
-     type PageInfo {
-       hasNextPage: Boolean!
-       hasPreviousPage: Boolean!
-       startCursor: String
-       endCursor: String
-     }
-     ```
-
-3. **ミューテーション操作:**
-   - **作成操作:**
-     ```graphql
-     type Mutation {
-       createUser(input: CreateUserInput!): CreateUserPayload!
-       updateUser(id: ID!, input: UpdateUserInput!): UpdateUserPayload!
-       deleteUser(id: ID!): DeleteUserPayload!
-     }
-
-     type CreateUserPayload {
-       user: User
-       errors: [Error!]
-     }
-     ```
-
-   - **バッチ操作:**
-     ```graphql
-     input BatchCreateUserInput {
-       users: [CreateUserInput!]!
-     }
-
-     type BatchCreateUserPayload {
-       users: [User!]!
-       errors: [BatchError!]!
-     }
-     ```
-
-   - **エラーハンドリング:**
-     ```graphql
-     type Error {
-       field: String
-       message: String!
-       code: ErrorCode!
-     }
-
-     type BatchError {
-       index: Int!
-       errors: [Error!]!
-     }
-
-     enum ErrorCode {
-       INVALID_INPUT
-       NOT_FOUND
-       UNAUTHORIZED
-       INTERNAL_ERROR
-     }
-     ```
-
-4. **サブスクリプション操作:**
-   ```graphql
-   type Subscription {
-     userUpdated(id: ID): User!
-     newOrder: Order!
-     notifications(userId: ID!): Notification!
-   }
-   ```
-
-5. **ディレクティブ:**
-   ```graphql
-   directive @auth(
-     requires: Role = USER
-   ) on OBJECT | FIELD_DEFINITION
-
-   directive @deprecated(
-     reason: String = "No longer supported"
-   ) on FIELD_DEFINITION | ENUM_VALUE
-
-   enum Role {
-     ADMIN
-     USER
-     GUEST
-   }
-   ```
-
-**パート2: 実装ガイドライン**
-
-1. **リゾルバー構造:**
-   ```typescript
-   // リゾルバー構造の例
-   const resolvers = {
-     Query: {
-       user: (parent, { id }, context) => {},
-       users: (parent, { filter, limit, offset }, context) => {}
-     },
-     Mutation: {
-       createUser: (parent, { input }, context) => {}
-     },
-     User: {
-       orders: (parent, args, context) => {}
-     }
-   }
-   ```
-
-2. **コンテキストと認証:**
-   ```typescript
-   interface Context {
-     user: User | null;
-     dataSources: DataSources;
-     authenticate: () => Promise<User>;
-   }
-   ```
-
-3. **ベストプラクティス:**
-    - N+1クエリの防止のためにDataLoaderを使用する
-    - 適切なエラーハンドリングを実装する
-    - 名前付けの規約に従う
-    - フィールドレベルのドキュメンテーションを追加する
-    - レート制限を考慮する
-    - 適切な認可を実装する
-
-**追加の考慮事項:**
-
-1. **パフォーマンス:**
-    - クエリの複雑性分析
-    - フィールドレベルのコスト計算
-    - キャッシュ戦略
-    - バッチ最適化
-
-2. **セキュリティ:**
-    - 入力のバリデーション
-    - 認可チェック
-    - レート制限
-    - クエリ深度の制限
-
-3. **テスト:**
-    - リゾルバーのユニットテスト
-    - 操作の統合テスト
-    - スキーマのバリデーションテスト
-    - パフォーマンスベンチマーク
-
-**出力形式の要件:**
-
-1. **スキーマの組織化:**
-    - 異なる関心事ごとにファイルを分ける
-    - 明確なモジュール構造
-    - 適切なタイプのインポート/エクスポート
-
-2. **ドキュメンテーション:**
-    - スキーマドキュメンテーション
-    - 操作の例
-    - ユースケース
-    - エラーステナリオ
-
-提供されたALPS文書をもとに、これらのガイドラインに従ってGraphQL実装への変換をお手伝いします。
-
+\`\`\`
+
+## Structuring Semantic Descriptors
+
+Organize into the following three blocks. Each descriptor must either reference or contain other descriptors:
+
+1. Semantic Definitions (Ontology)
+   - Define basic elements (lowerCamelCase).
+   - Always specify \`def\` as a full URL if there's a Schema.org definition.
+   - Add a \`title\` to all descriptors.
+   - Include \`doc\` only if necessary.
+   - Each defined element must be referenced by at least one taxonomy state.
+
+2. Containment Relationships (Taxonomy)
+   - Descriptors representing states use UpperCamelCase.
+   - Use \`href\` for referencing elements (direct definition via \`id\` is not allowed).
+   - Each application state includes:
+     * Elements displayed/used in the state (defined in the ontology).
+     * Actions that can be performed (defined in choreography).
+   - Use \`doc\` for additional details if needed.
+   - Each taxonomy must either contain or transition to other taxonomies.
+
+3. State Transitions (Choreography)
+   - Define transition actions.
+   - Select the appropriate \`type\` attribute.
+   - Specify the transition destination (\`rt\`).
+   - Use \`href\` to refer to necessary data items.
+   - Each operation must be referenced by at least one taxonomy state.`;
+    
+    // Conversion prompt templates
+    const conversionPrompts = {
+      'OpenAPI': `**Task:** Convert this ALPS profile into a comprehensive OpenAPI 3.1 specification.
+
+**Key Instructions:**
+
+1. **State to Endpoint Mapping:**
+   - Map each semantic state to a resource endpoint
+   - Use tag attributes to organize endpoints into logical groups
+   - Apply proper REST principles (plural nouns for collections, etc.)
+
+2. **Transition Operations:**
+   - Convert transitions with specific type attributes:
+     - \`safe\` → GET operations
+     - \`unsafe\` → POST operations 
+     - \`idempotent\` → PUT/PATCH operations
+     - Include DELETE operations for removal actions
+   - Use appropriate HTTP status codes (200, 201, 204, 400, 404, etc.)
+
+3. **Schema Definitions:**
+   - Build schemas from semantic descriptors
+   - Include all properties referenced in state descriptors
+   - Use Schema.org definitions when available via \`def\` attributes
+   - Apply proper validation constraints based on domain knowledge
+   - Create both request and response schemas
+
+4. **Complete Documentation:**
+   - Use titles as summary descriptions
+   - Convert doc attributes to detailed descriptions
+   - Include examples for each operation
+   - Document error responses and handling
+
+5. **Consistent Design:**
+   - Apply query parameters for filtering, sorting, pagination
+   - Use path parameters for resource identifiers
+   - Include security schemes appropriate for the domain
+   - Ensure all endpoints have complete request/response documentation
+
+**Output Format:** Provide YAML format with appropriate indentation and organization.`,
+      
+      'JSON Schema': `**Task:** Convert this ALPS profile into a comprehensive JSON Schema that accurately captures all data structures.
+
+**Key Instructions:**
+
+1. **Semantic Descriptors:**
+   - Create type definitions for each semantic descriptor
+   - Use $defs for proper schema reusability
+   - Follow semantic descriptor hierarchies when defining nested structures
+   - Use \`$ref\` to reference repeated structures
+
+2. **Type & Format Selection:**
+   - Choose appropriate types (string, number, integer, boolean, object, array)
+   - Apply formats based on semantic meaning (date-time, email, uri, etc.)
+   - For descriptors with Schema.org definitions, infer types from those definitions
+   - Include multitype properties where appropriate
+
+3. **Validation Rules:**
+   - Add property constraints:
+     - Strings: minLength, maxLength, pattern
+     - Numbers: minimum, maximum, multipleOf
+     - Arrays: minItems, maxItems, uniqueItems
+     - Objects: required, additionalProperties
+   - Define enumerations for constrained values
+
+4. **Documentation & Metadata:**
+   - Include title from the ALPS descriptor
+   - Add description from doc attributes
+   - Provide examples of valid data
+   - Add $schema reference for validation
+
+5. **Design Patterns:**
+   - Use oneOf/anyOf for polymorphic structures
+   - Create composition patterns with allOf when appropriate
+   - Add conditional validation with if/then/else where needed
+
+**Output Format:** Provide properly formatted JSON with appropriate indentation.`,
+      
+'GraphQL': `**Task:** Convert this ALPS profile into a complete GraphQL schema with operations and resolvers.
+
+**Key Instructions:**
+
+1. **Type Definitions:**
+   - Create GraphQL types for each semantic descriptor
+   - Define scalars based on data nature (String, Int, Float, Boolean, ID)
+   - Create custom scalars for special formats (DateTime, Email, URL)
+   - Structure relationships using proper GraphQL object connections
+
+2. **Query Operations:**
+   - Create queries from \`safe\` transitions
+   - Implement filtering, sorting, and pagination for collection queries
+   - Design nested queries that follow the semantic connections
+   - Support efficient graph traversal with proper resolver planning
+
+3. **Mutation Operations:**
+   - Create mutations from \`unsafe\` and \`idempotent\` transitions
+   - Define input types for creating and updating resources
+   - Implement proper error handling and return types
+   - Return modified objects from mutations for efficient client updates
+
+4. **Schema Organization:**
+   - Use GraphQL directives for documentation and validation
+   - Group related operations based on ALPS tag attributes
+   - Design consistent naming patterns across the schema
+   - Implement interfaces for shared structures
+
+5. **Advanced Features:**
+   - Add subscription operations for real-time updates where appropriate
+   - Implement union types for polymorphic responses
+   - Design proper pagination with cursor-based approaches
+   - Add custom directives for authorization and caching hints
+
+**Output Format:** Provide the schema in SDL (Schema Definition Language) format, along with example operations and resolver patterns.`,
+      
+      'SQL': `**Task:** Convert this ALPS profile into a comprehensive SQL database schema with tables, relationships, and key operations.
+
+**Key Instructions:**
+
+1. **Table Structure:**
+   - Create tables for main semantic descriptors
+   - Define appropriate column types based on semantic meaning
+   - Implement proper primary keys and indexes
+   - Add foreign key constraints for relationships
+   - Include CHECK constraints for data validation
+
+2. **Relationship Modeling:**
+   - Identify one-to-many, many-to-many, and one-to-one relationships
+   - Create junction tables for many-to-many relationships
+   - Implement proper ON DELETE/UPDATE behavior for referential integrity
+   - Use appropriate naming conventions for relationship columns
+
+3. **Data Operations:**
+   - Create SELECT queries for \`safe\` transitions
+   - Implement INSERT statements for \`unsafe\` transitions
+   - Design UPDATE operations for \`idempotent\` transitions
+   - Add DELETE operations where appropriate
+   - Include stored procedures for complex operations
+
+4. **Advanced Database Features:**
+   - Design appropriate indexes for performance
+   - Create views for common query patterns
+   - Implement triggers for data integrity and auditing
+   - Add computed columns for derived properties
+   - Consider partitioning for large tables
+
+5. **Completeness & Standards:**
+   - Follow SQL standards for portability
+   - Include documentation as comments
+   - Create role-based permissions aligned with the domain
+   - Design for transaction safety
+   - Include data migration considerations
+
+**Output Format:** Provide SQL DDL statements for schema creation, followed by example DML operations.`,
+      
+      'TypeScript': `**Task:** Convert this ALPS profile into a comprehensive TypeScript type system with interfaces, classes, and utility types.
+
+**Key Instructions:**
+
+1. **Core Type Definitions:**
+   - Create interfaces for each semantic descriptor
+   - Use proper TypeScript types (string, number, boolean, Date, etc.)
+   - Implement inheritance for related types
+   - Define enums for constrained values
+   - Add JSDoc comments from ALPS documentation
+
+2. **Type Relationships:**
+   - Design composition patterns for nested structures
+   - Create utility types for operations (Partial<T>, Pick<T>, etc.)
+   - Implement generics for reusable patterns
+   - Define index signatures for dynamic properties
+   - Use union and intersection types appropriately
+
+3. **API Integration:**
+   - Create request and response interfaces
+   - Implement service interfaces with typed methods
+   - Design error handling with typed exceptions
+   - Add validation decorators if using class-validator
+   - Structure according to ALPS tag groupings
+
+4. **Advanced TypeScript Features:**
+   - Use conditional types for complex logic
+   - Implement mapped types for transformations
+   - Add template literal types for string patterns
+   - Define type guards for runtime type checking
+   - Use const assertions for literal values
+
+5. **Code Organization:**
+   - Structure code into modules based on ALPS tags
+   - Create barrel exports for simplified imports
+   - Design for tree-shaking and code splitting
+   - Add examples of type usage
+   - Include TypeScript configuration recommendations
+
+**Output Format:** Provide well-organized TypeScript code with proper imports and exports.`
+    };
+    
+    // Tab switching functionality
+    document.getElementById('userStoryTabBtn').addEventListener('click', function() {
+      document.getElementById('userStoryTab').classList.add('active');
+      document.getElementById('directAlpsTab').classList.remove('active');
+      this.classList.add('active');
+      document.getElementById('directAlpsTabBtn').classList.remove('active');
+    });
+    
+    document.getElementById('directAlpsTabBtn').addEventListener('click', function() {
+      document.getElementById('directAlpsTab').classList.add('active');
+      document.getElementById('userStoryTab').classList.remove('active');
+      this.classList.add('active');
+      document.getElementById('userStoryTabBtn').classList.remove('active');
+    });
+    
+    // STEP 1: Sample story handling
+    document.getElementById('sampleStorySelect').addEventListener('change', function() {
+      if (this.value) {
+        userStoryInput.value = sampleStories[this.value];
+      }
+    });
+    
+    // Custom language handling
+    document.getElementById('languageSelect').addEventListener('change', function() {
+      const customLanguageInput = document.getElementById('customLanguage');
+      if (this.value === 'other') {
+        customLanguageInput.classList.remove('hidden');
+      } else {
+        customLanguageInput.classList.add('hidden');
+      }
+    });
+    
+    // Generate ALPS Prompt button (from user story)
+    generateAlpsPromptBtn.addEventListener('click', function() {
+      if (userStoryInput.value.trim() === '') {
+        alert('Please enter a user story.');
+        return;
+      }
+      
+      const format = document.querySelector('input[name="alpsFormat"]:checked').value;
+      const language = getSelectedLanguage();
+      
+      // Generate ALPS prompt
+      const alpsPrompt = generateAlpsPrompt(userStoryInput.value, format, language);
+      alpsInput.value = alpsPrompt;
+      
+      // Move to Step 2
+      userStorySection.classList.add('hidden');
+      alpsSection.classList.remove('hidden');
+      
+      step1.classList.remove('active');
+      step2.classList.add('active');
+    });
+    
+    // Proceed to conversion button (from direct ALPS input)
+    document.getElementById('proceedToConversionBtn').addEventListener('click', function() {
+      const directAlpsInput = document.getElementById('directAlpsInput');
+      
+      if (directAlpsInput.value.trim() === '') {
+        alert('Please enter an ALPS profile.');
+        return;
+      }
+      
+      // Transfer direct ALPS input to the conversion section
+      alpsInput.value = directAlpsInput.value;
+      
+      // Move directly to Step 2
+      userStorySection.classList.add('hidden');
+      alpsSection.classList.remove('hidden');
+      
+      step1.classList.remove('active');
+      step2.classList.add('active');
+    });
+    
+    // STEP 2: Format selection handling
+    let selectedFormat = null;
+    
+    openApiBtn.addEventListener('click', () => selectFormat('OpenAPI', openApiBtn));
+    jsonSchemaBtn.addEventListener('click', () => selectFormat('JSON Schema', jsonSchemaBtn));
+    graphqlBtn.addEventListener('click', () => selectFormat('GraphQL', graphqlBtn));
+    sqlBtn.addEventListener('click', () => selectFormat('SQL', sqlBtn));
+    typescriptBtn.addEventListener('click', () => selectFormat('TypeScript', typescriptBtn));
+    
+    function selectFormat(format, button) {
+      selectedFormat = format;
+      
+      // Update UI to show selected format
+      document.querySelectorAll('.format-buttons button').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      button.classList.add('selected');
+    }
+    
+    // Convert ALPS button
+    convertAlpsBtn.addEventListener('click', function() {
+      if (alpsInput.value.trim() === '') {
+        alert('Please generate or paste an ALPS profile.');
+        return;
+      }
+      
+      if (!selectedFormat) {
+        alert('Please select a format to convert to.');
+        return;
+      }
+      
+      // Generate conversion prompt
+      const conversionPrompt = conversionPrompts[selectedFormat] + 
+        '\n\n_YOUR_ALPS_HERE_\n\n```\n' + alpsInput.value + '\n```';
+      
+      promptResult.textContent = conversionPrompt;
+      resultTitle.textContent = `${selectedFormat} Conversion Prompt`;
+      
+      // Move to Step 3
+      alpsSection.classList.add('hidden');
+      resultSection.classList.remove('hidden');
+      
+      step2.classList.remove('active');
+      step3.classList.add('active');
+    });
+    
+    // Navigation buttons
+    backToUserStoryBtn.addEventListener('click', function() {
+      alpsSection.classList.add('hidden');
+      userStorySection.classList.remove('hidden');
+      
+      step2.classList.remove('active');
+      step1.classList.add('active');
+    });
+    
+    backToAlpsBtn.addEventListener('click', function() {
+      resultSection.classList.add('hidden');
+      alpsSection.classList.remove('hidden');
+      
+      step3.classList.remove('active');
+      step2.classList.add('active');
+    });
+    
+    startOverBtn.addEventListener('click', function() {
+      resultSection.classList.add('hidden');
+      userStorySection.classList.remove('hidden');
+      
+      step3.classList.remove('active');
+      step1.classList.add('active');
+      step2.classList.remove('active');
+      
+      // Reset selections
+      selectedFormat = null;
+      document.querySelectorAll('.format-buttons button').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+    });
+    
+    // Copy buttons
+    copyAlpsBtn.addEventListener('click', function() {
+      copyToClipboard(alpsInput.value, copyAlpsBtn);
+    });
+    
+    copyResultBtn.addEventListener('click', function() {
+      copyToClipboard(promptResult.textContent, copyResultBtn);
+    });
+    
+    // Copy verification tip
+    document.getElementById('copyTipBtn').addEventListener('click', function() {
+      const tipText = "Please review this ALPS profile to verify that there are no isolated states (unreachable or exit-less states) and that all state transitions are properly connected. Also check if all semantic descriptors are consistently tagged and grouped.";
+      copyToClipboard(tipText, this);
+    });
+    
+    // Helper functions
+    function getSelectedLanguage() {
+      const languageSelect = document.getElementById('languageSelect');
+      if (languageSelect.value === 'other') {
+        return document.getElementById('customLanguage').value || 'Custom';
+      } else {
+        return languageSelect.value;
+      }
+    }
+    
+    function generateAlpsPrompt(userStory, format, language) {
+      return `# ALPS Profile Creation Prompt
+
+Please create an ALPS profile based on the following requirements. This profile should represent a complete and consistent application state design.
+
+* Format: ${format.toUpperCase()}
+* Language: ${language}
+* Content: 
+
+${userStory}
+
+## ‼️ Important: Guidelines for Design Consistency and Completeness ‼️
+
+1. **All states must be connected**:
+   - Avoid isolated states (states that cannot be reached or exited)
+   - Every state should have at least one incoming and one outgoing transition (except for home/start and final states)
+   - Ensure all transitions between states are logical and clear
+
+2. **Consistent use of semantic descriptors**:
+   - Use consistent naming conventions for the same concepts
+   - Only use the \`def\` attribute when a corresponding Schema.org definition exists
+   - For custom concepts, provide clear titles and use the \`doc\` attribute for details when needed
+
+3. **Complete user flows**:
+   - Provide complete state transition paths for each key user story
+   - Ensure CRUD operations (Create, Read, Update, Delete) are fully represented
+   - Include all necessary functionality for each user role
+
+4. **State transition completeness**:
+   - Clearly define the success path for each operation
+   - Ensure transitions between key states to prevent disruption of important business processes
+   - Consider alternative flows for critical failure cases when necessary
+
+5. **Grouping related elements**:
+   - Group related processes and user journeys using the \`tag\` attribute
+   - Use tags like "user-management", "content-creation", "payment-process", etc.
+   - Apply consistent tags to states and transitions belonging to the same functional area
+   - This helps identify related functionality when converting to APIs or data models
+
+${alpsGuide}
+
+## Output Requirements
+
+- Include a clear title for every descriptor (concise one-line explanation)
+- Use the doc attribute for detailed explanations when necessary
+- Only reference Schema.org URLs with the def attribute when a corresponding definition exists
+- Set appropriate type attributes (safe, unsafe, idempotent) for all state transitions
+- Create reusable descriptors for common patterns
+- Use consistent IDs and naming conventions for the same concepts
+- Utilize the tag attribute to group related elements
+- Use consistent tags for business domains or functional areas`;
+    }
+    
+    function copyToClipboard(text, button) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          const originalText = button.textContent;
+          button.textContent = '✅ Copied!, Paste it to your AI assistant';
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+          alert('Failed to copy. Please copy manually.');
+        });
+    }
+  });
+</script>
 
 
 
@@ -1477,21 +1871,23 @@ Application-Level Profile Semantics (ALPS) は、アプリケーションのセ�
 ALPSドキュメントは以下のような階層構造を持ちます：
 
 1. **ルート要素 (`alps`)**
-  - バージョン情報を含むドキュメントのルート要素
-  - すべての定義はこの要素の中に含まれます
+- バージョン情報を含むドキュメントのルート要素
+- すべての定義はこの要素の中に含まれます
 
 2. **ディスクリプタ要素 (`descriptor`)**
-  - アプリケーションの機能や情報の意味を定義する中心的な要素
-  - 以下の4つの型があります：
-    - semantic: 語句・情報を表す（デフォルト）
-    - safe: 読み取り操作（リソースの状態を変更しない）
-    - idempotent: 同じ操作を複数回実行しても結果が変わらない操作（PUTによる完全な置き換えやDELETEによる消去など）
-    - unsafe: 同じ操作を複数回実行すると異なる結果になる操作（POSTによる新規作成、数値の加算操作など）
+- アプリケーションの機能や情報の意味を定義する中心的な要素
+- 以下の4つの型があります：
+  - semantic: 語句・情報を表す（デフォルト）
+  - safe: 読み取り操作（リソースの状態を変更しない）
+  - idempotent: 同じ操作を複数回実行しても結果が変わらない操作（PUTによる完全な置き換えやDELETEによる消去など）
+  - unsafe: 同じ操作を複数回実行すると異なる結果になる操作（POSTによる新規作成、数値の加算操作など）
+- 他のdescriptor要素を子要素として含むことができます
+- link要素を子要素として含むことができます
 
 3. **補足要素**
-  - `doc`: 詳細な説明や補足情報
-  - `link`: 関連ドキュメントへの参照
-  - `title`: プロファイルの説明
+- `doc`: 詳細な説明や補足情報
+- `link`: 関連ドキュメントへの参照
+- `title`: プロファイルの説明
 
 ## 記述形式
 
@@ -1510,6 +1906,7 @@ ALPSドキュメントは以下の2つの形式で記述できます：
     <descriptor id="blogPost">
         <doc>ブログ記事</doc>
         <descriptor href="#title"/>
+        <link rel="related" href="http://example.org/related-docs/blog.html" />
     </descriptor>
 </alps>
 ```
@@ -1524,9 +1921,14 @@ ALPSドキュメントは以下の2つの形式で記述できます：
         "doc": {"value": "ブログシステムのAPIプロファイル"},
         "descriptor": [
             {"id": "title", "title": "タイトル", "doc": {"value": "記事のタイトル。最大100文字。"}},
-            {"id": "blogPost", "doc": {"value": "ブログ記事"}, "descriptor": [
+            {"id": "blogPost", "doc": {"value": "ブログ記事"}, 
+             "descriptor": [
                 {"href": "#title"}
-            ]}
+             ],
+             "link": [
+                {"rel": "related", "href": "http://example.org/related-docs/blog.html"}
+             ]
+            }
         ]
     }
 }
@@ -1546,6 +1948,12 @@ ALPSドキュメントのルート要素です。
 アプリケーションの機能や情報の意味（セマンティクス）を定義します。
 idまたはhrefのいずれかが必要でその他の属性はオプションです。
 
+descriptorは以下の子要素を持つことができます：
+- descriptor: 他のdescriptor要素を入れ子にして、階層構造を表現できます
+- doc: 詳細な説明
+- link: 関連リソースへのリンク
+- ext: 拡張情報
+
 ### descriptor属性一覧
 
 | 属性名 | 必須 | 型 | 説明 | 例 |
@@ -1557,7 +1965,10 @@ idまたはhrefのいずれかが必要でその他の属性はオプション�
 | rel | 任意 | string | リレーション | `"item"` |
 | title | 任意 | string | 表示名 | `"ブログ投稿"` |
 | tag | 任意 | string | 分類タグ | `"blog post"` |
-| doc | 任意 | object/string | 詳細説明 | `"詳細な説明"` |
+| name | 任意 | string | 表示用名前 | `"blog"` |
+| def | 任意 | string | 定義元URI | `"http://schema.org/BlogPosting"` |
+| descriptor | 任意 | element | 子descriptorの入れ子 | `<descriptor id="child">...</descriptor>` |
+| link | 任意 | element | 関連リソースへのリンク | `<link rel="help" href="..."/>` |
 
 ※1: idまたはhrefのいずれかが必須
 
@@ -1599,10 +2010,14 @@ idまたはhrefのいずれかが必要でその他の属性はオプション�
   - 複数指定する場合はスペース区切り
   - カテゴリ分類やフィルタリング用
 
-* **doc**: 詳細説明
-  - descriptorの詳細な説明
-  - doc要素として子要素にも定義可能
-  - フォーマットの指定が可能
+* **name**: 表示用名前
+  - 実際の表現で使用される名前
+  - idが一意である必要がある場合に、共通の名前を指定するために使用
+  - 同じnameを持つ複数のdescriptorが存在可能
+
+* **def**: 定義元URI
+  - descriptorの定義元となる外部リソースを示すURI
+  - Schema.orgなどの標準的な定義への参照に使用
 
 ### doc
 
@@ -1633,17 +2048,36 @@ contentTypeとformatの優先順位:
 
 ### link
 
-関連ドキュメントへの参照を定義します。
+関連ドキュメントへの参照を定義します。linkはalpsまたはdescriptor要素の子要素として使用できます。
 
-属性：
-- href: リンク先URL（必須）
-- rel: リレーション（必須）
-  - self: 自身へのリンク
-  - profile: プロファイルドキュメント
-  - help: ヘルプドキュメント
-  - related: 関連ドキュメント
-  - その他の[IANAリンクリレーション](iana_rels.html)
+#### link属性一覧
 
+| 属性名 | 必須 | 型 | 説明 | 例 |
+|--||--|
+| href | 必須 | string | リンク先URL | `"http://example.com/docs"` |
+| rel | 必須 | string | リレーション | `"help"` |
+| title | 任意 | string | 表示名 | `"ヘルプドキュメント"` |
+| tag | 任意 | string | 分類タグ | `"documentation"` |
+
+リレーション値:
+- self: 自身へのリンク
+- profile: プロファイルドキュメント
+- help: ヘルプドキュメント
+- related: 関連ドキュメント
+- その他の[IANAリンクリレーション](iana_rels.html)
+
+### ext
+
+拡張情報を提供します。標準仕様にない追加情報を含める場合に使用します。
+
+#### ext属性一覧
+
+| 属性名 | 必須 | 型 | 説明 | 例 |
+|--||--|
+| id | 必須 | string | 拡張の一意識別子 | `"range"` |
+| href | 推奨 | string | 拡張の説明URL | `"http://alps.io/ext/range"` |
+| value | 任意 | string | 拡張値 | `"0,100"` |
+| tag | 任意 | string | 分類タグ | `"validation"` |
 
 ## バリデーション
 
@@ -1652,9 +2086,105 @@ contentTypeとformatの優先順位:
 3. rt遷移先は文書内に実在する必要があります
 4. type属性は定義された4値（semantic、safe、idempotent、unsafe）のいずれかである必要があります
 5. 操作系descriptorには以下のプレフィックスの使用を推奨します：
-  - safe: `go`（例：`goBlog`）
-  - unsafe: `do`（例：`doCreateBlog`）
-  - idempotent: `do`（例：`doUpdateBlog`）
+- safe: `go`（例：`goBlog`）
+- unsafe: `do`（例：`doCreateBlog`）
+- idempotent: `do`（例：`doUpdateBlog`）
+
+## 階層構造の例
+
+以下は、入れ子になったdescriptor要素を使用した簡潔な階層構造の例です：
+
+**XML形式**
+
+```xml
+<alps version="1.0">
+  <descriptor id="user" type="semantic">
+    <doc>ユーザー情報</doc>
+    <descriptor id="name" type="semantic" />
+    <descriptor id="email" type="semantic" />
+    <link rel="help" href="http://example.org/help/user.html" />
+  </descriptor>
+</alps>
+```
+
+**JSON形式**
+
+```json
+{
+  "alps": {
+    "version": "1.0",
+    "descriptor": [
+      {
+        "id": "user",
+        "type": "semantic",
+        "doc": {"value": "ユーザー情報"},
+        "descriptor": [
+          {"id": "name", "type": "semantic"},
+          {"id": "email", "type": "semantic"}
+        ],
+        "link": [
+          {"rel": "help", "href": "http://example.org/help/user.html"}
+        ]
+      }
+    ]
+  }
+}
+```
+
+
+
+<link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}">
+
+
+# Schema.org 用語集
+
+<h2>プロパティ</h2>
+
+{% include html/schema-search.html table_id="schema-property-table" %}
+
+<table id="schema-property-table">
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Meta information</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for property in site.data.schema_properties_ja %}
+      <tr>
+        <td>
+          <a href="https://schema.org/{{ property.label }}" class="schema-link">{{ property.label }}</a>
+        </td>
+        <td>{{ property.comment | replace: 'href="/', 'href="https://schema.org/' }}</td>
+        {% include html/property-meta.html property=property %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>タイプ</h2>
+
+<table id="schema-type-table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Meta information</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for type in site.data.schema_types_ja %}
+      <tr>
+        <td>
+          <a href="https://schema.org/{{ type.label }}" class="schema-link">{{ type.label }}</a>
+        </td>
+        <td>{{ type.comment | replace: 'href="/', 'href="https://schema.org/' }}</td>
+        {% include html/type-meta.html type=type %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 
 
