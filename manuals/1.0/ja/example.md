@@ -7,6 +7,6 @@ permalink: /manuals/1.0/ja/example.html
 
 # 例
 
-* [todomvc](https://alps-asd.github.io/app-state-diagram/todomvc/)
-* [mini amazon](/alps/ja/amazon.html)
-* [LMS](/alps/ja/lms.html)
+* [bookstore](https://www.app-state-diagram.com/app-state-diagram/bookstore/ja/)
+* [mini amazon](https://www.app-state-diagram.com/app-state-diagram/amazon/)
+* [LMS](https://www.app-state-diagram.com/app-state-diagram/lms/ja/)

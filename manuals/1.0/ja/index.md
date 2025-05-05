@@ -6,7 +6,7 @@ permalink: /manuals/1.0/ja/
 ---
 # イントロダクション
 
-[![ALPS document](/images/alps.svg)](/alps/index.html)
+[![ALPS document](/alps/cart/alps.svg)](/alps/cart/)
 
 ## ALPS: アプリケーションレベルの意味と構造を明確にするフォーマット
 

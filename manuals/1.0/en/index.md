@@ -7,7 +7,7 @@ permalink: /manuals/1.0/en/
 
 # Introduction
 
-[![ALPS document](/images/alps.svg)](/alps/index.html)
+[![ALPS document](/alps/cart/alps.svg)](/alps/cart/)
 
 ## ALPS: A Format for Clarifying Application-Level Meaning and Structure
 
