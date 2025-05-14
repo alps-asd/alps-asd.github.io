@@ -1,7 +1,7 @@
 # App State Diagram Manual
 
 ## Overview
-A documentation and design support site based on ALPS for modeling application state transitions.
+A documentation and design support site for modeling application state transitions.
 
 ## Purpose
 To describe, share, and verify application state transitions using the ALPS format.
