@@ -14,6 +14,7 @@
 *   **Core Components Modeled:**
     *   Application "Vocabulary": Semantic descriptors.
     *   Application "Grammar": State transitions, affordances.
+*   ALPS is pronounced 'alps', the same as the Swiss alps. It is not A-L-P-S. "ælps"
 
 **0.2. ALPS: Key Objectives & Benefits**
 *   **Objective: Shared Semantic Understanding**
@@ -611,6 +612,94 @@
         2.  **Property Types:** Use appropriate TypeScript types (string, number, boolean, Date, arrays, nested types).
         3.  **Documentation:** Convert ALPS `title` and `doc` to JSDoc comments.
         4.  **API Integration (Optional):** Define request/response types for operations derived from ALPS transitions if modeling an API client.
+
+**Part 6: Frequently Asked Questions about ALPS**
+
+**Q. What is the difference between ALPS and IDL such as OpenAPI?**
+A. ALPS deals with REST abstractions that are higher than HTTP. Therefore, it can be used as a modeling and design language for OpenAPI implementations. While OpenAPI focuses on technical API details (endpoints, HTTP methods, request/response structures), ALPS focuses on business domain semantics and structure using Information Architecture concepts.
+
+**Q. Who can use ALPS?**
+A. It can be used by anyone involved in site creation (engineers, designers, product owners). Anyone who can understand XML and JSON and can do simple HTML coding can write ALPS.
+
+**Q. How do you use ALPS?**
+A. It is used to design a site by organizing information into the minimum necessary elements, and to design web and API services. The design can be expressed in formats such as JSON and XML, and documents such as transition diagrams and vocabulary lists can be generated. Each producer can know the exact words, meanings, and structures of information based on the information design.
+
+**Q. Can it be used for APIs without links?**
+A. Yes. It cannot represent a transition diagram, but it can generate a vocabulary and documentation of the nature of the information.
+
+**Part 7: Integration with Existing Media Types**
+
+ALPS can be used in combination with various existing media types. Below, we explain how to integrate with major media types.
+
+**Integration with HTML**
+In HTML, ALPS descriptors are primarily represented using the `class` attribute:
+
+```html
+<div class="blog-post">
+  <h1 class="title">Article Title</h1>
+  <div class="content">Content...</div>
+  <form class="add-comment" method="post">
+    <input name="comment-text" class="comment-text">
+    <button type="submit">Add Comment</button>
+  </form>
+</div>
+```
+
+Corresponding ALPS profile:
+```xml
+<alps version="1.0">
+  <descriptor id="blog-post" type="semantic">
+    <descriptor id="title" type="semantic"/>
+    <descriptor id="content" type="semantic"/>
+    <descriptor id="add-comment" type="unsafe">
+      <descriptor id="comment-text" type="semantic"/>
+    </descriptor>
+  </descriptor>
+</alps>
+```
+
+**Integration with HAL (Hypertext Application Language)**
+In HAL, state transitions are expressed as link relations and semantic descriptors as properties:
+
+```json
+{
+  "_links": {
+    "self": {"href": "/posts/1"},
+    "add-comment": {"href": "/posts/1/comments"}
+  },
+  "title": "Article Title",
+  "content": "Content...",
+  "_embedded": {
+    "comments": [
+      {
+        "_links": {
+          "self": {"href": "/comments/1"}
+        },
+        "text": "Comment content..."
+      }
+    ]
+  }
+}
+```
+
+**Referencing ALPS Documents**
+
+This section describes how to reference ALPS profiles when applying them.
+
+1. **Referencing in HTML**
+   ```html
+   <link rel="profile" href="http://example.com/alps/blog" />
+   ```
+
+2. **Referencing in HTTP Link Header**
+   ```http
+   Link: <http://example.com/alps/blog>; rel="profile"
+   ```
+
+3. **Referencing in Media Type Parameter**
+   ```http
+   Content-Type: application/json; profile="http://example.com/alps/blog"
+   ```
 
 **Appendix A: Complete ALPS Example (Bookstore)**
 *(This section would contain the full XML example of the Bookstore ALPS profile from the original document, slightly formatted for consistency if needed, but content preserved.)*
