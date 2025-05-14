@@ -1,7 +1,7 @@
-# App State Diagram Manual
+# App State Diagram
 
 ## Overview
-A documentation and design support site for modeling application state transitions.
+Visualize Application Semantics and Affordance in REST Architecture
 
 ## Purpose
 To describe, share, and verify application state transitions using the ALPS format.
@@ -20,7 +20,7 @@ To describe, share, and verify application state transitions using the ALPS form
 - REST / Hypermedia application design
 
 ## Related URLs
-- [Full Knowledge File](https://www.app-state-diagram.com/llms-full.txt)
+- [Full Knowledge](https://www.app-state-diagram.com/llms-full.txt)
 - [Manual](https://www.app-state-diagram.com/manuals/1.0/en/index.html)
 - [ALPS Official Site](http://alps.io/)
 - [ALPS Spec](https://www.ietf.org/archive/id/draft-amundsen-richardson-foster-alps-07.txt)
