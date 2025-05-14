@@ -20,11 +20,11 @@ To describe, share, and verify application state transitions using the ALPS form
 - REST / Hypermedia application design
 
 ## Related URLs
-Full Knowledge File: https://www.app-state-diagram.com/llms-full.txt
-Manual: https://www.app-state-diagram.com/manuals/1.0/en/index.html
-ALPS Official Site: http://alps.io/
-ALPS Spec: https://www.ietf.org/archive/id/draft-amundsen-richardson-foster-alps-07.txt
-ALPS Schema (JSON Schema): https://alps-io.github.io/schemas/alps.json
-ALPS Schema (XSD): https://alps-io.github.io/schemas/alps.xsd
-Semantic Terms (Schema.org properties): https://raw.githubusercontent.com/alps-io/imports/refs/heads/master/schema.org/schemaorg-current-https-properties.csv
-Semantic Terms (Schema.org types): https://raw.githubusercontent.com/alps-io/imports/refs/heads/master/schema.org/schemaorg-current-https-types.csv
+- [Full Knowledge File](https://www.app-state-diagram.com/llms-full.txt)
+- [Manual](https://www.app-state-diagram.com/manuals/1.0/en/index.html)
+- [ALPS Official Site](http://alps.io/)
+- [ALPS Spec](https://www.ietf.org/archive/id/draft-amundsen-richardson-foster-alps-07.txt)
+- [ALPS Schema (JSON Schema)](https://alps-io.github.io/schemas/alps.json)
+- [ALPS Schema (XSD)](https://alps-io.github.io/schemas/alps.xsd)
+- [Semantic Terms (Schema.org properties)](https://raw.githubusercontent.com/alps-io/imports/refs/heads/master/schema.org/schemaorg-current-https-properties.csv)
+- [Semantic Terms (Schema.org types)](https://raw.githubusercontent.com/alps-io/imports/refs/heads/master/schema.org/schemaorg-current-https-types.csv)
