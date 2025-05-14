@@ -122,7 +122,7 @@ Details for each attribute:
 * **id**: Unique identifier (mutually exclusive with href)
   - String that uniquely identifies the descriptor
   - Cannot be duplicated within the same document
-  - Must use URL-safe characters (compliant with [RFC1738](https://www.rfc-editor.org/rfc/rfc1738))
+  - Must use URL-safe characters (compliant with [RFC3986](https://www.rfc-editor.org/rfc/rfc3986))
 
 * **href**: Reference target (mutually exclusive with id)
   - Identifier for referencing other descriptors

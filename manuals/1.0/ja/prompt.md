@@ -588,6 +588,7 @@ const sampleStories = {
     // ALPS guide content
     const alpsGuide = `## ‼️ Important: JSON Format Guidelines ‼️
 
+0. Do not comment on JSON.
 1. Write each descriptor on a single line (mandatory).
 2. Only indent and line-break descriptors if they contain other descriptors.
 3. All nested descriptors must reference their parent with \`href\`.
