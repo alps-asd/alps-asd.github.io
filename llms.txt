@@ -1,5 +1,4 @@
-## Application Name
-App State Diagram Manual
+# App State Diagram Manual
 
 ## Overview
 A documentation and design support site based on ALPS for modeling application state transitions.
