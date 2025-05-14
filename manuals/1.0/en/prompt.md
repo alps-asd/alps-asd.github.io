@@ -588,10 +588,11 @@ Customers should be able to book tables, browse menus, and place orders.`,
     // ALPS guide content
     const alpsGuide = `## ‼️ Important: JSON Format Guidelines ‼️
 
-0. Do not comment on JSON.
 1. Write each descriptor on a single line (mandatory).
 2. Only indent and line-break descriptors if they contain other descriptors.
 3. All nested descriptors must reference their parent with \`href\`.
+4. Comments are not allowed in JSON; ensure examples and generated profiles contain no comment syntax (e.g., `//`, `/* */`).
+
 
 \`\`\`json
 {"$schema": "https://alps-io.github.io/schemas/alps.json", "alps": {"version": "1.0", "descriptor": [
