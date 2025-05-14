@@ -534,7 +534,8 @@
             ```json
             {"$schema": "...", "alps": {"version": "1.0", "descriptor": [
               {"id": "name", "title": "Name", "def": "https://schema.org/name"},
-              {"id": "User", "title": "User Profile", "descriptor": [ {"href": "#name"}, /* ... */ ]},
+-             {"id": "User", "title": "User Profile", "descriptor": [ {"href": "#name"}, /* ... */ ]},
++             {"id": "User", "title": "User Profile", "descriptor": [ {"href": "#name"} ]},
               {"id": "goUser", "type": "safe", "rt": "#User"}
             ]}}
             ```
