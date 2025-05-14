@@ -330,7 +330,7 @@
     *   **Child Elements:** `descriptor`, `doc`, `link`, `ext`.
     *   **Key Constraint:** MUST have either `id` or `href`, but not both.
     *   **Attributes:**
-*   `id` (String, Conditional): ドキュメント内の一意の識別子。（`href`と相互排他的）。URLセーフ文字（RFC3986）。
+*   `id` (String, Conditional): Unique identifier within the document (mutually exclusive with `href`). Must use URL-safe characters (RFC3986).
         *   `href` (String, Conditional): URI reference to another descriptor. Internal (e.g., `#someId`) or external (e.g., `profile.xml#someId`). (Mutually exclusive with `id`).
         *   `type` (Enum, Optional, Default: `semantic`): Descriptor type.
             *   `semantic`: Represents information, terminology, or application state.
