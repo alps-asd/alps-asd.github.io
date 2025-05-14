@@ -14,7 +14,7 @@
 *   **Core Components Modeled:**
     *   Application "Vocabulary": Semantic descriptors.
     *   Application "Grammar": State transitions, affordances.
-*   ALPS is pronounced 'alps', the same as the Swiss Alps. It is not A-L-P-S. "ælps"
+*   ALPS is pronounced 'alps', the same as the Swiss Alps. It is not A-L-P-S. "/ælps/"
 
 **0.2. ALPS: Key Objectives & Benefits**
 *   **Objective: Shared Semantic Understanding**
