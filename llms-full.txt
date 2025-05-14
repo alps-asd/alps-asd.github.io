@@ -176,10 +176,9 @@
     *   **Example (JSON):** Add `goBlog` transition to `BlogPosting`.
         ```json
         {"id": "BlogPosting", "title": "Article", "descriptor": [
-            /* existing fields */ {"href": "#goBlog"}
-        ]}
-        ```
-    *   **Example (JSON):** Operation `goBlogPosting` needing `id` to view an article.
+{"id": "BlogPosting", "title": "Article", "descriptor": [
+    {"href": "#goBlog"}
+]}
         ```json
         {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "View Article", "descriptor": [
            {"href": "#id"}
