@@ -11,7 +11,7 @@ AIの力でALPS開発をサポートすることができます。
 
 ## OpenAI GPTs - ALPSアシスタント
 
-[ALPSアシスタント](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant)はALPSフレームワークに関する質問に特化して回答するようにトレーニングされたカスタムGPTです。
+[ALPSアシスタント](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant)はALPSに関する質問に特化して回答するようにトレーニングされたカスタムGPTです。
 
 <div class="info-box">
   <p><strong>注意:</strong> GPTsを使用するにはOpenAI Plusアカウントが必要です。</p>
@@ -23,7 +23,7 @@ AIの力でALPS開発をサポートすることができます。
 
 ### llms.txtとは何ですか？
 
-`llms-full.txt`ファイルは`llms.txt`標準に基づいており、重要な情報をクリーンなMarkdown形式でAIモデルと共有するシンプルな方法です。これにより、AIアシスタントはALPSフレームワークのような重要な詳細を余分な情報なしで迅速に理解できます。詳細は[llmstxt.org](https://llmstxt.org/)をご覧ください。
+`llms-full.txt`ファイルは`llms.txt`標準に基づいており、重要な情報をクリーンなMarkdown形式でAIモデルと共有するシンプルな方法です。これにより、AIアシスタントはALPSのような重要な詳細を余分な情報なしで迅速に理解できます。詳細は[llmstxt.org](https://llmstxt.org/)をご覧ください。
 
 <button id="copyLlmsText" class="copy-button">llms-full.txtをコピー</button>
 <span id="copyStatus" class="copy-status"></span>

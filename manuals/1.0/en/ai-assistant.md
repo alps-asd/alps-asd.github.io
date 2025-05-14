@@ -11,7 +11,7 @@ Discover resources to support ALPS development with the power of AI.
 
 ## OpenAI GPTs - ALPS Assistant
 
-[ALPS Assistant](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant) is a custom GPT trained to specifically answer questions about the ALPS framework.
+[ALPS Assistant](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant) is a custom GPT trained to specifically answer questions about the ALPS.
 
 <div class="info-box">
   <p><strong>Note:</strong> An OpenAI Plus account is required to use GPTs.</p>
@@ -23,7 +23,7 @@ To provide other AI assistants (such as Claude, Gemini, etc.) with knowledge of 
 
 ### What is llms.txt?
 
-The `llms-full.txt` file is based on the `llms.txt` standard, a simple way to share key information with AI models in a clean, Markdown format. It helps AI assistants quickly understand important details—like ALPS's framework—without clutter. Learn more at [llmstxt.org](https://llmstxt.org/).
+The `llms-full.txt` file is based on the `llms.txt` standard, a simple way to share key information with AI models in a clean, Markdown format. It helps AI assistants quickly understand important details—like the ALPS format—without clutter. Learn more at [llmstxt.org](https://llmstxt.org/).
 
 <button id="copyLlmsText" class="copy-button">Copy llms-full.txt</button>
 <span id="copyStatus" class="copy-status"></span>
