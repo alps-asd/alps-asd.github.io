@@ -1,0 +1,31 @@
+## Application Name
+App State Diagram Manual
+
+## Overview
+A documentation and design support site based on ALPS for modeling application state transitions.
+
+## Purpose
+To describe, share, and verify application state transitions using the ALPS format.
+
+## Key Features
+- Guides and references for creating ALPS profiles
+- Validation tools for complete state transition flows
+- Unified guidelines for ontology and taxonomy
+- Sample profiles in JSON format
+- Visual aids for rendering transition charts
+
+## Related Technologies & Formats
+- ALPS (Application-Level Profile Semantics)
+- JSON
+- Schema.org (for term definitions)
+- REST / Hypermedia application design
+
+## Related URLs
+Full Knowledge File: https://www.app-state-diagram.com/llms-full.txt
+Manual: https://www.app-state-diagram.com/manuals/1.0/en/index.html
+ALPS Official Site: http://alps.io/
+ALPS Spec: https://www.ietf.org/archive/id/draft-amundsen-richardson-foster-alps-07.txt
+ALPS Schema (JSON Schema): https://alps-io.github.io/schemas/alps.json
+ALPS Schema (XSD): https://alps-io.github.io/schemas/alps.xsd
+Semantic Terms (Schema.org properties): https://raw.githubusercontent.com/alps-io/imports/refs/heads/master/schema.org/schemaorg-current-https-properties.csv
+Semantic Terms (Schema.org types): https://raw.githubusercontent.com/alps-io/imports/refs/heads/master/schema.org/schemaorg-current-https-types.csv
