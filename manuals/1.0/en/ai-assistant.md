@@ -8,7 +8,7 @@ image: /images/ai-guide.png
 
 # ALPS AI Guide
 
-<img src="/images/ai-guide.png" alt="ALPS Design with AI" style="max-width: 200px; margin-bottom: 1em;">
+<img src="/images/ai-guide.png" alt="ALPS Design with AI" style="max-width: 256px; margin-bottom: 1em;">
 
 ## Why AI Makes a Great ALPS Guide
 
