@@ -146,6 +146,10 @@ ALPSプロファイルの作成については、次を参照してください:
   <p><strong>注意:</strong> OpenAI Plusアカウントが必要です。</p>
 </div>
 
+## Google NotebookLM
+
+[ALPS Guide Notebook](https://notebooklm.google.com/notebook/69a90152-3986-4630-a907-bd0e449c000e)は、AIアシスタントと共にALPSの概念を探求できるインタラクティブなノートブックです。
+
 <script>
 document.getElementById('copyLlmsText').addEventListener('click', function() {
   fetch('/llms-full.txt')

@@ -146,6 +146,10 @@ For ALPS profile creation, refer to: https://alps-asd.github.io/app-state-diagra
   <p><strong>Note:</strong> Requires OpenAI Plus account.</p>
 </div>
 
+## Google NotebookLM
+
+[ALPS Guide Notebook](https://notebooklm.google.com/notebook/69a90152-3986-4630-a907-bd0e449c000e) is an interactive notebook for exploring ALPS concepts with AI assistance.
+
 <script>
 document.getElementById('copyLlmsText').addEventListener('click', function() {
   fetch('/llms-full.txt')
