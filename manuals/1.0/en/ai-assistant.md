@@ -198,12 +198,6 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   font-weight: bold;
 }
 
-.legacy-link {
-  font-size: 0.8em;
-  color: #6c757d;
-  margin-top: 3em;
-}
-
 .tooltip-trigger {
   color: #0066cc;
   text-decoration: underline;
@@ -234,9 +228,3 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   display: block;
 }
 </style>
-
----
-
-<p class="legacy-link">
-  <a href="/manuals/1.0/en/ai-assistant-legacy-prompt.html">Legacy: Prompt-based guide</a>
-</p>
