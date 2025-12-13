@@ -69,9 +69,12 @@ curl -o .claude/skills/alps/SKILL.md \
 
 ### 使用方法
 
-- 「ALPSスキルを使用してブログシステムのALPSプロファイルを作成してください」
-- 「alps.xmlを検証して問題を修正してください」
-- 「このALPSプロファイルを改善してください」
+- 「ブログシステムのALPSプロファイルを作成して」
+- 「alps.xmlを検証して問題を修正して」
+
+入力はテキスト、Figmaデザイン、OpenAPI仕様、ホワイトボード写真、WebサイトURL、<span class="tooltip-trigger">その他<span class="tooltip-content">データベーススキーマ、既存コード、GraphQLスキーマ、Postmanコレクション、Swaggerドキュメント、シーケンス図、ユーザーストーリー、ER図、JSONレスポンス、ルート定義、議事録、Slackスレッド、ナプキンスケッチ...</span></span>が可能です。
+
+**Tip:** コンソールで`Ctrl+V`を押すとクリップボードから画像を貼り付けられます。
 
 ## MCPサーバー
 
@@ -226,6 +229,36 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   font-size: 0.8em;
   color: #6c757d;
   margin-top: 3em;
+}
+
+.tooltip-trigger {
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: help;
+  position: relative;
+}
+
+.tooltip-trigger:hover {
+  color: #004499;
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  width: 280px;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.tooltip-trigger:hover .tooltip-content {
+  display: block;
 }
 </style>
 

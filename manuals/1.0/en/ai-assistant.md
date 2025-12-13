@@ -69,9 +69,12 @@ Response should include "alps" skill.
 
 ### Usage
 
-- "Use the ALPS skill to create an ALPS profile for a blog system"
+- "Create an ALPS profile for a blog system"
 - "Validate alps.xml and fix any issues"
-- "Improve this ALPS profile"
+
+Input can be text, Figma designs, OpenAPI specs, whiteboard photos, website URLs, and <span class="tooltip-trigger">more<span class="tooltip-content">database schemas, existing code, GraphQL schemas, Postman collections, Swagger docs, sequence diagrams, user stories, ERDs, JSON responses, route definitions, meeting notes, Slack threads, napkin sketches...</span></span>.
+
+**Tip:** Press `Ctrl+V` in the console to paste images from clipboard.
 
 ## MCP Server
 
@@ -226,6 +229,36 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   font-size: 0.8em;
   color: #6c757d;
   margin-top: 3em;
+}
+
+.tooltip-trigger {
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: help;
+  position: relative;
+}
+
+.tooltip-trigger:hover {
+  color: #004499;
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  width: 280px;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.tooltip-trigger:hover .tooltip-content {
+  display: block;
 }
 </style>
 
