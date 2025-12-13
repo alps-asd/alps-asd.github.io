@@ -44,12 +44,24 @@ Semantic descriptors that are not safe should use the prefix `do`.
 ]
 ```
 
-The rt (transition destination) ID is formed by adding the destination descriptor ID to the prefix `go` or `do`.
+**IMPORTANT: Safe transitions (`go*`) MUST include the target state name in their id.**
 
 ```json
 [
-  {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting"},
-  {"id": "doEditBlogPosting", "type": "idempotent", "rt": "#Blog"}
+  {"id": "goProductList", "type": "safe", "rt": "#ProductList"},
+  {"id": "goUserProfile", "type": "safe", "rt": "#UserProfile"},
+  {"id": "goCheckout", "type": "safe", "rt": "#Checkout"}
+]
+```
+
+This rule ensures consistency and makes the diagram self-documenting. When a transition has no source state (entry point), it will be displayed as originating from `UnknownState` in the diagram.
+
+❌ **Invalid examples:**
+
+```json
+[
+  {"id": "goStart", "type": "safe", "rt": "#ProductList"},  // Wrong! Should be goProductList
+  {"id": "goNext", "type": "safe", "rt": "#Checkout"}       // Wrong! Should be goCheckout
 ]
 ```
 
