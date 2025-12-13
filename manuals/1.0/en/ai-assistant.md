@@ -55,7 +55,7 @@ claude update     # Update if needed
 
 mkdir -p .claude/skills/alps
 curl -o .claude/skills/alps/SKILL.md \
-  https://raw.githubusercontent.com/alps-asd/app-state-diagram/2.x/.claude/skills/alps/SKILL.md
+  https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
 ```
 
 ### Verify
