@@ -3,9 +3,12 @@ layout: docs-ja
 title: ALPS AIガイド
 category: Manual
 permalink: /manuals/1.0/ja/ai-assistant.html
+image: /images/ai-guide.png
 ---
 
 # ALPS AIガイド
+
+<img src="/images/ai-guide.png" alt="AIとALPS設計" style="max-width: 200px; margin-bottom: 1em;">
 
 ## なぜAIは優れたALPSガイドなのか
 

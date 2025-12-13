@@ -3,9 +3,12 @@ layout: docs-en
 title: ALPS AI Guide
 category: Manual
 permalink: /manuals/1.0/en/ai-assistant.html
+image: /images/ai-guide.png
 ---
 
 # ALPS AI Guide
+
+<img src="/images/ai-guide.png" alt="ALPS Design with AI" style="max-width: 200px; margin-bottom: 1em;">
 
 ## Why AI Makes a Great ALPS Guide
 
