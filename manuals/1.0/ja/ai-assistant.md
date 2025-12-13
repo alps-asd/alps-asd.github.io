@@ -10,7 +10,7 @@ image: /images/ai-guide.png
 
 <img src="/images/ai-guide.png" alt="AIとALPS設計" style="max-width: 200px; margin-bottom: 1em;">
 
-## なぜAIは優れたALPSガイドなのか
+## ALPS設計におけるAIの力
 
 ALPS設計には、明確な状態定義、意味のある遷移、一貫した命名、標準語彙との整合性など、複数の要素のバランスが求められます。AIアシスタントはこのような多次元的な思考に優れています。
 
