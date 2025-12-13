@@ -78,14 +78,20 @@ For AI clients supporting [Model Context Protocol](https://modelcontextprotocol.
 
 ### Setup
 
-Create `.mcp.json` in your project:
+First, find your asd path:
+
+```bash
+which asd  # e.g., /opt/homebrew/bin/asd
+```
+
+Create `.mcp.json` in your project using the full path:
 
 ```json
 {
   "mcpServers": {
     "alps": {
-      "command": "npx",
-      "args": ["@alps-asd/mcp"]
+      "command": "/opt/homebrew/bin/asd",
+      "args": ["--mcp"]
     }
   }
 }
@@ -97,7 +103,7 @@ Note: MCP connection may disconnect during sessions. Run `/mcp` to reconnect.
 
 ### For Other MCP Clients
 
-Add `npx @alps-asd/mcp` as stdio server in your MCP client configuration.
+Add `asd --mcp` (with full path) as stdio server in your MCP client configuration.
 
 ### Available Tools
 

@@ -78,14 +78,20 @@ curl -o .claude/skills/alps/SKILL.md \
 
 ### セットアップ
 
-プロジェクトに`.mcp.json`を作成：
+まず、asdのパスを確認：
+
+```bash
+which asd  # 例: /opt/homebrew/bin/asd
+```
+
+フルパスを使用してプロジェクトに`.mcp.json`を作成：
 
 ```json
 {
   "mcpServers": {
     "alps": {
-      "command": "npx",
-      "args": ["@alps-asd/mcp"]
+      "command": "/opt/homebrew/bin/asd",
+      "args": ["--mcp"]
     }
   }
 }
@@ -97,7 +103,7 @@ curl -o .claude/skills/alps/SKILL.md \
 
 ### その他のMCPクライアント向け
 
-MCPクライアント設定に`npx @alps-asd/mcp`をstdioサーバーとして追加してください。
+MCPクライアント設定に`asd --mcp`（フルパス）をstdioサーバーとして追加してください。
 
 ### 利用可能なツール
 
