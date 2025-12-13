@@ -121,14 +121,14 @@ SkillやMCPをサポートしないLLM向けです。[llms.txt標準](https://ll
 |----------|------|
 | [llms.txt](/llms.txt) | ALPS仕様インデックス |
 | [llms-full.txt](/llms-full.txt) | 完全なALPS仕様 |
-| [ALPS作成ガイド](https://alps-asd.github.io/app-state-diagram/alps-skill.md) | 設計原則と例 |
+| [ALPS作成ガイド](https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md) | 設計原則と例 |
 
 ### システムプロンプト
 
 システムプロンプトまたはAGENTS.mdに追加：
 
 ```text
-ALPSプロファイルの作成については、次を参照してください: https://alps-asd.github.io/app-state-diagram/alps-skill.md
+ALPSプロファイルの作成については、次を参照してください: https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
 ```
 
 ### 手動コピー
@@ -136,21 +136,13 @@ ALPSプロファイルの作成については、次を参照してください:
 <button id="copyLlmsText" class="copy-button">llms-full.txtをコピー</button>
 <span id="copyStatus" class="copy-status"></span>
 
-<div class="usage-guide">
-  <h3>使い方</h3>
-  <ul>
-    <li>会話の最初に貼り付ける</li>
-    <li>またはファイル/プロジェクトの添付としてアップロード</li>
-  </ul>
-</div>
+会話の最初に貼り付けるか、ファイルとしてアップロードしてください。
 
 ## OpenAI GPTs
 
 [ALPSアシスタント](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant)は、ALPSに関する質問に特化してトレーニングされたカスタムGPTです。
 
-<div class="info-box">
-  <p><strong>注意:</strong> OpenAI Plusアカウントが必要です。</p>
-</div>
+注意: OpenAI Plusアカウントが必要です。
 
 ## Google NotebookLM
 
@@ -179,27 +171,6 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
 </script>
 
 <style>
-.info-box {
-  background-color: #f8f9fa;
-  border-left: 4px solid #17a2b8;
-  padding: 15px;
-  margin: 20px 0;
-  border-radius: 4px;
-}
-
-.usage-guide {
-  background-color: #fff3cd;
-  border-left: 4px solid #ffc107;
-  padding: 15px;
-  margin: 20px 0;
-  border-radius: 4px;
-}
-
-.usage-guide h3 {
-  margin-top: 0;
-  color: #856404;
-}
-
 .copy-button {
   background-color: #4CAF50;
   border: none;
@@ -261,6 +232,8 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   display: block;
 }
 </style>
+
+---
 
 <p class="legacy-link">
   <a href="/manuals/1.0/ja/ai-assistant-legacy-prompt.html">レガシー: プロンプトベースガイド</a>

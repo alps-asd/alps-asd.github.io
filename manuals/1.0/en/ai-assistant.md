@@ -121,14 +121,14 @@ For LLMs without Skill or MCP support. The [llms.txt standard](https://llmstxt.o
 |----------|-------------|
 | [llms.txt](/llms.txt) | ALPS specification index |
 | [llms-full.txt](/llms-full.txt) | Complete ALPS specification |
-| [ALPS Creation Guide](https://alps-asd.github.io/app-state-diagram/alps-skill.md) | Design principles and examples |
+| [ALPS Creation Guide](https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md) | Design principles and examples |
 
 ### System Prompt
 
 Add to your system prompt or AGENTS.md:
 
 ```text
-For ALPS profile creation, refer to: https://alps-asd.github.io/app-state-diagram/alps-skill.md
+For ALPS profile creation, refer to: https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
 ```
 
 ### Manual Copy
@@ -136,21 +136,13 @@ For ALPS profile creation, refer to: https://alps-asd.github.io/app-state-diagra
 <button id="copyLlmsText" class="copy-button">Copy llms-full.txt</button>
 <span id="copyStatus" class="copy-status"></span>
 
-<div class="usage-guide">
-  <h3>How to Use</h3>
-  <ul>
-    <li>Paste at the beginning of your conversation</li>
-    <li>Or upload as a file/project attachment</li>
-  </ul>
-</div>
+Paste at the beginning of your conversation or upload as a file attachment.
 
 ## OpenAI GPTs
 
 [ALPS Assistant](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant) is a custom GPT trained specifically for ALPS questions.
 
-<div class="info-box">
-  <p><strong>Note:</strong> Requires OpenAI Plus account.</p>
-</div>
+Note: Requires OpenAI Plus account.
 
 ## Google NotebookLM
 
@@ -179,27 +171,6 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
 </script>
 
 <style>
-.info-box {
-  background-color: #f8f9fa;
-  border-left: 4px solid #17a2b8;
-  padding: 15px;
-  margin: 20px 0;
-  border-radius: 4px;
-}
-
-.usage-guide {
-  background-color: #fff3cd;
-  border-left: 4px solid #ffc107;
-  padding: 15px;
-  margin: 20px 0;
-  border-radius: 4px;
-}
-
-.usage-guide h3 {
-  margin-top: 0;
-  color: #856404;
-}
-
 .copy-button {
   background-color: #4CAF50;
   border: none;
@@ -261,6 +232,8 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   display: block;
 }
 </style>
+
+---
 
 <p class="legacy-link">
   <a href="/manuals/1.0/en/ai-assistant-legacy-prompt.html">Legacy: Prompt-based guide</a>
