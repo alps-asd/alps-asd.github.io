@@ -32,10 +32,6 @@ AI automatically aligns your descriptors with established vocabularies:
 - [IANA Link Relations](https://www.iana.org/assignments/link-relations/) for standard relationships
 - Consistent naming conventions across your entire profile
 
-### Iterative Refinement
-
-The AI validates your ALPS profile, identifies issues, and suggests improvements—creating a feedback loop that elevates the quality of your API design.
-
 ## Integration Methods
 
 Choose the method that fits your environment:
