@@ -61,10 +61,13 @@ safe以外のセマンティックディスクリプタには、`do`の接頭辞
 
 ```json
 [
-  {"id": "goStart", "type": "safe", "rt": "#ProductList"},  // 間違い! goProductListであるべき
-  {"id": "goNext", "type": "safe", "rt": "#Checkout"}       // 間違い! goCheckoutであるべき
+  {"id": "goStart", "type": "safe", "rt": "#ProductList"},
+  {"id": "goNext", "type": "safe", "rt": "#Checkout"}
 ]
 ```
+
+- `goStart` → `goProductList` であるべき
+- `goNext` → `goCheckout` であるべき
 
 ## 要素
 

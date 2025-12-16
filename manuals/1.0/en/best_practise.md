@@ -60,10 +60,13 @@ This rule ensures consistency and makes the diagram self-documenting. When a tra
 
 ```json
 [
-  {"id": "goStart", "type": "safe", "rt": "#ProductList"},  // Wrong! Should be goProductList
-  {"id": "goNext", "type": "safe", "rt": "#Checkout"}       // Wrong! Should be goCheckout
+  {"id": "goStart", "type": "safe", "rt": "#ProductList"},
+  {"id": "goNext", "type": "safe", "rt": "#Checkout"}
 ]
 ```
+
+- `goStart` → should be `goProductList`
+- `goNext` → should be `goCheckout`
 
 ## Elements
 
