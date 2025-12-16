@@ -45,14 +45,29 @@ safe以外のセマンティックディスクリプタには、`do`の接頭辞
 ]
 ```
 
-rt（遷移先）のIDは`go`または`do`のプレフィックスに次の遷移先のディスクリプタIDを付加します。
+**重要: Safe遷移(`go*`)のIDには、遷移先の状態名を含めなければなりません。**
 
 ```json
 [
-  {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting"},
-  {"id": "doEditBlogPosting", "type": "idempotent", "rt": "#Blog"}
+  {"id": "goProductList", "type": "safe", "rt": "#ProductList"},
+  {"id": "goUserProfile", "type": "safe", "rt": "#UserProfile"},
+  {"id": "goCheckout", "type": "safe", "rt": "#Checkout"}
 ]
 ```
+
+この規則により、一貫性が保たれ、図が自己文書化されます。遷移にソース状態がない場合(エントリーポイント)、図では`UnknownState`から発生するように表示されます。
+
+❌ **間違った例:**
+
+```json
+[
+  {"id": "goStart", "type": "safe", "rt": "#ProductList"},
+  {"id": "goNext", "type": "safe", "rt": "#Checkout"}
+]
+```
+
+- `goStart` → `goProductList` であるべき
+- `goNext` → `goCheckout` であるべき
 
 ## 要素
 

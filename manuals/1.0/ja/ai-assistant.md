@@ -1,96 +1,178 @@
 ---
 layout: docs-ja
-title: ALPS AI アシスタント
+title: ALPS AIガイド
 category: Manual
 permalink: /manuals/1.0/ja/ai-assistant.html
+image: /images/ai-guide.png
 ---
 
-# ALPS AIアシスタント
+# ALPS AIガイド
 
-AIの力でALPS開発をサポートすることができます。
+<img src="/images/ai-guide.png" alt="AIとALPS設計" style="max-width: 200px; margin-bottom: 1em;">
 
-## OpenAI GPTs - ALPSアシスタント
+## ALPS設計におけるAIの力
 
-[ALPSアシスタント](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant)はALPSに関する質問に特化して回答するようにトレーニングされたカスタムGPTです。
+ALPS設計には、明確な状態定義、意味のある遷移、一貫した命名、標準語彙との整合性など、複数の要素のバランスが求められます。AIアシスタントはこのような多次元的な思考に優れています。
 
-<div class="info-box">
-  <p><strong>注意:</strong> GPTsを使用するにはOpenAI Plusアカウントが必要です。</p>
-</div>
+### 深いコンテキスト理解
 
-## llms-full.txtによるAIサポート
+AIはドメイン要件を分析し、本質的な状態と遷移を特定できます。「ショッピングカート付きのECシステム」と説明すると、AIは暗黙のフロー（閲覧 → カート → 決済 → 確認）を理解し、適切な状態名と遷移ラベルを提案します。
 
-他のAIアシスタント（ClaudeやGeminiなど）にALPSの知識を提供するには、以下のボタンを使用してllms-full.txtの内容をコピーするか、[/llms-full.txt](/llms-full.txt)から取得し、AIとの会話の冒頭に貼り付けてください。
+### セマンティックな命名
 
-### llms.txtとは何ですか？
+命名には規約以上のもの—意図の理解が必要です。Linterは`go*`や`do*`のパターンを強制できますが、AIは*何を意味するか*と*なぜ重要か*を理解します。
 
-`llms-full.txt`ファイルは`llms.txt`標準に基づいており、重要な情報をクリーンなMarkdown形式でAIモデルと共有するシンプルな方法です。これにより、AIアシスタントはALPSのような重要な詳細を余分な情報なしで迅速に理解できます。詳細は[llmstxt.org](https://llmstxt.org/)をご覧ください。
+「ユーザーが後で見るためにアイテムを保存できるようにする」と説明すると、AIはこれをウィッシュリストのパターンとして認識し、汎用的な`doSave`ではなくSchema.orgの`WantAction`に沿った`doAddToWishlist`を提案します。`author`（創作的帰属）と`creator`（技術的起源）を区別し、外部システムと意味的に接続できる語彙を確保します。
+
+### 標準への準拠
+
+AIは自動的にディスクリプタを確立された語彙と整合させます：
+
+- [Schema.org](https://schema.org/)の一般的な概念の定義
+- [IANAリンクリレーション](https://www.iana.org/assignments/link-relations/)の標準的な関係
+- プロファイル全体で一貫した命名規則
+
+## 統合方法
+
+環境に合った方法を選択してください：
+
+| 優先度 | 環境 | 方法 |
+|--------|------|------|
+| 1st | Skillクライアント | [Skill](#skill-claude-code) |
+| 2nd | MCPクライアント | [MCPサーバー](#mcpサーバー) |
+| 3rd | その他のLLM | [llms.txt](#llmstxt-その他のllm) |
+
+## Skill (Claude Code)
+
+[Claude Code](https://claude.ai/code)ユーザー向けの推奨方法です。Skillはセッション全体でAIの動作をガイドする永続的なコンテキストを提供します。
+
+### セットアップ
+
+```bash
+claude --version  # 2.0.0以上が必要
+claude update     # 必要に応じてアップデート
+
+mkdir -p .claude/skills/alps
+curl -o .claude/skills/alps/SKILL.md \
+  https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
+```
+
+### 確認
+
+質問: 「利用可能なスキルは何ですか？」
+
+レスポンスに「alps」スキルが含まれているはずです。
+
+### 使用方法
+
+- 「ブログシステムのALPSプロファイルを作成して」
+- 「alps.xmlを検証して問題を修正して」
+
+入力はテキスト、Figmaデザイン、OpenAPI仕様、ホワイトボード写真、WebサイトURL、<span class="tooltip-trigger">その他<span class="tooltip-content">データベーススキーマ、既存コード、GraphQLスキーマ、Postmanコレクション、Swaggerドキュメント、シーケンス図、ユーザーストーリー、ER図、JSONレスポンス、ルート定義、議事録、Slackスレッド、ナプキンスケッチ...</span></span>が可能です。
+
+**Tip:** コンソールで`Ctrl+V`を押すとクリップボードから画像を貼り付けられます。
+
+## MCPサーバー
+
+[Model Context Protocol](https://modelcontextprotocol.io/)をサポートするAIクライアント向けです。MCPは検証とダイアグラム生成のためのリアルタイムツールアクセスを提供します。
+
+### セットアップ
+
+まず、asdのパスを確認：
+
+```bash
+which asd  # 例: /opt/homebrew/bin/asd
+```
+
+フルパスを使用してプロジェクトに`.mcp.json`を作成：
+
+```json
+{
+  "mcpServers": {
+    "alps": {
+      "command": "/opt/homebrew/bin/asd",
+      "args": ["--mcp"]
+    }
+  }
+}
+```
+
+確認: `/mcp`でリストに「alps」が表示されるはずです。
+
+注意: MCPの接続はセッション中に切断されることがあります。`/mcp`を実行して再接続してください。
+
+### その他のMCPクライアント向け
+
+MCPクライアント設定に`asd --mcp`（フルパス）をstdioサーバーとして追加してください。
+
+### 利用可能なツール
+
+| ツール | 説明 |
+|--------|------|
+| `validate_alps` | ALPSプロファイルを検証し詳細なフィードバックを取得 |
+| `alps2svg` | SVG状態ダイアグラムを生成 |
+| `alps_guide` | ALPSベストプラクティスを取得 |
+
+## llms.txt (その他のLLM)
+
+SkillやMCPをサポートしないLLM向けです。[llms.txt標準](https://llmstxt.org/)は、どのアシスタントでも利用できるAIフレンドリーなドキュメントを提供します。
+
+### リソース
+
+| リソース | 説明 |
+|----------|------|
+| [llms.txt](/llms.txt) | ALPS仕様インデックス |
+| [llms-full.txt](/llms-full.txt) | 完全なALPS仕様 |
+| [ALPS作成ガイド](https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md) | 設計原則と例 |
+
+### システムプロンプト
+
+システムプロンプトまたはAGENTS.mdに追加：
+
+```text
+ALPSプロファイルの作成については、次を参照してください: https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
+```
+
+### 手動コピー
 
 <button id="copyLlmsText" class="copy-button">llms-full.txtをコピー</button>
 <span id="copyStatus" class="copy-status"></span>
 
-<div class="usage-guide">
-  <h3>コピーした情報の使い方</h3>
-  <ul>
-    <li><strong>Claude:</strong> 会話の冒頭に貼り付けるか、プロジェクトとしてアップロードしてください</li>
-    <li><strong>その他のAIアシスタント:</strong> 会話の冒頭に以下のメモと共に貼り付けてください：「これはALPSに関する情報です。質問に答える前にこの情報を理解してください」</li>
-  </ul>
-  <p>※ AIアシスタントがALPSに関する事前知識を持っていない場合は、必ずこの情報を提供してください。</p>
-</div>
+会話の最初に貼り付けるか、ファイルとしてアップロードしてください。
 
+## OpenAI GPTs
 
----
+[ALPSアシスタント](https://chatgpt.com/g/g-HYPygRnLS-alps-assistant)は、ALPSに関する質問に特化してトレーニングされたカスタムGPTです。
+
+注意: OpenAI Plusアカウントが必要です。
+
+## Google NotebookLM
+
+[ALPS Guide Notebook](https://notebooklm.google.com/notebook/69a90152-3986-4630-a907-bd0e449c000e)は、AIアシスタントと共にALPSの概念を探求できるインタラクティブなノートブックです。
 
 <script>
 document.getElementById('copyLlmsText').addEventListener('click', function() {
-  // Fetch the llms-full.txt file from the root
   fetch('/llms-full.txt')
     .then(response => {
-      if (!response.ok) {
-        throw new Error('File not found');
-      }
+      if (!response.ok) throw new Error('File not found');
       return response.text();
     })
     .then(text => {
       navigator.clipboard.writeText(text).then(function() {
         const status = document.getElementById('copyStatus');
-        status.textContent = 'Copied!';
-        setTimeout(function() {
-          status.textContent = '';
-        }, 2000);
+        status.textContent = 'コピーしました!';
+        setTimeout(function() { status.textContent = ''; }, 2000);
       }).catch(function(err) {
-        console.error('Failed to copy to clipboard', err);
-        alert('Failed to copy to clipboard.');
+        alert('クリップボードへのコピーに失敗しました。');
       });
     })
     .catch(error => {
-      console.error('Failed to load file:', error);
-      alert('Failed to load llms-full.txt.');
+      alert('llms-full.txtの読み込みに失敗しました。');
     });
 });
 </script>
 
 <style>
-.info-box {
-  background-color: #f8f9fa;
-  border-left: 4px solid #17a2b8;
-  padding: 15px;
-  margin: 20px 0;
-  border-radius: 4px;
-}
-
-.usage-guide {
-  background-color: #fff3cd;
-  border-left: 4px solid #ffc107;
-  padding: 15px;
-  margin: 20px 0;
-  border-radius: 4px;
-}
-
-.usage-guide h3 {
-  margin-top: 0;
-  color: #856404;
-}
-
 .copy-button {
   background-color: #4CAF50;
   border: none;
@@ -114,5 +196,35 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   margin-left: 10px;
   color: #4CAF50;
   font-weight: bold;
+}
+
+.tooltip-trigger {
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: help;
+  position: relative;
+}
+
+.tooltip-trigger:hover {
+  color: #004499;
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  width: 280px;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.tooltip-trigger:hover .tooltip-content {
+  display: block;
 }
 </style>
