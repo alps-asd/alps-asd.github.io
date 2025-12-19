@@ -36,6 +36,8 @@ AIは自動的にディスクリプタを確立された語彙と整合させま
 
 [Claude Code](https://claude.ai/code)をお使いなら[Skill](#skill-claude-code)が最も簡単です。Claude DesktopなどMCP対応クライアントをお使いなら[MCPサーバー](#mcpサーバー)を、その他のLLMをお使いなら[llms.txt](#llmstxt-その他のllm)を参照してください。
 
+> **Note:** Skillは必要な時だけ読み込まれコンテキストを効率的に使います。Claude Codeなどコンソールで動作するAIエージェントはBashでasdコマンドを実行できるのでSkillだけで十分です。Claude DesktopやCursorなどGUIクライアントはBashが使えないため、MCPツールが必要です。
+
 ## Skill (Claude Code)
 
 [Claude Code](https://claude.ai/code)ユーザー向けの推奨方法です。Skillはセッション全体でAIの動作をガイドする永続的なコンテキストを提供します。
@@ -241,3 +243,12 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   display: block;
 }
 </style>
+
+## 参考リンク
+
+- [Using Skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
+- [Claude Desktop](https://claude.ai/download)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [OpenAI Codex Skills](https://github.com/openai/codex/blob/main/docs/skills.md)
+- [Cursor MCP](https://docs.cursor.com/ja/context/mcp)
+- [Google Antigravity MCP](https://antigravity.google/docs/mcp)

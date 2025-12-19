@@ -36,6 +36,8 @@ AI automatically aligns your descriptors with established vocabularies:
 
 If you use [Claude Code](https://claude.ai/code), [Skill](#skill-claude-code) is the easiest option. For Claude Desktop or other MCP-compatible clients, see [MCP Server](#mcp-server). For other LLMs, see [llms.txt](#llmstxt-any-llm).
 
+> **Note:** Skills are loaded only when needed, using context efficiently. Console-based AI agents like Claude Code can run asd commands via Bash, so Skill alone is sufficient. GUI clients like Claude Desktop and Cursor require MCP tools since they cannot run Bash.
+
 ## Skill (Claude Code)
 
 The recommended method for [Claude Code](https://claude.ai/code) users. Skills provide persistent context that guides AI behavior throughout your session.
@@ -241,3 +243,12 @@ document.getElementById('copyLlmsText').addEventListener('click', function() {
   display: block;
 }
 </style>
+
+## References
+
+- [Using Skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
+- [Claude Desktop](https://claude.ai/download)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [OpenAI Codex Skills](https://github.com/openai/codex/blob/main/docs/skills.md)
+- [Cursor MCP](https://docs.cursor.com/context/mcp)
+- [Google Antigravity MCP](https://antigravity.google/docs/mcp)
