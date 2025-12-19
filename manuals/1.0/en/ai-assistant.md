@@ -123,7 +123,9 @@ npm install -g @alps-asd/mcp
 |------|-------------|
 | `validate_alps` | Validate ALPS profile and get detailed feedback |
 | `alps2svg` | Generate SVG state diagram |
+| `alps2mermaid` | Generate Mermaid diagram |
 | `alps_guide` | Get ALPS best practices |
+| `crawl_and_extract_alps` | Extract ALPS profile from website |
 
 ## llms.txt (Any LLM)
 

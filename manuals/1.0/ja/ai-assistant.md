@@ -123,7 +123,9 @@ npm install -g @alps-asd/mcp
 |--------|------|
 | `validate_alps` | ALPSプロファイルを検証し詳細なフィードバックを取得 |
 | `alps2svg` | SVG状態ダイアグラムを生成 |
+| `alps2mermaid` | Mermaidダイアグラムを生成 |
 | `alps_guide` | ALPSベストプラクティスを取得 |
+| `crawl_and_extract_alps` | WebサイトからALPSプロファイルを抽出 |
 
 ## llms.txt (その他のLLM)
 
