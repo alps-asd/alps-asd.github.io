@@ -35,7 +35,7 @@ Note: Currently installs the legacy PHP version.
 
 ### 3. npm Version (Recommended)
 
-Available in environments with Node.js 18 or higher installed.
+Available in environments with Node.js 20 or higher installed.
 
 Installation:
 
