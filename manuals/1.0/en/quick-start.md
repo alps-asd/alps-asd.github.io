@@ -18,16 +18,12 @@ Use immediately without local installation:
 - [ https://editor.app-state-diagram.com/]( https://editor.app-state-diagram.com/)
 
 Features:
-- No installation required
-- Immediately available in browser
 - JSON/XML/HTML files can be loaded via drag & drop
 - Snippets and advanced code completion
-- Recommended option when local installation is not needed
-- Note: Currently unable to edit multiple files simultaneously
 
 ### 2. Homebrew Version
 
-Easiest to use in environments where [homebrew](https://brew.sh) is installed.
+Easiest to use in environments where [homebrew](https://brew.sh) is installed. It also always stays up-to-date with the latest version.
 
 Installation:
 
@@ -35,69 +31,27 @@ Installation:
 brew install alps-asd/asd/asd
 ```
 
-### 3. Docker Version
+Note: Currently installs the legacy PHP version.
 
-Download and run a script to execute in Docker. Follow these security verification steps as this involves downloading and running a shell script.
+### 3. npm Version (Recommended)
 
-#### Security Verification Steps
+Available in environments with Node.js 18 or higher installed.
 
-1. Review script content (recommended):
-
-```bash
-curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh | less
-```
-
-2. Verify checksum:
+Installation:
 
 ```bash
-curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh | sha256sum
+npm install -g @alps-asd/app-state-diagram
 ```
 
-Expected value:
-```
-0f05034400b2e7fbfee6cddfa9dceb922e51d93fc6dcda62e42803fb8ef05f66
-```
-
-3. Execute installation:
-
-```bash
-sudo curl -sL https://alps-asd.github.io/app-state-diagram/asd.sh -o /usr/local/bin/asd
-sudo chmod +x /usr/local/bin/asd
-```
-
-#### Prerequisites
-- Docker must be installed
-- curl command must be available
-
-### 4. Mac Launcher Application (GUI Version)
-
-A Mac GUI application that doesn't require command line operations.
-
-Installation steps:
-1. Download [ASD launcher](https://github.com/alps-asd/asd-launcher/archive/master.zip)
-2. Security verification:
-    - View the downloaded files and verify the contents before proceeding
-    - Verify the checksum (SHA-256):
-      ```bash
-      shasum -a 256 [downloaded zip file]
-      ```
-    - Compare with the expected checksum on the official repository: 659ecc3225b95a04f0e2ac4ebed544267ba78a0221db7ed84b6dfd7b08ce423b
-3. Open the verified script in Script Editor:
-    - If you get a security warning, right-click (or Control-click) the script and select "Open"
-    - In System Settings > Privacy & Security, click "Open Anyway" if prompted
-4. Select "File" > "Export..."
-5. Save location: "Applications"
-6. Save as Format: "Application"
-
-### 5. GitHub Actions Version
+### 4. GitHub Actions Version
 
 Create ASD in CI. See [marketplace](https://github.com/marketplace/actions/app-state-diagram) for details.
 
-### 6. VSCode Plugin
+### 5. Language Server (experimental)
 
-You can live edit ALPS files while viewing the preview screen using the VSCode Plugin (experimental).
+A Language Server that provides real-time validation, code completion, and hover information for editors such as Vim and VSCode.
 
-[Visual Studio Marketplace - Application State Diagram](https://marketplace.visualstudio.com/items?itemName=koriym.app-state-diagram)
+[GitHub - alps-lsp](https://github.com/alps-asd/alps-lsp)
 
 ## Usage
 
@@ -134,7 +88,8 @@ usage: asd [options] alps_file
 ## Selection Guidelines
 
 - Quick trial, temporary use → Online version
-- Local use on Mac → Homebrew version
-- Cross-platform use → Docker version
-- Mac local environment with GUI → Launcher application
+- Local use (Mac/Linux) → Homebrew version
+- Node.js environment → npm version
 - CI/CD environment use → GitHub Actions version
+
+For other installation methods, see [Legacy Installation](/manuals/1.0/en/legacy-install.html).
