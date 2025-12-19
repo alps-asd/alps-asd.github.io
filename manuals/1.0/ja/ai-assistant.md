@@ -34,13 +34,7 @@ AIは自動的にディスクリプタを確立された語彙と整合させま
 
 ## 統合方法
 
-環境に合った方法を選択してください：
-
-| 優先度 | 環境 | 方法 |
-|--------|------|------|
-| 1st | Skillクライアント | [Skill](#skill-claude-code) |
-| 2nd | MCPクライアント | [MCPサーバー](#mcpサーバー) |
-| 3rd | その他のLLM | [llms.txt](#llmstxt-その他のllm) |
+[Claude Code](https://claude.ai/code)をお使いなら[Skill](#skill-claude-code)が最も簡単です。Claude DesktopなどMCP対応クライアントをお使いなら[MCPサーバー](#mcpサーバー)を、その他のLLMをお使いなら[llms.txt](#llmstxt-その他のllm)を参照してください。
 
 ## Skill (Claude Code)
 
@@ -76,34 +70,46 @@ curl -o .claude/skills/alps/SKILL.md \
 
 [Model Context Protocol](https://modelcontextprotocol.io/)をサポートするAIクライアント向けです。MCPは検証とダイアグラム生成のためのリアルタイムツールアクセスを提供します。
 
-### セットアップ
-
-まず、asdのパスを確認：
+### 1. Node.jsバージョンの確認
 
 ```bash
-which asd  # 例: /opt/homebrew/bin/asd
+node --version  # v18.0.0以上が必要
 ```
 
-フルパスを使用してプロジェクトに`.mcp.json`を作成：
+v18未満の場合はアップグレードしてください。nvmを使用している場合は`nvm use 18`を実行します。
+
+### 2. 設定ファイルの作成
+
+プロジェクトに`.mcp.json`を作成：
 
 ```json
 {
   "mcpServers": {
     "alps": {
-      "command": "/opt/homebrew/bin/asd",
-      "args": ["--mcp"]
+      "command": "npx",
+      "args": ["@alps-asd/mcp"]
     }
   }
 }
 ```
 
-確認: `/mcp`でリストに「alps」が表示されるはずです。
+### 3. 接続の確認
 
-注意: MCPの接続はセッション中に切断されることがあります。`/mcp`を実行して再接続してください。
+Claude Codeで`/mcp`を実行し、リストに「alps」が表示されることを確認します。
 
-### その他のMCPクライアント向け
+### 4. 試してみる
 
-MCPクライアント設定に`asd --mcp`（フルパス）をstdioサーバーとして追加してください。
+「todoアプリのALPSプロファイルを作成して」と指示してみましょう。ダイアグラムを含んだASDドキュメントが生成されます。
+
+### 5. 注意とおすすめ
+
+MCPの接続はセッション中に切断されることがあります。`/mcp`を実行して再接続してください。
+
+頻繁に使う場合は、グローバルインストールすると起動が速くなります：
+
+```bash
+npm install -g @alps-asd/mcp
+```
 
 ### 利用可能なツール
 

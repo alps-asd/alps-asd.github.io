@@ -34,13 +34,7 @@ AI automatically aligns your descriptors with established vocabularies:
 
 ## Integration Methods
 
-Choose the method that fits your environment:
-
-| Priority | Environment | Method |
-|----------|-------------|--------|
-| 1st | Skill clients | [Skill](#skill-claude-code) |
-| 2nd | MCP clients | [MCP Server](#mcp-server) |
-| 3rd | Any LLM | [llms.txt](#llmstxt-any-llm) |
+If you use [Claude Code](https://claude.ai/code), [Skill](#skill-claude-code) is the easiest option. For Claude Desktop or other MCP-compatible clients, see [MCP Server](#mcp-server). For other LLMs, see [llms.txt](#llmstxt-any-llm).
 
 ## Skill (Claude Code)
 
@@ -76,34 +70,46 @@ Input can be text, Figma designs, OpenAPI specs, whiteboard photos, website URLs
 
 For AI clients supporting [Model Context Protocol](https://modelcontextprotocol.io/). MCP provides real-time tool access for validation and diagram generation.
 
-### Setup
-
-First, find your asd path:
+### 1. Check Node.js Version
 
 ```bash
-which asd  # e.g., /opt/homebrew/bin/asd
+node --version  # v18.0.0 or higher required
 ```
 
-Create `.mcp.json` in your project using the full path:
+If below v18, upgrade Node.js. If using nvm, run `nvm use 18`.
+
+### 2. Create Configuration File
+
+Create `.mcp.json` in your project:
 
 ```json
 {
   "mcpServers": {
     "alps": {
-      "command": "/opt/homebrew/bin/asd",
-      "args": ["--mcp"]
+      "command": "npx",
+      "args": ["@alps-asd/mcp"]
     }
   }
 }
 ```
 
-Verify: `/mcp` should show "alps" in the list.
+### 3. Verify Connection
 
-Note: MCP connection may disconnect during sessions. Run `/mcp` to reconnect.
+Run `/mcp` in Claude Code and confirm "alps" appears in the list.
 
-### For Other MCP Clients
+### 4. Try It Out
 
-Add `asd --mcp` (with full path) as stdio server in your MCP client configuration.
+Try "Create an ALPS profile for a todo app". An ASD document with diagrams will be generated.
+
+### 5. Tips
+
+MCP connections may disconnect during sessions. Run `/mcp` to reconnect.
+
+For frequent use, global installation provides faster startup:
+
+```bash
+npm install -g @alps-asd/mcp
+```
 
 ### Available Tools
 
