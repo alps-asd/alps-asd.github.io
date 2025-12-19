@@ -80,7 +80,13 @@ If below v18, upgrade Node.js. If using nvm, run `nvm use 18`.
 
 ### 2. Create Configuration File
 
-Create `.mcp.json` in your project:
+Add the following configuration to your client:
+
+**Claude Code**: Create `.mcp.json` in your project
+
+**Claude Desktop**: Edit `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+**Cursor**: Settings → MCP → Add Server
 
 ```json
 {
@@ -95,7 +101,7 @@ Create `.mcp.json` in your project:
 
 ### 3. Verify Connection
 
-Run `/mcp` in Claude Code and confirm "alps" appears in the list.
+Confirm "alps" appears in the MCP server list. For Claude Code, run `/mcp`.
 
 ### 4. Try It Out
 

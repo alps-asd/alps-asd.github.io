@@ -80,7 +80,13 @@ v18未満の場合はアップグレードしてください。nvmを使用し�
 
 ### 2. 設定ファイルの作成
 
-プロジェクトに`.mcp.json`を作成：
+お使いのクライアントに以下の設定を追加します：
+
+**Claude Code**: プロジェクトに`.mcp.json`を作成
+
+**Claude Desktop**: `~/Library/Application Support/Claude/claude_desktop_config.json`を編集
+
+**Cursor**: Settings → MCP → Add Server
 
 ```json
 {
@@ -95,7 +101,7 @@ v18未満の場合はアップグレードしてください。nvmを使用し�
 
 ### 3. 接続の確認
 
-Claude Codeで`/mcp`を実行し、リストに「alps」が表示されることを確認します。
+MCPサーバーのリストに「alps」が表示されることを確認します。Claude Codeの場合は`/mcp`を実行します。
 
 ### 4. 試してみる
 
