@@ -21,7 +21,7 @@ ASD（app-state-diagram）は、アプリケーションの状態遷移図やボ
 - JSON/XML/HTMLファイルをドラッグ＆ドロップで読み込み可能
 - スニペットや高度なコード補完機能
 
-### 2. Homebrew版
+### 2. Homebrew版（推奨）
 
 [homebrew](https://brew.sh/ja/)がインストールされている環境では最も簡単に利用できます。また常に最新版に更新されます。
 
@@ -31,9 +31,7 @@ ASD（app-state-diagram）は、アプリケーションの状態遷移図やボ
 brew install alps-asd/asd/asd
 ```
 
-※ 現在は過去のPHP版がインストールされます。
-
-### 3. npm版（推奨）
+### 3. npm版
 
 Node.js 20以上がインストールされている環境で利用できます。
 
@@ -64,18 +62,21 @@ asd -w ./alps.json
 
 ### コマンドラインオプション
 ```
-asd [options] [alpsFile]
+asd [options] alps_file
 
 オプション：
-    -w, --watch     ウォッチモード
-    -m, --mode      描画モード
-    --port          利用ポート（デフォルト3000）
-```
+  -v, --version          バージョン表示
+  -e, --echo             ファイルではなく標準出力に出力
+  -f, --format <format>  出力形式 (html|svg|dot|mermaid)
+  -o, --output <file>    出力ファイル (デフォルト: <入力>.html)
+  --label <mode>         ラベルモード: id または title
+  --validate             ALPSプロファイルを検証
+  -w, --watch            ウォッチモード（ライブリロード）
+  --port <port>          ウォッチモードのCDPポート (デフォルト: 9222)
 
-### モード設定
-- 非公開リポジトリでの利用時はMarkdownモードを使用可能
-- ただし、Markdownモードではダイアグラムのリンクは機能しません
-- HTMLを公開できない場合の代替オプションとして利用
+コマンド：
+  merge <base> <source>  ALPSプロファイルをマージ
+```
 
 ## インストール確認
 

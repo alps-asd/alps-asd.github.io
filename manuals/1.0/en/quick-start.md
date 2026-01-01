@@ -21,7 +21,7 @@ Features:
 - JSON/XML/HTML files can be loaded via drag & drop
 - Snippets and advanced code completion
 
-### 2. Homebrew Version
+### 2. Homebrew Version (Recommended)
 
 Easiest to use in environments where [homebrew](https://brew.sh) is installed. It also always stays up-to-date with the latest version.
 
@@ -31,9 +31,7 @@ Installation:
 brew install alps-asd/asd/asd
 ```
 
-Note: Currently installs the legacy PHP version.
-
-### 3. npm Version (Recommended)
+### 3. npm Version
 
 Available in environments with Node.js 20 or higher installed.
 
@@ -64,18 +62,21 @@ asd -w ./alps.json
 
 ### Command Line Options
 ```
-asd [options] [alpsFile]
+asd [options] alps_file
 
 Options:
-    -w, --watch     Watch mode
-    -m, --mode      Drawing mode
-    --port          Port to use (default 3000)
-```
+  -v, --version          Show version information
+  -e, --echo             Output to stdout instead of file
+  -f, --format <format>  Output format (html|svg|dot|mermaid)
+  -o, --output <file>    Output file (default: <input>.html)
+  --label <mode>         Label mode: id or title
+  --validate             Validate ALPS profile
+  -w, --watch            Watch mode with live reload
+  --port <port>          CDP port for watch mode (default: 9222)
 
-### Mode Settings
-- Markdown mode available for use with private repositories
-- However, diagram links don't function in Markdown mode
-- Use as alternative option when HTML cannot be published
+Commands:
+  merge <base> <source>  Merge ALPS profiles
+```
 
 ## Installation Verification
 
