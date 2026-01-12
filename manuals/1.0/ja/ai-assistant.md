@@ -148,14 +148,14 @@ SkillやMCPをサポートしないLLM向けです。[llms.txt標準](https://ll
 |----------|------|
 | [llms.txt](/llms.txt) | ALPS仕様インデックス |
 | [llms-full.txt](/llms-full.txt) | 完全なALPS仕様 |
-| [ALPS作成ガイド](https://raw.githubusercontent.com/alps-asd/alps-skills/refs/heads/1.x/skills/alps/SKILL.md) | 設計原則と例 |
+| [ALPS作成ガイド](https://www.app-state-diagram.com/alps-skills/skills/alps/SKILL.md) | 設計原則と例 |
 
 ### システムプロンプト
 
 システムプロンプトまたはAGENTS.mdに追加：
 
 ```text
-ALPSプロファイルの作成については、次を参照してください: https://raw.githubusercontent.com/alps-asd/alps-skills/refs/heads/1.x/skills/alps/SKILL.md
+ALPSプロファイルの作成については、次を参照してください: https://www.app-state-diagram.com/alps-skills/skills/alps/SKILL.md
 ```
 
 ### 手動コピー

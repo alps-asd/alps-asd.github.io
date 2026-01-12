@@ -148,14 +148,14 @@ For LLMs without Skill or MCP support. The [llms.txt standard](https://llmstxt.o
 |----------|-------------|
 | [llms.txt](/llms.txt) | ALPS specification index |
 | [llms-full.txt](/llms-full.txt) | Complete ALPS specification |
-| [ALPS Creation Guide](https://raw.githubusercontent.com/alps-asd/alps-skills/refs/heads/1.x/skills/alps/SKILL.md) | Design principles and examples |
+| [ALPS Creation Guide](https://www.app-state-diagram.com/alps-skills/skills/alps/SKILL.md) | Design principles and examples |
 
 ### System Prompt
 
 Add to your system prompt or AGENTS.md:
 
 ```text
-For ALPS profile creation, refer to: https://raw.githubusercontent.com/alps-asd/alps-skills/refs/heads/1.x/skills/alps/SKILL.md
+For ALPS profile creation, refer to: https://www.app-state-diagram.com/alps-skills/skills/alps/SKILL.md
 ```
 
 ### Manual Copy
