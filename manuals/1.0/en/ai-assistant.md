@@ -42,16 +42,26 @@ If you use [Claude Code](https://claude.ai/code), [Skill](#skill-claude-code) is
 
 The recommended method for [Claude Code](https://claude.ai/code) users. Skills provide persistent context that guides AI behavior throughout your session.
 
+### alps-skills
+
+[alps-skills](https://github.com/alps-asd/alps-skills) is a collection of ALPS-related skills.
+
+| Skill | Description |
+|-------|-------------|
+| alps | Generate, validate, and improve ALPS profiles |
+| alps-to-openapi | Generate OpenAPI specs from ALPS |
+| alps-to-graphql | Generate GraphQL schema from ALPS |
+| alps-to-jsonschema | Generate JSON Schema from ALPS |
+| alps-to-sql | Generate SQL DDL from ALPS (PostgreSQL, MySQL, SQLite) |
+
 ### Setup
 
-```bash
-claude --version  # Requires 2.0.0+
-claude update     # Update if needed
-
-mkdir -p .claude/skills/alps
-curl -o .claude/skills/alps/SKILL.md \
-  https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
 ```
+/plugin marketplace add alps-asd/alps-skills
+/plugin install alps
+```
+
+Or use `/plugin` to browse and install from the Discover tab.
 
 ### Verify
 
@@ -138,14 +148,14 @@ For LLMs without Skill or MCP support. The [llms.txt standard](https://llmstxt.o
 |----------|-------------|
 | [llms.txt](/llms.txt) | ALPS specification index |
 | [llms-full.txt](/llms-full.txt) | Complete ALPS specification |
-| [ALPS Creation Guide](https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md) | Design principles and examples |
+| [ALPS Creation Guide](https://raw.githubusercontent.com/alps-asd/alps-skills/refs/heads/1.x/skills/alps/SKILL.md) | Design principles and examples |
 
 ### System Prompt
 
 Add to your system prompt or AGENTS.md:
 
 ```text
-For ALPS profile creation, refer to: https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
+For ALPS profile creation, refer to: https://raw.githubusercontent.com/alps-asd/alps-skills/refs/heads/1.x/skills/alps/SKILL.md
 ```
 
 ### Manual Copy

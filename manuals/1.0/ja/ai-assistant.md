@@ -42,16 +42,26 @@ AIは自動的にディスクリプタを確立された語彙と整合させま
 
 [Claude Code](https://claude.ai/code)ユーザー向けの推奨方法です。Skillはセッション全体でAIの動作をガイドする永続的なコンテキストを提供します。
 
+### alps-skills
+
+[alps-skills](https://github.com/alps-asd/alps-skills)はALPS関連のスキルを集めたパッケージです。
+
+| スキル | 説明 |
+|-------|------|
+| alps | ALPSプロファイルの生成、検証、改善 |
+| alps-to-openapi | ALPSからOpenAPI仕様を生成 |
+| alps-to-graphql | ALPSからGraphQLスキーマを生成 |
+| alps-to-jsonschema | ALPSからJSON Schemaを生成 |
+| alps-to-sql | ALPSからSQL DDLを生成（PostgreSQL, MySQL, SQLite） |
+
 ### セットアップ
 
-```bash
-claude --version  # 2.0.0以上が必要
-claude update     # 必要に応じてアップデート
-
-mkdir -p .claude/skills/alps
-curl -o .claude/skills/alps/SKILL.md \
-  https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
 ```
+/plugin marketplace add alps-asd/alps-skills
+/plugin install alps
+```
+
+または`/plugin`でDiscoverタブから選択してインストールできます。
 
 ### 確認
 
@@ -138,14 +148,14 @@ SkillやMCPをサポートしないLLM向けです。[llms.txt標準](https://ll
 |----------|------|
 | [llms.txt](/llms.txt) | ALPS仕様インデックス |
 | [llms-full.txt](/llms-full.txt) | 完全なALPS仕様 |
-| [ALPS作成ガイド](https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md) | 設計原則と例 |
+| [ALPS作成ガイド](https://raw.githubusercontent.com/alps-asd/alps-skills/refs/heads/1.x/skills/alps/SKILL.md) | 設計原則と例 |
 
 ### システムプロンプト
 
 システムプロンプトまたはAGENTS.mdに追加：
 
 ```text
-ALPSプロファイルの作成については、次を参照してください: https://raw.githubusercontent.com/alps-asd/app-state-diagram/master/.claude/skills/alps/SKILL.md
+ALPSプロファイルの作成については、次を参照してください: https://raw.githubusercontent.com/alps-asd/alps-skills/refs/heads/1.x/skills/alps/SKILL.md
 ```
 
 ### 手動コピー
