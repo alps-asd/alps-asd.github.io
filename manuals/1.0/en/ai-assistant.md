@@ -58,7 +58,7 @@ The recommended method for [Claude Code](https://claude.ai/code) users. Skills p
 
 ```
 /plugin marketplace add alps-asd/alps-skills
-/plugin install alps
+/plugin install alps-skills
 ```
 
 Or use `/plugin` to browse and install from the Discover tab.
