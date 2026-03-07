@@ -7,6 +7,6 @@ permalink: /manuals/1.0/ja/example.html
 
 # 例
 
-* [bookstore](https://www.app-state-diagram.com/app-state-diagram/bookstore/ja/)
-* [mini amazon](https://www.app-state-diagram.com/app-state-diagram/amazon/)
-* [LMS](https://www.app-state-diagram.com/app-state-diagram/lms/ja/)
+* [Bookstore](https://alps-asd.github.io/app-state-diagram/demo/bookstore/alps.html) - 小規模。タグ、自己遷移の例
+* [Mini Amazon](https://alps-asd.github.io/app-state-diagram/demo/amazon/alps.html) - 大規模。多数のstateとtransition
+* [LMS](https://alps-asd.github.io/app-state-diagram/demo/lms/alps.html) - 中規模。hrefによるdescriptorの再利用
