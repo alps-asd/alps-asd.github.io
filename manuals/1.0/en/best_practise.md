@@ -148,6 +148,41 @@ When creating ALPS profiles, it is recommended to add schema references.
 </alps>  
 ```
 
+## Tag Naming
+
+Tags classify descriptors along multiple orthogonal axes. Use prefixed names for supplementary categories and leave the most fundamental category — the domain — unprefixed.
+
+| Prefix | Category | Examples |
+|--------|----------|----------|
+| *(none)* | Domain | `catalog`, `order`, `checkout` |
+| `flow-` | Workflow | `flow-purchase`, `flow-register` |
+| `actor-` | Actor | `actor-admin`, `actor-customer` |
+
+The domain category is unprefixed because it is the most universal dimension — nearly every descriptor belongs to a domain. Prefixing it (e.g. `domain-catalog`) would add noise without information. This follows the same principle as default namespaces in programming languages.
+
+A single descriptor can carry tags from multiple axes:
+
+```json
+{"id": "doAddCart", "type": "unsafe", "rt": "#Cart",
+  "tag": "cart flow-purchase actor-customer"}
+```
+
+Here `cart` is the domain, `flow-purchase` is the workflow, and `actor-customer` is who performs the action.
+
+When a profile grows beyond a handful of tags, document the tag taxonomy in a separate file (e.g. `tag.md`) and link it from the profile:
+
+```json
+{
+  "alps": {
+    "link": [
+      {"rel": "describedby", "href": "tag.md", "title": "Tag taxonomy"}
+    ]
+  }
+}
+```
+
+This keeps the tag definitions human-readable and reviewable outside the profile itself.
+
 ## Implementation Examples
 
 ### Semantic Elements

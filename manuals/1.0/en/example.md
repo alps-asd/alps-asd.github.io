@@ -5,8 +5,8 @@ category: Manual
 permalink: /manuals/1.0/en/example.html
 ---
 
-# Exmaple
+# Example
 
-* [bookstore](https://www.app-state-diagram.com/app-state-diagram/bookstore/)
-* [mini amazon](https://www.app-state-diagram.com/app-state-diagram/amazon/)
-* [LMS](https://www.app-state-diagram.com/app-state-diagram/lms/)
+* [Bookstore](https://alps-asd.github.io/app-state-diagram/demo/bookstore/alps.html) - Small. Tags, self-transitions
+* [Mini Amazon](https://alps-asd.github.io/app-state-diagram/demo/amazon/alps.html) - Large. Many states and transitions
+* [LMS](https://alps-asd.github.io/app-state-diagram/demo/lms/alps.html) - Medium. Descriptor reuse via href
