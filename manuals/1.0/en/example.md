@@ -7,6 +7,6 @@ permalink: /manuals/1.0/en/example.html
 
 # Example
 
-* [Bookstore](https://alps-asd.github.io/app-state-diagram/demo/bookstore/alps.html) - Small. Tags, self-transitions
-* [Mini Amazon](https://alps-asd.github.io/app-state-diagram/demo/amazon/alps.html) - Large. Many states and transitions
-* [LMS](https://alps-asd.github.io/app-state-diagram/demo/lms/alps.html) - Medium. Descriptor reuse via href
+* [Online Bookstore](https://alps-asd.github.io/app-state-diagram/demo/bookstore/alps.html) - Book catalog and purchase flow. Demonstrates tags, doc, and def usage
+* [Amazon Shopping](https://alps-asd.github.io/app-state-diagram/demo/amazon/alps.html) - From product search to reviews, wishlists, and subscriptions. Large-scale profile structure
+* [Learning Management System](https://alps-asd.github.io/app-state-diagram/demo/lms/alps.html) - Course management, assignments, and grading. Nested descriptors and href-based reuse
