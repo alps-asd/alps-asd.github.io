@@ -53,6 +53,7 @@ The recommended method for [Claude Code](https://claude.ai/code) users. Skills p
 | alps-to-graphql | Generate GraphQL schema from ALPS |
 | alps-to-jsonschema | Generate JSON Schema from ALPS |
 | alps-to-sql | Generate SQL DDL from ALPS (PostgreSQL, MySQL, SQLite) |
+| alps-to-mock | Generate multi-fidelity HTML mock from ALPS |
 
 ### Setup
 

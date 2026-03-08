@@ -53,6 +53,7 @@ AIは自動的にディスクリプタを確立された語彙と整合させま
 | alps-to-graphql | ALPSからGraphQLスキーマを生成 |
 | alps-to-jsonschema | ALPSからJSON Schemaを生成 |
 | alps-to-sql | ALPSからSQL DDLを生成（PostgreSQL, MySQL, SQLite） |
+| alps-to-mock | ALPSからマルチフィデリティHTMLモックを生成 |
 
 ### セットアップ
 
