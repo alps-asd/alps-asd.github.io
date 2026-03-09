@@ -43,8 +43,8 @@ header > div {
   align-items: center;
   justify-content: space-between;
 }
-header .site-name,
-header .Home {
+header h1,
+header > div > a {
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 500;
@@ -54,7 +54,7 @@ header .Home {
   color: var(--brand-900);
   transition: color var(--transition);
 }
-header .site-name:hover { color: var(--brand-600); }
+header > div > a:hover { color: var(--brand-600); }
 header nav { display: flex; gap: 2rem; }
 header nav a {
   font-size: 0.75rem;
@@ -87,45 +87,66 @@ main {
   padding: 4rem var(--px);
   width: 100%;
 }
-main.narrow { max-width: var(--max-w-narrow); }
 
-/* === Breadcrumb === */
-.breadcrumb {
+/* === Breadcrumb nav (main > nav:first-child) === */
+main > nav:first-child {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--brand-400);
   margin-bottom: 3rem;
 }
-.breadcrumb a {
+main > nav:first-child a {
   color: var(--brand-400);
   text-decoration: none;
   transition: color var(--transition);
 }
-.breadcrumb a:hover { color: var(--brand-900); }
-.breadcrumb .sep { margin: 0 0.75rem; }
-.breadcrumb .current { color: var(--brand-700); }
+main > nav:first-child a:hover { color: var(--brand-900); }
+main > nav:first-child span {
+  margin: 0 0.75rem;
+}
+main > nav:first-child span:last-child {
+  color: var(--brand-700);
+  margin: 0;
+  margin-left: 0.75rem;
+}
 
-/* === Divider === */
-.divider {
+/* === Divider (hr) === */
+hr {
   max-width: 4rem;
   margin: 5rem auto;
   border: none;
   border-top: 1px solid var(--brand-300);
 }
 
-/* === Shared: Section labels === */
-.section-label {
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--brand-400);
-  display: block;
-  margin-bottom: 1rem;
-}
+/* ===========================
+   Home Page (index.html)
+   =========================== */
 
-/* === Shared: Buttons === */
-.btn-primary {
+/* Hero section: first section in Home main */
+main > section:first-child {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 8rem 0;
+  text-align: center;
+}
+main > section:first-child h2 {
+  font-family: var(--font-display);
+  font-size: 3.75rem;
+  font-weight: 500;
+  color: var(--brand-900);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+main > section:first-child p {
+  font-size: 1.125rem;
+  color: var(--brand-500);
+  max-width: 32rem;
+  margin: 0 auto 3rem;
+  line-height: 1.7;
+  font-weight: 300;
+}
+main > section:first-child > a {
   display: inline-block;
   border: 1px solid var(--brand-900);
   color: var(--brand-900);
@@ -135,74 +156,35 @@ main.narrow { max-width: var(--max-w-narrow); }
   text-transform: uppercase;
   text-decoration: none;
   background: transparent;
-  cursor: pointer;
   transition: all var(--transition);
 }
-.btn-primary:hover {
+main > section:first-child > a:hover {
   background: var(--brand-900);
   color: var(--brand-50);
 }
-.btn-text {
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--brand-500);
-  text-decoration: none;
-  border-bottom: 1px solid var(--brand-300);
-  padding-bottom: 2px;
-  transition: all var(--transition);
-  background: none;
-  cursor: pointer;
-}
-.btn-text:hover {
-  color: var(--brand-900);
-  border-bottom-color: var(--brand-900);
-}
 
-/* ===========================
-   Home
-   =========================== */
-.hero {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 8rem var(--px);
-  text-align: center;
-}
-.hero h2 {
-  font-family: var(--font-display);
-  font-size: 3.75rem;
-  font-weight: 500;
-  color: var(--brand-900);
-  margin-bottom: 1.5rem;
-  line-height: 1.1;
-}
-.hero p {
-  font-size: 1.125rem;
-  color: var(--brand-500);
-  max-width: 32rem;
-  margin: 0 auto 3rem;
-  line-height: 1.7;
-  font-weight: 300;
-}
-
-.features {
+/* Features section: section after hr (last section in Home main) */
+main > hr + section {
   max-width: 64rem;
   margin: 0 auto;
-  padding: 0 var(--px) 6rem;
+  padding: 0 0 6rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4rem;
   text-align: center;
 }
-.features .icon { font-size: 1.875rem; margin-bottom: 0.75rem; }
-.features h3 {
+main > hr + section > div > div:first-child {
+  font-size: 1.875rem;
+  margin-bottom: 0.75rem;
+}
+main > hr + section h3 {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--brand-700);
   font-weight: 500;
 }
-.features p {
+main > hr + section p {
   font-size: 0.875rem;
   color: var(--brand-400);
   line-height: 1.6;
@@ -210,7 +192,7 @@ main.narrow { max-width: var(--max-w-narrow); }
 }
 
 /* ===========================
-   Catalog
+   Catalog Page
    =========================== */
 .Catalog {
   font-family: var(--font-display);
@@ -218,13 +200,15 @@ main.narrow { max-width: var(--max-w-narrow); }
   font-weight: 500;
   margin-bottom: 1rem;
 }
-.catalog-intro {
+/* Catalog intro paragraph */
+.Catalog + p {
   color: var(--brand-500);
   font-weight: 300;
   margin-bottom: 3rem;
   max-width: 32rem;
 }
 
+/* Search form */
 .goSearchBooks {
   display: flex;
   gap: 0.75rem;
@@ -257,7 +241,11 @@ main.narrow { max-width: var(--max-w-narrow); }
 }
 .goSearchBooks button:hover { color: var(--brand-900); }
 
-.categories-label {
+/* Category filter nav (catalog page, nav after form) */
+.goSearchBooks + nav {
+  margin-bottom: 4rem;
+}
+.goSearchBooks + nav > span {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -265,13 +253,8 @@ main.narrow { max-width: var(--max-w-narrow); }
   display: block;
   margin-bottom: 1rem;
 }
-.categories {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 4rem;
-}
-.categories .goToCategory {
+.goToCategory {
+  display: inline-block;
   padding: 0.5rem 1rem;
   border: 1px solid var(--brand-200);
   font-size: 0.75rem;
@@ -280,20 +263,25 @@ main.narrow { max-width: var(--max-w-narrow); }
   color: var(--brand-600);
   text-decoration: none;
   transition: all var(--transition);
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
 }
-.categories .goToCategory:hover {
+.goToCategory:hover {
   border-color: var(--brand-900);
   color: var(--brand-900);
 }
 
-/* === Book Card (list) === */
-.book-grid {
+/* Book grid: div containing article.Book elements (catalog & category) */
+.goSearchBooks + nav + div,
+.Category > div {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
 }
+
+/* === Book Card (list view) === */
 .Book { cursor: pointer; }
-.Book .cover {
+.Book > div:first-child {
   background: var(--brand-100);
   aspect-ratio: 3/4;
   display: flex;
@@ -342,13 +330,15 @@ main.narrow { max-width: var(--max-w-narrow); }
 }
 
 /* ===========================
-   Book Detail
+   Book Detail Page
    =========================== */
-.book-detail {
+
+/* Book detail layout: article.Book in book.html has two child divs */
+main > article.Book {
   display: flex;
   gap: 4rem;
 }
-.book-detail .cover {
+main > article.Book > div:first-child {
   width: 40%;
   background: var(--brand-100);
   aspect-ratio: 3/4;
@@ -359,46 +349,46 @@ main.narrow { max-width: var(--max-w-narrow); }
   color: var(--brand-300);
   flex-shrink: 0;
 }
-.book-detail .info {
+main > article.Book > div:nth-child(2) {
   flex: 1;
   padding-top: 1rem;
 }
-.book-detail .title {
+main > article.Book > div:nth-child(2) .title {
   font-family: var(--font-display);
   font-size: 2.5rem;
   font-weight: 500;
   margin-bottom: 0.75rem;
   line-height: 1.2;
 }
-.book-detail .author {
+main > article.Book > div:nth-child(2) .author {
   color: var(--brand-500);
   font-size: 1.125rem;
   font-weight: 300;
   margin-bottom: 2rem;
 }
-.book-detail dl {
+main > article.Book dl {
   border-top: 1px solid rgba(224, 213, 199, 0.6);
   padding-top: 1.5rem;
   margin-bottom: 2rem;
 }
-.book-detail dl > div {
+main > article.Book dl > div {
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--brand-100);
 }
-.book-detail dt {
+main > article.Book dt {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--brand-400);
 }
-.book-detail dd {
+main > article.Book dd {
   font-size: 0.875rem;
   color: var(--brand-700);
 }
-.book-detail .isbn { font-family: monospace; font-size: 0.875rem; }
-.book-detail .price {
+main > article.Book .isbn { font-family: monospace; font-size: 0.875rem; }
+main > article.Book > div:nth-child(2) > .price {
   font-family: var(--font-display);
   font-size: 1.875rem;
   font-weight: 500;
@@ -407,6 +397,7 @@ main.narrow { max-width: var(--max-w-narrow); }
   margin-bottom: 2rem;
 }
 
+/* Add to Cart form */
 .doAddToCart {
   display: flex;
   align-items: center;
@@ -432,9 +423,26 @@ main.narrow { max-width: var(--max-w-narrow); }
   transition: border-color var(--transition);
 }
 .doAddToCart .quantity:focus { border-bottom-color: var(--brand-900); }
+.doAddToCart button {
+  display: inline-block;
+  border: 1px solid var(--brand-900);
+  color: var(--brand-900);
+  padding: 1rem 2.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all var(--transition);
+}
+.doAddToCart button:hover {
+  background: var(--brand-900);
+  color: var(--brand-50);
+}
 
 /* ===========================
-   Category
+   Category Page
    =========================== */
 .Category .title {
   font-family: var(--font-display);
@@ -444,7 +452,7 @@ main.narrow { max-width: var(--max-w-narrow); }
 }
 
 /* ===========================
-   Shopping Cart
+   Shopping Cart Page
    =========================== */
 .ShoppingCart {
   font-family: var(--font-display);
@@ -452,13 +460,16 @@ main.narrow { max-width: var(--max-w-narrow); }
   font-weight: 500;
   margin-bottom: 4rem;
 }
-.cart-layout {
+
+/* Cart layout: main > div containing section + aside */
+.ShoppingCart + div {
   display: flex;
   gap: 4rem;
 }
-.cart-items { flex: 1; }
+.ShoppingCart + div > section { flex: 1; }
 
-.cart-header {
+/* Cart header row: section > div:first-child with column labels */
+.ShoppingCart + div > section > div:first-child {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 1rem;
@@ -469,12 +480,13 @@ main.narrow { max-width: var(--max-w-narrow); }
   text-transform: uppercase;
   color: var(--brand-400);
 }
-.cart-header .hd-product { grid-column: span 6; }
-.cart-header .hd-price { grid-column: span 2; }
-.cart-header .hd-qty { grid-column: span 2; }
-.cart-header .hd-remove { grid-column: span 2; text-align: right; }
+.ShoppingCart + div > section > div:first-child span:nth-child(1) { grid-column: span 6; }
+.ShoppingCart + div > section > div:first-child span:nth-child(2) { grid-column: span 2; }
+.ShoppingCart + div > section > div:first-child span:nth-child(3) { grid-column: span 2; }
+.ShoppingCart + div > section > div:first-child span:nth-child(4) { grid-column: span 2; text-align: right; }
 
-.cart-item {
+/* Cart item row: article inside cart section */
+.ShoppingCart + div > section > article {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 1rem;
@@ -482,7 +494,8 @@ main.narrow { max-width: var(--max-w-narrow); }
   padding: 2rem 0;
   border-bottom: 1px solid var(--brand-100);
 }
-.cart-item .cover {
+/* Cart item cover (emoji div) */
+.ShoppingCart + div > section > article > div:first-child {
   grid-column: span 2;
   background: var(--brand-100);
   aspect-ratio: 3/4;
@@ -492,20 +505,23 @@ main.narrow { max-width: var(--max-w-narrow); }
   font-size: 1.5rem;
   color: var(--brand-300);
 }
-.cart-item .item-info { grid-column: span 4; }
-.cart-item .title { font-weight: 500; font-size: 0.875rem; }
-.cart-item .author {
+/* Cart item info (title + author div) */
+.ShoppingCart + div > section > article > div:nth-child(2) { grid-column: span 4; }
+.ShoppingCart + div > section > article > div:nth-child(2) .title { font-weight: 500; font-size: 0.875rem; }
+.ShoppingCart + div > section > article > div:nth-child(2) .author {
   font-size: 0.75rem;
   color: var(--brand-400);
   font-weight: 300;
   margin-top: 0.25rem;
 }
-.cart-item .price {
+/* Cart item price */
+.ShoppingCart + div > section > article > .price {
   grid-column: span 2;
   font-size: 0.875rem;
   color: var(--brand-700);
 }
 
+/* Update quantity form */
 .doUpdateQuantity {
   grid-column: span 2;
   display: flex;
@@ -537,6 +553,7 @@ main.narrow { max-width: var(--max-w-narrow); }
 }
 .doUpdateQuantity button:hover { color: var(--brand-900); }
 
+/* Remove from cart form */
 .doRemoveFromCart {
   grid-column: span 2;
   text-align: right;
@@ -554,7 +571,8 @@ main.narrow { max-width: var(--max-w-narrow); }
 }
 .doRemoveFromCart button:hover { color: var(--brand-900); }
 
-.continue-link {
+/* Continue shopping link */
+.ShoppingCart + div > section > a {
   display: inline-block;
   margin-top: 2rem;
   font-size: 0.75rem;
@@ -566,47 +584,49 @@ main.narrow { max-width: var(--max-w-narrow); }
   padding-bottom: 2px;
   transition: all var(--transition);
 }
-.continue-link:hover {
+.ShoppingCart + div > section > a:hover {
   color: var(--brand-900);
   border-bottom-color: var(--brand-900);
 }
 
-.order-summary {
+/* Order summary aside */
+.ShoppingCart + div > aside {
   width: 20rem;
   flex-shrink: 0;
 }
-.order-summary h2 {
+.ShoppingCart + div > aside h2 {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--brand-400);
   margin-bottom: 2rem;
 }
-.order-summary .line {
+.ShoppingCart + div > aside > div {
   display: flex;
   justify-content: space-between;
   font-size: 0.875rem;
   padding: 0.5rem 0;
 }
-.order-summary .line span:first-child { color: var(--brand-500); }
-.order-summary .total {
-  display: flex;
-  justify-content: space-between;
+.ShoppingCart + div > aside > div span:first-child { color: var(--brand-500); }
+/* Total row: last div before checkout link */
+.ShoppingCart + div > aside > div:last-of-type {
   padding-top: 1.5rem;
   margin-top: 1rem;
   border-top: 1px solid var(--brand-200);
 }
-.order-summary .total span:first-child {
+.ShoppingCart + div > aside > div:last-of-type span:first-child {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--brand-400);
 }
-.order-summary .totalAmount {
+.totalAmount {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 500;
 }
+
+/* Checkout link */
 .goToCheckout {
   display: block;
   text-align: center;
@@ -626,7 +646,7 @@ main.narrow { max-width: var(--max-w-narrow); }
 }
 
 /* ===========================
-   Checkout & Payment
+   Checkout & Payment Pages
    =========================== */
 .Checkout, .Payment {
   font-family: var(--font-display);
@@ -635,19 +655,20 @@ main.narrow { max-width: var(--max-w-narrow); }
   margin-bottom: 4rem;
 }
 
-.step {
+/* Form sections (checkout steps) */
+main > section {
   margin-bottom: 3rem;
   padding-bottom: 3rem;
   border-bottom: 1px solid var(--brand-100);
 }
-.step h2 {
+main > section h2 {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--brand-400);
   margin-bottom: 2rem;
 }
-.step label {
+main > section label {
   display: block;
   font-size: 0.75rem;
   letter-spacing: 0.15em;
@@ -656,11 +677,14 @@ main.narrow { max-width: var(--max-w-narrow); }
   margin-bottom: 0.5rem;
 }
 
+/* Form layout for checkout forms */
 .doUserInfo, .doShippingInfo, .doPaymentInfo {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
+
+/* Text inputs */
 .userName, .userEmail {
   width: 100%;
   border: none;
@@ -676,6 +700,7 @@ main.narrow { max-width: var(--max-w-narrow); }
 .userName::placeholder, .userEmail::placeholder { color: var(--brand-300); }
 .userName:focus, .userEmail:focus { border-bottom-color: var(--brand-900); }
 
+/* Textarea */
 .shippingAddress {
   width: 100%;
   border: 1px solid var(--brand-200);
@@ -691,6 +716,7 @@ main.narrow { max-width: var(--max-w-narrow); }
 .shippingAddress::placeholder { color: var(--brand-300); }
 .shippingAddress:focus { border-color: var(--brand-900); }
 
+/* Save buttons in checkout forms */
 .doUserInfo button, .doShippingInfo button, .doPaymentInfo button {
   align-self: flex-start;
   background: none;
@@ -710,6 +736,7 @@ main.narrow { max-width: var(--max-w-narrow); }
   border-bottom-color: var(--brand-900);
 }
 
+/* Continue to Payment link */
 .goToPayment {
   display: block;
   text-align: center;
@@ -727,6 +754,7 @@ main.narrow { max-width: var(--max-w-narrow); }
   color: var(--brand-50);
 }
 
+/* Payment method select */
 .paymentMethod {
   width: 100%;
   border: none;
@@ -742,32 +770,36 @@ main.narrow { max-width: var(--max-w-narrow); }
 }
 .paymentMethod:focus { border-bottom-color: var(--brand-900); }
 
-.order-lines .line {
+/* Order lines (payment page summary) */
+.Payment ~ section > div > div {
   display: flex;
   justify-content: space-between;
   padding: 1rem 0;
   border-bottom: 1px solid var(--brand-100);
   font-size: 0.875rem;
 }
-.order-lines .line span:first-child { color: var(--brand-500); font-weight: 300; }
-.order-total {
+.Payment ~ section > div > div span:first-child { color: var(--brand-500); font-weight: 300; }
+
+/* Order total on payment page */
+.Payment ~ section > div:last-child {
   display: flex;
   justify-content: space-between;
   padding-top: 2rem;
   margin-top: 1rem;
 }
-.order-total span:first-child {
+.Payment ~ section > div:last-child span:first-child {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--brand-400);
 }
-.order-total .totalAmount {
+.Payment ~ section > div:last-child .totalAmount {
   font-family: var(--font-display);
   font-size: 1.875rem;
   font-weight: 500;
 }
 
+/* Place order form */
 .doPlaceOrder button {
   width: 100%;
   background: var(--brand-900);
@@ -791,13 +823,14 @@ main.narrow { max-width: var(--max-w-narrow); }
   font-weight: 300;
 }
 
-.bottom-links {
+/* Bottom navigation links (payment page) */
+main > nav:last-child {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
   margin-top: 3rem;
 }
-.bottom-links a {
+main > nav:last-child a {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -805,22 +838,69 @@ main.narrow { max-width: var(--max-w-narrow); }
   text-decoration: none;
   transition: color var(--transition);
 }
-.bottom-links a:hover { color: var(--brand-900); }
+main > nav:last-child a:hover { color: var(--brand-900); }
+
+/* === Focus States === */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+}
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+}
 
 /* === Responsive === */
 @media (max-width: 768px) {
-  .hero h2 { font-size: 2.5rem; }
-  .features { grid-template-columns: 1fr; gap: 2rem; }
-  .book-grid { grid-template-columns: 1fr; }
-  .book-detail { flex-direction: column; }
-  .book-detail .cover { width: 100%; }
-  .cart-layout { flex-direction: column; }
-  .order-summary { width: 100%; }
-  .cart-header { display: none; }
-  .cart-item { grid-template-columns: 1fr; gap: 0.5rem; }
-  .cart-item .cover { grid-column: auto; max-width: 5rem; }
-  .cart-item .item-info { grid-column: auto; }
-  .cart-item .price { grid-column: auto; }
+  :root {
+    --px: 1.25rem;
+  }
+
+  /* Home hero */
+  main > section:first-child { padding: 4rem 0; }
+  main > section:first-child h2 { font-size: 2.5rem; }
+
+  /* Home features */
+  main > hr + section { grid-template-columns: 1fr; gap: 2rem; }
+
+  /* Book grid */
+  .goSearchBooks + nav + div,
+  .Category > div { grid-template-columns: 1fr; }
+
+  /* Book detail */
+  main > article.Book { flex-direction: column; }
+  main > article.Book > div:first-child { width: 100%; }
+
+  /* Cart layout */
+  .ShoppingCart + div { flex-direction: column; }
+  .ShoppingCart + div > aside { width: 100%; }
+
+  /* Cart header */
+  .ShoppingCart + div > section > div:first-child { display: none; }
+
+  /* Cart item rows */
+  .ShoppingCart + div > section > article {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .ShoppingCart + div > section > article > div:first-child {
+    grid-column: auto;
+    max-width: 5rem;
+  }
+  .ShoppingCart + div > section > article > div:nth-child(2) { grid-column: auto; }
+  .ShoppingCart + div > section > article > .price { grid-column: auto; }
   .doUpdateQuantity { grid-column: auto; }
   .doRemoveFromCart { grid-column: auto; text-align: left; }
+
+  /* Page titles */
+  .Catalog, .ShoppingCart, .Checkout, .Payment,
+  .Category .title { font-size: 2rem; }
+
+  /* Search input */
+  .goSearchBooks .query { width: 100%; }
+  .goSearchBooks { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  main > section:first-child h2 { font-size: 1.875rem; }
+  main > article.Book > div:nth-child(2) .title { font-size: 1.75rem; }
 }
