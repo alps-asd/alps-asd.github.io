@@ -138,6 +138,7 @@ npm install -g @alps-asd/mcp
 | `alps2svg` | SVG状態ダイアグラムを生成 |
 | `alps2mermaid` | Mermaidダイアグラムを生成 |
 | `alps_guide` | ALPSベストプラクティスを取得 |
+| `alps2mock` | ALPSから[セマンティックHTMLモック](semantic-wireframe.html)を生成 |
 
 ## llms.txt (その他のLLM)
 
