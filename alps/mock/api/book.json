@@ -9,13 +9,11 @@
     "self": { "href": "/api/book/BK-001" },
     "doAddToCart": {
       "href": "/api/shoppingcart",
-      "title": "Add to Cart",
-      "method": "POST"
+      "title": "Add to Cart"
     },
     "goToCatalog": {
       "href": "/api/catalog",
-      "title": "Go to Catalog Screen",
-      "method": "GET"
+      "title": "Go to Catalog Screen"
     }
   }
 }

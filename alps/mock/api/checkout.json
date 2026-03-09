@@ -3,23 +3,19 @@
     "self": { "href": "/api/checkout" },
     "doUserInfo": {
       "href": "/api/checkout/user-info",
-      "title": "Input User Information",
-      "method": "POST"
+      "title": "Input User Information"
     },
     "doShippingInfo": {
       "href": "/api/checkout/shipping-info",
-      "title": "Input Shipping Information",
-      "method": "POST"
+      "title": "Input Shipping Information"
     },
     "goToPayment": {
       "href": "/api/payment",
-      "title": "Go to Payment Screen",
-      "method": "GET"
+      "title": "Go to Payment Screen"
     },
     "goToCart": {
       "href": "/api/shoppingcart",
-      "title": "Go to Cart Screen",
-      "method": "GET"
+      "title": "Go to Cart Screen"
     }
   }
 }

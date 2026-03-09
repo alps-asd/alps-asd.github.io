@@ -20,30 +20,25 @@
     "self": { "href": "/api/shoppingcart" },
     "goListCartItems": {
       "href": "/api/shoppingcart",
-      "title": "Get Cart Items List",
-      "method": "GET"
+      "title": "Get Cart Items List"
     },
     "doUpdateQuantity": {
       "href": "/api/shoppingcart/{id}",
       "title": "Update Cart Item Quantity",
-      "method": "PUT",
       "templated": true
     },
     "doRemoveFromCart": {
       "href": "/api/shoppingcart/{id}",
       "title": "Remove Item from Cart",
-      "method": "DELETE",
       "templated": true
     },
     "goToCheckout": {
       "href": "/api/checkout",
-      "title": "Go to Checkout Screen",
-      "method": "GET"
+      "title": "Go to Checkout Screen"
     },
     "goToCatalog": {
       "href": "/api/catalog",
-      "title": "Go to Catalog Screen",
-      "method": "GET"
+      "title": "Go to Catalog Screen"
     }
   }
 }
