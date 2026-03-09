@@ -62,7 +62,7 @@ img {
   object-position: -9999px;
 }
 
-/* ===== Buttons: outlined rectangles ===== */
+/* ===== Buttons: base ===== */
 button, [type="submit"] {
   border: 1px solid #999;
   background: white;
@@ -73,6 +73,23 @@ button, [type="submit"] {
 }
 button:hover, [type="submit"]:hover {
   background: #f5f5f5;
+}
+
+/* ===== Transition type: left border color ===== */
+/* safe = green (read-only, no side effects) */
+[class^="go"] button,
+[class^="go"] [type="submit"] {
+  border-left: 3px solid #00A86B;
+}
+/* unsafe = red (state-changing, non-idempotent) */
+[class^="do"] button,
+[class^="do"] [type="submit"] {
+  border-left: 3px solid #FF4136;
+}
+/* idempotent = gold (state-changing, idempotent) */
+[data-type="idempotent"] button,
+[data-type="idempotent"] [type="submit"] {
+  border-left: 3px solid #D4A000;
 }
 
 /* ===== Form elements ===== */
@@ -143,7 +160,8 @@ main > nav:first-child > span { margin: 0 0.375rem; }
 
 /* ===== Book grid: article containers ===== */
 .Catalog > div,
-.Category > div {
+.Category > div,
+section > div {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1rem;

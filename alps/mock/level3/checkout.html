@@ -29,32 +29,47 @@
     <h1 class="Checkout">Checkout</h1>
 
     <section>
-      <h2>01 — Customer Information</h2>
-      <form method="get" action="checkout.html" class="doUserInfo">
-        <div>
-          <label for="userName">Full Name</label>
-          <input type="text" id="userName" name="userName" class="userName" placeholder="Taro Yamada">
-        </div>
-        <div>
-          <label for="userEmail">Email Address</label>
-          <input type="email" id="userEmail" name="userEmail" class="userEmail" placeholder="taro@example.com">
-        </div>
-        <button type="submit">Save</button>
-      </form>
+      <h2>Order Items</h2>
+      <article>
+        <span class="title">The Art of Programming</span>
+        <span class="quantity">× 1</span>
+        <span class="price">¥2,480</span>
+      </article>
+      <article>
+        <span class="title">Design Patterns Explained</span>
+        <span class="quantity">× 2</span>
+        <span class="price">¥6,400</span>
+      </article>
     </section>
 
     <section>
-      <h2>02 — Shipping Address</h2>
-      <form method="get" action="checkout.html" class="doShippingInfo">
-        <div>
-          <label for="shippingAddress">Address</label>
-          <textarea id="shippingAddress" name="shippingAddress" rows="3" class="shippingAddress" placeholder="123-4567&#10;Tokyo, Shibuya-ku…"></textarea>
-        </div>
-        <button type="submit">Save</button>
-      </form>
+      <h2>Shipping</h2>
+      <dl>
+        <dt>Name</dt>
+        <dd class="userName">Taro Yamada</dd>
+        <dt>Address</dt>
+        <dd class="shippingAddress">〒150-0001 Tokyo, Shibuya-ku, Jingumae 1-2-3</dd>
+      </dl>
     </section>
 
-    <a href="payment.html" class="goToPayment" title="Navigate to the payment screen to input payment information and complete the order.">Continue to Payment</a>
+    <section>
+      <h2>Payment</h2>
+      <form method="post" action="payment.html" class="doPlaceOrder">
+        <div>
+          <label for="paymentMethod">Payment Method</label>
+          <select id="paymentMethod" name="paymentMethod" class="paymentMethod">
+            <option value="credit_card">Credit Card</option>
+            <option value="bank_transfer">Bank Transfer</option>
+            <option value="cash_on_delivery">Cash on Delivery</option>
+          </select>
+        </div>
+        <div>
+          <span>Total</span>
+          <span class="totalAmount">¥8,880</span>
+        </div>
+        <button type="submit">Place Order</button>
+      </form>
+    </section>
   </main>
 
   <footer>

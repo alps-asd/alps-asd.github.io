@@ -31,37 +31,37 @@
           <span>Remove</span>
         </div>
 
-        <article>
+        <article class="Book">
           <div>📖</div>
           <div>
             <h3 class="title">The Art of Programming</h3>
             <p class="author">Jane Smith</p>
           </div>
           <span class="price">¥2,480</span>
-          <form method="get" action="shoppingcart.html" class="doUpdateQuantity">
+          <form method="post" action="shoppingcart.html" class="doUpdateQuantity" data-type="idempotent">
             <input type="hidden" name="id" value="BK-001" class="id">
             <input type="number" name="quantity" min="1" value="1" class="quantity">
             <button type="submit">Update</button>
           </form>
-          <form method="get" action="shoppingcart.html" class="doRemoveFromCart">
+          <form method="post" action="shoppingcart.html" class="doRemoveFromCart" data-type="idempotent">
             <input type="hidden" name="id" value="BK-001" class="id">
             <button type="submit">Remove</button>
           </form>
         </article>
 
-        <article>
+        <article class="Book">
           <div>📖</div>
           <div>
             <h3 class="title">Design Patterns Explained</h3>
             <p class="author">John Doe</p>
           </div>
           <span class="price">¥3,200</span>
-          <form method="get" action="shoppingcart.html" class="doUpdateQuantity">
+          <form method="post" action="shoppingcart.html" class="doUpdateQuantity" data-type="idempotent">
             <input type="hidden" name="id" value="BK-002" class="id">
             <input type="number" name="quantity" min="1" value="2" class="quantity">
             <button type="submit">Update</button>
           </form>
-          <form method="get" action="shoppingcart.html" class="doRemoveFromCart">
+          <form method="post" action="shoppingcart.html" class="doRemoveFromCart" data-type="idempotent">
             <input type="hidden" name="id" value="BK-002" class="id">
             <button type="submit">Remove</button>
           </form>
@@ -84,7 +84,7 @@
           <span>Total</span>
           <span class="totalAmount">¥8,880</span>
         </div>
-        <a href="checkout.html" class="goToCheckout" title="Navigate to the screen to confirm cart contents and proceed with purchase.">Proceed to Checkout</a>
+        <a href="checkout.html" class="goToCheckout" title="Navigate to the checkout screen to review order and enter payment information.">Proceed to Checkout</a>
       </aside>
     </div>
   </main>

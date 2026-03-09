@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment - ALPS Book Store</title>
+  <title>Order Confirmation - ALPS Book Store</title>
   <link rel="profile" href="alps.xml">
   <link rel="stylesheet" href="level2.css">
 </head>
@@ -20,42 +20,15 @@
   </header>
 
   <main>
-    <nav>
-      <a href="shoppingcart.html" class="goToCart" title="Navigate to the screen displaying the contents of the current shopping cart.">Cart</a>
-      <span>/</span>
-      <a href="checkout.html">Checkout</a>
-      <span>/</span>
-      <span>Payment</span>
-    </nav>
-
-    <h1 class="Payment">Payment</h1>
+    <h1 class="Payment">Order Confirmed</h1>
 
     <section>
-      <h2>Payment Method</h2>
-      <form method="get" action="payment.html" class="doPaymentInfo">
-        <div>
-          <label for="paymentMethod">Select Method</label>
-          <select id="paymentMethod" name="paymentMethod" class="paymentMethod">
-            <option value="credit_card">Credit Card</option>
-            <option value="bank_transfer">Bank Transfer</option>
-            <option value="cash_on_delivery">Cash on Delivery</option>
-          </select>
-        </div>
-        <button type="submit">Save</button>
-      </form>
-    </section>
+      <h2>Thank you for your order!</h2>
+      <p>Your order has been placed successfully. A confirmation email has been sent.</p>
 
-    <section>
-      <h2>Order Summary</h2>
       <div>
-        <div>
-          <span>The Art of Programming × 1</span>
-          <span>¥2,480</span>
-        </div>
-        <div>
-          <span>Design Patterns Explained × 2</span>
-          <span>¥6,400</span>
-        </div>
+        <span>Order Number</span>
+        <span class="id">ORD-20260309-001</span>
       </div>
       <div>
         <span>Total</span>
@@ -63,14 +36,9 @@
       </div>
     </section>
 
-    <form method="get" action="payment.html" class="doPlaceOrder">
-      <button type="submit">Place Order</button>
-      <p>By placing your order, you agree to our terms and conditions.</p>
-    </form>
-
     <nav>
-      <a href="#order-details" class="goOrderDetails" title="Display detailed information for the confirmed order on the payment screen.">Order Details</a>
       <a href="index.html" class="goToHome" title="Navigate to the application's home screen. Accessible from any screen.">Return to Home</a>
+      <a href="catalog.html" class="goToCatalog" title="Navigate to the book catalog list screen. All books are displayed.">Continue Shopping</a>
     </nav>
   </main>
 
