@@ -138,6 +138,7 @@ npm install -g @alps-asd/mcp
 | `alps2svg` | Generate SVG state diagram |
 | `alps2mermaid` | Generate Mermaid diagram |
 | `alps_guide` | Get ALPS best practices |
+| `alps2mock` | Generate [semantic HTML mock](semantic-wireframe.html) from ALPS |
 
 ## llms.txt (Any LLM)
 
