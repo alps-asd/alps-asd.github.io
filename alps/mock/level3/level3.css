@@ -123,30 +123,44 @@ hr {
    Home Page (index.html)
    =========================== */
 
-/* Hero section: first section in Home main */
-main > section:first-child {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 8rem 0;
-  text-align: center;
-}
-main > section:first-child h2 {
+/* Hero title */
+main > h1.Home {
   font-family: var(--font-display);
   font-size: 3.75rem;
   font-weight: 500;
   color: var(--brand-900);
+  text-align: center;
   margin-bottom: 1.5rem;
+  padding-top: 4rem;
   line-height: 1.1;
 }
-main > section:first-child p {
+/* Hero subtitle */
+main > h1.Home + p {
   font-size: 1.125rem;
   color: var(--brand-500);
   max-width: 32rem;
   margin: 0 auto 3rem;
+  text-align: center;
   line-height: 1.7;
   font-weight: 300;
 }
-main > section:first-child > a {
+
+/* Featured Books grid */
+main > .goSearchBooks ~ section > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+}
+main > .goSearchBooks ~ section > h2 {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--brand-400);
+  margin-bottom: 2rem;
+}
+
+/* View All Books link */
+main > a.goToCatalog {
   display: inline-block;
   border: 1px solid var(--brand-900);
   color: var(--brand-900);
@@ -157,38 +171,11 @@ main > section:first-child > a {
   text-decoration: none;
   background: transparent;
   transition: all var(--transition);
+  margin-top: 3rem;
 }
-main > section:first-child > a:hover {
+main > a.goToCatalog:hover {
   background: var(--brand-900);
   color: var(--brand-50);
-}
-
-/* Features section: section after hr (last section in Home main) */
-main > hr + section {
-  max-width: 64rem;
-  margin: 0 auto;
-  padding: 0 0 6rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4rem;
-  text-align: center;
-}
-main > hr + section > div > div:first-child {
-  font-size: 1.875rem;
-  margin-bottom: 0.75rem;
-}
-main > hr + section h3 {
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--brand-700);
-  font-weight: 500;
-}
-main > hr + section p {
-  font-size: 0.875rem;
-  color: var(--brand-400);
-  line-height: 1.6;
-  font-weight: 300;
 }
 
 /* ===========================
@@ -856,11 +843,10 @@ a:focus-visible, button:focus-visible {
   }
 
   /* Home hero */
-  main > section:first-child { padding: 4rem 0; }
-  main > section:first-child h2 { font-size: 2.5rem; }
+  main > h1.Home { font-size: 2.5rem; padding-top: 2rem; }
 
-  /* Home features */
-  main > hr + section { grid-template-columns: 1fr; gap: 2rem; }
+  /* Featured Books grid */
+  main > .goSearchBooks ~ section > div { grid-template-columns: 1fr; }
 
   /* Book grid */
   .goSearchBooks + nav + div,
@@ -901,6 +887,6 @@ a:focus-visible, button:focus-visible {
 }
 
 @media (max-width: 480px) {
-  main > section:first-child h2 { font-size: 1.875rem; }
+  main > h1.Home { font-size: 1.875rem; }
   main > article.Book > div:nth-child(2) .title { font-size: 1.75rem; }
 }
