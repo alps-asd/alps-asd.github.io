@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - ALPS Book Store</title>
+  <link rel="profile" href="alps.xml">
+  <link rel="stylesheet" href="level3.css">
+</head>
+<body>
+
+  <header>
+    <div>
+      <a href="index.html">ALPS Book Store</a>
+      <nav>
+        <a href="catalog.html" class="goToCatalog" title="Navigate to the book catalog list screen. All books are displayed.">Catalog</a>
+        <a href="shoppingcart.html" class="goToCart" title="Navigate to the screen displaying the contents of the current shopping cart.">Cart</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav>
+      <a href="shoppingcart.html" class="goToCart" title="Navigate to the screen displaying the contents of the current shopping cart.">Cart</a>
+      <span>/</span>
+      <a href="checkout.html">Checkout</a>
+      <span>/</span>
+      <span>Payment</span>
+    </nav>
+
+    <h1 class="Payment">Payment</h1>
+
+    <section>
+      <h2>Payment Method</h2>
+      <form method="post" action="payment.html" class="doPaymentInfo">
+        <div>
+          <label for="paymentMethod">Select Method</label>
+          <select id="paymentMethod" name="paymentMethod" class="paymentMethod">
+            <option value="credit_card">Credit Card</option>
+            <option value="bank_transfer">Bank Transfer</option>
+            <option value="cash_on_delivery">Cash on Delivery</option>
+          </select>
+        </div>
+        <button type="submit">Save</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Order Summary</h2>
+      <div>
+        <div>
+          <span>The Art of Programming × 1</span>
+          <span>¥2,480</span>
+        </div>
+        <div>
+          <span>Design Patterns Explained × 2</span>
+          <span>¥6,400</span>
+        </div>
+      </div>
+      <div>
+        <span>Total</span>
+        <span class="totalAmount">¥8,880</span>
+      </div>
+    </section>
+
+    <form method="post" action="payment.html" class="doPlaceOrder">
+      <button type="submit">Place Order</button>
+      <p>By placing your order, you agree to our terms and conditions.</p>
+    </form>
+
+    <nav>
+      <a href="payment.html" class="goOrderDetails" title="Display detailed information for the confirmed order on the payment screen.">Order Details</a>
+      <a href="index.html" class="goToHome" title="Navigate to the application's home screen. Accessible from any screen.">Return to Home</a>
+    </nav>
+  </main>
+
+  <footer>
+    <div>Mock generated from ALPS profile: ALPS Book Store</div>
+  </footer>
+
+</body>
+</html>
