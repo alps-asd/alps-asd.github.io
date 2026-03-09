@@ -3,6 +3,7 @@ layout: docs-en
 title: Semantic Wireframe
 category: Manual
 permalink: /manuals/1.0/en/semantic-wireframe.html
+image: /images/semantic-wireframe.png
 ---
 
 # Semantic Wireframe

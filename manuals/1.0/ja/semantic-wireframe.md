@@ -3,6 +3,7 @@ layout: docs-ja
 title: セマンティックワイヤーフレーム
 category: Manual
 permalink: /manuals/1.0/ja/semantic-wireframe.html
+image: /images/semantic-wireframe.png
 ---
 
 # セマンティックワイヤーフレーム
