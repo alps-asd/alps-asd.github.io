@@ -1,9 +1,19 @@
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
+    const navigatorLanguages = window.navigator.languages;
+    const locales = (navigatorLanguages && navigatorLanguages.length)
+        ? navigatorLanguages
+        : [window.navigator.language || window.navigator.userLanguage || 'en'];
+    const prefersJapanese = locales.some((locale) => locale.toLowerCase().startsWith('ja'));
+
+    if (!prefersJapanese) {
+        return;
+    }
+
     const links = Array.from(document.getElementsByClassName('intl'));
-    const locale = (window.navigator.language || window.navigator.userLanguage || 'en').toLowerCase();
-    if (locale.startsWith('ja')) {
-        for(let i = 0; i < links.length; i++) {
-            links[i].setAttribute('href', links[i].getAttribute('href').replace('/en/', '/ja/'));
+    for (const link of links) {
+        const href = link.getAttribute('href');
+        if (href && href.includes('/en/')) {
+            link.setAttribute('href', href.replace('/en/', '/ja/'));
         }
     }
 });
