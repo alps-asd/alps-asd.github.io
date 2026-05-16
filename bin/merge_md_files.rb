@@ -106,10 +106,9 @@ def normalize_generated_markdown(content)
 end
 
 def fallback_order(source)
-  source.glob('*.md')
-        .map(&:basename)
-        .map(&:to_s)
-        .reject { |file| SKIP_GENERATED_FILES.include?(file) }
+  source.glob('**/*.md')
+        .reject { |path| SKIP_GENERATED_FILES.include?(path.basename.to_s) }
+        .map { |path| path.relative_path_from(source).to_s }
         .sort
 end
 
