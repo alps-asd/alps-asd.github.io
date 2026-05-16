@@ -36,7 +36,7 @@ A. If you use an editor that supports schemas such as WebStorm, you can edit the
 
 <strong>Q. Which is better, XML or JSON</strong>?
 
-A. There is no difference in functionality. There is also no need to unify them when using multiple ALPS files. Please compare them in practice. [XML](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) / [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.json)
+A. There is no difference in functionality. There is also no need to unify them when using multiple ALPS files. Please compare them in practice. [XML](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) / [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.json)
 
 <strong>Q. Can it be used for APIs without links</strong>?
 
@@ -53,4 +53,3 @@ A. ALPS deals with REST abstractions that are higher than HTTP. Therefore, it ca
 <strong>Q. Do I need it</strong>?
 
 A. If you want to model information to improve the quality of user experience, or if you want a reference (SSOT) to unify the understanding among production members, or if you want to overview and reuse your design, or if you want to keep your information design as a standardized document, ALPS+ASD will be useful as your information design modeling tool or as a format to express it.
-

@@ -717,17 +717,17 @@ All terms are classified into three levels based on importance and frequency of 
 
 ### Usage Notes
 
-2. **Naming Conventions**:
+1. **Naming Conventions**:
 - Use lowerCamelCase format
 - Avoid abbreviations, use complete words
 - Maintain consistent naming patterns
 
-3. **Customization**:
+2. **Customization**:
 - Can add custom terms as needed
 - Recommend using appropriate prefixes for industry-specific terms
 - Strive for unified term usage within organization
 
-4. **Interoperability**:
+3. **Interoperability**:
 - Consider compatibility with Schema.org
 - Prioritize standard terms
 - Clearly document when making custom extensions
@@ -737,4 +737,3 @@ All terms are classified into three levels based on importance and frequency of 
 - [Schema.org](https://schema.org)
 - [IANA Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)
 - [ALPS Specification](http://alps.io/spec/)
-

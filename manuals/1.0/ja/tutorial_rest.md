@@ -188,7 +188,7 @@ JSONの場合：
 タクソノミーでは「情報をどのように整理・分類するか」を定義します。
 先ほど定義した用語を組み合わせて、より大きな概念を表現します。
 
-ブログ記事（BlogPosting）は、作成日時と本文を持つ情報の集まりとして定義できます。
+ブログ記事（BlogPosting）は、ID、作成日時、本文を持つ情報の集まりとして定義できます。
 
 XMLの場合：
 ```xml
@@ -196,6 +196,9 @@ XMLの場合：
 <alps
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    <descriptor id="id" title="ID">
+        <doc format="text">記事を一意に識別するID</doc>
+    </descriptor>
     <descriptor id="dateCreated" title="作成日時">
         <doc format="text">記事が作成された日時をISO8601形式で表します</doc>
     </descriptor>
@@ -203,6 +206,7 @@ XMLの場合：
         <doc format="text">ブログ記事の本文</doc>
     </descriptor>
     <descriptor id="BlogPosting" title="ブログ記事">
+        <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
@@ -216,9 +220,11 @@ JSONの場合：
     "alps": {
         "version": "1.0",
         "descriptor": [
+            {"id": "id", "title": "ID", "doc": {"format": "text", "value": "記事を一意に識別するID"}},
             {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
             {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
             {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
+               {"href": "#id"},
                {"href": "#dateCreated"},
                {"href": "#articleBody"}
             ]}
@@ -235,7 +241,7 @@ JSONの場合：
    - 用語の一貫性を保証
 
 2. 階層構造の表現
-   - `BlogPosting`が`dateCreated`と`articleBody`を含む
+   - `BlogPosting`が`id`、`dateCreated`、`articleBody`を含む
    - 含まれる要素は`descriptor`タグで表現
    - 親子関係として表現される
 
@@ -297,6 +303,9 @@ XMLの場合：
 <alps
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    <descriptor id="id" title="ID">
+        <doc format="text">記事を一意に識別するID</doc>
+    </descriptor>
     <descriptor id="dateCreated" title="作成日時">
         <doc format="text">記事が作成された日時をISO8601形式で表します</doc>
     </descriptor>
@@ -304,11 +313,12 @@ XMLの場合：
         <doc format="text">ブログ記事の本文</doc>
     </descriptor>
     <descriptor id="BlogPosting" title="ブログ記事">
+        <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
     <descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
-        <descriptor href="#dateCreated"/>
+        <descriptor href="#id"/>
     </descriptor>
 </alps>
 ```
@@ -320,14 +330,16 @@ JSONの場合：
     "alps": {
         "version": "1.0",
         "descriptor": [
+            {"id": "id", "title": "ID", "doc": {"format": "text", "value": "記事を一意に識別するID"}},
             {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
             {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
             {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
+               {"href": "#id"},
                {"href": "#dateCreated"},
                {"href": "#articleBody"}
             ]},
             {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", "descriptor": [
-               {"href": "#dateCreated"}
+               {"href": "#id"}
             ]}
         ]
     }
@@ -350,8 +362,8 @@ JSONの場合：
    - `#BlogPosting`への遷移を示します
 
 3. 遷移に必要な情報
-   - `descriptor href="#dateCreated"`で指定します
-   - 記事を特定するために必要な情報です
+   - `descriptor href="#id"`で指定します
+   - 記事を一意に特定するために必要な情報です
 
 プレビュー画面では：
 1. 状態遷移図に状態（BlogPosting）と遷移を示す矢印が表示されます
@@ -378,7 +390,7 @@ JSONの場合：
 ここで、閲覧（safe）と作成（unsafe）の違いに注目してください：
 
 1. 必要な情報
-   - 閲覧：dateCreated（記事を特定）
+   - 閲覧：id（記事を特定）
    - 作成：articleBody（記事の内容）
 
 2. 状態の変化
@@ -402,6 +414,9 @@ XMLの場合：
 <alps
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    <descriptor id="id" title="ID">
+        <doc format="text">記事を一意に識別するID</doc>
+    </descriptor>
     <descriptor id="dateCreated" title="作成日時">
         <doc format="text">記事が作成された日時をISO8601形式で表します</doc>
     </descriptor>
@@ -409,11 +424,12 @@ XMLの場合：
         <doc format="text">ブログ記事の本文</doc>
     </descriptor>
     <descriptor id="BlogPosting" title="ブログ記事">
+        <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
     <descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
-        <descriptor href="#dateCreated"/>
+        <descriptor href="#id"/>
     </descriptor>
     <descriptor id="doCreateBlogPosting" type="unsafe" rt="#BlogPosting" title="ブログ記事を作成する">
         <descriptor href="#articleBody"/>
@@ -434,13 +450,15 @@ JSONの場合：
     "alps": {
         "version": "1.0",
         "descriptor": [
+            {"id": "id", "title": "ID", "doc": {"format": "text", "value": "記事を一意に識別するID"}},
             {"id": "dateCreated", "title": "作成日時", "doc": {"format": "text", "value": "記事が作成された日時をISO8601形式で表します"}},
             {"id": "articleBody", "title": "記事本文", "doc": {"format": "text", "value": "ブログ記事の本文"}},
             {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
+                {"href": "#id"},
                 {"href": "#dateCreated"},
                 {"href": "#articleBody"}
             ]},
-            {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", "descriptor": [{"href": "#dateCreated"}]},
+            {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", "descriptor": [{"href": "#id"}]},
             {"id": "doCreateBlogPosting", "type": "unsafe", "rt": "#BlogPosting", "title": "ブログ記事を作成する", "descriptor": [{"href": "#articleBody"}]},
             {"id": "Blog", "title": "ブログ", "descriptor": [
                 {"href": "#BlogPosting"},
@@ -494,6 +512,7 @@ JSONの場合：
 XMLの場合：
 ```xml
 <descriptor id="BlogPosting" title="ブログ記事">
+    <descriptor href="#id"/>
     <descriptor href="#dateCreated"/>
     <descriptor href="#articleBody"/>
 </descriptor>
@@ -502,6 +521,7 @@ XMLの場合：
 JSONの場合：
 ```json
 {"id": "BlogPosting", "title": "ブログ記事", "descriptor": [
+    {"href": "#id"},
     {"href": "#dateCreated"},
     {"href": "#articleBody"}
 ]}
@@ -514,19 +534,19 @@ JSONの場合：
 XMLの場合：
 ```xml
 <descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="ブログ記事を見る">
-    <descriptor href="#dateCreated"/>
+    <descriptor href="#id"/>
 </descriptor>
 ```
 
 JSONの場合：
 ```json
 {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", 
- "descriptor": [{"href": "#dateCreated"}]}
+ "descriptor": [{"href": "#id"}]}
 ```
 - 操作の種類を定義します
 - safe：閲覧操作（prefixは`go`）
 - unsafe：作成操作（prefixは`doCreate`）
-- idempotent：更新・削除操作（prefixは`update`/`delete`）
+- idempotent：更新・削除操作（prefixは`doUpdate`/`doDelete`）
 
 ### リンク関係の指定
 
@@ -601,6 +621,7 @@ JSONの場合：
 XMLの場合：
 ```xml
 <descriptor id="BlogPosting" title="ブログ記事">
+    <descriptor href="#id" tag="metadata"/>
     <descriptor href="#dateCreated" tag="metadata"/>
     <descriptor href="#articleBody" tag="content"/>
     <descriptor href="#goBlogPosting" tag="navigation"/>
@@ -614,6 +635,7 @@ JSONの場合：
     "id": "BlogPosting",
     "title": "ブログ記事",
     "descriptor": [
+        {"href": "#id", "tag": "metadata"},
         {"href": "#dateCreated", "tag": "metadata"},
         {"href": "#articleBody", "tag": "content"},
         {"href": "#goBlogPosting", "tag": "navigation"},

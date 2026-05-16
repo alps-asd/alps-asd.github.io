@@ -1,6 +1,6 @@
 ---
 layout: docs-ja
-title: asd
+title: ALPS Draft 7
 category: Manual
 permalink: /manuals/1.0/ja/rfc-draft-7.html
 ---
