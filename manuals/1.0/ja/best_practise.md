@@ -13,14 +13,14 @@ permalink: /manuals/1.0/ja/best_practice.html
 アプリケーション状態のセマンティックディスクリプタは大文字始まりのアッパーキャメルケースで表されます。
 
 ```json
-"descriptor": [
+{"descriptor": [
   {"id": "BlogPosting", "type": "semantic", "def": "https://schema.org/BlogPosting", "descriptor": [
     {"href": "#id"},
     {"href": "#articleBody"},
     {"href": "#dateCreated"},
     {"href": "#blog"}
   ]}
-]
+]}
 ```
 
 ## 安全な状態遷移
@@ -90,17 +90,17 @@ ALPSファイルのセマンティクディスクリプターは以下の順の3
 3. 状態遷移のセマンティックディスクリプタ群(コレオグラフィー)
 
 ```json
-"descriptor" : [
+{"descriptor" : [
     {"id" : "name", "type" : "semantic", "def": "http://schema.org/identifier"},
     {"id" : "age", "type" : "semantic", "def": "http://schema.org/title"},
 
     {"id" : "Person", "type": "semantic", "descriptor":[
       {"href": "#name"},
       {"href": "#age"}
-    ]}
-    
-    {"id": "goPerson", "type": "safe", "rt": "#Person"},
-]
+    ]},
+
+    {"id": "goPerson", "type": "safe", "rt": "#Person"}
+]}
 ```
 
 ## ALPSの外にある階層構造
@@ -108,15 +108,15 @@ ALPSファイルのセマンティクディスクリプターは以下の順の3
 ALPSでは、階層的な意味をポジションで表現できます。
 
 ```json
-"descriptor": [
+{"descriptor": [
     {"id": "name", "def": "https://schema.org/name"},
     {"id": "Product", "descriptor":[
       {"href": "#name"}
-    ]}
+    ]},
     {"id": "Person", "descriptor":[
       {"href": "#name"}
     ]}
-]
+]}
 ```
 
 * 上記の例では、`name`は、`Product/name`と`Person/name`で共有されています。

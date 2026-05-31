@@ -36,7 +36,7 @@ A. If you use an editor that supports schemas such as WebStorm, you can edit the
 
 <strong>Q. Which is better, XML or JSON</strong>?
 
-A. There is no difference in functionality. There is also no need to unify them when using multiple ALPS files. Please compare them in practice. [XML](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) / [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.json)
+A. There is no difference in functionality. There is also no need to unify them when using multiple ALPS files. Please compare them in practice. [XML](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.xml) / [JSON](https://github.com/koriym/app-state-diagram/blob/master/docs/blog/profile.json)
 
 <strong>Q. Can it be used for APIs without links</strong>?
 
@@ -44,7 +44,7 @@ A. Yes. It cannot represent a transition diagram, but it can generate a vocabula
 
 <strong>Q. Are there any other technologies that are similar to ALPS?</strong>
 
-A. There are no direct competitors. A similar technology is [Microformat](http://www.asahi-net.or.jp/~ax2s-kmtn/internet/rec-owl-features-20040210.html).
+A. There are no direct competitors. A similar technology is [Microformat](https://microformats.org/).
 
 <strong>Q. What is the difference from IDL such as OpenAPI</strong>?
 

@@ -429,8 +429,6 @@ permalink: /manuals/1.0/ja/semantic-terms.html
 | itemReviewed | 🟡 | レビュー対象 |
 | recommendationStrength | ⚪ | 推奨強度 |
 | associatedReview | ⚪ | 関連レビュー |
-| reviewBody | ⚪ | レビュー本文 |
-| reviewRating | ⚪ | レビュー評価 |
 | abridged | ⚪ | 要約版 |
 
 ### 教育・学習
@@ -573,8 +571,6 @@ permalink: /manuals/1.0/ja/semantic-terms.html
 | hasDigitalDocumentPermission | 🟡 | デジタル文書権限 |
 | permissionAssertion | ⚪ | 権限アサーション |
 | securityScreening | ⚪ | セキュリティスクリーニング |
-| accessibilityControl | ⚪ | アクセシビリティ制御 |
-| accessModeSufficient | ⚪ | 十分なアクセスモード |
 
 ### ワークフロー・プロセス
 
@@ -723,17 +719,17 @@ permalink: /manuals/1.0/ja/semantic-terms.html
 ### 使用上の注意
 
 
-2. **命名規則**:
+1. **命名規則**:
   - lowerCamelCase形式を使用
   - 略語は避け、完全な単語を使用
   - 一貫性のある命名パターンを維持
 
-3. **カスタマイズ**:
+2. **カスタマイズ**:
   - 必要に応じて独自の用語を追加可能
   - 業界固有の用語は適切なプレフィックスを付けることを推奨
   - 組織内で統一した用語の使用を心がける
 
-4. **相互運用性**:
+3. **相互運用性**:
   - Schema.orgとの互換性を意識
   - 標準的な用語を優先的に使用
   - 独自拡張する場合は明確な文書化を行う
