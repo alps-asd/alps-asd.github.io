@@ -2,8 +2,8 @@ require 'fileutils'
 require 'pathname'
 require 'yaml'
 
-SKIP_GENERATED_FILES = %w[1page.md onepage.md ai-assistant.md].freeze
-SKIP_NAV_PAGES = %w[1page ai-assistant].freeze
+SKIP_GENERATED_FILES = %w[1page.md onepage.md].freeze
+SKIP_NAV_PAGES = %w[1page].freeze
 
 def convert_to_markdown_filename(base_name)
   base_name.split(/[_-]/).map(&:capitalize).join + '.md'

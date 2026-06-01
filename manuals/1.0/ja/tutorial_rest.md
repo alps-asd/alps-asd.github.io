@@ -408,6 +408,7 @@ JSONの場合：
 XMLの場合：
 ```xml
 <descriptor id="doUpdateBlogPosting" type="idempotent" rt="#BlogPosting" title="ブログ記事を更新する">
+    <descriptor href="#id"/>
     <descriptor href="#articleBody"/>
 </descriptor>
 ```
@@ -415,6 +416,7 @@ XMLの場合：
 JSONの場合：
 ```json
 {"id": "doUpdateBlogPosting", "type": "idempotent", "rt": "#BlogPosting", "title": "ブログ記事を更新する", "descriptor": [
+    {"href": "#id"},
     {"href": "#articleBody"}
 ]}
 ```
@@ -457,6 +459,7 @@ XMLの場合：
         <descriptor href="#articleBody"/>
     </descriptor>
     <descriptor id="doUpdateBlogPosting" type="idempotent" rt="#BlogPosting" title="ブログ記事を更新する">
+        <descriptor href="#id"/>
         <descriptor href="#articleBody"/>
     </descriptor>
     <descriptor id="Blog" title="ブログ">
@@ -486,7 +489,7 @@ JSONの場合：
             ]},
             {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", "descriptor": [{"href": "#id"}]},
             {"id": "doCreateBlogPosting", "type": "unsafe", "rt": "#BlogPosting", "title": "ブログ記事を作成する", "descriptor": [{"href": "#articleBody"}]},
-            {"id": "doUpdateBlogPosting", "type": "idempotent", "rt": "#BlogPosting", "title": "ブログ記事を更新する", "descriptor": [{"href": "#articleBody"}]},
+            {"id": "doUpdateBlogPosting", "type": "idempotent", "rt": "#BlogPosting", "title": "ブログ記事を更新する", "descriptor": [{"href": "#id"}, {"href": "#articleBody"}]},
             {"id": "Blog", "title": "ブログ", "descriptor": [
                 {"href": "#BlogPosting"},
                 {"href": "#goBlogPosting"},
