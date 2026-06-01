@@ -187,7 +187,7 @@ In JSON:
 Taxonomy defines "how to organize and classify information."
 By combining the terms we defined earlier, we can represent larger concepts.
 
-A blog post (BlogPosting) can be defined as a collection of information with a creation date and body.
+A blog post (BlogPosting) can be defined as a collection of information with an ID, creation date, and body.
 
 In XML:
 ```xml
@@ -195,6 +195,9 @@ In XML:
 <alps
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    <descriptor id="id" title="ID">
+        <doc format="text">The ID that uniquely identifies the post</doc>
+    </descriptor>
     <descriptor id="dateCreated" title="Creation Date">
         <doc format="text">Represents the date the post was created, in ISO8601 format</doc>
     </descriptor>
@@ -202,6 +205,7 @@ In XML:
         <doc format="text">The body of the blog post</doc>
     </descriptor>
     <descriptor id="BlogPosting" title="Blog Post">
+        <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
@@ -215,9 +219,11 @@ In JSON:
    "alps": {
       "version": "1.0",
       "descriptor": [
+         {"id": "id", "title": "ID", "doc": {"format": "text", "value": "The ID that uniquely identifies the post"}},
          {"id": "dateCreated", "title": "Creation Date", "doc": {"format": "text", "value": "Represents the date the post was created, in ISO8601 format"}},
          {"id": "articleBody", "title": "Article Body", "doc": {"format": "text", "value": "The body of the blog post"}},
          {"id": "BlogPosting", "title": "Blog Post", "descriptor": [
+            {"href": "#id"},
             {"href": "#dateCreated"},
             {"href": "#articleBody"}
          ]}
@@ -234,7 +240,7 @@ In JSON:
    - Ensures consistency of terms.
 
 2. Representation of Hierarchical Structure
-   - `BlogPosting` includes `dateCreated` and `articleBody`.
+   - `BlogPosting` includes `id`, `dateCreated`, and `articleBody`.
    - The included elements are represented using the `descriptor` tag.
    - Represented as a parent-child relationship.
 
@@ -284,7 +290,7 @@ Choreography defines state transitions according to the types of operations. In 
    - Updates or deletes the resource state.
    - Produces the same outcome no matter how many times it is executed.
 
-ALPS operations distinguish between resource changes that have a different result each time they are performed, i.e., non-idempotent operations, such as add operations, and those that produce the same result no matter how many times they are repeated, i.e., idempotent operations, such as change or delete operations.
+ALPS operations distinguish between resource changes that may produce a different result each time, such as create operations, and idempotent changes, such as update or delete operations, which produce the same result no matter how many times they are repeated.
 
 ### Defining the Transition to View an Article
 
@@ -296,6 +302,9 @@ In XML:
 <alps
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://alps-io.github.io/schemas/alps.xsd">
+    <descriptor id="id" title="ID">
+        <doc format="text">The ID that uniquely identifies the post</doc>
+    </descriptor>
     <descriptor id="dateCreated" title="Creation Date">
         <doc format="text">Represents the date the post was created, in ISO8601 format</doc>
     </descriptor>
@@ -303,6 +312,7 @@ In XML:
         <doc format="text">The body of the blog post</doc>
     </descriptor>
     <descriptor id="BlogPosting" title="Blog Post">
+        <descriptor href="#id"/>
         <descriptor href="#dateCreated"/>
         <descriptor href="#articleBody"/>
     </descriptor>
@@ -319,9 +329,11 @@ In JSON:
     "alps": {
         "version": "1.0",
         "descriptor": [
+            {"id": "id", "title": "ID", "doc": {"format": "text", "value": "The ID that uniquely identifies the post"}},
             {"id": "dateCreated", "title": "Creation Date", "doc": {"format": "text", "value": "Represents the date the post was created, in ISO8601 format"}},
             {"id": "articleBody", "title": "Article Body", "doc": {"format": "text", "value": "The body of the blog post"}},
             {"id": "BlogPosting", "title": "Blog Post", "descriptor": [
+               {"href": "#id"},
                {"href": "#dateCreated"},
                {"href": "#articleBody"}
             ]},
@@ -349,7 +361,7 @@ Important elements of this definition:
 
 3. Information Needed for the Transition
    - Specified by `descriptor href="#id"`.
-   - Represents the information needed to identify the post.
+   - Represents the information needed to uniquely identify the post.
 
 In the preview screen:
 1. The state diagram shows the state (`BlogPosting`) and an arrow representing the transition.
@@ -403,6 +415,7 @@ Now, let's define an `idempotent` operation to update a blog post:
 In XML:
 ```xml
 <descriptor id="doUpdateBlogPosting" type="idempotent" rt="#BlogPosting" title="Update Blog Post">
+    <descriptor href="#id"/>
     <descriptor href="#articleBody"/>
 </descriptor>
 ```
@@ -410,6 +423,7 @@ In XML:
 In JSON:
 ```json
 {"id": "doUpdateBlogPosting", "type": "idempotent", "rt": "#BlogPosting", "title": "Update Blog Post", "descriptor": [
+   {"href": "#id"},
    {"href": "#articleBody"}
 ]}
 ```
@@ -428,8 +442,8 @@ Important elements of this definition:
    - Indicates a transition to `#BlogPosting`.
 
 4. Information Needed for the Transition
-   - Specified by `descriptor href="#articleBody"`.
-   - Represents the information needed to update the post.
+   - Specified by `descriptor href="#id"` and `descriptor href="#articleBody"`.
+   - Represents the information needed to identify and update the post.
 
 In the preview screen:
 1. The state diagram shows the state (`BlogPosting`) and an arrow representing the transition (`doUpdateBlogPosting`).
@@ -465,7 +479,7 @@ This final structure represents the complete blog system, integrating all define
 ### Summary of Blog Structure
 
 1. **Information Structure**
-   - BlogPosting: Represents the structure of a blog post (with `dateCreated` and `articleBody`).
+   - BlogPosting: Represents the structure of a blog post (with `id`, `dateCreated`, and `articleBody`).
 
 2. **State Transitions**
    - goBlogPosting: A `safe` operation to view a blog post.
@@ -491,4 +505,3 @@ In this tutorial, we learned how to use ALPS to design a blog system:
 Using ALPS allows for clear and consistent API design, shared understanding among team members, and effective documentation.
 
 The ALPS approach may initially seem like extra work, but as the project grows, its value becomes evident. Consistent design, clear documentation, and effective communication are key contributors to the long-term success of a project.
-

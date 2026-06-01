@@ -737,4 +737,3 @@ All terms are classified into three levels based on importance and frequency of 
 - [Schema.org](https://schema.org)
 - [IANA Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)
 - [ALPS Specification](http://alps.io/spec/)
-
