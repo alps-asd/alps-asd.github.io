@@ -44,7 +44,7 @@ A. Yes. It cannot represent a transition diagram, but it can generate a vocabula
 
 <strong>Q. Are there any other technologies that are similar to ALPS?</strong>
 
-A. There are no direct competitors. A similar technology is [Microformat](http://www.asahi-net.or.jp/~ax2s-kmtn/internet/rec-owl-features-20040210.html).
+A. There are no direct competitors. A similar technology is [Microformat](https://microformats.org/).
 
 <strong>Q. What is the difference from IDL such as OpenAPI</strong>?
 

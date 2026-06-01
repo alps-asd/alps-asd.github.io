@@ -282,7 +282,7 @@ Choreography defines state transitions according to the types of operations. In 
    - Changes only the application state (e.g., GET).
    - Resource state is not altered.
 
-3. `unsafe`
+2. `unsafe`
    - Creates a new resource state.
    - May have different outcomes each time it is executed.
 

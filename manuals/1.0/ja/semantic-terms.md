@@ -429,8 +429,6 @@ permalink: /manuals/1.0/ja/semantic-terms.html
 | itemReviewed | 🟡 | レビュー対象 |
 | recommendationStrength | ⚪ | 推奨強度 |
 | associatedReview | ⚪ | 関連レビュー |
-| reviewBody | ⚪ | レビュー本文 |
-| reviewRating | ⚪ | レビュー評価 |
 | abridged | ⚪ | 要約版 |
 
 ### 教育・学習
@@ -573,8 +571,6 @@ permalink: /manuals/1.0/ja/semantic-terms.html
 | hasDigitalDocumentPermission | 🟡 | デジタル文書権限 |
 | permissionAssertion | ⚪ | 権限アサーション |
 | securityScreening | ⚪ | セキュリティスクリーニング |
-| accessibilityControl | ⚪ | アクセシビリティ制御 |
-| accessModeSufficient | ⚪ | 十分なアクセスモード |
 
 ### ワークフロー・プロセス
 

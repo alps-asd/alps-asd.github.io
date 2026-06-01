@@ -401,6 +401,28 @@ JSONの場合：
    - 閲覧：何度実行しても同じ
    - 作成：実行ごとに新しい記事が作られる
 
+### 記事を更新する遷移を定義する
+
+次に、ブログ記事を更新する操作（idempotent）を定義します：
+
+XMLの場合：
+```xml
+<descriptor id="doUpdateBlogPosting" type="idempotent" rt="#BlogPosting" title="ブログ記事を更新する">
+    <descriptor href="#articleBody"/>
+</descriptor>
+```
+
+JSONの場合：
+```json
+{"id": "doUpdateBlogPosting", "type": "idempotent", "rt": "#BlogPosting", "title": "ブログ記事を更新する", "descriptor": [
+    {"href": "#articleBody"}
+]}
+```
+
+この定義で重要な要素：
+1. `type`属性に`idempotent`を指定し、繰り返し実行しても結果が変わらない更新操作であることを示します
+2. 更新に必要な情報として`articleBody`を指定します
+
 次のステップでは、これらの遷移をブログ全体の構造に組み込んでいきます。
 
 ## タクソノミー（2）：操作を含む構造化
@@ -434,10 +456,14 @@ XMLの場合：
     <descriptor id="doCreateBlogPosting" type="unsafe" rt="#BlogPosting" title="ブログ記事を作成する">
         <descriptor href="#articleBody"/>
     </descriptor>
+    <descriptor id="doUpdateBlogPosting" type="idempotent" rt="#BlogPosting" title="ブログ記事を更新する">
+        <descriptor href="#articleBody"/>
+    </descriptor>
     <descriptor id="Blog" title="ブログ">
         <descriptor href="#BlogPosting"/>
         <descriptor href="#goBlogPosting"/>
         <descriptor href="#doCreateBlogPosting"/>
+        <descriptor href="#doUpdateBlogPosting"/>
     </descriptor>
 </alps>
 ```
@@ -460,10 +486,12 @@ JSONの場合：
             ]},
             {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "ブログ記事を見る", "descriptor": [{"href": "#id"}]},
             {"id": "doCreateBlogPosting", "type": "unsafe", "rt": "#BlogPosting", "title": "ブログ記事を作成する", "descriptor": [{"href": "#articleBody"}]},
+            {"id": "doUpdateBlogPosting", "type": "idempotent", "rt": "#BlogPosting", "title": "ブログ記事を更新する", "descriptor": [{"href": "#articleBody"}]},
             {"id": "Blog", "title": "ブログ", "descriptor": [
                 {"href": "#BlogPosting"},
                 {"href": "#goBlogPosting"},
-                {"href": "#doCreateBlogPosting"}
+                {"href": "#doCreateBlogPosting"},
+                {"href": "#doUpdateBlogPosting"}
             ]}
         ]
     }
@@ -480,12 +508,13 @@ JSONの場合：
 2. 状態遷移
    - goBlogPosting：記事の閲覧操作（safe）
    - doCreateBlogPosting：記事の作成操作（unsafe）
+   - doUpdateBlogPosting：記事の更新操作（idempotent）
 
 プレビュー画面では：
 1. 状態遷移図
    - Blog、BlogPostingが状態として表示されます
    - 状態間の遷移が矢印として表示されます
-   - safe遷移とunsafe遷移が異なるスタイルで表現されます
+   - safe遷移、unsafe遷移、idempotent遷移が異なるスタイルで表現されます
 
 2. ボキャブラリリスト
    - 定義した全ての要素が階層的に表示されます
@@ -545,8 +574,8 @@ JSONの場合：
 ```
 - 操作の種類を定義します
 - safe：閲覧操作（prefixは`go`）
-- unsafe：作成操作（prefixは`doCreate`）
-- idempotent：更新・削除操作（prefixは`doUpdate`/`doDelete`）
+- unsafe：作成操作（prefixは`do`、例: `doCreate`）
+- idempotent：更新・削除操作（prefixは`do`、例: `doUpdate`/`doDelete`）
 
 ### リンク関係の指定
 
@@ -600,6 +629,7 @@ XMLの場合：
     <descriptor href="#BlogPosting"/>
     <descriptor href="#goBlogPosting"/>
     <descriptor href="#doCreateBlogPosting"/>
+    <descriptor href="#doUpdateBlogPosting"/>
 </descriptor>
 ```
 
@@ -608,10 +638,11 @@ JSONの場合：
 {"id": "Blog", "title": "ブログ", "descriptor": [
     {"href": "#BlogPosting"},
     {"href": "#goBlogPosting"},
-    {"href": "#doCreateBlogPosting"}
+    {"href": "#doCreateBlogPosting"},
+    {"href": "#doUpdateBlogPosting"}
 ]}
 ```
-- 情報構造と操作を組み合わせて完全な定義を作成します
+- 情報構造と閲覧・作成・更新操作を組み合わせて完全な定義を作成します
 - リソースの全体構造を表現します
 
 ### 要素の分類とグループ化
@@ -626,6 +657,7 @@ XMLの場合：
     <descriptor href="#articleBody" tag="content"/>
     <descriptor href="#goBlogPosting" tag="navigation"/>
     <descriptor href="#doCreateBlogPosting" tag="action"/>
+    <descriptor href="#doUpdateBlogPosting" tag="action"/>
 </descriptor>
 ```
 
@@ -639,7 +671,8 @@ JSONの場合：
         {"href": "#dateCreated", "tag": "metadata"},
         {"href": "#articleBody", "tag": "content"},
         {"href": "#goBlogPosting", "tag": "navigation"},
-        {"href": "#doCreateBlogPosting", "tag": "action"}
+        {"href": "#doCreateBlogPosting", "tag": "action"},
+        {"href": "#doUpdateBlogPosting", "tag": "action"}
     ]
 }
 ```

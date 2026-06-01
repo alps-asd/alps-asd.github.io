@@ -44,7 +44,7 @@ A. 遷移図は表せませんが、ボキャブラリや情報の性質を表�
 
 <strong>Q. ALPSと同様の技術は他にありますか</strong>
 
-A. 直接の競合技術はありません。近い技術に[Microformat](http://www.asahi-net.or.jp/~ax2s-kmtn/internet/rec-owl-features-20040210.html)があります。
+A. 直接の競合技術はありません。近い技術に[Microformat](https://microformats.org/)があります。
 
 <strong>Q. OpenAPIなどのIDLと何が違いますか</strong>
 

@@ -59,7 +59,7 @@ AIは自動的にディスクリプタを確立された語彙と整合させま
 
 ```
 /plugin marketplace add alps-asd/alps-skills
-/plugin install alps
+/plugin install alps-skills
 ```
 
 または`/plugin`でDiscoverタブから選択してインストールできます。
