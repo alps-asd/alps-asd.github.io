@@ -276,7 +276,7 @@ Choreography defines state transitions according to the types of operations. In 
    - Changes only the application state (e.g., GET).
    - Resource state is not altered.
 
-3. `unsafe`
+2. `unsafe`
    - Creates a new resource state.
    - May have different outcomes each time it is executed.
 
@@ -284,7 +284,7 @@ Choreography defines state transitions according to the types of operations. In 
    - Updates or deletes the resource state.
    - Produces the same outcome no matter how many times it is executed.
 
-ALPS operations distinguish between resource changes that have a different result each time they are performed, i.e., non-idempotent operations, such as add operations, and those that have a different result each time they are performed, i.e., idempotent operations, such as change or delete operations, which do not change the result no matter how many times they are repeated.
+ALPS operations distinguish between resource changes that have a different result each time they are performed, i.e., non-idempotent operations, such as add operations, and those that produce the same result no matter how many times they are repeated, i.e., idempotent operations, such as change or delete operations.
 
 ### Defining the Transition to View an Article
 
@@ -307,7 +307,7 @@ In XML:
         <descriptor href="#articleBody"/>
     </descriptor>
     <descriptor id="goBlogPosting" type="safe" rt="#BlogPosting" title="View Blog Post">
-        <descriptor href="#dateCreated"/>
+        <descriptor href="#id"/>
     </descriptor>
 </alps>
 ```
@@ -326,7 +326,7 @@ In JSON:
                {"href": "#articleBody"}
             ]},
             {"id": "goBlogPosting", "type": "safe", "rt": "#BlogPosting", "title": "View Blog Post", "descriptor": [
-               {"href": "#dateCreated"}
+               {"href": "#id"}
             ]}
         ]
     }
@@ -348,7 +348,7 @@ Important elements of this definition:
    - Indicates a transition to `#BlogPosting`.
 
 3. Information Needed for the Transition
-   - Specified by `descriptor href="#dateCreated"`.
+   - Specified by `descriptor href="#id"`.
    - Represents the information needed to identify the post.
 
 In the preview screen:

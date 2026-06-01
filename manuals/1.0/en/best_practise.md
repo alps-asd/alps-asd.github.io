@@ -12,14 +12,14 @@ permalink: /manuals/1.0/en/best_practice.html
 Application state semantic descriptors are represented in UpperCamelCase starting with a capital letter.
 
 ```json
-"descriptor": [
+{"descriptor": [
   {"id": "BlogPosting", "type": "semantic", "def": "https://schema.org/BlogPosting", "descriptor": [
     {"href": "#id"},
     {"href": "#articleBody"},
     {"href": "#dateCreated"},
     {"href": "#blog"}
   ]}
-]
+]}
 ```
 
 ## Safe State Transitions
@@ -95,10 +95,10 @@ The semantic descriptors in ALPS files are divided into three blocks in the foll
     {"id" : "Person", "type": "semantic", "descriptor":[
       {"href": "#name"},
       {"href": "#age"}
-    ]}
-    
-    {"id": "goPerson", "type": "safe", "rt": "#Person"},
-]
+    ]},
+
+    {"id": "goPerson", "type": "safe", "rt": "#Person"}
+]}
 ```
 
 ## Hierarchical Structure Outside ALPS
@@ -110,11 +110,11 @@ In ALPS, hierarchical meanings can be expressed by position.
     {"id": "name", "def": "https://schema.org/name"},
     {"id": "Product", "descriptor":[
       {"href": "#name"}
-    ]}
+    ]},
     {"id": "Person", "descriptor":[
       {"href": "#name"}
     ]}
-]
+]}
 ```
 
 * In the example above, `name` is shared between `Product/name` and `Person/name`.

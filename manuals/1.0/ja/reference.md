@@ -122,7 +122,7 @@ descriptorは以下の子要素を持つことができます：
 * **id**: 一意の識別子（hrefと排他）
   - descriptorを一意に識別する文字列
   - 同一文書内で重複不可
-  - URL安全な文字のみ使用可能（[RFC1738](https://www.rfc-editor.org/rfc/rfc1738)に準拠）
+  - URL安全な文字のみ使用可能（[RFC3986](https://www.rfc-editor.org/rfc/rfc3986)に準拠）
 
 * **href**: 参照先（idと排他）
   - 他のdescriptorを参照するための識別子
