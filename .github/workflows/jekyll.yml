@@ -58,3 +58,30 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+  # Verify critical paths are actually served on the live site after deploy.
+  # Guards against regressions like an untracked llms-full.txt going 404.
+  smoke-test:
+    runs-on: ubuntu-22.04
+    needs: deploy
+    steps:
+      - name: Verify critical URLs return 200
+        run: |
+          base="https://www.app-state-diagram.com"
+          paths=("/" "/llms.txt" "/llms-full.txt" "/manuals/1.0/en/" "/manuals/1.0/ja/")
+          fail=0
+          for p in "${paths[@]}"; do
+            ok=0
+            for attempt in $(seq 1 5); do
+              code=$(curl -fsS -o /dev/null -w '%{http_code}' -L "${base}${p}" || true)
+              if [ "$code" = "200" ]; then
+                echo "OK   ${p} -> ${code}"; ok=1; break
+              fi
+              echo "WAIT ${p} -> ${code} (attempt ${attempt}/5)"
+              sleep 15
+            done
+            if [ "$ok" != "1" ]; then echo "FAIL ${p}"; fail=1; fi
+          done
+          if [ "$fail" != "0" ]; then
+            echo "::error::One or more critical URLs are not returning 200"
+            exit 1
+          fi
