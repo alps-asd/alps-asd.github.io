@@ -1,0 +1,83 @@
+name: Link Check
+
+on:
+  pull_request:
+  schedule:
+    # Weekly external-link sweep (Mondays 00:00 UTC)
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: link-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Internal links / images / anchors. Runs on PRs and blocks on breakage.
+  internal-links:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.2'
+          bundler-cache: true
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Build site
+        run: |
+          ruby bin/merge_md_files.rb
+          php bin/generate_llms_full.php
+          bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+      - name: Check internal links
+        run: bundle exec htmlproofer ./_site --checks Links --disable-external --allow-hash-href --allow-missing-href
+        env:
+          LANG: C.UTF-8
+          LC_ALL: C.UTF-8
+
+  # External links. Scheduled only, so it never blocks a PR. Surfaces link rot.
+  external-links:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.2'
+          bundler-cache: true
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Build site
+        run: |
+          ruby bin/merge_md_files.rb
+          php bin/generate_llms_full.php
+          bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+      - name: Check external links
+        run: >-
+          bundle exec htmlproofer ./_site
+          --checks Links
+          --allow-hash-href
+          --allow-missing-href
+          --ignore-status-codes "429,503"
+        env:
+          LANG: C.UTF-8
+          LC_ALL: C.UTF-8
