@@ -1,0 +1,58 @@
+name: Link Check
+
+on:
+  pull_request:
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: link-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Internal link / anchor health on the built site. Blocks on breakage.
+  # External URLs are intentionally NOT checked here (internal-only), and
+  # generated / aggregated pages are excluded since their markup is produced
+  # by tooling rather than hand-authored:
+  #   - manuals/.../1page.html  : aggregated single-page manual
+  #   - manuals/.../schema-org.html : embedded schema.org vocabulary
+  #   - alps/**                 : ASD-generated ALPS profile pages
+  internal-links:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.2'
+          bundler-cache: true
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Build site
+        run: |
+          ruby bin/merge_md_files.rb
+          php bin/generate_llms_full.php
+          bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+      - name: Check internal links
+        run: >-
+          bundle exec htmlproofer ./_site
+          --checks Links
+          --disable-external
+          --allow-hash-href
+          --allow-missing-href
+          --ignore-urls "/^https?:\/\//,/^\/\//"
+          --ignore-files "/1page\.html/,/onepage\.html/,/schema-org\.html/,/\/alps\//"
+        env:
+          LANG: C.UTF-8
+          LC_ALL: C.UTF-8
