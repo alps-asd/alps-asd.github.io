@@ -28,7 +28,7 @@ draft-amundsen-richardson-foster-alps-07](https://datatracker.ietf.org/doc/html/
 - [1.4. ALPSドキュメントの識別](#14-alpsドキュメントの識別)
 
 ## 2. ALPSドキュメント
-- [2.1. 準拠](#21-準拠)
+- [2.1. コンプライアンス](#21-コンプライアンス)
 - [2.2. ALPSドキュメントのプロパティ](#22-alpsドキュメントのプロパティ)
     - [2.2.1. 'alps'](#221-alps)
     - [2.2.2. 'contentType'](#222-contenttype)
@@ -58,7 +58,7 @@ draft-amundsen-richardson-foster-alps-07](https://datatracker.ietf.org/doc/html/
 
 ## IANA考慮事項
 - [4.1. application/alps+xml](#41-applicationalpsxml)
-- [4.2. application/alps+json](#42-applicationalpsxml)
+- [4.2. application/alps+json](#42-applicationalpsjson)
 
 5. 国際化に関する考慮事項
 
