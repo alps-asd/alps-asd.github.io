@@ -35,3 +35,7 @@ gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 # do not have a Java counterpart.
 gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
 gem 'rouge', '~> 4.2.1'
+# Link checking for CI (internal/external link health)
+group :test do
+  gem "html-proofer", "~> 5.0"
+end
