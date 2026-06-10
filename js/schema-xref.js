@@ -4,7 +4,7 @@
     const I18N = {
         en: {
             usedBy: 'Used by',
-            references: 'references',
+            more: 'more',
             relationLabels: {
                 typeProperty: 'Types using this property',
                 domain: 'Properties with this domain',
@@ -16,7 +16,7 @@
         },
         ja: {
             usedBy: '参照元',
-            references: '件を表示',
+            more: '件を展開',
             relationLabels: {
                 typeProperty: 'このプロパティを使うタイプ',
                 domain: 'Domainに指定しているプロパティ',
@@ -36,6 +36,7 @@
         'inverseOf',
         'subTypeOf'
     ];
+    const PREVIEW_LIMIT = 5;
 
     function onReady(callback) {
         if (document.readyState === 'loading') {
@@ -178,6 +179,22 @@
         });
     }
 
+    function orderReferences(refs) {
+        const groups = groupByRelation(refs);
+
+        return RELATION_ORDER.flatMap((relation) => (
+            (groups.get(relation) || [])
+                .slice()
+                .sort((a, b) => a.sourceTerm.localeCompare(b.sourceTerm))
+        ));
+    }
+
+    function renderReferencePreview(container, refs) {
+        orderReferences(refs)
+            .slice(0, PREVIEW_LIMIT)
+            .forEach((ref) => container.appendChild(createSourceLink(ref)));
+    }
+
     function installReferenceDetails(row, refs, labels) {
         const container = row.querySelector('.schema-xref-container');
         if (!container || refs.length === 0) {
@@ -191,13 +208,21 @@
         label.textContent = `${labels.usedBy}:`;
 
         const values = document.createElement('div');
-        values.className = 'meta-values';
+        values.className = 'meta-values schema-xref-values-inline';
+
+        renderReferencePreview(values, refs);
+
+        if (refs.length <= PREVIEW_LIMIT) {
+            container.appendChild(label);
+            container.appendChild(values);
+            return;
+        }
 
         const details = document.createElement('details');
         details.className = 'schema-xref-details';
 
         const summary = document.createElement('summary');
-        summary.innerHTML = `<span class="schema-xref-count">${refs.length}</span> ${labels.references}`;
+        summary.innerHTML = `<span class="schema-xref-count">+${refs.length - PREVIEW_LIMIT}</span> ${labels.more}`;
         details.appendChild(summary);
 
         const content = document.createElement('div');
