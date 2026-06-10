@@ -6,7 +6,11 @@
             {% assign subtypes = type.subTypeOf | split: ", " %}
             {% for subtype in subtypes %}
             {% assign subtype_name = subtype | replace: "https://schema.org/", "" %}
+            {% if subtype contains "https://schema.org/" %}
+            <a href="#schema-type-{{ subtype_name }}" class="meta-tag subtype-tag schema-xref-link">{{ subtype_name }}</a>
+            {% else %}
             <span class="meta-tag subtype-tag">{{ subtype_name }}</span>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -19,7 +23,11 @@
             {% assign props = type.properties | split: ", " %}
             {% for prop in props | limit:5 %}
             {% assign prop_name = prop | replace: "https://schema.org/", "" %}
+            {% if prop contains "https://schema.org/" %}
+            <a href="#schema-property-{{ prop_name }}" class="meta-tag properties-tag schema-xref-link">{{ prop_name }}</a>
+            {% else %}
             <span class="meta-tag properties-tag">{{ prop_name }}</span>
+            {% endif %}
             {% endfor %}
             {% if props.size > 5 %}
             <span class="meta-tag more-tag">+{{ props.size | minus: 5 }}個</span>
@@ -35,9 +43,15 @@
             {% assign subtypes_list = type.subTypes | split: ", " %}
             {% for subtype in subtypes_list %}
             {% assign subtype_name = subtype | replace: "https://schema.org/", "" %}
+            {% if subtype contains "https://schema.org/" %}
+            <a href="#schema-type-{{ subtype_name }}" class="meta-tag subtypes-tag schema-xref-link">{{ subtype_name }}</a>
+            {% else %}
             <span class="meta-tag subtypes-tag">{{ subtype_name }}</span>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
     {% endif %}
+
+    <div class="meta-item schema-xref-container" hidden></div>
 </td>

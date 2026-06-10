@@ -6,7 +6,11 @@
             {% assign domains = property.domainIncludes | split: ", " %}
             {% for domain in domains %}
             {% assign domain_name = domain | replace: "https://schema.org/", "" %}
+            {% if domain contains "https://schema.org/" %}
+            <a href="#schema-type-{{ domain_name }}" class="meta-tag domain-tag schema-xref-link">{{ domain_name }}</a>
+            {% else %}
             <span class="meta-tag domain-tag">{{ domain_name }}</span>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -19,7 +23,11 @@
             {% assign ranges = property.rangeIncludes | split: ", " %}
             {% for range in ranges %}
             {% assign range_name = range | replace: "https://schema.org/", "" %}
+            {% if range contains "https://schema.org/" %}
+            <a href="#schema-type-{{ range_name }}" class="meta-tag range-tag schema-xref-link">{{ range_name }}</a>
+            {% else %}
             <span class="meta-tag range-tag">{{ range_name }}</span>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -30,7 +38,11 @@
         <span class="meta-label">SubPropertyOf:</span>
         <div class="meta-values">
             {% assign subprop = property.subPropertyOf | replace: "https://schema.org/", "" %}
+            {% if property.subPropertyOf contains "https://schema.org/" %}
+            <a href="#schema-property-{{ subprop }}" class="meta-tag subprop-tag schema-xref-link">{{ subprop }}</a>
+            {% else %}
             <span class="meta-tag subprop-tag">{{ subprop }}</span>
+            {% endif %}
         </div>
     </div>
     {% endif %}
@@ -40,8 +52,14 @@
         <span class="meta-label">InverseOf:</span>
         <div class="meta-values">
             {% assign inverse = property.inverseOf | replace: "https://schema.org/", "" %}
+            {% if property.inverseOf contains "https://schema.org/" %}
+            <a href="#schema-property-{{ inverse }}" class="meta-tag inverse-tag schema-xref-link">{{ inverse }}</a>
+            {% else %}
             <span class="meta-tag inverse-tag">{{ inverse }}</span>
+            {% endif %}
         </div>
     </div>
     {% endif %}
+
+    <div class="meta-item schema-xref-container" hidden></div>
 </td>

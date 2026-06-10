@@ -7,6 +7,7 @@ permalink: /manuals/1.0/en/schema-org.html
 ---
 
 <link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}">
+<script src="{{ '/js/schema-xref.js' | relative_url }}" defer></script>
 
 
 # Schema.org Terms
@@ -25,7 +26,13 @@ permalink: /manuals/1.0/en/schema-org.html
   </thead>
   <tbody>
     {% for property in site.data.schema_properties %}
-      <tr>
+      <tr id="schema-property-{{ property.label }}"
+          data-schema-term="{{ property.label | escape }}"
+          data-schema-kind="property"
+          data-domain-includes="{{ property.domainIncludes | replace: 'https://schema.org/', '' | escape }}"
+          data-range-includes="{{ property.rangeIncludes | replace: 'https://schema.org/', '' | escape }}"
+          data-sub-property-of="{{ property.subPropertyOf | replace: 'https://schema.org/', '' | escape }}"
+          data-inverse-of="{{ property.inverseOf | replace: 'https://schema.org/', '' | escape }}">
         <td>
           <a href="https://schema.org/{{ property.label }}" class="schema-link">{{ property.label }}</a>
         </td>
@@ -48,7 +55,11 @@ permalink: /manuals/1.0/en/schema-org.html
   </thead>
   <tbody>
     {% for type in site.data.schema_types %}
-      <tr>
+      <tr id="schema-type-{{ type.label }}"
+          data-schema-term="{{ type.label | escape }}"
+          data-schema-kind="type"
+          data-sub-type-of="{{ type.subTypeOf | replace: 'https://schema.org/', '' | escape }}"
+          data-properties="{{ type.properties | replace: 'https://schema.org/', '' | escape }}">
         <td>
           <a href="https://schema.org/{{ type.label }}" class="schema-link">{{ type.label }}</a>
         </td>

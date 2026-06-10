@@ -122,6 +122,83 @@ tbody tr:hover {
     color: #616161;
 }
 
+/* クロスリファレンス */
+.schema-xref-link,
+.schema-xref-source {
+    text-decoration: none;
+}
+
+.schema-xref-link:hover,
+.schema-xref-source:hover {
+    text-decoration: underline;
+}
+
+.schema-xref-container {
+    align-items: flex-start;
+    margin-top: 6px;
+}
+
+.schema-xref-details {
+    max-width: 100%;
+}
+
+.schema-xref-details summary {
+    color: #555;
+    cursor: pointer;
+    list-style-position: outside;
+}
+
+.schema-xref-count {
+    font-weight: 600;
+}
+
+.schema-xref-content {
+    margin-top: 6px;
+}
+
+.schema-xref-group {
+    margin-bottom: 8px;
+}
+
+.schema-xref-group-label {
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.schema-xref-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.schema-xref-property-tag {
+    background-color: #f1f8e9;
+    color: #33691e;
+}
+
+.schema-xref-type-tag {
+    background-color: #e8f0fe;
+    color: #174ea6;
+}
+
+tr:target {
+    background-color: #fffde7;
+}
+
+.schema-target-flash {
+    animation: schema-target-flash 1.6s ease-out;
+}
+
+@keyframes schema-target-flash {
+    0% {
+        background-color: #fff59d;
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
 /* 検索関連のスタイル */
 .schema-search {
     margin-bottom: 20px;
