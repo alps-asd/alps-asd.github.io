@@ -1,5 +1,9 @@
 /* schema-styles.css */
 
+html {
+    scroll-behavior: smooth;
+}
+
 table {
     width: 100%;
     table-layout: auto; /* 内容に合わせて列幅を調整 */
@@ -120,6 +124,100 @@ tbody tr:hover {
 .more-tag {
     background-color: #f5f5f5;
     color: #616161;
+}
+
+/* クロスリファレンス */
+.schema-xref-link,
+.schema-xref-source {
+    text-decoration: none;
+}
+
+.schema-xref-link:hover,
+.schema-xref-source:hover {
+    text-decoration: underline;
+}
+
+.schema-xref-container {
+    align-items: flex-start;
+    margin-top: 6px;
+}
+
+.schema-xref-details {
+    max-width: 100%;
+}
+
+.schema-xref-values-inline {
+    align-items: center;
+}
+
+.schema-xref-values-inline .schema-xref-details {
+    display: inline-block;
+}
+
+.schema-xref-values-inline .schema-xref-details[open] {
+    display: block;
+    flex-basis: 100%;
+}
+
+.schema-xref-details summary {
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    color: #555;
+    cursor: pointer;
+    display: inline-block;
+    list-style-position: outside;
+    padding: 1px 8px;
+}
+
+.schema-xref-count {
+    font-weight: 600;
+}
+
+.schema-xref-content {
+    margin-top: 6px;
+}
+
+.schema-xref-group {
+    margin-bottom: 8px;
+}
+
+.schema-xref-group-label {
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.schema-xref-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.schema-xref-property-tag {
+    background-color: #f1f8e9;
+    color: #33691e;
+}
+
+.schema-xref-type-tag {
+    background-color: #e8f0fe;
+    color: #174ea6;
+}
+
+tr:target {
+    background-color: #fffde7;
+}
+
+.schema-target-flash {
+    animation: schema-target-flash 1.6s ease-out;
+}
+
+@keyframes schema-target-flash {
+    0% {
+        background-color: #fff59d;
+    }
+    100% {
+        background-color: transparent;
+    }
 }
 
 /* 検索関連のスタイル */
