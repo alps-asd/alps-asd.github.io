@@ -1,5 +1,9 @@
 /* schema-styles.css */
 
+html {
+    scroll-behavior: smooth;
+}
+
 table {
     width: 100%;
     table-layout: auto; /* 内容に合わせて列幅を調整 */

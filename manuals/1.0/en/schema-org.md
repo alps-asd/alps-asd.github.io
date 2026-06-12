@@ -6,7 +6,7 @@ sidebar: false
 permalink: /manuals/1.0/en/schema-org.html
 ---
 
-<link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}?v=20260612">
 <script src="{{ '/js/schema-xref.js' | relative_url }}" defer></script>
 
 

@@ -2284,7 +2284,7 @@ The Japanese manual includes a translated copy of the draft. Use the official IE
 
 <!-- Source: manuals/1.0/en/schema-org.md -->
 
-<link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/css/schema-styles.css' | relative_url }}?v=20260612">
 <script src="{{ '/js/schema-xref.js' | relative_url }}" defer></script>
 
 
