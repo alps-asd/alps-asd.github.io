@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="/css/manual-skeleton.css">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="apple-touch-icon" href="/images/logo.png">
+    {% if page.category == 'Manual' %}
+    <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet">
+    <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
+    {% endif %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SK3RY77R27"></script>
     <script>
@@ -56,6 +60,9 @@
         </div>
         {% if page.category == 'Manual' %}
             <ul class="navbar-nav ml-md-auto d-none d-md-flex language-list">
+                <li class="nav-item">
+                    <pagefind-modal-trigger></pagefind-modal-trigger>
+                </li>
                 <li>
                     <a class="{% if page.layout == 'docs-en' %}active{% endif %}" href="{{ page.permalink | replace: '/ja/', '/en/' }}">En</a>
                 </li>
@@ -63,6 +70,7 @@
                     <a class="{% if page.layout == 'docs-ja' %}active{% endif %}" href="{{ page.permalink | replace: '/en/', '/ja/' }}">Ja</a>
                 </li>
             </ul>
+            <pagefind-modal></pagefind-modal>
         {% endif %}
     </nav>
 </header>

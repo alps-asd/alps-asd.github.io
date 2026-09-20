@@ -1,7 +1,5 @@
 _site/
 watch
-manuals/1.0/en/1page.md
-manuals/1.0/ja/1page.md
 
 # OS / editor artifacts
 .DS_Store
