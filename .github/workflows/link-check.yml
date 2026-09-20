@@ -16,9 +16,8 @@ concurrency:
 jobs:
   # Internal link / anchor health on the built site. Blocks on breakage.
   # External URLs are intentionally NOT checked here (internal-only), and
-  # generated / aggregated pages are excluded since their markup is produced
-  # by tooling rather than hand-authored:
-  #   - manuals/.../1page.html  : aggregated single-page manual
+  # generated pages are excluded since their markup is produced by tooling
+  # rather than hand-authored:
   #   - manuals/.../schema-org.html : embedded schema.org vocabulary
   #   - alps/**                 : ASD-generated ALPS profile pages
   internal-links:
@@ -37,11 +36,17 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Build site
         run: |
-          ruby bin/merge_md_files.rb
           php bin/generate_llms_full.php
           bundle exec jekyll build
+          # Pages reference /pagefind/* assets, so build the index first or
+          # htmlproofer reports every one of them as a broken link.
+          npx --yes pagefind@latest --site _site
         env:
           JEKYLL_ENV: production
       - name: Check internal links
@@ -52,7 +57,7 @@ jobs:
           --allow-hash-href
           --allow-missing-href
           --ignore-urls "/^https?:\/\//,/^\/\//"
-          --ignore-files "/1page\.html/,/onepage\.html/,/schema-org\.html/,/\/alps\//"
+          --ignore-files "/schema-org\.html/,/\/alps\//"
         env:
           LANG: C.UTF-8
           LC_ALL: C.UTF-8

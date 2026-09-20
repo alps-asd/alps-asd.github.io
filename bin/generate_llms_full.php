@@ -22,8 +22,6 @@ if (! is_dir($manualDir)) {
 }
 
 $skipFiles = [
-    '1page.md' => true,
-    'onepage.md' => true,
     'ai-assistant.md' => true,
 ];
 
