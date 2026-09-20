@@ -39,7 +39,6 @@ jobs:
           php-version: '8.3'
       - name: Build site
         run: |
-          ruby bin/merge_md_files.rb
           php bin/generate_llms_full.php
           bundle exec jekyll build
         env:
